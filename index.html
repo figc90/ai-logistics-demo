@@ -151,14 +151,9 @@ async function analizzaPratica() {
             throw new Error("Errore HTTP: " + response.status);
         }
 
-        const risposta = await response.json();
+        const risposta = await response.text();
 
-        if (risposta.risultato) {
-            risultato.innerText = risposta.risultato;
-        } else {
-            risultato.innerText = "La risposta dell'AI non contiene un risultato.";
-        }
-
+risultato.innerText = risposta;
     } catch (errore) {
 
         console.error(errore);
