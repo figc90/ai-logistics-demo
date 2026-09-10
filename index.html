@@ -137,14 +137,16 @@ async function analizzaPratica() {
     risultato.innerText = "Analisi AI in corso...";
 
     const dati = {
-        data: document.getElementById("data").value,
-        tipo_merce: document.getElementById("tipo_merce").value,
-        colli: document.getElementById("colli").value,
-        cliente: document.getElementById("cliente").value,
-        vettore: document.getElementById("vettore").value,
-        partenza: document.getElementById("partenza").value,
-        destinazione: document.getElementById("destinazione").value
-    };
+    data: document.getElementById("data").value,
+    tipo_merce: document.getElementById("tipo_merce").value,
+    colli: document.getElementById("colli").value,
+    cliente: document.getElementById("cliente").value,
+    vettore: document.getElementById("vettore").value,
+    partenza: document.getElementById("partenza").value,
+    indirizzo_ritiro: document.getElementById("indirizzo_ritiro").value,
+    destinazione: document.getElementById("destinazione").value,
+    indirizzo_consegna: document.getElementById("indirizzo_consegna").value
+};
 
     try {
 
