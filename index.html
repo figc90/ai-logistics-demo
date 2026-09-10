@@ -122,9 +122,11 @@
         ANALIZZA PRATICA
     </button>
 
-    <div id="risultato">
-        Il risultato dell'analisi AI comparirà qui.
-    </div>
+    <div id="stato"></div>
+
+<div id="risultato">
+    Il risultato dell'analisi AI comparirà qui.
+</div>
 
 </div>
 
@@ -162,6 +164,27 @@ async function analizzaPratica() {
         const risposta = await response.text();
 
 risultato.innerText = risposta;
+
+const stato = document.getElementById("stato");
+
+if (risposta.includes("STATO: REGOLARE")) {
+    stato.innerText = "🟢 REGOLARE";
+    stato.style.color = "green";
+}
+
+else if (risposta.includes("STATO: ATTENZIONE")) {
+    stato.innerText = "🟠 ATTENZIONE";
+    stato.style.color = "orange";
+}
+
+else if (risposta.includes("STATO: PROBLEMA")) {
+    stato.innerText = "🔴 PROBLEMA";
+    stato.style.color = "red";
+}
+
+else {
+    stato.innerText = "";
+}
     } catch (errore) {
 
         console.error(errore);
