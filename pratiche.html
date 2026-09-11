@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Logistics - Pratiche</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        color: #222;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 40px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+        margin-top: 0;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 14px 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background: #f1f3f5;
+    }
+
+    .stato {
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Pratiche</h1>
+
+    <div class="subtitle">
+        Elenco delle pratiche di trasporto.
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Pratica</th>
+                <th>Data</th>
+                <th>Partenza</th>
+                <th>Destinazione</th>
+                <th>Cliente</th>
+                <th>Stato</th>
+            </tr>
+        </thead>
+
+        <tbody id="pratiche">
+            <tr>
+                <td colspan="6">Caricamento pratiche...</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
