@@ -178,10 +178,14 @@ async function analizzaPratica() {
         if (!response.ok) {
             throw new Error("Errore HTTP: " + response.status);
         }
+const risposta = await response.text();
 
-        const risposta = await response.text();
+const righe = risposta.split("\n");
+const idPratica = righe[0] || "";
+const analisi = righe.slice(1).join("\n");
 
-risultato.innerText = risposta;
+risultato.innerText = analisi;
+   
 
 const stato = document.getElementById("stato");
 
