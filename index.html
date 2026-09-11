@@ -180,9 +180,10 @@ async function analizzaPratica() {
         }
 const risposta = await response.text();
 
-const righe = risposta.split("\n");
-const idPratica = righe[0] || "";
-const analisi = righe.slice(1).join("\n");
+const indiceStato = risposta.indexOf("STATO:");
+
+const idPratica = risposta.substring(0, indiceStato).trim();
+const analisi = risposta.substring(indiceStato).trim();
 
 risultato.innerText = idPratica + "\n\n" + analisi;
    
