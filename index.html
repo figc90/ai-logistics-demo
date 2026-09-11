@@ -150,6 +150,7 @@ async function analizzaPratica() {
     const risultato = document.getElementById("risultato");
 
     risultato.innerText = "Analisi AI in corso...";
+   document.getElementById("stato").innerText = "";
 
     const dati = {
     data: document.getElementById("data").value,
@@ -179,7 +180,7 @@ async function analizzaPratica() {
             throw new Error("Errore HTTP: " + response.status);
         }
 const risposta = await response.text();
-       alert(risposta);
+   alert("RISPOSTA COMPLETA:\n\n" + risposta);
 
 console.log("RISPOSTA MAKE:", risposta);
 
