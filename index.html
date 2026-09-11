@@ -180,14 +180,31 @@ async function analizzaPratica() {
         }
 const risposta = await response.text();
 
+console.log("RISPOSTA MAKE:", risposta);
+
+// Recupera l'ID pratica
+const matchId = risposta.match(/ID PRATICA:\s*(#[0-9]{4}-\d+)/);
+const idPratica = matchId ? matchId[1] : "";
+
+// Recupera la parte dell'analisi
 const indiceStato = risposta.indexOf("STATO:");
 
-const idPratica = risposta.substring(0, indiceStato).trim();
-const analisi = risposta.substring(indiceStato).trim();
+let analisi = "";
 
-risultato.innerText = idPratica + "\n\n" + analisi;
-   
+if (indiceStato !== -1) {
+    analisi = risposta.substring(indiceStato).trim();
+} else {
+    analisi = risposta.trim();
+}
 
+// Mostra ID + analisi
+if (idPratica) {
+    risultato.innerText = idPratica + "\n\n" + analisi;
+} else {
+    risultato.innerText = analisi;
+}
+
+// Gestione dello stato
 const stato = document.getElementById("stato");
 
 if (risposta.includes("STATO: REGOLARE")) {
@@ -208,17 +225,6 @@ else if (risposta.includes("STATO: PROBLEMA")) {
 else {
     stato.innerText = "";
 }
-    } catch (errore) {
-
-        console.error(errore);
-
-        risultato.innerText =
-            "Errore nel collegamento con l'AI.\n\n" +
-            "Controlla il webhook Make e la configurazione dello scenario.";
-
-    }
-}
-
 </script>
 
 </body>
