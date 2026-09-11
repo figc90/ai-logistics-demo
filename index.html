@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MATRIMIA LOGISTICS | AI per la logistica</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #ffffff;
+        color: #172033;
+    }
+
+    /* HEADER */
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255,255,255,0.96);
+        border-bottom: 1px solid #e9edf2;
+    }
+
+    .nav {
+        max-width: 1200px;
+        margin: auto;
+        padding: 18px 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        font-size: 21px;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .logo span {
+        color: #1677ff;
+    }
+
+    nav a {
+        margin-left: 25px;
+        text-decoration: none;
+        color: #172033;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    nav a:hover {
+        color: #1677ff;
+    }
+
+    /* HERO */
+
+    .hero {
+        max-width: 1200px;
+        margin: auto;
+        padding: 100px 25px 90px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 70px;
+        align-items: center;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 30px;
+        background: #eef5ff;
+        color: #1677ff;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 58px;
+        line-height: 1.05;
+        margin: 0 0 25px;
+        letter-spacing: -2px;
+    }
+
+    h1 span {
+        color: #1677ff;
+    }
+
+    .hero p {
+        font-size: 20px;
+        line-height: 1.6;
+        color: #657084;
+        max-width: 650px;
+    }
+
+    .buttons {
+        margin-top: 35px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 15px 23px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .primary {
+        background: #1677ff;
+        color: white;
+    }
+
+    .primary:hover {
+        background: #095fd3;
+    }
+
+    .secondary {
+        background: #f1f4f8;
+        color: #172033;
+    }
+
+    /* HERO CARD */
+
+    .hero-card {
+        background: #111827;
+        color: white;
+        border-radius: 18px;
+        padding: 30px;
+        box-shadow: 0 20px 50px rgba(20,30,50,0.18);
+    }
+
+    .hero-card-title {
+        font-size: 14px;
+        color: #aab4c5;
+        margin-bottom: 20px;
+    }
+
+    .status {
+        background: #1c2738;
+        border-radius: 10px;
+        padding: 17px;
+        margin-bottom: 12px;
+    }
+
+    .status strong {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .green {
+        color: #43d17c;
+    }
+
+    .orange {
+        color: #ffb84d;
+    }
+
+    /* SECTIONS */
+
+    section {
+        padding: 90px 25px;
+    }
+
+    .section-inner {
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 55px;
+    }
+
+    .section-title h2 {
+        font-size: 38px;
+        margin: 0 0 15px;
+    }
+
+    .section-title p {
+        color: #687386;
+        font-size: 17px;
+    }
+
+    .light {
+        background: #f7f9fc;
+    }
+
+    /* CARDS */
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 14px;
+        border: 1px solid #e8edf3;
+    }
+
+    .card-number {
+        font-size: 14px;
+        color: #1677ff;
+        font-weight: bold;
+        margin-bottom: 18px;
+    }
+
+    .card h3 {
+        margin-top: 0;
+        font-size: 21px;
+    }
+
+    .card p {
+        color: #687386;
+        line-height: 1.6;
+    }
+
+    /* DEMO */
+
+    .demo-box {
+        background: #111827;
+        color: white;
+        border-radius: 18px;
+        padding: 55px;
+        text-align: center;
+    }
+
+    .demo-box h2 {
+        font-size: 36px;
+        margin-top: 0;
+    }
+
+    .demo-box p {
+        color: #b9c2d0;
+        max-width: 650px;
+        margin: 0 auto 30px;
+        line-height: 1.6;
+    }
+
+    /* CONTACT */
+
+    .contact {
+        text-align: center;
+    }
+
+    .email {
+        font-size: 20px;
+        font-weight: bold;
+        color: #1677ff;
+        text-decoration: none;
+    }
+
+    /* FOOTER */
+
+    footer {
+        background: #0c1220;
+        color: #9ca7b8;
+        text-align: center;
+        padding: 30px 20px;
+        font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+
+        nav {
+            display: none;
+        }
+
+        .hero {
+            grid-template-columns: 1fr;
+            padding-top: 70px;
+        }
+
+        h1 {
+            font-size: 42px;
+        }
+
+        .cards {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-card {
+            margin-top: 10px;
+        }
+
+        .demo-box {
+            padding: 35px 25px;
+        }
+    }
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="nav">
+
+        <div class="logo">
+            MATRIMIA <span>LOGISTICS</span>
+        </div>
+
+        <nav>
+            <a href="#come-funziona">Come funziona</a>
+            <a href="#cosa-fa">Cosa fa</a>
+            <a href="#perche">Perché usarla</a>
+            <a href="#demo">Demo</a>
+            <a href="#contatti">Contatti</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section>
+
+    <div class="hero">
+
+        <div>
+
+            <div class="badge">
+                AI PER LA LOGISTICA
+            </div>
+
+            <h1>
+                L'AI che lavora per la tua azienda di <span>trasporti.</span>
+            </h1>
+
+            <p>
+                MATRIMIA trasforma email, richieste di trasporto e informazioni operative
+                in pratiche organizzate, controllate e pronte per essere gestite.
+            </p>
+
+            <div class="buttons">
+
+                <a class="button primary"
+                   href="mailto:info@matrimialogistics.it?subject=Richiesta%20demo%20MATRIMIA%20LOGISTICS">
+                    Richiedi una demo
+                </a>
+
+                <a class="button secondary" href="nuova-pratica.html">
+                    Prova la demo AI
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="hero-card-title">
+                MATRIMIA AI · ANALISI PRATICA
+            </div>
+
+            <div class="status">
+                <strong>Pratica #0001</strong>
+                Milano → Bergamo
+            </div>
+
+            <div class="status">
+                <strong class="green">● REGOLARE</strong>
+                Nessuna anomalia rilevata
+            </div>
+
+            <div class="status">
+                <strong class="orange">AI CHECK</strong>
+                Controllo dati di trasporto completato
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COME FUNZIONA -->
+
+<section class="light" id="come-funziona">
+
+    <div class="section-inner">
+
+        <div class="section-title">
+
+            <h2>Come funziona</h2>
+
+            <p>
+                MATRIMIA diventa il punto centrale della gestione operativa.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-number">01</div>
+
+                <h3>Riceve</h3>
+
+                <p>
+                    Raccoglie le informazioni provenienti da email,
+                    messaggi e richieste di trasporto.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-number">02</div>
+
+                <h3>Interpreta</h3>
+
+                <p>
+                    L'intelligenza artificiale analizza i dati
+                    e costruisce la pratica di trasporto.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-number">03</div>
+
+                <h3>Controlla</h3>
+
+                <p>
+                    Segnala eventuali informazioni mancanti,
+                    anomalie o problemi prima della conferma.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COSA FA -->
+
+<section id="cosa-fa">
+
+    <div class="section-inner">
+
+        <div class="section-title">
+
+            <h2>Cosa fa MATRIMIA</h2>
+
+            <p>
+                Una nuova generazione di assistente digitale per la logistica.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>Gestione pratiche</h3>
+
+                <p>
+                    Crea e organizza le pratiche di trasporto
+                    partendo dalle informazioni ricevute.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Controllo AI</h3>
+
+                <p>
+                    Analizza dati, date, indirizzi, merce e informazioni
+                    operative per individuare possibili problemi.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Assistente operativo</h3>
+
+                <p>
+                    Aiuta l'operatore nelle attività quotidiane,
+                    lasciando sempre a lui la decisione finale.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PERCHE -->
+
+<section class="light" id="perche">
+
+    <div class="section-inner">
+
+        <div class="section-title">
+
+            <h2>Perché usarla</h2>
+
+            <p>
+                Meno tempo perso. Più controllo. Una gestione più intelligente.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>Risparmia tempo</h3>
+
+                <p>
+                    Riduci il lavoro manuale necessario per leggere,
+                    organizzare e controllare le richieste.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Riduci gli errori</h3>
+
+                <p>
+                    L'AI controlla le informazioni prima che la pratica
+                    venga confermata dall'operatore.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Lavora meglio</h3>
+
+                <p>
+                    Tutte le informazioni diventano più ordinate,
+                    consultabili e gestibili.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- DEMO -->
+
+<section id="demo">
+
+    <div class="section-inner">
+
+        <div class="demo-box">
+
+            <h2>Prova MATRIMIA AI</h2>
+
+            <p>
+                Abbiamo creato una prima demo funzionante.
+                Inserisci i dati di una spedizione e lascia che MATRIMIA
+                analizzi la pratica.
+            </p>
+
+            <a class="button primary" href="nuova-pratica.html">
+                Prova la demo
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTATTI -->
+
+<section id="contatti">
+
+    <div class="section-inner contact">
+
+        <div class="section-title">
+
+            <h2>Parliamo della tua azienda</h2>
+
+            <p>
+                Vuoi vedere come MATRIMIA può aiutare la tua azienda di trasporti?
+            </p>
+
+        </div>
+
+        <a class="email"
+           href="mailto:info@matrimialogistics.it?subject=Richiesta%20demo%20MATRIMIA%20LOGISTICS">
+            info@matrimialogistics.it
+        </a>
+
+        <br><br>
+
+        <a class="button primary"
+           href="mailto:info@matrimialogistics.it?subject=Richiesta%20demo%20MATRIMIA%20LOGISTICS">
+            Richiedi una demo
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    © 2026 MATRIMIA LOGISTICS · AI per la logistica
+
+</footer>
+
+
+</body>
+</html>
