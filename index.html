@@ -225,6 +225,18 @@ else if (risposta.includes("STATO: PROBLEMA")) {
 else {
     stato.innerText = "";
 }
+
+    } catch (errore) {
+
+        console.error(errore);
+
+        risultato.innerText =
+            "Errore nel collegamento con l'AI.\n\n" +
+            "Controlla il webhook Make e la configurazione dello scenario.";
+
+    }
+}
+
 </script>
 
 </body>
