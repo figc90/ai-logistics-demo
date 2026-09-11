@@ -184,7 +184,7 @@ const righe = risposta.split("\n");
 const idPratica = righe[0] || "";
 const analisi = righe.slice(1).join("\n");
 
-risultato.innerText = analisi;
+risultato.innerText = idPratica + "\n\n" + analisi;
    
 
 const stato = document.getElementById("stato");
