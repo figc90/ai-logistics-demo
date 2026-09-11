@@ -107,6 +107,9 @@
 
    <label>Volume totale (m³)</label>
 <input type="number" id="volume_totale" step="0.01" min="0">
+
+   <label>Note operative</label>
+<textarea id="note_operative" rows="4" placeholder="Inserisci eventuali istruzioni o note per il trasporto"></textarea>
    
     <label>Cliente</label>
     <input type="text" id="cliente" value="Cliente Test">
@@ -155,6 +158,7 @@ async function analizzaPratica() {
     colli: document.getElementById("colli").value,
     peso_totale: document.getElementById("peso_totale").value,
     volume_totale: document.getElementById("volume_totale").value,
+    note_operative: document.getElementById("note_operative").value,
     cliente: document.getElementById("cliente").value,
     vettore: document.getElementById("vettore").value,
     partenza: document.getElementById("partenza").value,
