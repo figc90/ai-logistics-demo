@@ -1,345 +1,1519 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MatRi-mIA Logistics</title>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #071634;
-      color: white;
-    }
+<meta name="description"
+content="MatRi-mIA Logistics - Intelligenza artificiale per aziende di trasporto e logistica. Trasforma email e richieste di trasporto in pratiche organizzate e controllate.">
 
-    /* HEADER */
+<title>MatRi-mIA Logistics | AI per la logistica</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #071634;
+    color: white;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    width: 100%;
+    background: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 20px;
+}
+
+.logo {
+    width: 230px;
+    max-width: 70%;
+    height: auto;
+    display: block;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+
+    position: relative;
+    overflow: hidden;
+
+    padding: 80px 26px 85px;
+
+    background:
+
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(59, 193, 231, 0.13),
+            transparent 35%
+        ),
+
+        linear-gradient(
+            135deg,
+            #071634 0%,
+            #091b3d 55%,
+            #0d284b 100%
+        );
+}
+
+
+.hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 600px;
+    height: 600px;
+
+    border: 2px solid rgba(70, 190, 225, 0.13);
+
+    border-radius: 50%;
+
+    top: -230px;
+    right: -300px;
+}
+
+
+.container {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+}
+
+
+.badge {
+
+    display: inline-block;
+
+    border: 2px solid rgba(79, 197, 231, 0.55);
+
+    border-radius: 50px;
+
+    padding: 11px 22px;
+
+    color: #55c9e9;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 35px;
+}
+
+
+.hero h1 {
+
+    max-width: 900px;
+
+    font-size: clamp(46px, 7vw, 78px);
+
+    line-height: 1.03;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 30px;
+}
+
+
+.highlight {
+    color: #50c7e8;
+}
+
+
+.hero-description {
+
+    max-width: 760px;
+
+    color: #c8d3e5;
+
+    font-size: clamp(19px, 3vw, 26px);
+
+    line-height: 1.6;
+
+    margin-bottom: 42px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons {
+
+    display: flex;
+
+    gap: 16px;
+
+    flex-wrap: wrap;
+}
+
+
+.btn {
+
+    display: inline-block;
+
+    padding: 18px 28px;
+
+    border-radius: 13px;
+
+    font-size: 17px;
+
+    font-weight: 800;
+
+    transition: 0.2s ease;
+}
+
+
+.btn-primary {
+
+    background: linear-gradient(
+        135deg,
+        #ef4d2d,
+        #ff761b
+    );
+
+    color: white;
+
+    box-shadow: 0 10px 30px rgba(239, 77, 45, 0.20);
+}
+
+
+.btn-primary:hover {
+
+    transform: translateY(-2px);
+
+}
+
+
+.btn-secondary {
+
+    border: 2px solid rgba(255,255,255,0.28);
+
+    color: white;
+
+    background: rgba(255,255,255,0.04);
+}
+
+
+.btn-secondary:hover {
+
+    border-color: #50c7e8;
+}
+
+
+/* =========================
+   DEMO
+========================= */
+
+.demo-section {
+
+    padding: 30px 26px 100px;
+
+    background: #071634;
+}
+
+
+.demo-card {
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.10),
+            rgba(255,255,255,0.035)
+        );
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    border-radius: 28px;
+
+    padding: 38px 30px;
+
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+}
+
+
+.demo-label {
+
+    color: #52c7e8;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 25px;
+}
+
+
+.practice {
+
+    border-left: 4px solid #347dd1;
+
+    padding-left: 22px;
+}
+
+
+.practice h2 {
+
+    font-size: 34px;
+
+    margin-bottom: 25px;
+}
+
+
+.practice-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+
+.info-box {
+
+    background: rgba(255,255,255,0.055);
+
+    border: 1px solid rgba(255,255,255,0.10);
+
+    border-radius: 14px;
+
+    padding: 18px;
+}
+
+
+.info-box span {
+
+    display: block;
+
+    color: #8fa2bd;
+
+    font-size: 12px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+}
+
+
+.info-box strong {
+
+    font-size: 17px;
+}
+
+
+.status {
+
+    color: #62d6a4;
+}
+
+
+/* =========================
+   SEZIONI GENERALI
+========================= */
+
+.section {
+
+    padding: 100px 26px;
+}
+
+
+.section-dark {
+
+    background: #06122c;
+}
+
+
+.section-blue {
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #0a1c3c,
+            #0d294b
+        );
+}
+
+
+.section-label {
+
+    color: #51c7e8;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+}
+
+
+.section-title {
+
+    max-width: 800px;
+
+    font-size: clamp(36px, 6vw, 58px);
+
+    line-height: 1.08;
+
+    margin-bottom: 20px;
+}
+
+
+.section-description {
+
+    max-width: 760px;
+
+    color: #b9c7da;
+
+    font-size: 20px;
+
+    line-height: 1.65;
+
+    margin-bottom: 55px;
+}
+
+
+/* =========================
+   COME FUNZIONA
+========================= */
+
+.steps {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+
+.step {
+
+    padding: 30px;
+
+    border-radius: 22px;
+
+    background: rgba(255,255,255,0.055);
+
+    border: 1px solid rgba(255,255,255,0.10);
+}
+
+
+.step-number {
+
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #50c7e8;
+
+    color: #071634;
+
+    font-weight: 900;
+
+    font-size: 20px;
+
+    margin-bottom: 22px;
+}
+
+
+.step h3 {
+
+    font-size: 22px;
+
+    margin-bottom: 12px;
+}
+
+
+.step p {
+
+    color: #aebdd1;
+
+    font-size: 16px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   FUNZIONI
+========================= */
+
+.features {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+
+.feature {
+
+    padding: 28px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,0.055);
+
+    border: 1px solid rgba(255,255,255,0.10);
+}
+
+
+.feature-icon {
+
+    font-size: 27px;
+
+    margin-bottom: 15px;
+}
+
+
+.feature h3 {
+
+    font-size: 21px;
+
+    margin-bottom: 10px;
+}
+
+
+.feature p {
+
+    color: #adbed3;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   BENEFICI
+========================= */
+
+.benefits {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+
+.benefit {
+
+    display: flex;
+
+    gap: 15px;
+
+    align-items: flex-start;
+
+    padding: 24px;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.05);
+
+    border: 1px solid rgba(255,255,255,0.09);
+}
+
+
+.check {
+
+    color: #50c7e8;
+
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+
+.benefit h3 {
+
+    margin-bottom: 6px;
+}
+
+
+.benefit p {
+
+    color: #afbed1;
+
+    line-height: 1.55;
+}
+
+
+/* =========================
+   CTA
+========================= */
+
+.cta {
+
+    padding: 100px 26px;
+
+    text-align: center;
+
+    background:
+
+        radial-gradient(
+            circle at center,
+            rgba(65,190,226,0.15),
+            transparent 50%
+        ),
+
+        #071634;
+}
+
+
+.cta-box {
+
+    max-width: 900px;
+
+    margin: auto;
+
+    padding: 60px 35px;
+
+    border-radius: 30px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    background: rgba(255,255,255,0.055);
+}
+
+
+.cta h2 {
+
+    font-size: clamp(36px, 6vw, 58px);
+
+    line-height: 1.1;
+
+    margin-bottom: 20px;
+}
+
+
+.cta p {
+
+    color: #bac8da;
+
+    max-width: 650px;
+
+    margin: 0 auto 35px;
+
+    font-size: 19px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+
+    text-align: center;
+
+    padding: 35px 20px;
+
+    color: #8191aa;
+
+    background: #040d20;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+
+.footer-name {
+
+    color: white;
+
+    font-weight: 800;
+
+    margin-bottom: 6px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 750px) {
 
     header {
-      width: 100%;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px 20px;
+        padding: 8px 15px;
     }
 
     .logo {
-      width: 100%;
-      max-width: 360px;
-      height: auto;
-      display: block;
+        width: 190px;
+        max-width: 65%;
     }
-
-    /* HERO */
 
     .hero {
-      position: relative;
-      overflow: hidden;
-      padding: 75px 26px 70px;
-      background:
-        radial-gradient(
-          circle at 90% 12%,
-          rgba(76, 198, 234, 0.10),
-          transparent 33%
-        ),
-        linear-gradient(
-          135deg,
-          #071634 0%,
-          #091b3d 60%,
-          #0d2449 100%
-        );
-    }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 520px;
-      height: 520px;
-      border: 2px solid rgba(72, 192, 228, 0.15);
-      border-radius: 50%;
-      top: -185px;
-      right: -245px;
-    }
+        padding:
+        62px 25px
+        70px;
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 1100px;
-      margin: 0 auto;
     }
 
     .badge {
-      display: inline-block;
-      border: 2px solid rgba(79, 197, 231, 0.55);
-      border-radius: 50px;
-      padding: 12px 22px;
-      color: #57c7e8;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 3px;
-      margin-bottom: 35px;
+
+        font-size: 12px;
+
+        padding: 10px 18px;
+
+        letter-spacing: 2.5px;
+
     }
 
-    h1 {
-      font-size: clamp(44px, 8vw, 82px);
-      line-height: 1.02;
-      letter-spacing: -2px;
-      max-width: 850px;
-      margin-bottom: 30px;
+    .hero h1 {
+
+        font-size: 50px;
+
     }
 
-    .highlight {
-      color: #52c7e8;
-    }
+    .hero-description {
 
-    .hero p {
-      max-width: 760px;
-      color: #c8d3e5;
-      font-size: clamp(19px, 4vw, 28px);
-      line-height: 1.55;
-      margin-bottom: 45px;
+        font-size: 21px;
+
     }
 
     .buttons {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
+
+        flex-direction: column;
+
     }
 
     .btn {
-      text-decoration: none;
-      padding: 18px 28px;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: 800;
-      display: inline-block;
-      transition: 0.2s ease;
-    }
 
-    .btn-primary {
-      background: #ef6036;
-      color: white;
-    }
+        width: 100%;
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      background: #ff6d43;
-    }
+        text-align: center;
 
-    .btn-secondary {
-      border: 2px solid rgba(255,255,255,0.30);
-      color: white;
-      background: rgba(255,255,255,0.04);
-    }
+        padding: 19px;
 
-    .btn-secondary:hover {
-      border-color: #52c7e8;
-    }
-
-    /* DEMO CARD */
-
-    .demo-section {
-      padding: 0 26px 80px;
-      background: #071634;
-    }
-
-    .demo-card {
-      max-width: 1100px;
-      margin: 0 auto;
-      background: linear-gradient(
-        145deg,
-        rgba(255,255,255,0.09),
-        rgba(255,255,255,0.035)
-      );
-      border: 1px solid rgba(255,255,255,0.16);
-      border-radius: 28px;
-      padding: 38px 28px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.22);
-    }
-
-    .demo-label {
-      color: #56c7e8;
-      font-weight: 800;
-      letter-spacing: 3px;
-      font-size: 15px;
-      margin-bottom: 25px;
-    }
-
-    .practice {
-      border-left: 4px solid #347dd1;
-      padding-left: 20px;
-    }
-
-    .practice h2 {
-      font-size: 32px;
-      margin-bottom: 25px;
     }
 
     .practice-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
 
-    .info-box {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 14px;
-      padding: 18px;
-    }
-
-    .info-box span {
-      display: block;
-      color: #8ea0bc;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
-    .info-box strong {
-      font-size: 17px;
-    }
-
-    @media (max-width: 700px) {
-
-      header {
-        padding: 14px 18px;
-      }
-
-      .logo {
-        max-width: 300px;
-      }
-
-      .hero {
-        padding: 65px 25px 60px;
-      }
-
-      .badge {
-        font-size: 13px;
-        padding: 11px 20px;
-      }
-
-      h1 {
-        font-size: 52px;
-      }
-
-      .hero p {
-        font-size: 22px;
-      }
-
-      .buttons {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-        text-align: center;
-        padding: 20px;
-      }
-
-      .practice-grid {
         grid-template-columns: 1fr;
-      }
+
     }
-  </style>
+
+    .steps {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .features {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .benefits {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .section {
+
+        padding: 75px 25px;
+
+    }
+
+    .section-description {
+
+        font-size: 18px;
+
+    }
+
+}
+
+
+/* PICCOLI TELEFONI */
+
+@media (max-width: 390px) {
+
+    .logo {
+        width: 170px;
+    }
+
+    .hero h1 {
+        font-size: 44px;
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
+
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
-  <img
-    src="matrimia-logo-web.png"
-    alt="MatRi-mIA Logistics"
-    class="logo"
-  >
+<img
+src="matrimia-logo-web.png"
+alt="MatRi-mIA Logistics"
+class="logo"
+>
 
 </header>
 
 
+
+<!-- =========================
+     HERO
+========================= -->
+
 <section class="hero">
 
-  <div class="hero-content">
+<div class="container">
 
-    <div class="badge">
-      AI PER LA LOGISTICA
-    </div>
+<div class="badge">
+AI PER LA LOGISTICA
+</div>
 
-    <h1>
-      L’AI che lavora per la tua
-      <span class="highlight">azienda di trasporti.</span>
-    </h1>
 
-    <p>
-      MatRi-mIA trasforma email, richieste di trasporto
-      e informazioni operative in pratiche organizzate,
-      controllate e pronte per essere gestite.
-    </p>
+<h1>
 
-    <div class="buttons">
+L’AI che lavora per la tua
 
-      <a href="#demo" class="btn btn-primary">
-        Richiedi una demo
-      </a>
+<span class="highlight">
+azienda di trasporti.
+</span>
 
-      <a href="#demo" class="btn btn-secondary">
-        Prova la demo AI
-      </a>
+</h1>
 
-    </div>
 
-  </div>
+<p class="hero-description">
+
+MatRi-mIA trasforma email, richieste di trasporto
+e informazioni operative in pratiche organizzate,
+controllate e pronte per essere gestite.
+
+</p>
+
+
+<div class="buttons">
+
+<a href="#contatti"
+class="btn btn-primary">
+
+Richiedi una demo
+
+</a>
+
+
+<a href="#demo"
+class="btn btn-secondary">
+
+Prova la demo AI
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     DEMO PRATICA
+========================= -->
+
+<section
+class="demo-section"
+id="demo">
+
+<div class="demo-card">
+
+
+<div class="demo-label">
+
+MATRI-MIA · AI CONTROL
+
+</div>
+
+
+<div class="practice">
+
+
+<h2>
+
+Pratica #0001
+
+</h2>
+
+
+<div class="practice-grid">
+
+
+<div class="info-box">
+
+<span>
+PARTENZA
+</span>
+
+<strong>
+Palermo
+</strong>
+
+</div>
+
+
+<div class="info-box">
+
+<span>
+DESTINAZIONE
+</span>
+
+<strong>
+Marsala
+</strong>
+
+</div>
+
+
+<div class="info-box">
+
+<span>
+DATA
+</span>
+
+<strong>
+12/09/2026
+</strong>
+
+</div>
+
+
+<div class="info-box">
+
+<span>
+CLIENTE
+</span>
+
+<strong>
+Cliente Demo
+</strong>
+
+</div>
+
+
+<div class="info-box">
+
+<span>
+RICHIESTA
+</span>
+
+<strong>
+Trasporto merce
+</strong>
+
+</div>
+
+
+<div class="info-box">
+
+<span>
+STATO
+</span>
+
+<strong class="status">
+✓ Verificata dall'AI
+</strong>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
 
-<section class="demo-section" id="demo">
 
-  <div class="demo-card">
+<!-- =========================
+     COME FUNZIONA
+========================= -->
 
-    <div class="demo-label">
-      MATRI-MIA · AI CONTROL
-    </div>
+<section class="section section-dark">
 
-    <div class="practice">
+<div class="container">
 
-      <h2>Pratica #0001</h2>
 
-      <div class="practice-grid">
+<div class="section-label">
 
-        <div class="info-box">
-          <span>PARTENZA</span>
-          <strong>Palermo</strong>
-        </div>
+COME FUNZIONA
 
-        <div class="info-box">
-          <span>DESTINAZIONE</span>
-          <strong>Marsala</strong>
-        </div>
+</div>
 
-        <div class="info-box">
-          <span>STATO</span>
-          <strong>Pratica verificata</strong>
-        </div>
 
-        <div class="info-box">
-          <span>GESTIONE AI</span>
-          <strong>Controllo completato</strong>
-        </div>
+<h2 class="section-title">
 
-      </div>
+Dalla richiesta alla pratica,
+automaticamente.
 
-    </div>
+</h2>
 
-  </div>
+
+<p class="section-description">
+
+MatRi-mIA aiuta l'ufficio operativo a trasformare
+le informazioni ricevute ogni giorno in dati
+strutturati e immediatamente utilizzabili.
+
+</p>
+
+
+
+<div class="steps">
+
+
+<div class="step">
+
+<div class="step-number">
+1
+</div>
+
+<h3>
+Arriva la richiesta
+</h3>
+
+<p>
+
+Il cliente invia una richiesta di trasporto
+tramite email o attraverso i canali aziendali.
+
+</p>
+
+</div>
+
+
+
+<div class="step">
+
+<div class="step-number">
+2
+</div>
+
+<h3>
+L'AI legge i dati
+</h3>
+
+<p>
+
+MatRi-mIA individua automaticamente le
+informazioni utili come partenza, destinazione,
+date e dettagli della richiesta.
+
+</p>
+
+</div>
+
+
+
+<div class="step">
+
+<div class="step-number">
+3
+</div>
+
+<h3>
+Nasce la pratica
+</h3>
+
+<p>
+
+I dati vengono organizzati in una pratica
+chiara e pronta per il controllo
+dell'operatore.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
 
 </section>
+
+
+
+<!-- =========================
+     COSA FA
+========================= -->
+
+<section class="section section-blue">
+
+<div class="container">
+
+
+<div class="section-label">
+
+COSA FA MATRI-MIA
+
+</div>
+
+
+<h2 class="section-title">
+
+Meno lavoro manuale.
+Più controllo operativo.
+
+</h2>
+
+
+<p class="section-description">
+
+Un assistente AI progettato per supportare
+chi ogni giorno deve gestire richieste,
+documenti e informazioni nel mondo
+dei trasporti.
+
+</p>
+
+
+
+<div class="features">
+
+
+<div class="feature">
+
+<div class="feature-icon">
+✉️
+</div>
+
+<h3>
+Legge le richieste
+</h3>
+
+<p>
+
+Analizza le informazioni ricevute e individua
+automaticamente i dati necessari
+alla gestione del trasporto.
+
+</p>
+
+</div>
+
+
+
+<div class="feature">
+
+<div class="feature-icon">
+⚡
+</div>
+
+<h3>
+Crea le pratiche
+</h3>
+
+<p>
+
+Trasforma informazioni non strutturate
+in pratiche organizzate e facilmente
+consultabili.
+
+</p>
+
+</div>
+
+
+
+<div class="feature">
+
+<div class="feature-icon">
+✓
+</div>
+
+<h3>
+Controlla i dati
+</h3>
+
+<p>
+
+Segnala informazioni mancanti,
+incongruenze o elementi che richiedono
+la verifica dell'operatore.
+
+</p>
+
+</div>
+
+
+
+<div class="feature">
+
+<div class="feature-icon">
+🔎
+</div>
+
+<h3>
+Rende tutto ricercabile
+</h3>
+
+<p>
+
+Le informazioni vengono organizzate
+per consentire agli operatori di recuperare
+rapidamente ciò che serve.
+
+</p>
+
+</div>
+
+
+
+<div class="feature">
+
+<div class="feature-icon">
+📋
+</div>
+
+<h3>
+Organizza il lavoro
+</h3>
+
+<p>
+
+Ogni richiesta può essere trasformata
+in un flusso operativo chiaro,
+riducendo attività ripetitive.
+
+</p>
+
+</div>
+
+
+
+<div class="feature">
+
+<div class="feature-icon">
+🤖
+</div>
+
+<h3>
+Assiste l'operatore
+</h3>
+
+<p>
+
+L'intelligenza artificiale supporta
+il personale senza sostituire
+il controllo umano.
+
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     VANTAGGI
+========================= -->
+
+<section class="section section-dark">
+
+<div class="container">
+
+
+<div class="section-label">
+
+PERCHÉ MATRI-MIA
+
+</div>
+
+
+<h2 class="section-title">
+
+Pensata per chi lavora
+nella logistica ogni giorno.
+
+</h2>
+
+
+<p class="section-description">
+
+L'obiettivo è semplice: ridurre il tempo perso
+nelle attività ripetitive e permettere
+agli operatori di concentrarsi sulla gestione
+del trasporto.
+
+</p>
+
+
+
+<div class="benefits">
+
+
+<div class="benefit">
+
+<div class="check">
+✓
+</div>
+
+<div>
+
+<h3>
+Meno inserimenti manuali
+</h3>
+
+<p>
+
+Riduce la necessità di copiare continuamente
+informazioni da email e documenti.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="benefit">
+
+<div class="check">
+✓
+</div>
+
+<div>
+
+<h3>
+Meno errori
+</h3>
+
+<p>
+
+L'AI può evidenziare dati mancanti
+o potenzialmente incoerenti prima
+della gestione della pratica.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="benefit">
+
+<div class="check">
+✓
+</div>
+
+<div>
+
+<h3>
+Informazioni più ordinate
+</h3>
+
+<p>
+
+Le richieste vengono trasformate
+in informazioni strutturate
+e facilmente consultabili.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="benefit">
+
+<div class="check">
+✓
+</div>
+
+<div>
+
+<h3>
+Più tempo per l'operatore
+</h3>
+
+<p>
+
+Automatizzare le attività ripetitive
+permette alle persone di concentrarsi
+sulle decisioni operative.
+
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     CTA FINALE
+========================= -->
+
+<section
+class="cta"
+id="contatti">
+
+<div class="cta-box">
+
+
+<div class="section-label">
+
+MATRI-MIA LOGISTICS
+
+</div>
+
+
+<h2>
+
+Porta l'AI
+nel tuo ufficio operativo.
+
+</h2>
+
+
+<p>
+
+Scopri come MatRi-mIA può aiutare
+la tua azienda a gestire richieste
+di trasporto e informazioni operative
+in modo più semplice e veloce.
+
+</p>
+
+
+<a
+href="mailto:info@matri-mia.it"
+class="btn btn-primary">
+
+Richiedi una demo
+
+</a>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+<div class="footer-name">
+
+MatRi-mIA Logistics
+
+</div>
+
+<div>
+
+AI per il mondo dei trasporti e della logistica
+
+</div>
+
+</footer>
+
 
 </body>
+
 </html>
