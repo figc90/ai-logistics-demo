@@ -1,1418 +1,345 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MatRi-mIA LOGISTICS | AI per la logistica</title>
-
-<style>
-
-/* =========================
-   COLORI MATRIMIA
-========================= */
-
-:root {
-
-    --blu: #071f5c;
-    --blu-scuro: #041537;
-
-    --blu-tech: #0879e8;
-
-    --azzurro: #18c9e8;
-
-    --arancio: #f45124;
-
-    --arancio-chiaro: #ff8a00;
-
-    --bianco: #ffffff;
-
-    --sfondo: #f5f8fc;
-
-    --testo: #172033;
-
-    --grigio: #667085;
-
-    --bordo: #e1e8f0;
-
-}
-
-
-/* =========================
-   BASE
-========================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-
-    margin: 0;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    color: var(--testo);
-
-    background: var(--bianco);
-
-    line-height: 1.6;
-}
-
-
-/* =========================
-   HEADER
-========================= */
-
-header {
-
-    position: sticky;
-
-    top: 0;
-
-    z-index: 100;
-
-    background: rgba(255,255,255,0.96);
-
-    border-bottom: 1px solid var(--bordo);
-
-    backdrop-filter: blur(12px);
-
-}
-
-
-.navbar {
-
-    max-width: 1200px;
-
-    margin: auto;
-
-    padding: 12px 24px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-}
-
-
-.logo {
-
-    display: flex;
-
-    align-items: center;
-
-    text-decoration: none;
-
-}
-
-
-.logo img {
-
-    width: 185px;
-
-    height: 68px;
-
-    object-fit: contain;
-
-    display: block;
-
-}
-
-
-nav {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 27px;
-
-}
-
-
-nav a {
-
-    text-decoration: none;
-
-    color: var(--testo);
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-}
-
-
-nav a:hover {
-
-    color: var(--blu-tech);
-
-}
-
-
-/* =========================
-   HERO
-========================= */
-
-.hero {
-
-    position: relative;
-
-    overflow: hidden;
-
-    background:
-
-        radial-gradient(
-            circle at 85% 20%,
-            rgba(24,201,232,0.18),
-            transparent 28%
-        ),
-
-        radial-gradient(
-            circle at 10% 80%,
-            rgba(8,121,232,0.18),
-            transparent 32%
-        ),
-
-        var(--blu-scuro);
-
-    color: white;
-
-    padding: 105px 24px 95px;
-
-}
-
-
-.hero::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 420px;
-
-    height: 420px;
-
-    border: 1px solid rgba(24,201,232,0.15);
-
-    border-radius: 50%;
-
-    right: -180px;
-
-    top: -170px;
-
-}
-
-
-.hero-inner {
-
-    position: relative;
-
-    z-index: 2;
-
-    max-width: 1200px;
-
-    margin: auto;
-
-    display: grid;
-
-    grid-template-columns: 1.05fr 0.95fr;
-
-    gap: 75px;
-
-    align-items: center;
-
-}
-
-
-.badge {
-
-    display: inline-block;
-
-    padding: 8px 15px;
-
-    border: 1px solid rgba(24,201,232,0.5);
-
-    border-radius: 30px;
-
-    color: var(--azzurro);
-
-    font-size: 12px;
-
-    font-weight: 800;
-
-    letter-spacing: 1.6px;
-
-    margin-bottom: 23px;
-
-}
-
-
-.hero h1 {
-
-    font-size: clamp(43px, 6vw, 70px);
-
-    line-height: 1.03;
-
-    letter-spacing: -3px;
-
-    margin: 0 0 25px;
-
-}
-
-
-.hero h1 span {
-
-    color: var(--azzurro);
-
-}
-
-
-.hero p {
-
-    max-width: 650px;
-
-    color: #c6d3e1;
-
-    font-size: 19px;
-
-    line-height: 1.7;
-
-    margin-bottom: 34px;
-
-}
-
-
-.buttons {
-
-    display: flex;
-
-    gap: 14px;
-
-    flex-wrap: wrap;
-
-}
-
-
-.btn {
-
-    display: inline-block;
-
-    padding: 15px 23px;
-
-    border-radius: 9px;
-
-    text-decoration: none;
-
-    font-size: 14px;
-
-    font-weight: 800;
-
-    transition: 0.2s;
-
-}
-
-
-.btn-primary {
-
-    background: var(--arancio);
-
-    color: white;
-
-}
-
-
-.btn-primary:hover {
-
-    background: var(--arancio-chiaro);
-
-    transform: translateY(-2px);
-
-}
-
-
-.btn-secondary {
-
-    border: 1px solid rgba(255,255,255,0.3);
-
-    color: white;
-
-    background: rgba(255,255,255,0.04);
-
-}
-
-
-.btn-secondary:hover {
-
-    border-color: var(--azzurro);
-
-    color: var(--azzurro);
-
-}
-
-
-/* =========================
-   AI CARD
-========================= */
-
-.ai-card {
-
-    background: rgba(255,255,255,0.07);
-
-    border: 1px solid rgba(255,255,255,0.14);
-
-    border-radius: 22px;
-
-    padding: 30px;
-
-    box-shadow:
-        0 30px 80px rgba(0,0,0,0.28);
-
-}
-
-
-.ai-top {
-
-    color: var(--azzurro);
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    letter-spacing: 1.7px;
-
-    margin-bottom: 22px;
-
-}
-
-
-.practice {
-
-    background: rgba(255,255,255,0.065);
-
-    border-radius: 15px;
-
-    padding: 21px;
-
-    margin-bottom: 14px;
-
-    border-left: 3px solid var(--blu-tech);
-
-}
-
-
-.practice-title {
-
-    font-size: 19px;
-
-    font-weight: 800;
-
-    margin-bottom: 5px;
-
-}
-
-
-.practice-route {
-
-    color: #b8c7d6;
-
-    font-size: 14px;
-
-}
-
-
-.status {
-
-    margin-top: 15px;
-
-    color: var(--azzurro);
-
-    font-size: 14px;
-
-    font-weight: 800;
-
-}
-
-
-.alert {
-
-    border-left-color: var(--arancio);
-
-}
-
-
-/* =========================
-   SEZIONI
-========================= */
-
-section {
-
-    padding: 90px 24px;
-
-}
-
-
-.section-inner {
-
-    max-width: 1180px;
-
-    margin: auto;
-
-}
-
-
-.section-title {
-
-    text-align: center;
-
-    margin-bottom: 55px;
-
-}
-
-
-.section-title h2 {
-
-    color: var(--blu);
-
-    font-size: 39px;
-
-    line-height: 1.2;
-
-    margin: 0 0 13px;
-
-}
-
-
-.section-title p {
-
-    color: var(--grigio);
-
-    font-size: 17px;
-
-    margin: 0;
-
-}
-
-
-.light-section {
-
-    background: var(--sfondo);
-
-}
-
-
-/* =========================
-   CARDS
-========================= */
-
-.cards {
-
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 23px;
-
-}
-
-
-.card {
-
-    background: white;
-
-    border: 1px solid var(--bordo);
-
-    border-radius: 17px;
-
-    padding: 31px;
-
-    transition: 0.2s;
-
-}
-
-
-.card:hover {
-
-    transform: translateY(-4px);
-
-    box-shadow:
-        0 15px 35px rgba(7,31,92,0.08);
-
-}
-
-
-.card-number {
-
-    color: var(--arancio);
-
-    font-size: 12px;
-
-    font-weight: 900;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 18px;
-
-}
-
-
-.card h3 {
-
-    color: var(--blu);
-
-    font-size: 21px;
-
-    margin: 0 0 10px;
-
-}
-
-
-.card p {
-
-    color: var(--grigio);
-
-    font-size: 15px;
-
-    margin: 0;
-
-}
-
-
-/* =========================
-   NUMERI / VANTAGGI
-========================= */
-
-.highlight {
-
-    color: var(--blu-tech);
-
-}
-
-
-/* =========================
-   DEMO
-========================= */
-
-.demo-section {
-
-    background: var(--sfondo);
-
-}
-
-
-.demo {
-
-    position: relative;
-
-    overflow: hidden;
-
-    background: var(--blu);
-
-    color: white;
-
-    border-radius: 25px;
-
-    padding: 60px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 40px;
-
-}
-
-
-.demo::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 260px;
-
-    height: 260px;
-
-    border: 1px solid rgba(24,201,232,0.25);
-
-    border-radius: 50%;
-
-    right: -100px;
-
-    top: -90px;
-
-}
-
-
-.demo-content {
-
-    position: relative;
-
-    z-index: 2;
-
-}
-
-
-.demo h2 {
-
-    font-size: 37px;
-
-    margin: 0 0 12px;
-
-}
-
-
-.demo p {
-
-    color: #c5d3e0;
-
-    margin: 0;
-
-    max-width: 650px;
-
-}
-
-
-/* =========================
-   CONTATTI
-========================= */
-
-.contact {
-
-    text-align: center;
-
-}
-
-
-.contact-email {
-
-    display: inline-block;
-
-    margin: 8px 0 28px;
-
-    color: var(--blu-tech);
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-    text-decoration: none;
-
-}
-
-
-.contact-email:hover {
-
-    color: var(--arancio);
-
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-
-    background: var(--blu-scuro);
-
-    color: #91a3b6;
-
-    text-align: center;
-
-    padding: 35px 24px;
-
-    font-size: 13px;
-
-}
-
-
-.footer-brand {
-
-    color: white;
-
-    font-weight: 800;
-
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 850px) {
-
-    nav {
-        display: none;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MatRi-mIA Logistics</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    .navbar {
-        justify-content: center;
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #071634;
+      color: white;
     }
 
-    .logo img {
-        width: 175px;
-        height: 65px;
+    /* HEADER */
+
+    header {
+      width: 100%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 20px;
     }
+
+    .logo {
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      display: block;
+    }
+
+    /* HERO */
 
     .hero {
-        padding-top: 70px;
+      position: relative;
+      overflow: hidden;
+      padding: 75px 26px 70px;
+      background:
+        radial-gradient(
+          circle at 90% 12%,
+          rgba(76, 198, 234, 0.10),
+          transparent 33%
+        ),
+        linear-gradient(
+          135deg,
+          #071634 0%,
+          #091b3d 60%,
+          #0d2449 100%
+        );
     }
 
-    .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 50px;
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border: 2px solid rgba(72, 192, 228, 0.15);
+      border-radius: 50%;
+      top: -185px;
+      right: -245px;
     }
 
-    .hero h1 {
-        font-size: 44px;
-        letter-spacing: -2px;
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      border: 2px solid rgba(79, 197, 231, 0.55);
+      border-radius: 50px;
+      padding: 12px 22px;
+      color: #57c7e8;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      margin-bottom: 35px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 8vw, 82px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+      max-width: 850px;
+      margin-bottom: 30px;
+    }
+
+    .highlight {
+      color: #52c7e8;
     }
 
     .hero p {
-        font-size: 17px;
+      max-width: 760px;
+      color: #c8d3e5;
+      font-size: clamp(19px, 4vw, 28px);
+      line-height: 1.55;
+      margin-bottom: 45px;
     }
 
-    .cards {
-        grid-template-columns: 1fr;
+    .buttons {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
     }
 
-    .demo {
+    .btn {
+      text-decoration: none;
+      padding: 18px 28px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 800;
+      display: inline-block;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #ef6036;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #ff6d43;
+    }
+
+    .btn-secondary {
+      border: 2px solid rgba(255,255,255,0.30);
+      color: white;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .btn-secondary:hover {
+      border-color: #52c7e8;
+    }
+
+    /* DEMO CARD */
+
+    .demo-section {
+      padding: 0 26px 80px;
+      background: #071634;
+    }
+
+    .demo-card {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.09),
+        rgba(255,255,255,0.035)
+      );
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 28px;
+      padding: 38px 28px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.22);
+    }
+
+    .demo-label {
+      color: #56c7e8;
+      font-weight: 800;
+      letter-spacing: 3px;
+      font-size: 15px;
+      margin-bottom: 25px;
+    }
+
+    .practice {
+      border-left: 4px solid #347dd1;
+      padding-left: 20px;
+    }
+
+    .practice h2 {
+      font-size: 32px;
+      margin-bottom: 25px;
+    }
+
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .info-box {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .info-box span {
+      display: block;
+      color: #8ea0bc;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .info-box strong {
+      font-size: 17px;
+    }
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 14px 18px;
+      }
+
+      .logo {
+        max-width: 300px;
+      }
+
+      .hero {
+        padding: 65px 25px 60px;
+      }
+
+      .badge {
+        font-size: 13px;
+        padding: 11px 20px;
+      }
+
+      h1 {
+        font-size: 52px;
+      }
+
+      .hero p {
+        font-size: 22px;
+      }
+
+      .buttons {
         flex-direction: column;
-        align-items: flex-start;
-        padding: 40px 28px;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .practice-grid {
+        grid-template-columns: 1fr;
+      }
     }
-
-    .demo h2 {
-        font-size: 31px;
-    }
-
-}
-
-
-/* =========================
-   PICCOLI SCHERMI
-========================= */
-
-@media (max-width: 480px) {
-
-    .hero h1 {
-        font-size: 38px;
-    }
-
-    section {
-        padding: 70px 20px;
-    }
-
-    .section-title h2 {
-        font-size: 31px;
-    }
-
-    .ai-card {
-        padding: 22px;
-    }
-
-}
-
-</style>
-
+  </style>
 </head>
-
 
 <body>
 
-
-<!-- =========================
-     HEADER
-========================= -->
-
 <header>
 
-    <div class="navbar">
-
-        <a href="#" class="logo">
-
-            <img
-                src="logo-matrimia.png"
-                alt="MatRi-mIA Logistics"
-            >
-
-        </a>
-
-
-        <nav>
-
-            <a href="#come-funziona">
-                Come funziona
-            </a>
-
-            <a href="#cosa-fa">
-                Cosa fa
-            </a>
-
-            <a href="#perche">
-                Perché usarla
-            </a>
-
-            <a href="#demo">
-                Demo
-            </a>
-
-            <a href="#contatti">
-                Contatti
-            </a>
-
-        </nav>
-
-    </div>
+  <img
+    src="matrimia-logo-web.png"
+    alt="MatRi-mIA Logistics"
+    class="logo"
+  >
 
 </header>
 
 
-
-<!-- =========================
-     HERO
-========================= -->
-
 <section class="hero">
 
-    <div class="hero-inner">
-
-
-        <div>
-
-            <div class="badge">
-                AI PER LA LOGISTICA
-            </div>
-
-
-            <h1>
-
-                L'AI che lavora per la tua
-                <span>azienda di trasporti.</span>
-
-            </h1>
-
-
-            <p>
-
-                MatRi-mIA trasforma email, richieste di
-                trasporto e informazioni operative in
-                pratiche organizzate, controllate e
-                pronte per essere gestite.
-
-            </p>
-
-
-            <div class="buttons">
-
-
-                <a
-                    class="btn btn-primary"
-                    href="mailto:info@matrimialogistics.it?subject=Richiesta%20demo%20MatRi-mIA%20LOGISTICS"
-                >
-
-                    Richiedi una demo
-
-                </a>
-
-
-                <a
-                    class="btn btn-secondary"
-                    href="nuova-pratica.html"
-                >
-
-                    Prova la demo AI
-
-                </a>
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- AI CARD -->
-
-        <div class="ai-card">
-
-
-            <div class="ai-top">
-
-                MATRI-MIA · AI CONTROL
-
-            </div>
-
-
-            <div class="practice">
-
-                <div class="practice-title">
-
-                    Pratica #0001
-
-                </div>
-
-
-                <div class="practice-route">
-
-                    Milano → Bergamo
-
-                </div>
-
-
-                <div class="status">
-
-                    ● REGOLARE
-
-                </div>
-
-            </div>
-
-
-
-            <div class="practice alert">
-
-                <div class="practice-title">
-
-                    AI CHECK
-
-                </div>
-
-
-                <div class="practice-route">
-
-                    Analisi dei dati di trasporto completata
-
-                </div>
-
-
-                <div class="status">
-
-                    Controllo completato
-
-                </div>
-
-            </div>
-
-
-        </div>
-
+  <div class="hero-content">
+
+    <div class="badge">
+      AI PER LA LOGISTICA
+    </div>
+
+    <h1>
+      L’AI che lavora per la tua
+      <span class="highlight">azienda di trasporti.</span>
+    </h1>
+
+    <p>
+      MatRi-mIA trasforma email, richieste di trasporto
+      e informazioni operative in pratiche organizzate,
+      controllate e pronte per essere gestite.
+    </p>
+
+    <div class="buttons">
+
+      <a href="#demo" class="btn btn-primary">
+        Richiedi una demo
+      </a>
+
+      <a href="#demo" class="btn btn-secondary">
+        Prova la demo AI
+      </a>
 
     </div>
+
+  </div>
 
 </section>
 
 
+<section class="demo-section" id="demo">
 
-<!-- =========================
-     COME FUNZIONA
-========================= -->
+  <div class="demo-card">
 
-<section id="come-funziona">
+    <div class="demo-label">
+      MATRI-MIA · AI CONTROL
+    </div>
 
-    <div class="section-inner">
+    <div class="practice">
 
+      <h2>Pratica #0001</h2>
 
-        <div class="section-title">
+      <div class="practice-grid">
 
-            <h2>
-                Come funziona
-            </h2>
-
-            <p>
-                MatRi-mIA lavora al fianco dell'operatore.
-            </p>
-
+        <div class="info-box">
+          <span>PARTENZA</span>
+          <strong>Palermo</strong>
         </div>
 
-
-
-        <div class="cards">
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    01 · RICEVE
-                </div>
-
-                <h3>
-                    Raccoglie le informazioni
-                </h3>
-
-                <p>
-                    Riceve richieste, email e informazioni
-                    relative ai trasporti.
-                </p>
-
-            </div>
-
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    02 · INTERPRETA
-                </div>
-
-                <h3>
-                    Comprende i dati
-                </h3>
-
-                <p>
-                    L'intelligenza artificiale interpreta
-                    le informazioni e costruisce la pratica.
-                </p>
-
-            </div>
-
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    03 · CONTROLLA
-                </div>
-
-                <h3>
-                    Segnala i problemi
-                </h3>
-
-                <p>
-                    L'AI controlla la pratica e segnala
-                    eventuali anomalie prima della conferma.
-                </p>
-
-            </div>
-
-
+        <div class="info-box">
+          <span>DESTINAZIONE</span>
+          <strong>Marsala</strong>
         </div>
+
+        <div class="info-box">
+          <span>STATO</span>
+          <strong>Pratica verificata</strong>
+        </div>
+
+        <div class="info-box">
+          <span>GESTIONE AI</span>
+          <strong>Controllo completato</strong>
+        </div>
+
+      </div>
 
     </div>
 
-</section>
-
-
-
-<!-- =========================
-     COSA FA
-========================= -->
-
-<section
-    id="cosa-fa"
-    class="light-section"
->
-
-    <div class="section-inner">
-
-
-        <div class="section-title">
-
-            <h2>
-                Cosa fa MatRi-mIA
-            </h2>
-
-            <p>
-                Una nuova generazione di assistente
-                digitale per la logistica.
-            </p>
-
-        </div>
-
-
-
-        <div class="cards">
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    PRATICHE
-                </div>
-
-                <h3>
-                    Gestione pratiche
-                </h3>
-
-                <p>
-                    Organizza le informazioni del trasporto
-                    in modo strutturato e facilmente consultabile.
-                </p>
-
-            </div>
-
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    AI CHECK
-                </div>
-
-                <h3>
-                    Controllo intelligente
-                </h3>
-
-                <p>
-                    Individua dati mancanti, incoerenze
-                    e possibili problemi prima della conferma.
-                </p>
-
-            </div>
-
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    ASSISTENTE
-                </div>
-
-                <h3>
-                    Assistente operativo
-                </h3>
-
-                <p>
-                    Aiuta l'operatore nelle attività quotidiane,
-                    lasciando sempre a lui il controllo.
-                </p>
-
-            </div>
-
-
-        </div>
-
-    </div>
+  </div>
 
 </section>
-
-
-
-<!-- =========================
-     PERCHÉ USARLA
-========================= -->
-
-<section id="perche">
-
-    <div class="section-inner">
-
-
-        <div class="section-title">
-
-            <h2>
-                Perché usarla
-            </h2>
-
-            <p>
-                Meno tempo perso. Più controllo. Meno errori.
-            </p>
-
-        </div>
-
-
-
-        <div class="cards">
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    TEMPO
-                </div>
-
-                <h3>
-                    Risparmia tempo
-                </h3>
-
-                <p>
-                    Automatizza le attività ripetitive
-                    della gestione quotidiana.
-                </p>
-
-            </div>
-
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    PRECISIONE
-                </div>
-
-                <h3>
-                    Riduci gli errori
-                </h3>
-
-                <p>
-                    L'AI controlla le informazioni
-                    prima che diventino un problema.
-                </p>
-
-            </div>
-
-
-
-            <div class="card">
-
-                <div class="card-number">
-                    CONTROLLO
-                </div>
-
-                <h3>
-                    Decidi sempre tu
-                </h3>
-
-                <p>
-                    MatRi-mIA assiste l'operatore,
-                    ma la decisione finale rimane sempre umana.
-                </p>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     DEMO
-========================= -->
-
-<section
-    id="demo"
-    class="demo-section"
->
-
-    <div class="section-inner">
-
-
-        <div class="demo">
-
-
-            <div class="demo-content">
-
-                <h2>
-                    Prova MatRi-mIA
-                </h2>
-
-                <p>
-                    Abbiamo già realizzato una prima demo
-                    funzionante. Inserisci i dati di una
-                    spedizione e lascia che l'AI analizzi
-                    la pratica.
-                </p>
-
-            </div>
-
-
-            <a
-                class="btn btn-primary"
-                href="nuova-pratica.html"
-            >
-
-                Prova la demo AI
-
-            </a>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     CONTATTI
-========================= -->
-
-<section id="contatti">
-
-    <div class="section-inner contact">
-
-
-        <div class="section-title">
-
-            <h2>
-                Parliamo di logistica.
-            </h2>
-
-            <p>
-                Vuoi vedere MatRi-mIA all'opera
-                nella tua azienda?
-            </p>
-
-        </div>
-
-
-        <a
-            class="contact-email"
-            href="mailto:info@matrimialogistics.it"
-        >
-
-            info@matrimialogistics.it
-
-        </a>
-
-
-        <br>
-
-
-        <a
-            class="btn btn-primary"
-            href="mailto:info@matrimialogistics.it?subject=Richiesta%20demo%20MatRi-mIA%20LOGISTICS"
-        >
-
-            Richiedi una demo
-
-        </a>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-    <span class="footer-brand">
-        MatRi-mIA LOGISTICS
-    </span>
-
-    · AI per la logistica
-
-    <br><br>
-
-    © 2026 MatRi-mIA LOGISTICS
-
-</footer>
-
 
 </body>
-
 </html>
