@@ -411,4 +411,1067 @@ textarea{
   display:block;
   background:#fff1f0;
   border:1px solid #ffd4d1;
-  color:#b
+  color:#b42318;
+}
+
+footer{
+  text-align:center;
+  padding:35px 20px 0;
+  color:#8894a5;
+  font-size:13px;
+}
+
+footer strong{
+  color:#173459;
+}
+
+@media(max-width:900px){
+
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .ai-card{
+    position:static;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .top-header-inner{
+    padding:7px 13px;
+  }
+
+  .logo{
+    width:145px;
+  }
+
+  .header-actions .btn-secondary{
+    display:none;
+  }
+
+  .page{
+    padding:24px 13px 45px;
+  }
+
+  h1{
+    font-size:36px;
+  }
+
+  .fields{
+    grid-template-columns:1fr;
+  }
+
+  .field.wide{
+    grid-column:auto;
+  }
+
+  .actions-bar{
+    flex-direction:column-reverse;
+  }
+
+  .actions-bar .btn{
+    width:100%;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header class="top-header">
+
+  <div class="top-header-inner">
+
+    <a href="index.html">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics"
+        class="logo"
+      >
+
+    </a>
+
+    <div class="header-actions">
+
+      <a
+        href="pratiche.html"
+        class="btn btn-secondary">
+        Pratiche
+      </a>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<main class="page">
+
+
+<a href="pratiche.html" class="back">
+  ← Torna alle pratiche
+</a>
+
+
+<div class="heading">
+
+  <div class="eyebrow">
+    MATRI-MIA · NUOVA PRATICA
+  </div>
+
+  <h1>
+    Nuova pratica
+  </h1>
+
+  <div class="subtitle">
+    Inserisci i dati della richiesta di trasporto.
+    MatRi-mIA li analizzerà prima della conferma.
+  </div>
+
+</div>
+
+
+
+<form id="practiceForm">
+
+
+<div class="layout">
+
+
+<div>
+
+
+<section class="card">
+
+  <div class="card-header">
+    <h2>Dati trasporto</h2>
+    <p>Informazioni principali relative a ritiro e consegna.</p>
+  </div>
+
+  <div class="card-body">
+
+    <div class="fields">
+
+
+      <div class="field">
+
+        <label for="data">
+          Data
+        </label>
+
+        <input
+          id="data"
+          name="data"
+          type="date"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cliente">
+          Cliente
+        </label>
+
+        <input
+          id="cliente"
+          name="cliente"
+          type="text"
+          placeholder="Es. Cliente Test"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="ritiro">
+          Data/Ora Ritiro
+        </label>
+
+        <input
+          id="ritiro"
+          name="ritiro"
+          type="datetime-local"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="consegna">
+          Data/Ora Consegna
+        </label>
+
+        <input
+          id="consegna"
+          name="consegna"
+          type="datetime-local"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="partenza">
+          Partenza
+        </label>
+
+        <input
+          id="partenza"
+          name="partenza"
+          type="text"
+          placeholder="Es. Milano"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="destinazione">
+          Destinazione
+        </label>
+
+        <input
+          id="destinazione"
+          name="destinazione"
+          type="text"
+          placeholder="Es. Bergamo"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="indirizzoRitiro">
+          Indirizzo Ritiro
+        </label>
+
+        <input
+          id="indirizzoRitiro"
+          name="indirizzoRitiro"
+          type="text"
+          placeholder="Es. Via Roma 10"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="capRitiro">
+          CAP Ritiro
+        </label>
+
+        <input
+          id="capRitiro"
+          name="capRitiro"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          pattern="[0-9]{5}"
+          placeholder="Es. 20121"
+        >
+
+        <span class="helper">
+          Inserisci le 5 cifre del CAP.
+        </span>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="indirizzoConsegna">
+          Indirizzo Consegna
+        </label>
+
+        <input
+          id="indirizzoConsegna"
+          name="indirizzoConsegna"
+          type="text"
+          placeholder="Es. Via Milano 20"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="capConsegna">
+          CAP Consegna
+        </label>
+
+        <input
+          id="capConsegna"
+          name="capConsegna"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          pattern="[0-9]{5}"
+          placeholder="Es. 24121"
+        >
+
+        <span class="helper">
+          Inserisci le 5 cifre del CAP.
+        </span>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<section class="card">
+
+  <div class="card-header">
+    <h2>Merce e vettore</h2>
+    <p>Dati utili alla gestione operativa del trasporto.</p>
+  </div>
+
+  <div class="card-body">
+
+    <div class="fields">
+
+
+      <div class="field">
+
+        <label for="vettore">
+          Vettore
+        </label>
+
+        <input
+          id="vettore"
+          name="vettore"
+          type="text"
+          placeholder="Es. Vettore Test"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="tipoMerce">
+          Tipo Merce
+        </label>
+
+        <input
+          id="tipoMerce"
+          name="tipoMerce"
+          type="text"
+          placeholder="Es. Materiale generico"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="colli">
+          Colli
+        </label>
+
+        <input
+          id="colli"
+          name="colli"
+          type="number"
+          min="0"
+          step="1"
+          placeholder="Es. 3"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="peso">
+          Peso kg
+        </label>
+
+        <input
+          id="peso"
+          name="peso"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="Es. 100"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="volume">
+          Volume m³
+        </label>
+
+        <input
+          id="volume"
+          name="volume"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="Es. 2.5"
+        >
+
+      </div>
+
+
+      <div class="field wide">
+
+        <label for="note">
+          Note Operative
+        </label>
+
+        <textarea
+          id="note"
+          name="note"
+          placeholder="Inserisci eventuali indicazioni operative..."
+        ></textarea>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<div id="messageBox" class="message"></div>
+
+
+<div class="actions-bar">
+
+  <a
+    href="pratiche.html"
+    class="btn cancel-btn">
+    Annulla
+  </a>
+
+  <button
+    id="submitButton"
+    type="submit"
+    class="btn analyze-btn">
+    Analizza pratica
+  </button>
+
+</div>
+
+
+</div>
+
+
+
+<aside class="card ai-card">
+
+  <div class="ai-header">
+
+    <div class="ai-label">
+      MATRI-MIA AI
+    </div>
+
+    <h2>
+      Controllo pratica
+    </h2>
+
+  </div>
+
+
+  <div class="ai-content">
+
+
+    <div class="ai-state">
+
+      <div class="ai-dot"></div>
+
+      <strong id="aiStateText">
+        AI pronta
+      </strong>
+
+    </div>
+
+
+    <div class="ai-text">
+
+      MatRi-mIA analizzerà i dati prima della conferma
+      della pratica.
+
+    </div>
+
+
+    <div class="ai-checklist">
+
+
+      <div class="ai-check">
+
+        <div class="ai-check-icon">
+          ✓
+        </div>
+
+        <span>
+          Controllo date e orari di ritiro e consegna.
+        </span>
+
+      </div>
+
+
+      <div class="ai-check">
+
+        <div class="ai-check-icon">
+          ✓
+        </div>
+
+        <span>
+          Verifica di indirizzi, città e CAP.
+        </span>
+
+      </div>
+
+
+      <div class="ai-check">
+
+        <div class="ai-check-icon">
+          ✓
+        </div>
+
+        <span>
+          Analisi di peso, volume, colli e merce.
+        </span>
+
+      </div>
+
+
+      <div class="ai-check">
+
+        <div class="ai-check-icon">
+          ✓
+        </div>
+
+        <span>
+          Valutazione dello stato della pratica.
+        </span>
+
+      </div>
+
+
+    </div>
+
+
+    <div id="aiResult" class="ai-result">
+
+      <div class="ai-result-title">
+        RISULTATO ANALISI
+      </div>
+
+      <div
+        id="aiStatus"
+        class="ai-status ai-status-default">
+        -
+      </div>
+
+      <div class="ai-section">
+
+        <h3>
+          MOTIVO
+        </h3>
+
+        <p id="aiReason">
+          -
+        </p>
+
+      </div>
+
+      <div class="ai-section">
+
+        <h3>
+          AZIONE RICHIESTA
+        </h3>
+
+        <p id="aiAction">
+          -
+        </p>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</aside>
+
+
+</div>
+
+
+</form>
+
+
+
+<footer>
+
+  <strong>
+    MatRi-mIA Logistics
+  </strong>
+
+  · AI per trasporti e logistica
+
+</footer>
+
+
+</main>
+
+
+
+<script>
+
+const WEBHOOK_URL =
+  "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
+
+
+const form =
+  document.getElementById("practiceForm");
+
+const submitButton =
+  document.getElementById("submitButton");
+
+const messageBox =
+  document.getElementById("messageBox");
+
+const aiStateText =
+  document.getElementById("aiStateText");
+
+const aiResult =
+  document.getElementById("aiResult");
+
+const aiStatus =
+  document.getElementById("aiStatus");
+
+const aiReason =
+  document.getElementById("aiReason");
+
+const aiAction =
+  document.getElementById("aiAction");
+
+
+let ultimaAnalisi = "";
+let ultimoStato = "";
+
+
+function showMessage(type,text){
+
+  messageBox.className =
+    "message " +
+    (
+      type === "success"
+        ? "message-success"
+        : "message-error"
+    );
+
+  messageBox.textContent =
+    text;
+
+}
+
+
+function extractSection(
+  text,
+  startLabel,
+  endLabel
+){
+
+  const start =
+    text.indexOf(startLabel);
+
+  if(start === -1)
+    return "";
+
+  const contentStart =
+    start + startLabel.length;
+
+  let end =
+    text.length;
+
+
+  if(endLabel){
+
+    const foundEnd =
+      text.indexOf(
+        endLabel,
+        contentStart
+      );
+
+    if(foundEnd !== -1)
+      end = foundEnd;
+
+  }
+
+
+  return text
+    .slice(
+      contentStart,
+      end
+    )
+    .trim();
+
+}
+
+
+function parseAnalysis(text){
+
+  const statusMatch =
+    text.match(
+      /STATO:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
+    );
+
+
+  const status =
+    statusMatch
+      ? statusMatch[1].toUpperCase()
+      : "";
+
+
+  const reason =
+    extractSection(
+      text,
+      "MOTIVO:",
+      "AZIONE RICHIESTA:"
+    );
+
+
+  const action =
+    extractSection(
+      text,
+      "AZIONE RICHIESTA:",
+      "DATI DELLA PRATICA:"
+    );
+
+
+  return {
+    status,
+    reason,
+    action
+  };
+
+}
+
+
+function showAIResult(result){
+
+  aiResult.style.display =
+    "block";
+
+
+  aiStateText.textContent =
+    "Analisi completata";
+
+
+  aiStatus.textContent =
+    result.status ||
+    "ANALISI COMPLETATA";
+
+
+  if(result.status === "REGOLARE"){
+
+    aiStatus.className =
+      "ai-status ai-status-ok";
+
+  }
+  else if(result.status === "ATTENZIONE"){
+
+    aiStatus.className =
+      "ai-status ai-status-warning";
+
+  }
+  else if(result.status === "PROBLEMA"){
+
+    aiStatus.className =
+      "ai-status ai-status-error";
+
+  }
+  else{
+
+    aiStatus.className =
+      "ai-status ai-status-default";
+
+  }
+
+
+  aiReason.textContent =
+    result.reason ||
+    "Nessun motivo disponibile.";
+
+
+  aiAction.textContent =
+    result.action ||
+    "Nessuna indicazione disponibile.";
+
+}
+
+
+function getFormData(azione){
+
+  return {
+
+    azione:azione,
+
+    data:
+      document.getElementById(
+        "data"
+      ).value,
+
+    cliente:
+      document.getElementById(
+        "cliente"
+      ).value,
+
+    ritiro:
+      document.getElementById(
+        "ritiro"
+      ).value,
+
+    consegna:
+      document.getElementById(
+        "consegna"
+      ).value,
+
+    partenza:
+      document.getElementById(
+        "partenza"
+      ).value,
+
+    indirizzoRitiro:
+      document.getElementById(
+        "indirizzoRitiro"
+      ).value,
+
+    capRitiro:
+      document.getElementById(
+        "capRitiro"
+      ).value,
+
+    destinazione:
+      document.getElementById(
+        "destinazione"
+      ).value,
+
+    indirizzoConsegna:
+      document.getElementById(
+        "indirizzoConsegna"
+      ).value,
+
+    capConsegna:
+      document.getElementById(
+        "capConsegna"
+      ).value,
+
+    vettore:
+      document.getElementById(
+        "vettore"
+      ).value,
+
+    tipoMerce:
+      document.getElementById(
+        "tipoMerce"
+      ).value,
+
+    colli:
+      document.getElementById(
+        "colli"
+      ).value,
+
+    peso:
+      document.getElementById(
+        "peso"
+      ).value,
+
+    volume:
+      document.getElementById(
+        "volume"
+      ).value,
+
+    note:
+      document.getElementById(
+        "note"
+      ).value,
+
+    statoAI:
+      ultimoStato,
+
+    analisiAI:
+      ultimaAnalisi
+
+  };
+
+}
+
+
+form.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+
+    if(!form.checkValidity()){
+
+      form.reportValidity();
+
+      return;
+
+    }
+
+
+    messageBox.style.display =
+      "none";
+
+    aiResult.style.display =
+      "none";
+
+
+    submitButton.disabled =
+      true;
+
+    submitButton.textContent =
+      "Analisi in corso...";
+
+    aiStateText.textContent =
+      "Analisi in corso...";
+
+
+    try{
+
+
+      const response =
+        await fetch(
+          WEBHOOK_URL,
+          {
+
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                getFormData(
+                  "analizza"
+                )
+              )
+
+          }
+        );
+
+
+      if(!response.ok){
+
+        throw new Error(
+          "HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const responseText =
+        await response.text();
+
+
+      ultimaAnalisi =
+        responseText;
+
+
+      const result =
+        parseAnalysis(
+          responseText
+        );
+
+
+      ultimoStato =
+        result.status;
+
+
+      showAIResult(
+        result
+      );
+
+
+      showMessage(
+        "success",
+        "Analisi completata. Controlla il risultato e modifica i dati se necessario prima di confermare la pratica."
+      );
+
+
+    }
+    catch(error){
+
+
+      console.error(
+        "Errore analisi:",
+        error
+      );
+
+
+      showMessage(
+        "error",
+        "Errore durante l'analisi: " +
+        error.message
+      );
+
+
+      aiStateText.textContent =
+        "Errore nell'analisi";
+
+
+    }
+    finally{
+
+
+      submitButton.disabled =
+        false;
+
+      submitButton.textContent =
+        "Analizza pratica";
+
+    }
+
+  }
+);
+
+</script>
+
+
+</body>
+
+</html>
