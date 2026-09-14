@@ -183,8 +183,7 @@ label{
 }
 
 input,
-textarea,
-select{
+textarea{
   width:100%;
   border:1px solid #dce3eb;
   background:#f9fbfd;
@@ -196,8 +195,7 @@ select{
 }
 
 input:focus,
-textarea:focus,
-select:focus{
+textarea:focus{
   border-color:#4ec5e6;
   box-shadow:0 0 0 3px rgba(78,197,230,.10);
   background:#fff;
@@ -211,7 +209,6 @@ textarea{
 .helper{
   color:#98a3b2;
   font-size:11px;
-  line-height:1.4;
 }
 
 .ai-card{
@@ -222,7 +219,7 @@ textarea{
 .ai-header{
   background:linear-gradient(135deg,#0b1d3a,#123b67);
   padding:20px 22px;
-  color:white;
+  color:#fff;
 }
 
 .ai-label{
@@ -245,7 +242,7 @@ textarea{
   display:flex;
   align-items:center;
   gap:10px;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
 .ai-dot{
@@ -258,7 +255,6 @@ textarea{
 
 .ai-state strong{
   color:#173459;
-  font-size:15px;
 }
 
 .ai-text{
@@ -267,42 +263,11 @@ textarea{
   line-height:1.65;
 }
 
-.ai-checklist{
-  margin-top:22px;
-  display:grid;
-  gap:12px;
-}
-
-.ai-check{
-  display:flex;
-  gap:10px;
-  align-items:flex-start;
-}
-
-.ai-check-icon{
-  width:24px;
-  height:24px;
-  border-radius:7px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#edf8fc;
-  color:#2ca9d2;
-  font-weight:900;
-  flex:0 0 auto;
-}
-
-.ai-check span{
-  color:#58667a;
-  font-size:13px;
-  line-height:1.5;
-}
-
 .ai-result{
   display:none;
   margin-top:22px;
-  padding-top:20px;
   border-top:1px solid #edf0f4;
+  padding-top:20px;
 }
 
 .ai-result-title{
@@ -315,8 +280,6 @@ textarea{
 
 .ai-status{
   display:inline-flex;
-  align-items:center;
-  justify-content:center;
   padding:8px 11px;
   border-radius:999px;
   font-size:12px;
@@ -361,6 +324,36 @@ textarea{
   font-size:14px;
   line-height:1.6;
   white-space:pre-wrap;
+}
+
+.confirm-box{
+  display:none;
+  margin-top:22px;
+  padding-top:20px;
+  border-top:1px solid #edf0f4;
+}
+
+.confirm-note{
+  color:#68778c;
+  font-size:13px;
+  line-height:1.55;
+  margin-bottom:12px;
+}
+
+.confirm-btn{
+  width:100%;
+  min-height:48px;
+  border:none;
+  border-radius:11px;
+  background:linear-gradient(135deg,#163d67,#1d6f9d);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.confirm-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
 .actions-bar{
@@ -447,10 +440,6 @@ footer strong{
     width:145px;
   }
 
-  .header-actions .btn-secondary{
-    display:none;
-  }
-
   .page{
     padding:24px 13px 45px;
   }
@@ -481,6 +470,7 @@ footer strong{
 
 </head>
 
+
 <body>
 
 
@@ -489,13 +479,11 @@ footer strong{
   <div class="top-header-inner">
 
     <a href="index.html">
-
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
         class="logo"
       >
-
     </a>
 
     <div class="header-actions">
@@ -513,7 +501,6 @@ footer strong{
 </header>
 
 
-
 <main class="page">
 
 
@@ -528,17 +515,14 @@ footer strong{
     MATRI-MIA · NUOVA PRATICA
   </div>
 
-  <h1>
-    Nuova pratica
-  </h1>
+  <h1>Nuova pratica</h1>
 
   <div class="subtitle">
-    Inserisci i dati della richiesta di trasporto.
-    MatRi-mIA li analizzerà prima della conferma.
+    Inserisci i dati, analizza la pratica e confermala
+    solo dopo aver verificato il risultato dell’AI.
   </div>
 
 </div>
-
 
 
 <form id="practiceForm">
@@ -563,177 +547,74 @@ footer strong{
 
 
       <div class="field">
-
-        <label for="data">
-          Data
-        </label>
-
-        <input
-          id="data"
-          name="data"
-          type="date"
-          required
-        >
-
+        <label for="data">Data</label>
+        <input id="data" type="date" required>
       </div>
 
 
       <div class="field">
-
-        <label for="cliente">
-          Cliente
-        </label>
-
-        <input
-          id="cliente"
-          name="cliente"
-          type="text"
-          placeholder="Es. Cliente Test"
-          required
-        >
-
+        <label for="cliente">Cliente</label>
+        <input id="cliente" type="text" required>
       </div>
 
 
       <div class="field">
-
-        <label for="ritiro">
-          Data/Ora Ritiro
-        </label>
-
-        <input
-          id="ritiro"
-          name="ritiro"
-          type="datetime-local"
-        >
-
+        <label for="ritiro">Data/Ora Ritiro</label>
+        <input id="ritiro" type="datetime-local">
       </div>
 
 
       <div class="field">
-
-        <label for="consegna">
-          Data/Ora Consegna
-        </label>
-
-        <input
-          id="consegna"
-          name="consegna"
-          type="datetime-local"
-        >
-
+        <label for="consegna">Data/Ora Consegna</label>
+        <input id="consegna" type="datetime-local">
       </div>
 
 
       <div class="field">
-
-        <label for="partenza">
-          Partenza
-        </label>
-
-        <input
-          id="partenza"
-          name="partenza"
-          type="text"
-          placeholder="Es. Milano"
-          required
-        >
-
+        <label for="partenza">Partenza</label>
+        <input id="partenza" type="text" required>
       </div>
 
 
       <div class="field">
-
-        <label for="destinazione">
-          Destinazione
-        </label>
-
-        <input
-          id="destinazione"
-          name="destinazione"
-          type="text"
-          placeholder="Es. Bergamo"
-          required
-        >
-
+        <label for="destinazione">Destinazione</label>
+        <input id="destinazione" type="text" required>
       </div>
 
 
       <div class="field">
-
-        <label for="indirizzoRitiro">
-          Indirizzo Ritiro
-        </label>
-
-        <input
-          id="indirizzoRitiro"
-          name="indirizzoRitiro"
-          type="text"
-          placeholder="Es. Via Roma 10"
-        >
-
+        <label for="indirizzoRitiro">Indirizzo Ritiro</label>
+        <input id="indirizzoRitiro" type="text">
       </div>
 
 
       <div class="field">
-
-        <label for="capRitiro">
-          CAP Ritiro
-        </label>
-
+        <label for="capRitiro">CAP Ritiro</label>
         <input
           id="capRitiro"
-          name="capRitiro"
           type="text"
           inputmode="numeric"
           maxlength="5"
           pattern="[0-9]{5}"
-          placeholder="Es. 20121"
         >
-
-        <span class="helper">
-          Inserisci le 5 cifre del CAP.
-        </span>
-
       </div>
 
 
       <div class="field">
-
-        <label for="indirizzoConsegna">
-          Indirizzo Consegna
-        </label>
-
-        <input
-          id="indirizzoConsegna"
-          name="indirizzoConsegna"
-          type="text"
-          placeholder="Es. Via Milano 20"
-        >
-
+        <label for="indirizzoConsegna">Indirizzo Consegna</label>
+        <input id="indirizzoConsegna" type="text">
       </div>
 
 
       <div class="field">
-
-        <label for="capConsegna">
-          CAP Consegna
-        </label>
-
+        <label for="capConsegna">CAP Consegna</label>
         <input
           id="capConsegna"
-          name="capConsegna"
           type="text"
           inputmode="numeric"
           maxlength="5"
           pattern="[0-9]{5}"
-          placeholder="Es. 24121"
         >
-
-        <span class="helper">
-          Inserisci le 5 cifre del CAP.
-        </span>
-
       </div>
 
 
@@ -749,7 +630,7 @@ footer strong{
 
   <div class="card-header">
     <h2>Merce e vettore</h2>
-    <p>Dati utili alla gestione operativa del trasporto.</p>
+    <p>Dati operativi della spedizione.</p>
   </div>
 
   <div class="card-body">
@@ -758,104 +639,38 @@ footer strong{
 
 
       <div class="field">
-
-        <label for="vettore">
-          Vettore
-        </label>
-
-        <input
-          id="vettore"
-          name="vettore"
-          type="text"
-          placeholder="Es. Vettore Test"
-        >
-
+        <label for="vettore">Vettore</label>
+        <input id="vettore" type="text">
       </div>
 
 
       <div class="field">
-
-        <label for="tipoMerce">
-          Tipo Merce
-        </label>
-
-        <input
-          id="tipoMerce"
-          name="tipoMerce"
-          type="text"
-          placeholder="Es. Materiale generico"
-          required
-        >
-
+        <label for="tipoMerce">Tipo Merce</label>
+        <input id="tipoMerce" type="text" required>
       </div>
 
 
       <div class="field">
-
-        <label for="colli">
-          Colli
-        </label>
-
-        <input
-          id="colli"
-          name="colli"
-          type="number"
-          min="0"
-          step="1"
-          placeholder="Es. 3"
-        >
-
+        <label for="colli">Colli</label>
+        <input id="colli" type="number" min="0" step="1">
       </div>
 
 
       <div class="field">
-
-        <label for="peso">
-          Peso kg
-        </label>
-
-        <input
-          id="peso"
-          name="peso"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder="Es. 100"
-        >
-
+        <label for="peso">Peso kg</label>
+        <input id="peso" type="number" min="0" step="0.01">
       </div>
 
 
       <div class="field">
-
-        <label for="volume">
-          Volume m³
-        </label>
-
-        <input
-          id="volume"
-          name="volume"
-          type="number"
-          min="0"
-          step="0.01"
-          placeholder="Es. 2.5"
-        >
-
+        <label for="volume">Volume m³</label>
+        <input id="volume" type="number" min="0" step="0.01">
       </div>
 
 
       <div class="field wide">
-
-        <label for="note">
-          Note Operative
-        </label>
-
-        <textarea
-          id="note"
-          name="note"
-          placeholder="Inserisci eventuali indicazioni operative..."
-        ></textarea>
-
+        <label for="note">Note Operative</label>
+        <textarea id="note"></textarea>
       </div>
 
 
@@ -899,9 +714,7 @@ footer strong{
       MATRI-MIA AI
     </div>
 
-    <h2>
-      Controllo pratica
-    </h2>
+    <h2>Controllo pratica</h2>
 
   </div>
 
@@ -921,76 +734,18 @@ footer strong{
 
 
     <div class="ai-text">
-
-      MatRi-mIA analizzerà i dati prima della conferma
-      della pratica.
-
-    </div>
-
-
-    <div class="ai-checklist">
-
-
-      <div class="ai-check">
-
-        <div class="ai-check-icon">
-          ✓
-        </div>
-
-        <span>
-          Controllo date e orari di ritiro e consegna.
-        </span>
-
-      </div>
-
-
-      <div class="ai-check">
-
-        <div class="ai-check-icon">
-          ✓
-        </div>
-
-        <span>
-          Verifica di indirizzi, città e CAP.
-        </span>
-
-      </div>
-
-
-      <div class="ai-check">
-
-        <div class="ai-check-icon">
-          ✓
-        </div>
-
-        <span>
-          Analisi di peso, volume, colli e merce.
-        </span>
-
-      </div>
-
-
-      <div class="ai-check">
-
-        <div class="ai-check-icon">
-          ✓
-        </div>
-
-        <span>
-          Valutazione dello stato della pratica.
-        </span>
-
-      </div>
-
-
+      L’AI analizzerà i dati senza registrare la pratica.
+      Potrai correggere i dati prima della conferma.
     </div>
 
 
     <div id="aiResult" class="ai-result">
 
+
       <div class="ai-result-title">
         RISULTATO ANALISI
       </div>
+
 
       <div
         id="aiStatus"
@@ -998,29 +753,43 @@ footer strong{
         -
       </div>
 
-      <div class="ai-section">
-
-        <h3>
-          MOTIVO
-        </h3>
-
-        <p id="aiReason">
-          -
-        </p>
-
-      </div>
 
       <div class="ai-section">
 
-        <h3>
-          AZIONE RICHIESTA
-        </h3>
+        <h3>MOTIVO</h3>
 
-        <p id="aiAction">
-          -
-        </p>
+        <p id="aiReason">-</p>
 
       </div>
+
+
+      <div class="ai-section">
+
+        <h3>AZIONE RICHIESTA</h3>
+
+        <p id="aiAction">-</p>
+
+      </div>
+
+
+      <div
+        id="confirmBox"
+        class="confirm-box">
+
+        <div
+          id="confirmNote"
+          class="confirm-note">
+        </div>
+
+        <button
+          id="confirmButton"
+          type="button"
+          class="confirm-btn">
+          Conferma pratica
+        </button>
+
+      </div>
+
 
     </div>
 
@@ -1036,20 +805,13 @@ footer strong{
 </form>
 
 
-
 <footer>
-
-  <strong>
-    MatRi-mIA Logistics
-  </strong>
-
+  <strong>MatRi-mIA Logistics</strong>
   · AI per trasporti e logistica
-
 </footer>
 
 
 </main>
-
 
 
 <script>
@@ -1063,6 +825,15 @@ const form =
 
 const submitButton =
   document.getElementById("submitButton");
+
+const confirmButton =
+  document.getElementById("confirmButton");
+
+const confirmBox =
+  document.getElementById("confirmBox");
+
+const confirmNote =
+  document.getElementById("confirmNote");
 
 const messageBox =
   document.getElementById("messageBox");
@@ -1085,9 +856,12 @@ const aiAction =
 
 let ultimaAnalisi = "";
 let ultimoStato = "";
+let analisiValida = false;
 
 
 function showMessage(type,text){
+
+  messageBox.style.display = "block";
 
   messageBox.className =
     "message " +
@@ -1097,17 +871,11 @@ function showMessage(type,text){
         : "message-error"
     );
 
-  messageBox.textContent =
-    text;
-
+  messageBox.textContent = text;
 }
 
 
-function extractSection(
-  text,
-  startLabel,
-  endLabel
-){
+function extractSection(text,startLabel,endLabel){
 
   const start =
     text.indexOf(startLabel);
@@ -1121,7 +889,6 @@ function extractSection(
   let end =
     text.length;
 
-
   if(endLabel){
 
     const foundEnd =
@@ -1132,17 +899,11 @@ function extractSection(
 
     if(foundEnd !== -1)
       end = foundEnd;
-
   }
 
-
   return text
-    .slice(
-      contentStart,
-      end
-    )
+    .slice(contentStart,end)
     .trim();
-
 }
 
 
@@ -1153,36 +914,125 @@ function parseAnalysis(text){
       /STATO:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
     );
 
+  return {
 
-  const status =
-    statusMatch
-      ? statusMatch[1].toUpperCase()
-      : "";
+    status:
+      statusMatch
+        ? statusMatch[1].toUpperCase()
+        : "",
+
+    reason:
+      extractSection(
+        text,
+        "MOTIVO:",
+        "AZIONE RICHIESTA:"
+      ),
+
+    action:
+      extractSection(
+        text,
+        "AZIONE RICHIESTA:",
+        "DATI DELLA PRATICA:"
+      )
+
+  };
+}
 
 
-  const reason =
-    extractSection(
-      text,
-      "MOTIVO:",
-      "AZIONE RICHIESTA:"
-    );
-
-
-  const action =
-    extractSection(
-      text,
-      "AZIONE RICHIESTA:",
-      "DATI DELLA PRATICA:"
-    );
-
+function getFormData(azione){
 
   return {
-    status,
-    reason,
-    action
-  };
 
+    azione,
+
+    data:
+      document.getElementById("data").value,
+
+    cliente:
+      document.getElementById("cliente").value,
+
+    ritiro:
+      document.getElementById("ritiro").value,
+
+    consegna:
+      document.getElementById("consegna").value,
+
+    partenza:
+      document.getElementById("partenza").value,
+
+    indirizzoRitiro:
+      document.getElementById("indirizzoRitiro").value,
+
+    capRitiro:
+      document.getElementById("capRitiro").value,
+
+    destinazione:
+      document.getElementById("destinazione").value,
+
+    indirizzoConsegna:
+      document.getElementById("indirizzoConsegna").value,
+
+    capConsegna:
+      document.getElementById("capConsegna").value,
+
+    vettore:
+      document.getElementById("vettore").value,
+
+    tipoMerce:
+      document.getElementById("tipoMerce").value,
+
+    colli:
+      document.getElementById("colli").value,
+
+    peso:
+      document.getElementById("peso").value,
+
+    volume:
+      document.getElementById("volume").value,
+
+    note:
+      document.getElementById("note").value,
+
+    statoAI:
+      ultimoStato,
+
+    analisiAI:
+      ultimaAnalisi
+
+  };
 }
+
+
+function invalidateAnalysis(){
+
+  if(!analisiValida)
+    return;
+
+  analisiValida = false;
+
+  confirmBox.style.display =
+    "none";
+
+  showMessage(
+    "error",
+    "Hai modificato i dati. Esegui nuovamente l'analisi prima di confermare."
+  );
+
+  aiStateText.textContent =
+    "Analisi da aggiornare";
+}
+
+
+form.querySelectorAll(
+  "input, textarea"
+).forEach(field => {
+
+  field.addEventListener(
+    "input",
+    invalidateAnalysis
+  );
+
+});
 
 
 function showAIResult(result){
@@ -1190,10 +1040,8 @@ function showAIResult(result){
   aiResult.style.display =
     "block";
 
-
   aiStateText.textContent =
     "Analisi completata";
-
 
   aiStatus.textContent =
     result.status ||
@@ -1205,11 +1053,23 @@ function showAIResult(result){
     aiStatus.className =
       "ai-status ai-status-ok";
 
+    confirmNote.textContent =
+      "La pratica risulta regolare. Puoi confermarla.";
+
+    confirmButton.textContent =
+      "Conferma pratica";
+
   }
   else if(result.status === "ATTENZIONE"){
 
     aiStatus.className =
       "ai-status ai-status-warning";
+
+    confirmNote.textContent =
+      "Sono presenti elementi da verificare. Puoi correggere i dati e analizzare di nuovo oppure confermare comunque.";
+
+    confirmButton.textContent =
+      "Conferma comunque";
 
   }
   else if(result.status === "PROBLEMA"){
@@ -1217,12 +1077,23 @@ function showAIResult(result){
     aiStatus.className =
       "ai-status ai-status-error";
 
+    confirmNote.textContent =
+      "L'AI ha rilevato un problema. È consigliato correggere i dati prima della conferma.";
+
+    confirmButton.textContent =
+      "Conferma comunque";
+
   }
   else{
 
     aiStatus.className =
       "ai-status ai-status-default";
 
+    confirmNote.textContent =
+      "Controlla il risultato prima di confermare.";
+
+    confirmButton.textContent =
+      "Conferma pratica";
   }
 
 
@@ -1230,110 +1101,16 @@ function showAIResult(result){
     result.reason ||
     "Nessun motivo disponibile.";
 
-
   aiAction.textContent =
     result.action ||
     "Nessuna indicazione disponibile.";
 
+  confirmBox.style.display =
+    "block";
 }
 
 
-function getFormData(azione){
-
-  return {
-
-    azione:azione,
-
-    data:
-      document.getElementById(
-        "data"
-      ).value,
-
-    cliente:
-      document.getElementById(
-        "cliente"
-      ).value,
-
-    ritiro:
-      document.getElementById(
-        "ritiro"
-      ).value,
-
-    consegna:
-      document.getElementById(
-        "consegna"
-      ).value,
-
-    partenza:
-      document.getElementById(
-        "partenza"
-      ).value,
-
-    indirizzoRitiro:
-      document.getElementById(
-        "indirizzoRitiro"
-      ).value,
-
-    capRitiro:
-      document.getElementById(
-        "capRitiro"
-      ).value,
-
-    destinazione:
-      document.getElementById(
-        "destinazione"
-      ).value,
-
-    indirizzoConsegna:
-      document.getElementById(
-        "indirizzoConsegna"
-      ).value,
-
-    capConsegna:
-      document.getElementById(
-        "capConsegna"
-      ).value,
-
-    vettore:
-      document.getElementById(
-        "vettore"
-      ).value,
-
-    tipoMerce:
-      document.getElementById(
-        "tipoMerce"
-      ).value,
-
-    colli:
-      document.getElementById(
-        "colli"
-      ).value,
-
-    peso:
-      document.getElementById(
-        "peso"
-      ).value,
-
-    volume:
-      document.getElementById(
-        "volume"
-      ).value,
-
-    note:
-      document.getElementById(
-        "note"
-      ).value,
-
-    statoAI:
-      ultimoStato,
-
-    analisiAI:
-      ultimaAnalisi
-
-  };
-
-}
-
+/* ANALISI */
 
 form.addEventListener(
   "submit",
@@ -1341,22 +1118,18 @@ form.addEventListener(
 
     event.preventDefault();
 
-
     if(!form.checkValidity()){
 
       form.reportValidity();
-
       return;
-
     }
 
 
     messageBox.style.display =
       "none";
 
-    aiResult.style.display =
+    confirmBox.style.display =
       "none";
-
 
     submitButton.disabled =
       true;
@@ -1375,7 +1148,6 @@ form.addEventListener(
         await fetch(
           WEBHOOK_URL,
           {
-
             method:"POST",
 
             headers:{
@@ -1385,11 +1157,8 @@ form.addEventListener(
 
             body:
               JSON.stringify(
-                getFormData(
-                  "analizza"
-                )
+                getFormData("analizza")
               )
-
           }
         );
 
@@ -1397,10 +1166,8 @@ form.addEventListener(
       if(!response.ok){
 
         throw new Error(
-          "HTTP " +
-          response.status
+          "HTTP " + response.status
         );
-
       }
 
 
@@ -1422,6 +1189,10 @@ form.addEventListener(
         result.status;
 
 
+      analisiValida =
+        true;
+
+
       showAIResult(
         result
       );
@@ -1429,7 +1200,7 @@ form.addEventListener(
 
       showMessage(
         "success",
-        "Analisi completata. Controlla il risultato e modifica i dati se necessario prima di confermare la pratica."
+        "Analisi completata. La pratica non è ancora stata registrata."
       );
 
 
@@ -1437,10 +1208,8 @@ form.addEventListener(
     catch(error){
 
 
-      console.error(
-        "Errore analisi:",
-        error
-      );
+      analisiValida =
+        false;
 
 
       showMessage(
@@ -1452,7 +1221,6 @@ form.addEventListener(
 
       aiStateText.textContent =
         "Errore nell'analisi";
-
 
     }
     finally{
@@ -1469,9 +1237,145 @@ form.addEventListener(
   }
 );
 
+
+/* CONFERMA */
+
+confirmButton.addEventListener(
+  "click",
+  async function(){
+
+
+    if(!analisiValida){
+
+      showMessage(
+        "error",
+        "Esegui nuovamente l'analisi prima di confermare."
+      );
+
+      return;
+    }
+
+
+    confirmButton.disabled =
+      true;
+
+    confirmButton.textContent =
+      "Registrazione in corso...";
+
+
+    try{
+
+
+      const response =
+        await fetch(
+          WEBHOOK_URL,
+          {
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                getFormData("conferma")
+              )
+          }
+        );
+
+
+      if(!response.ok){
+
+        throw new Error(
+          "HTTP " + response.status
+        );
+      }
+
+
+      const responseText =
+        await response.text();
+
+
+      const idMatch =
+        responseText.match(
+          /ID PRATICA:\s*([^\r\n]+)/i
+        );
+
+
+      const practiceId =
+        idMatch
+          ? idMatch[1].trim()
+          : "";
+
+
+      showMessage(
+        "success",
+        practiceId
+          ? "Pratica " +
+            practiceId +
+            " confermata e registrata."
+          : "Pratica confermata e registrata."
+      );
+
+
+      if(practiceId){
+
+        setTimeout(
+          function(){
+
+            window.location.href =
+              "dettaglio-pratica.html?id=" +
+              encodeURIComponent(
+                practiceId
+              );
+
+          },
+          900
+        );
+
+      }
+      else{
+
+        setTimeout(
+          function(){
+
+            window.location.href =
+              "pratiche.html";
+
+          },
+          1200
+        );
+
+      }
+
+
+    }
+    catch(error){
+
+
+      showMessage(
+        "error",
+        "Errore durante la conferma: " +
+        error.message
+      );
+
+
+      confirmButton.disabled =
+        false;
+
+      confirmButton.textContent =
+        ultimoStato === "REGOLARE"
+          ? "Conferma pratica"
+          : "Conferma comunque";
+
+    }
+
+  }
+);
+
 </script>
 
 
 </body>
-
 </html>
