@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Dettaglio pratica | MatRi-mIA Logistics</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -296,6 +299,7 @@ footer strong{
 }
 
 @media(max-width:900px){
+
   .layout{
     grid-template-columns:1fr;
   }
@@ -303,9 +307,11 @@ footer strong{
   .ai-card{
     position:static;
   }
+
 }
 
 @media(max-width:700px){
+
   .top-header-inner{
     padding:7px 13px;
   }
@@ -329,6 +335,7 @@ footer strong{
 
   .heading{
     align-items:flex-start;
+    flex-direction:column;
   }
 
   h1{
@@ -343,179 +350,428 @@ footer strong{
     grid-column:auto;
   }
 
-  .status-badge{
-    margin-top:5px;
-  }
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <header class="top-header">
+
   <div class="top-header-inner">
 
     <a href="index.html">
+
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
-        class="logo">
+        class="logo"
+      >
+
     </a>
 
+
     <div class="header-actions">
-      <a href="pratiche.html" class="btn btn-secondary">
+
+      <a
+        href="pratiche.html"
+        class="btn btn-secondary">
         Pratiche
       </a>
 
-      <a href="nuova-pratica.html" class="btn btn-primary">
+      <a
+        href="nuova-pratica.html"
+        class="btn btn-primary">
         + Nuova pratica
       </a>
+
     </div>
 
   </div>
+
 </header>
 
+
+
 <main class="page">
+
 
 <a href="pratiche.html" class="back">
   ← Torna alle pratiche
 </a>
 
-<div id="loadingBox" class="loading">
+
+<div
+  id="loadingBox"
+  class="loading">
+
   Caricamento pratica...
+
 </div>
 
-<div id="errorBox" class="error" style="display:none"></div>
 
-<div id="content" style="display:none">
+<div
+  id="errorBox"
+  class="error"
+  style="display:none">
+</div>
+
+
+
+<div
+  id="content"
+  style="display:none">
+
 
   <div class="heading">
 
+
     <div>
+
       <div class="eyebrow">
         MATRI-MIA · DETTAGLIO PRATICA
       </div>
 
-      <h1 id="practiceId">-</h1>
+      <h1 id="practiceId">
+        -
+      </h1>
 
-      <div id="route" class="route"></div>
+      <div
+        id="route"
+        class="route">
+      </div>
+
     </div>
+
 
     <div
       id="statusBadge"
       class="status-badge status-default">
+
       -
+
     </div>
+
 
   </div>
 
+
+
   <div class="layout">
+
 
     <div>
 
-      <section class="card">
 
-        <div class="card-header">
-          <h2>Dati trasporto</h2>
-        </div>
-
-        <div class="card-body">
-
-          <div class="fields">
-
-            <div class="field">
-              <span class="label">Data</span>
-              <div id="data" class="value">-</div>
-            </div>
-
-            <div class="field">
-              <span class="label">Cliente</span>
-              <div id="cliente" class="value">-</div>
-            </div>
-
-            <div class="field">
-              <span class="label">Data/Ora Ritiro</span>
-              <div id="ritiro" class="value">-</div>
-            </div>
-
-            <div class="field">
-              <span class="label">Data/Ora Consegna</span>
-              <div id="consegna" class="value">-</div>
-            </div>
-
-            <div class="field">
-              <span class="label">Partenza</span>
-              <div id="partenza" class="value">-</div>
-            </div>
-
-            <div class="field">
-              <span class="label">Destinazione</span>
-              <div id="destinazione" class="value">-</div>
-            </div>
-
-            <div class="field wide">
-              <span class="label">Indirizzo Ritiro</span>
-              <div id="indirizzoRitiro" class="value">-</div>
-            </div>
-
-            <div class="field wide">
-              <span class="label">Indirizzo Consegna</span>
-              <div id="indirizzoConsegna" class="value">-</div>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
+      <!-- DATI TRASPORTO -->
 
       <section class="card">
 
+
         <div class="card-header">
-          <h2>Dati merce e vettore</h2>
+
+          <h2>
+            Dati trasporto
+          </h2>
+
         </div>
+
 
         <div class="card-body">
 
+
           <div class="fields">
 
-            <div class="field">
-              <span class="label">Vettore</span>
-              <div id="vettore" class="value">-</div>
-            </div>
 
             <div class="field">
-              <span class="label">Tipo merce</span>
-              <div id="merce" class="value">-</div>
+
+              <span class="label">
+                Data
+              </span>
+
+              <div
+                id="data"
+                class="value">
+                -
+              </div>
+
             </div>
+
 
             <div class="field">
-              <span class="label">Colli</span>
-              <div id="colli" class="value">-</div>
+
+              <span class="label">
+                Cliente
+              </span>
+
+              <div
+                id="cliente"
+                class="value">
+                -
+              </div>
+
             </div>
+
 
             <div class="field">
-              <span class="label">Peso</span>
-              <div id="peso" class="value">-</div>
+
+              <span class="label">
+                Data/Ora Ritiro
+              </span>
+
+              <div
+                id="ritiro"
+                class="value">
+                -
+              </div>
+
             </div>
+
 
             <div class="field">
-              <span class="label">Volume</span>
-              <div id="volume" class="value">-</div>
+
+              <span class="label">
+                Data/Ora Consegna
+              </span>
+
+              <div
+                id="consegna"
+                class="value">
+                -
+              </div>
+
             </div>
 
-            <div class="field wide">
-              <span class="label">Note operative</span>
-              <div id="note" class="value">-</div>
+
+            <div class="field">
+
+              <span class="label">
+                Partenza
+              </span>
+
+              <div
+                id="partenza"
+                class="value">
+                -
+              </div>
+
             </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                Destinazione
+              </span>
+
+              <div
+                id="destinazione"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                Indirizzo Ritiro
+              </span>
+
+              <div
+                id="indirizzoRitiro"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                CAP Ritiro
+              </span>
+
+              <div
+                id="capRitiro"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                Indirizzo Consegna
+              </span>
+
+              <div
+                id="indirizzoConsegna"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                CAP Consegna
+              </span>
+
+              <div
+                id="capConsegna"
+                class="value">
+                -
+              </div>
+
+            </div>
+
 
           </div>
 
+
         </div>
+
       </section>
+
+
+
+      <!-- MERCE E VETTORE -->
+
+      <section class="card">
+
+
+        <div class="card-header">
+
+          <h2>
+            Dati merce e vettore
+          </h2>
+
+        </div>
+
+
+        <div class="card-body">
+
+
+          <div class="fields">
+
+
+            <div class="field">
+
+              <span class="label">
+                Vettore
+              </span>
+
+              <div
+                id="vettore"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                Tipo merce
+              </span>
+
+              <div
+                id="merce"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                Colli
+              </span>
+
+              <div
+                id="colli"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                Peso
+              </span>
+
+              <div
+                id="peso"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <span class="label">
+                Volume
+              </span>
+
+              <div
+                id="volume"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+            <div class="field wide">
+
+              <span class="label">
+                Note operative
+              </span>
+
+              <div
+                id="note"
+                class="value">
+                -
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+      </section>
+
 
     </div>
 
+
+
+    <!-- ANALISI AI -->
+
     <aside class="card ai-card">
+
 
       <div class="ai-header">
 
@@ -523,80 +779,132 @@ footer strong{
           MATRI-MIA AI
         </div>
 
-        <h2>Analisi della pratica</h2>
+        <h2>
+          Analisi della pratica
+        </h2>
 
       </div>
 
-      <div id="aiContent" class="ai-content">
+
+      <div
+        id="aiContent"
+        class="ai-content">
       </div>
+
 
     </aside>
 
+
   </div>
+
 
 </div>
 
+
+
 <footer>
-  <strong>MatRi-mIA Logistics</strong>
+
+  <strong>
+    MatRi-mIA Logistics
+  </strong>
+
   · AI per trasporti e logistica
+
 </footer>
 
+
 </main>
+
+
 
 <script>
 
 const WEBHOOK_URL =
-"https://hook.eu1.make.com/05uyyblgxp9m8j72ldy4s6lc9puif86j";
+  "https://hook.eu1.make.com/05uyyblgxp9m8j72ldy4s6lc9puif86j";
 
-const params = new URLSearchParams(window.location.search);
-const requestedId = params.get("id");
 
-function getValue(obj, names){
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const requestedId =
+  params.get("id");
+
+
+function getValue(obj,names){
+
   for(const name of names){
+
     if(
       obj &&
-      Object.prototype.hasOwnProperty.call(obj,name) &&
+      Object.prototype.hasOwnProperty.call(
+        obj,
+        name
+      ) &&
       obj[name] !== null &&
       obj[name] !== undefined &&
       obj[name] !== ""
     ){
+
       return obj[name];
+
     }
+
   }
 
   return "";
+
 }
 
+
 function setValue(id,value){
-  document.getElementById(id).textContent =
-    value === "" || value === null || value === undefined
-      ? "-"
-      : value;
+
+  document
+    .getElementById(id)
+    .textContent =
+      value === "" ||
+      value === null ||
+      value === undefined
+        ? "-"
+        : value;
+
 }
+
 
 function formatDate(value){
 
-  if(!value) return "-";
+  if(!value)
+    return "-";
 
-  const date = new Date(value);
+  const date =
+    new Date(value);
 
   if(isNaN(date.getTime()))
     return value;
 
-  return date.toLocaleDateString("it-IT");
+  return date.toLocaleDateString(
+    "it-IT"
+  );
+
 }
+
 
 function formatDateTime(value){
 
-  if(!value) return "-";
+  if(!value)
+    return "-";
 
-  const date = new Date(value);
+  const date =
+    new Date(value);
 
   if(isNaN(date.getTime()))
     return value;
 
   const day =
-    date.toLocaleDateString("it-IT");
+    date.toLocaleDateString(
+      "it-IT"
+    );
 
   const time =
     date.toLocaleTimeString(
@@ -608,12 +916,16 @@ function formatDateTime(value){
     );
 
   return day + " · " + time;
+
 }
+
 
 function setStatus(status){
 
   const badge =
-    document.getElementById("statusBadge");
+    document.getElementById(
+      "statusBadge"
+    );
 
   const text =
     String(status || "-");
@@ -621,123 +933,172 @@ function setStatus(status){
   const normalized =
     text.toUpperCase();
 
-  badge.textContent = text;
+
+  badge.textContent =
+    text;
+
 
   if(
     normalized.includes("REGOLARE") ||
     normalized.includes("OK") ||
     normalized.includes("VERIFIC")
   ){
+
     badge.className =
       "status-badge status-ok";
+
   }
   else if(
     normalized.includes("ATTENZ")
   ){
+
     badge.className =
       "status-badge status-warning";
+
   }
   else if(
+    normalized.includes("PROBLEMA") ||
     normalized.includes("ERRORE") ||
     normalized.includes("BLOCC")
   ){
+
     badge.className =
       "status-badge status-error";
+
   }
   else{
+
     badge.className =
       "status-badge status-default";
+
   }
+
 }
+
 
 function parseAIAnalysis(text){
 
   const container =
-    document.getElementById("aiContent");
+    document.getElementById(
+      "aiContent"
+    );
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
+
 
   if(!text){
 
     container.innerHTML = `
       <div class="ai-section">
+
         <div class="ai-section-text">
           Nessuna analisi AI disponibile.
         </div>
+
       </div>
     `;
 
     return;
+
   }
+
 
   const normalized =
     String(text)
       .replace(/\r/g,"")
       .trim();
 
+
   const headings = [
+
     "STATO:",
     "MOTIVO:",
     "AZIONE RICHIESTA:",
     "DATI DELLA PRATICA:"
+
   ];
+
 
   const sections = [];
 
-  headings.forEach((heading,index)=>{
 
-    const start =
-      normalized.indexOf(heading);
+  headings.forEach(
+    (heading,index)=>{
 
-    if(start === -1)
-      return;
-
-    let end =
-      normalized.length;
-
-    for(
-      let i=index+1;
-      i<headings.length;
-      i++
-    ){
-
-      const next =
+      const start =
         normalized.indexOf(
-          headings[i],
-          start + heading.length
+          heading
         );
 
-      if(next !== -1){
-        end = next;
-        break;
+      if(start === -1)
+        return;
+
+
+      let end =
+        normalized.length;
+
+
+      for(
+        let i=index+1;
+        i<headings.length;
+        i++
+      ){
+
+        const next =
+          normalized.indexOf(
+            headings[i],
+            start + heading.length
+          );
+
+        if(next !== -1){
+
+          end = next;
+          break;
+
+        }
+
       }
+
+
+      const content =
+        normalized
+          .slice(
+            start + heading.length,
+            end
+          )
+          .trim();
+
+
+      sections.push({
+
+        title:
+          heading.replace(":",""),
+
+        content:
+          content
+
+      });
+
     }
+  );
 
-    const content =
-      normalized
-        .slice(
-          start + heading.length,
-          end
-        )
-        .trim();
-
-    sections.push({
-      title:heading.replace(":",""),
-      content
-    });
-
-  });
 
   if(!sections.length){
 
     const section =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     section.className =
       "ai-section";
 
+
     const content =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     content.className =
       "ai-section-text";
@@ -745,63 +1106,97 @@ function parseAIAnalysis(text){
     content.textContent =
       normalized;
 
-    section.appendChild(content);
-    container.appendChild(section);
+
+    section.appendChild(
+      content
+    );
+
+    container.appendChild(
+      section
+    );
 
     return;
+
   }
 
-  sections.forEach(sectionData=>{
 
-    const section =
-      document.createElement("div");
+  sections.forEach(
+    sectionData=>{
 
-    section.className =
-      "ai-section";
+      const section =
+        document.createElement(
+          "div"
+        );
 
-    const title =
-      document.createElement("div");
+      section.className =
+        "ai-section";
 
-    title.className =
-      "ai-section-title";
 
-    title.textContent =
-      sectionData.title;
+      const title =
+        document.createElement(
+          "div"
+        );
 
-    const content =
-      document.createElement("div");
+      title.className =
+        "ai-section-title";
 
-    content.className =
-      "ai-section-text";
+      title.textContent =
+        sectionData.title;
 
-    content.textContent =
-      sectionData.content || "-";
 
-    section.appendChild(title);
-    section.appendChild(content);
+      const content =
+        document.createElement(
+          "div"
+        );
 
-    container.appendChild(section);
+      content.className =
+        "ai-section-text";
 
-  });
+      content.textContent =
+        sectionData.content || "-";
+
+
+      section.appendChild(
+        title
+      );
+
+      section.appendChild(
+        content
+      );
+
+      container.appendChild(
+        section
+      );
+
+    }
+  );
+
 }
+
 
 function showError(message){
 
   document.getElementById(
     "loadingBox"
-  ).style.display = "none";
+  ).style.display =
+    "none";
+
 
   const box =
     document.getElementById(
       "errorBox"
     );
 
+
   box.textContent =
     "Errore: " + message;
 
+
   box.style.display =
     "block";
+
 }
+
 
 async function loadPractice(){
 
@@ -812,34 +1207,48 @@ async function loadPractice(){
     );
 
     return;
+
   }
 
+
   try{
+
 
     const response =
       await fetch(
         WEBHOOK_URL,
         {
+
           method:"GET",
+
           cache:"no-store",
+
           headers:{
-            "Accept":"application/json"
+            "Accept":
+              "application/json"
           }
+
         }
       );
+
 
     if(!response.ok){
 
       throw new Error(
-        "HTTP " + response.status
+        "HTTP " +
+        response.status
       );
+
     }
+
 
     const data =
       await response.json();
 
+
     let pratiche =
       data.pratiche;
+
 
     if(!Array.isArray(pratiche)){
 
@@ -847,26 +1256,34 @@ async function loadPractice(){
         pratiche
           ? Object.values(pratiche)
           : [];
+
     }
 
+
     const pratica =
-      pratiche.find(item=>{
+      pratiche.find(
+        item=>{
 
-        const id =
-          getValue(
-            item,
-            [
-              "ID",
-              "ID Pratica",
-              "ID Pratica (A)",
-              "id",
-              "0"
-            ]
-          );
 
-        return String(id) ===
-          String(requestedId);
-      });
+          const id =
+            getValue(
+              item,
+              [
+                "ID",
+                "ID Pratica",
+                "ID Pratica (A)",
+                "id",
+                "0"
+              ]
+            );
+
+
+          return String(id) ===
+            String(requestedId);
+
+        }
+      );
+
 
     if(!pratica){
 
@@ -875,7 +1292,15 @@ async function loadPractice(){
         requestedId +
         " non trovata."
       );
+
     }
+
+
+
+    /* =========================
+       DATI PRATICA
+    ========================= */
+
 
     const id =
       getValue(
@@ -888,6 +1313,7 @@ async function loadPractice(){
         ]
       );
 
+
     const dataPratica =
       getValue(
         pratica,
@@ -897,6 +1323,7 @@ async function loadPractice(){
           "1"
         ]
       );
+
 
     const ritiro =
       getValue(
@@ -909,6 +1336,7 @@ async function loadPractice(){
         ]
       );
 
+
     const consegna =
       getValue(
         pratica,
@@ -920,6 +1348,7 @@ async function loadPractice(){
         ]
       );
 
+
     const partenza =
       getValue(
         pratica,
@@ -929,6 +1358,7 @@ async function loadPractice(){
           "4"
         ]
       );
+
 
     const indirizzoRitiro =
       getValue(
@@ -941,15 +1371,29 @@ async function loadPractice(){
         ]
       );
 
+
+    const capRitiro =
+      getValue(
+        pratica,
+        [
+          "CAPRitiro",
+          "CAP Ritiro",
+          "CAP Ritiro (G)",
+          "6"
+        ]
+      );
+
+
     const destinazione =
       getValue(
         pratica,
         [
           "Destinazione",
-          "Destinazione (G)",
-          "6"
+          "Destinazione (H)",
+          "7"
         ]
       );
+
 
     const indirizzoConsegna =
       getValue(
@@ -957,30 +1401,45 @@ async function loadPractice(){
         [
           "IndirizzoConsegna",
           "Indirizzo Consegna",
-          "Indirizzo Consegna (H)",
-          "7"
+          "Indirizzo Consegna (I)",
+          "8"
         ]
       );
+
+
+    const capConsegna =
+      getValue(
+        pratica,
+        [
+          "CAPConsegna",
+          "CAP Consegna",
+          "CAP Consegna (J)",
+          "9"
+        ]
+      );
+
 
     const cliente =
       getValue(
         pratica,
         [
           "Cliente",
-          "Cliente (I)",
-          "8"
+          "Cliente (K)",
+          "10"
         ]
       );
+
 
     const vettore =
       getValue(
         pratica,
         [
           "Vettore",
-          "Vettore (J)",
-          "9"
+          "Vettore (L)",
+          "11"
         ]
       );
+
 
     const merce =
       getValue(
@@ -988,20 +1447,22 @@ async function loadPractice(){
         [
           "TipoMerce",
           "Tipo Merce",
-          "Tipo Merce (K)",
-          "10"
+          "Tipo Merce (M)",
+          "12"
         ]
       );
+
 
     const colli =
       getValue(
         pratica,
         [
           "Colli",
-          "Colli (L)",
-          "11"
+          "Colli (N)",
+          "13"
         ]
       );
+
 
     const peso =
       getValue(
@@ -1009,10 +1470,11 @@ async function loadPractice(){
         [
           "PesoKg",
           "Peso kg",
-          "Peso kg (M)",
-          "12"
+          "Peso kg (O)",
+          "14"
         ]
       );
+
 
     const volume =
       getValue(
@@ -1020,10 +1482,11 @@ async function loadPractice(){
         [
           "VolumeM3",
           "Volume m³",
-          "Volume m³ (N)",
-          "13"
+          "Volume m³ (P)",
+          "15"
         ]
       );
+
 
     const note =
       getValue(
@@ -1031,10 +1494,11 @@ async function loadPractice(){
         [
           "NoteOperative",
           "Note Operative",
-          "Note Operative (O)",
-          "14"
+          "Note Operative (Q)",
+          "16"
         ]
       );
+
 
     const stato =
       getValue(
@@ -1042,10 +1506,11 @@ async function loadPractice(){
         [
           "Stato",
           "Stato AI",
-          "Stato AI (P)",
-          "15"
+          "Stato AI (R)",
+          "17"
         ]
       );
+
 
     const analisi =
       getValue(
@@ -1053,14 +1518,23 @@ async function loadPractice(){
         [
           "AnalisiAI",
           "Analisi AI",
-          "Analisi AI (Q)",
-          "16"
+          "Analisi AI (S)",
+          "18"
         ]
       );
 
+
+
+    /* =========================
+       VISUALIZZAZIONE
+    ========================= */
+
+
     document.getElementById(
       "practiceId"
-    ).textContent = id || "-";
+    ).textContent =
+      id || "-";
+
 
     document.getElementById(
       "route"
@@ -1069,62 +1543,95 @@ async function loadPractice(){
       " → " +
       (destinazione || "-");
 
-    setStatus(stato);
+
+    setStatus(
+      stato
+    );
+
 
     setValue(
       "data",
-      formatDate(dataPratica)
+      formatDate(
+        dataPratica
+      )
     );
+
 
     setValue(
       "cliente",
       cliente
     );
 
+
     setValue(
       "ritiro",
-      formatDateTime(ritiro)
+      formatDateTime(
+        ritiro
+      )
     );
+
 
     setValue(
       "consegna",
-      formatDateTime(consegna)
+      formatDateTime(
+        consegna
+      )
     );
+
 
     setValue(
       "partenza",
       partenza
     );
 
+
     setValue(
       "destinazione",
       destinazione
     );
+
 
     setValue(
       "indirizzoRitiro",
       indirizzoRitiro
     );
 
+
+    setValue(
+      "capRitiro",
+      capRitiro
+    );
+
+
     setValue(
       "indirizzoConsegna",
       indirizzoConsegna
     );
+
+
+    setValue(
+      "capConsegna",
+      capConsegna
+    );
+
 
     setValue(
       "vettore",
       vettore
     );
 
+
     setValue(
       "merce",
       merce
     );
 
+
     setValue(
       "colli",
       colli
     );
+
 
     setValue(
       "peso",
@@ -1133,6 +1640,7 @@ async function loadPractice(){
         : "-"
     );
 
+
     setValue(
       "volume",
       volume
@@ -1140,37 +1648,53 @@ async function loadPractice(){
         : "-"
     );
 
+
     setValue(
       "note",
       note
     );
 
+
     parseAIAnalysis(
       analisi
     );
 
+
     document.getElementById(
       "loadingBox"
-    ).style.display = "none";
+    ).style.display =
+      "none";
+
 
     document.getElementById(
       "content"
-    ).style.display = "block";
+    ).style.display =
+      "block";
+
 
   }
   catch(error){
 
-    console.error(error);
+
+    console.error(
+      error
+    );
+
 
     showError(
       error.message
     );
+
   }
+
 }
+
 
 loadPractice();
 
 </script>
 
+
 </body>
+
 </html>
