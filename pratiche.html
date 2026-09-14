@@ -845,9 +845,14 @@
 
       row.innerHTML = `
 
-        <td class="id-pratica">
-          ${escapeHtml(pratica.id || "-")}
-        </td>
+       <td class="id-pratica">
+  <a
+    href="dettaglio-pratica.html?id=${encodeURIComponent(pratica.id || "")}"
+    style="color:#13375f;font-weight:900;text-decoration:none;"
+  >
+    ${escapeHtml(pratica.id || "-")}
+  </a>
+</td>
 
         <td>
           ${escapeHtml(
