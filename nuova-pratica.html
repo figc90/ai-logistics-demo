@@ -1,244 +1,900 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI Logistics - Nuova pratica</title>
+<title>Nuova pratica | MatRi-mIA Logistics</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
 
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f4f6f8;
-        color: #222;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    .container {
-        max-width: 700px;
-        margin: 40px auto;
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+}
 
-    h1 {
-        margin-top: 0;
-        margin-bottom: 8px;
-        font-size: 28px;
-    }
+a{
+  text-decoration:none;
+}
 
-    .subtitle {
-        color: #666;
-        margin-bottom: 30px;
-    }
+input,
+textarea,
+select,
+button{
+  font:inherit;
+}
 
-    label {
-        display: block;
-        margin-top: 16px;
-        margin-bottom: 6px;
-        font-weight: bold;
-    }
+.top-header{
+  background:#fff;
+  border-bottom:1px solid #e5eaf0;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
 
-    input {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 16px;
-    }
+.top-header-inner{
+  max-width:1280px;
+  margin:auto;
+  padding:8px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
 
-    button {
-        width: 100%;
-        margin-top: 25px;
-        padding: 14px;
-        border: none;
-        border-radius: 6px;
-        background: #111;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+.logo{
+  width:175px;
+  height:auto;
+  display:block;
+}
 
-    button:hover {
-        background: #333;
-    }
+.header-actions{
+  display:flex;
+  gap:10px;
+}
 
-    #risultato {
-        margin-top: 25px;
-        padding: 18px;
-        background: #f1f3f5;
-        border-radius: 8px;
-        white-space: pre-wrap;
-        line-height: 1.5;
-    }
+.btn{
+  min-height:42px;
+  padding:0 16px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:800;
+  border:none;
+  cursor:pointer;
+}
+
+.btn-secondary{
+  background:#eef3f8;
+  color:#173459;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+}
+
+.page{
+  max-width:1280px;
+  margin:auto;
+  padding:30px 22px 60px;
+}
+
+.back{
+  display:inline-block;
+  color:#2ca9d2;
+  font-size:14px;
+  font-weight:800;
+  margin-bottom:22px;
+}
+
+.heading{
+  margin-bottom:26px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2.2px;
+  margin-bottom:8px;
+}
+
+h1{
+  color:#10284a;
+  font-size:46px;
+  line-height:1;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:#758399;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(300px,1fr);
+  gap:20px;
+  align-items:start;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e1e7ee;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 12px 32px rgba(19,40,74,.06);
+}
+
+.card + .card{
+  margin-top:20px;
+}
+
+.card-header{
+  padding:20px 22px;
+  border-bottom:1px solid #edf0f4;
+}
+
+.card-header h2{
+  color:#173459;
+  font-size:20px;
+}
+
+.card-header p{
+  margin-top:5px;
+  color:#8795a8;
+  font-size:13px;
+}
+
+.card-body{
+  padding:22px;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.wide{
+  grid-column:1 / -1;
+}
+
+label{
+  color:#65758b;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  border:1px solid #dce3eb;
+  background:#f9fbfd;
+  color:#24384f;
+  border-radius:11px;
+  padding:12px 13px;
+  outline:none;
+  transition:.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#4ec5e6;
+  box-shadow:0 0 0 3px rgba(78,197,230,.10);
+  background:#fff;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.ai-card{
+  position:sticky;
+  top:78px;
+}
+
+.ai-header{
+  background:linear-gradient(135deg,#0b1d3a,#123b67);
+  padding:20px 22px;
+  color:white;
+}
+
+.ai-label{
+  color:#55c9e9;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:6px;
+}
+
+.ai-header h2{
+  font-size:21px;
+}
+
+.ai-content{
+  padding:22px;
+}
+
+.ai-state{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.ai-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#55c9e9;
+  box-shadow:0 0 12px rgba(85,201,233,.7);
+}
+
+.ai-state strong{
+  color:#173459;
+  font-size:15px;
+}
+
+.ai-text{
+  color:#5b6a80;
+  font-size:14px;
+  line-height:1.65;
+}
+
+.ai-checklist{
+  margin-top:22px;
+  display:grid;
+  gap:12px;
+}
+
+.ai-check{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+
+.ai-check-icon{
+  width:24px;
+  height:24px;
+  border-radius:7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#edf8fc;
+  color:#2ca9d2;
+  font-weight:900;
+  flex:0 0 auto;
+}
+
+.ai-check span{
+  color:#58667a;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.actions-bar{
+  margin-top:22px;
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.actions-bar .btn{
+  min-height:50px;
+  padding:0 22px;
+}
+
+.save-btn{
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+}
+
+.cancel-btn{
+  background:#edf2f7;
+  color:#173459;
+}
+
+footer{
+  text-align:center;
+  padding:35px 20px 0;
+  color:#8894a5;
+  font-size:13px;
+}
+
+footer strong{
+  color:#173459;
+}
+
+@media(max-width:900px){
+
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .ai-card{
+    position:static;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .top-header-inner{
+    padding:7px 13px;
+  }
+
+  .logo{
+    width:145px;
+  }
+
+  .header-actions .btn-secondary{
+    display:none;
+  }
+
+  .page{
+    padding:24px 13px 45px;
+  }
+
+  h1{
+    font-size:36px;
+  }
+
+  .fields{
+    grid-template-columns:1fr;
+  }
+
+  .field.wide{
+    grid-column:auto;
+  }
+
+  .actions-bar{
+    flex-direction:column-reverse;
+  }
+
+  .actions-bar .btn{
+    width:100%;
+  }
+
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<header class="top-header">
 
-    <h1>Nuova pratica</h1>
+  <div class="top-header-inner">
 
-    <div class="subtitle">
-        Inserisci i dati della spedizione. L'AI analizzerà la pratica e segnalerà eventuali problemi.
+    <a href="index.html">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics"
+        class="logo"
+      >
+
+    </a>
+
+    <div class="header-actions">
+
+      <a
+        href="pratiche.html"
+        class="btn btn-secondary">
+        Pratiche
+      </a>
+
     </div>
 
-    <label>Data</label>
-    <input type="text" id="data" value="10/09/2026">
-        <label>Data e ora ritiro</label>
-<input type="datetime-local" id="data_ora_ritiro">
+  </div>
 
-    <label>Tipo merce</label>
-    <input type="text" id="tipo_merce" value="Materiale generico">
+</header>
 
-    <label>Colli</label>
-    <input type="number" id="colli" value="3">
-        
-<label>Peso totale (kg)</label>
-<input type="number" id="peso_totale" step="0.1" min="0">
 
-   <label>Volume totale (m³)</label>
-<input type="number" id="volume_totale" step="0.01" min="0">
+<main class="page">
 
-   <label>Note operative</label>
-<textarea id="note_operative" rows="4" placeholder="Inserisci eventuali istruzioni o note per il trasporto"></textarea>
-   
-    <label>Cliente</label>
-    <input type="text" id="cliente" value="Cliente Test">
+<a href="pratiche.html" class="back">
+  ← Torna alle pratiche
+</a>
 
-    <label>Vettore</label>
-    <input type="text" id="vettore" value="Vettore Test">
 
-    <label>Partenza</label>
-<input type="text" id="partenza" value="Milano">
+<div class="heading">
 
-<label>Indirizzo di ritiro</label>
-<input type="text" id="indirizzo_ritiro" value="Via Roma 10, Milano">
+  <div class="eyebrow">
+    MATRI-MIA · NUOVA PRATICA
+  </div>
 
-<label>Destinazione</label>
-<input type="text" id="destinazione" value="Bergamo">
-    <label>Data e ora consegna</label>
-<input type="datetime-local" id="data_ora_consegna">
+  <h1>
+    Nuova pratica
+  </h1>
 
-<label>Indirizzo di consegna</label>
-<input type="text" id="indirizzo_consegna" value="Via Milano 20, Bergamo">
-
-    <button onclick="analizzaPratica()">
-        ANALIZZA PRATICA
-    </button>
-
-    <div id="stato"></div>
-
-<div id="risultato">
-    Il risultato dell'analisi AI comparirà qui.
-</div>
+  <div class="subtitle">
+    Inserisci i dati della richiesta di trasporto.
+    MatRi-mIA li analizzerà prima della registrazione.
+  </div>
 
 </div>
+
+
+<form id="practiceForm">
+
+<div class="layout">
+
+<div>
+
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+      Dati trasporto
+    </h2>
+
+    <p>
+      Informazioni principali relative a ritiro e consegna.
+    </p>
+
+  </div>
+
+  <div class="card-body">
+
+    <div class="fields">
+
+
+      <div class="field">
+
+        <label for="data">
+          Data
+        </label>
+
+        <input
+          id="data"
+          name="data"
+          type="date"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cliente">
+          Cliente
+        </label>
+
+        <input
+          id="cliente"
+          name="cliente"
+          type="text"
+          placeholder="Es. Cliente Test"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="ritiro">
+          Data/Ora Ritiro
+        </label>
+
+        <input
+          id="ritiro"
+          name="ritiro"
+          type="datetime-local"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="consegna">
+          Data/Ora Consegna
+        </label>
+
+        <input
+          id="consegna"
+          name="consegna"
+          type="datetime-local"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="partenza">
+          Partenza
+        </label>
+
+        <input
+          id="partenza"
+          name="partenza"
+          type="text"
+          placeholder="Es. Milano"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="destinazione">
+          Destinazione
+        </label>
+
+        <input
+          id="destinazione"
+          name="destinazione"
+          type="text"
+          placeholder="Es. Bergamo"
+          required
+        >
+
+      </div>
+
+
+      <div class="field wide">
+
+        <label for="indirizzoRitiro">
+          Indirizzo Ritiro
+        </label>
+
+        <input
+          id="indirizzoRitiro"
+          name="indirizzoRitiro"
+          type="text"
+          placeholder="Es. Via Roma 10, Milano"
+        >
+
+      </div>
+
+
+      <div class="field wide">
+
+        <label for="indirizzoConsegna">
+          Indirizzo Consegna
+        </label>
+
+        <input
+          id="indirizzoConsegna"
+          name="indirizzoConsegna"
+          type="text"
+          placeholder="Es. Via Milano 20, Bergamo"
+        >
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+      Merce e vettore
+    </h2>
+
+    <p>
+      Dati utili alla gestione operativa del trasporto.
+    </p>
+
+  </div>
+
+  <div class="card-body">
+
+    <div class="fields">
+
+
+      <div class="field">
+
+        <label for="vettore">
+          Vettore
+        </label>
+
+        <input
+          id="vettore"
+          name="vettore"
+          type="text"
+          placeholder="Es. Vettore Test"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="tipoMerce">
+          Tipo Merce
+        </label>
+
+        <input
+          id="tipoMerce"
+          name="tipoMerce"
+          type="text"
+          placeholder="Es. Materiale generico"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="colli">
+          Colli
+        </label>
+
+        <input
+          id="colli"
+          name="colli"
+          type="number"
+          min="0"
+          step="1"
+          placeholder="Es. 3"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="peso">
+          Peso kg
+        </label>
+
+        <input
+          id="peso"
+          name="peso"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="Es. 100"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="volume">
+          Volume m³
+        </label>
+
+        <input
+          id="volume"
+          name="volume"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="Es. 2.5"
+        >
+
+      </div>
+
+
+      <div class="field wide">
+
+        <label for="note">
+          Note Operative
+        </label>
+
+        <textarea
+          id="note"
+          name="note"
+          placeholder="Inserisci eventuali indicazioni operative..."
+        ></textarea>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<div class="actions-bar">
+
+  <a
+    href="pratiche.html"
+    class="btn cancel-btn">
+    Annulla
+  </a>
+
+  <button
+    type="submit"
+    class="btn save-btn">
+    Salva e analizza pratica
+  </button>
+
+</div>
+
+
+</div>
+
+
+
+<aside class="card ai-card">
+
+  <div class="ai-header">
+
+    <div class="ai-label">
+      MATRI-MIA AI
+    </div>
+
+    <h2>
+      Controllo pratica
+    </h2>
+
+  </div>
+
+  <div class="ai-content">
+
+
+    <div class="ai-state">
+
+      <div class="ai-dot"></div>
+
+      <strong>
+        AI pronta
+      </strong>
+
+    </div>
+
+
+    <div class="ai-text">
+
+      Dopo il salvataggio MatRi-mIA controllerà
+      i dati inseriti e potrà evidenziare
+      informazioni mancanti o potenziali
+      incongruenze operative.
+
+    </div>
+
+
+    <div class="ai-checklist">
+
+
+      <div class="ai-check">
+
+        <div class="ai-check-icon">
+          ✓
+        </div>
+
+        <span>
+          Controllo date e orari di ritiro e consegna.
+        </span>
+
+      </div>
+
+
+      <div class="ai-check">
+
+        <div class="ai-check-icon">
+          ✓
+        </div>
+
+        <span>
+          Verifica dei principali dati del trasporto.
+        </span>
+
+      </div>
+
+
+      <div class="ai-check">
+
+        <div class="ai-check-icon">
+          ✓
+        </div>
+
+        <span>
+          Analisi di peso, volume, colli e merce.
+        </span>
+
+      </div>
+
+
+      <div class="ai-check">
+
+        <div class="ai-check-icon">
+          ✓
+        </div>
+
+        <span>
+          Creazione automatica dello stato AI.
+        </span>
+
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+</aside>
+
+
+</div>
+
+</form>
+
+
+<footer>
+
+  <strong>
+    MatRi-mIA Logistics
+  </strong>
+
+  · AI per trasporti e logistica
+
+</footer>
+
+
+</main>
+
 
 <script>
 
-async function analizzaPratica() {
+const form =
+  document.getElementById("practiceForm");
 
-    const risultato = document.getElementById("risultato");
+form.addEventListener(
+  "submit",
+  function(event){
 
-    risultato.innerText = "Analisi AI in corso...";
-   document.getElementById("stato").innerText = "";
+    event.preventDefault();
 
-    const dati = {
-    data: document.getElementById("data").value,
-    data_ora_ritiro: document.getElementById("data_ora_ritiro").value,
-    tipo_merce: document.getElementById("tipo_merce").value,
-    colli: document.getElementById("colli").value,
-    peso_totale: document.getElementById("peso_totale").value,
-    volume_totale: document.getElementById("volume_totale").value,
-    note_operative: document.getElementById("note_operative").value,
-    cliente: document.getElementById("cliente").value,
-    vettore: document.getElementById("vettore").value,
-    partenza: document.getElementById("partenza").value,
-    indirizzo_ritiro: document.getElementById("indirizzo_ritiro").value,
-    destinazione: document.getElementById("destinazione").value,
-    data_ora_consegna: document.getElementById("data_ora_consegna").value,
-    indirizzo_consegna: document.getElementById("indirizzo_consegna").value
-};
+    alert(
+      "Interfaccia completata. Nel prossimo passaggio collegheremo questa pratica a Make per salvarla e analizzarla automaticamente."
+    );
 
-    try {
-
-        const response = await fetch("https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit", {
-            method: "POST",
-            body: new URLSearchParams(dati)
-        });
-
-        if (!response.ok) {
-            throw new Error("Errore HTTP: " + response.status);
-        }
-const risposta = await response.text();
- 
-console.log("RISPOSTA MAKE:", risposta);
-
-// Recupera l'ID pratica
-const matchId = risposta.match(/ID PRATICA:\s*(#[0-9]{4}-\d+)/);
-const idPratica = matchId ? matchId[1] : "";
-
-// Recupera la parte dell'analisi
-const indiceStato = risposta.indexOf("STATO:");
-
-let analisi = "";
-
-if (indiceStato !== -1) {
-    analisi = risposta.substring(indiceStato).trim();
-} else {
-    analisi = risposta.trim();
-}
-
-// Mostra ID + analisi
-if (idPratica) {
-    risultato.innerText = idPratica + "\n\n" + analisi;
-} else {
-    risultato.innerText = analisi;
-}
-
-// Gestione dello stato
-const stato = document.getElementById("stato");
-
-if (risposta.includes("STATO: REGOLARE")) {
-    stato.innerText = "🟢 REGOLARE";
-    stato.style.color = "green";
-}
-
-else if (risposta.includes("STATO: ATTENZIONE")) {
-    stato.innerText = "🟠 ATTENZIONE";
-    stato.style.color = "orange";
-}
-
-else if (risposta.includes("STATO: PROBLEMA")) {
-    stato.innerText = "🔴 PROBLEMA";
-    stato.style.color = "red";
-}
-
-else {
-    stato.innerText = "";
-}
-
-    } catch (errore) {
-
-        console.error(errore);
-
-        risultato.innerText =
-            "Errore nel collegamento con l'AI.\n\n" +
-            "Controlla il webhook Make e la configurazione dello scenario.";
-
-    }
-}
+  }
+);
 
 </script>
+
 
 </body>
 </html>
