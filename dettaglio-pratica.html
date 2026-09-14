@@ -47,7 +47,6 @@ a{
 
 .logo{
   width:175px;
-  height:auto;
   display:block;
 }
 
@@ -94,16 +93,20 @@ a{
 .heading{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  gap:20px;
+  align-items:flex-start;
+  gap:30px;
   margin-bottom:25px;
+}
+
+.heading-main{
+  min-width:0;
 }
 
 .eyebrow{
   color:#2ca9d2;
   font-size:12px;
   font-weight:900;
-  letter-spacing:2.2px;
+  letter-spacing:2px;
   margin-bottom:8px;
 }
 
@@ -119,12 +122,23 @@ h1{
   font-size:16px;
 }
 
+.status-area{
+  display:flex;
+  justify-content:flex-end;
+  flex-shrink:0;
+  padding-top:8px;
+}
+
 .status-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   padding:10px 15px;
   border-radius:999px;
   font-size:12px;
   font-weight:900;
   white-space:nowrap;
+  max-width:220px;
 }
 
 .status-warning{
@@ -149,7 +163,7 @@ h1{
 
 .layout{
   display:grid;
-  grid-template-columns:minmax(0,2fr) minmax(320px,1fr);
+  grid-template-columns:minmax(0,2fr) minmax(340px,1fr);
   gap:20px;
   align-items:start;
 }
@@ -224,7 +238,7 @@ h1{
 .ai-header{
   background:linear-gradient(135deg,#0b1d3a,#123b67);
   padding:20px 22px;
-  color:white;
+  color:#fff;
 }
 
 .ai-label{
@@ -255,7 +269,7 @@ h1{
   color:#2ca9d2;
   font-size:11px;
   font-weight:900;
-  letter-spacing:1.4px;
+  letter-spacing:1.3px;
   margin-bottom:8px;
 }
 
@@ -324,18 +338,18 @@ footer strong{
     display:none;
   }
 
-  .btn{
-    padding:0 12px;
-    font-size:13px;
-  }
-
   .page{
     padding:24px 13px 45px;
   }
 
   .heading{
-    align-items:flex-start;
     flex-direction:column;
+    gap:15px;
+  }
+
+  .status-area{
+    justify-content:flex-start;
+    padding-top:0;
   }
 
   h1{
@@ -365,15 +379,11 @@ footer strong{
   <div class="top-header-inner">
 
     <a href="index.html">
-
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
-        class="logo"
-      >
-
+        class="logo">
     </a>
-
 
     <div class="header-actions">
 
@@ -400,7 +410,9 @@ footer strong{
 <main class="page">
 
 
-<a href="pratiche.html" class="back">
+<a
+  href="pratiche.html"
+  class="back">
   ← Torna alle pratiche
 </a>
 
@@ -408,9 +420,7 @@ footer strong{
 <div
   id="loadingBox"
   class="loading">
-
   Caricamento pratica...
-
 </div>
 
 
@@ -421,7 +431,6 @@ footer strong{
 </div>
 
 
-
 <div
   id="content"
   style="display:none">
@@ -430,7 +439,7 @@ footer strong{
   <div class="heading">
 
 
-    <div>
+    <div class="heading-main">
 
       <div class="eyebrow">
         MATRI-MIA · DETTAGLIO PRATICA
@@ -448,11 +457,13 @@ footer strong{
     </div>
 
 
-    <div
-      id="statusBadge"
-      class="status-badge status-default">
+    <div class="status-area">
 
-      -
+      <div
+        id="statusBadge"
+        class="status-badge status-default">
+        -
+      </div>
 
     </div>
 
@@ -467,178 +478,78 @@ footer strong{
     <div>
 
 
-      <!-- DATI TRASPORTO -->
-
       <section class="card">
 
-
         <div class="card-header">
-
-          <h2>
-            Dati trasporto
-          </h2>
-
+          <h2>Dati trasporto</h2>
         </div>
 
-
         <div class="card-body">
-
 
           <div class="fields">
 
 
             <div class="field">
-
-              <span class="label">
-                Data
-              </span>
-
-              <div
-                id="data"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Data</span>
+              <div id="data" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Cliente
-              </span>
-
-              <div
-                id="cliente"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Cliente</span>
+              <div id="cliente" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Data/Ora Ritiro
-              </span>
-
-              <div
-                id="ritiro"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Data/Ora Ritiro</span>
+              <div id="ritiro" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Data/Ora Consegna
-              </span>
-
-              <div
-                id="consegna"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Data/Ora Consegna</span>
+              <div id="consegna" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Partenza
-              </span>
-
-              <div
-                id="partenza"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Partenza</span>
+              <div id="partenza" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Destinazione
-              </span>
-
-              <div
-                id="destinazione"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Destinazione</span>
+              <div id="destinazione" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Indirizzo Ritiro
-              </span>
-
-              <div
-                id="indirizzoRitiro"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Indirizzo Ritiro</span>
+              <div id="indirizzoRitiro" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                CAP Ritiro
-              </span>
-
-              <div
-                id="capRitiro"
-                class="value">
-                -
-              </div>
-
+              <span class="label">CAP Ritiro</span>
+              <div id="capRitiro" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Indirizzo Consegna
-              </span>
-
-              <div
-                id="indirizzoConsegna"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Indirizzo Consegna</span>
+              <div id="indirizzoConsegna" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                CAP Consegna
-              </span>
-
-              <div
-                id="capConsegna"
-                class="value">
-                -
-              </div>
-
+              <span class="label">CAP Consegna</span>
+              <div id="capConsegna" class="value">-</div>
             </div>
 
 
           </div>
-
 
         </div>
 
@@ -646,118 +557,54 @@ footer strong{
 
 
 
-      <!-- MERCE E VETTORE -->
-
       <section class="card">
 
-
         <div class="card-header">
-
-          <h2>
-            Dati merce e vettore
-          </h2>
-
+          <h2>Dati merce e vettore</h2>
         </div>
 
-
         <div class="card-body">
-
 
           <div class="fields">
 
 
             <div class="field">
-
-              <span class="label">
-                Vettore
-              </span>
-
-              <div
-                id="vettore"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Vettore</span>
+              <div id="vettore" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Tipo merce
-              </span>
-
-              <div
-                id="merce"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Tipo merce</span>
+              <div id="merce" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Colli
-              </span>
-
-              <div
-                id="colli"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Colli</span>
+              <div id="colli" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Peso
-              </span>
-
-              <div
-                id="peso"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Peso</span>
+              <div id="peso" class="value">-</div>
             </div>
 
 
             <div class="field">
-
-              <span class="label">
-                Volume
-              </span>
-
-              <div
-                id="volume"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Volume</span>
+              <div id="volume" class="value">-</div>
             </div>
 
 
             <div class="field wide">
-
-              <span class="label">
-                Note operative
-              </span>
-
-              <div
-                id="note"
-                class="value">
-                -
-              </div>
-
+              <span class="label">Note operative</span>
+              <div id="note" class="value">-</div>
             </div>
 
 
           </div>
-
 
         </div>
 
@@ -768,10 +615,7 @@ footer strong{
 
 
 
-    <!-- ANALISI AI -->
-
     <aside class="card ai-card">
-
 
       <div class="ai-header">
 
@@ -785,12 +629,10 @@ footer strong{
 
       </div>
 
-
       <div
         id="aiContent"
         class="ai-content">
       </div>
-
 
     </aside>
 
@@ -801,15 +643,9 @@ footer strong{
 </div>
 
 
-
 <footer>
-
-  <strong>
-    MatRi-mIA Logistics
-  </strong>
-
+  <strong>MatRi-mIA Logistics</strong>
   · AI per trasporti e logistica
-
 </footer>
 
 
@@ -838,17 +674,12 @@ function getValue(obj,names){
 
     if(
       obj &&
-      Object.prototype.hasOwnProperty.call(
-        obj,
-        name
-      ) &&
+      Object.prototype.hasOwnProperty.call(obj,name) &&
       obj[name] !== null &&
       obj[name] !== undefined &&
       obj[name] !== ""
     ){
-
       return obj[name];
-
     }
 
   }
@@ -883,9 +714,7 @@ function formatDate(value){
   if(isNaN(date.getTime()))
     return value;
 
-  return date.toLocaleDateString(
-    "it-IT"
-  );
+  return date.toLocaleDateString("it-IT");
 
 }
 
@@ -902,9 +731,7 @@ function formatDateTime(value){
     return value;
 
   const day =
-    date.toLocaleDateString(
-      "it-IT"
-    );
+    date.toLocaleDateString("it-IT");
 
   const time =
     date.toLocaleTimeString(
@@ -920,6 +747,157 @@ function formatDateTime(value){
 }
 
 
+function cleanStatus(value){
+
+  const text =
+    String(value || "")
+      .toUpperCase();
+
+  if(text.includes("PROBLEMA"))
+    return "PROBLEMA";
+
+  if(text.includes("ATTENZIONE"))
+    return "ATTENZIONE";
+
+  if(text.includes("REGOLARE"))
+    return "REGOLARE";
+
+  return "";
+
+}
+
+
+function looksLikeAnalysis(value){
+
+  const text =
+    String(value || "")
+      .toUpperCase();
+
+  return (
+    text.includes("STATO:") &&
+    text.includes("MOTIVO:")
+  );
+
+}
+
+
+function findStatus(pratica){
+
+  const candidates = [
+
+    pratica.StatoAI,
+    pratica.statoAI,
+    pratica.Stato,
+    pratica["Stato AI"],
+
+    pratica["16"],
+    pratica["17"],
+    pratica["18"]
+
+  ];
+
+
+  for(const value of candidates){
+
+    if(!value)
+      continue;
+
+    const text =
+      String(value).trim();
+
+    if(
+      text === "REGOLARE" ||
+      text === "ATTENZIONE" ||
+      text === "PROBLEMA"
+    ){
+      return text;
+    }
+
+  }
+
+
+  for(const value of candidates){
+
+    const status =
+      cleanStatus(value);
+
+    if(status)
+      return status;
+
+  }
+
+
+  return "";
+
+}
+
+
+function findAnalysis(pratica){
+
+  const candidates = [
+
+    pratica.AnalisiAI,
+    pratica.analisiAI,
+    pratica["Analisi AI"],
+
+    pratica["16"],
+    pratica["17"],
+    pratica["18"]
+
+  ];
+
+
+  for(const value of candidates){
+
+    if(
+      value &&
+      looksLikeAnalysis(value)
+    ){
+      return value;
+    }
+
+  }
+
+
+  return "";
+
+}
+
+
+function findNotes(pratica){
+
+  const named =
+    getValue(
+      pratica,
+      [
+        "NoteOperative",
+        "Note Operative",
+        "Note Operative (Q)"
+      ]
+    );
+
+  if(named)
+    return named;
+
+
+  const candidate =
+    pratica["16"];
+
+
+  if(
+    candidate &&
+    !looksLikeAnalysis(candidate) &&
+    !cleanStatus(candidate)
+  ){
+    return candidate;
+  }
+
+
+  return "";
+
+}
+
+
 function setStatus(status){
 
   const badge =
@@ -927,40 +905,27 @@ function setStatus(status){
       "statusBadge"
     );
 
-  const text =
-    String(status || "-");
-
   const normalized =
-    text.toUpperCase();
+    cleanStatus(status);
 
 
   badge.textContent =
-    text;
+    normalized || "-";
 
 
-  if(
-    normalized.includes("REGOLARE") ||
-    normalized.includes("OK") ||
-    normalized.includes("VERIFIC")
-  ){
+  if(normalized === "REGOLARE"){
 
     badge.className =
       "status-badge status-ok";
 
   }
-  else if(
-    normalized.includes("ATTENZ")
-  ){
+  else if(normalized === "ATTENZIONE"){
 
     badge.className =
       "status-badge status-warning";
 
   }
-  else if(
-    normalized.includes("PROBLEMA") ||
-    normalized.includes("ERRORE") ||
-    normalized.includes("BLOCC")
-  ){
+  else if(normalized === "PROBLEMA"){
 
     badge.className =
       "status-badge status-error";
@@ -983,19 +948,16 @@ function parseAIAnalysis(text){
       "aiContent"
     );
 
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
 
   if(!text){
 
     container.innerHTML = `
       <div class="ai-section">
-
         <div class="ai-section-text">
           Nessuna analisi AI disponibile.
         </div>
-
       </div>
     `;
 
@@ -1011,12 +973,10 @@ function parseAIAnalysis(text){
 
 
   const headings = [
-
     "STATO:",
     "MOTIVO:",
     "AZIONE RICHIESTA:",
     "DATI DELLA PRATICA:"
-
   ];
 
 
@@ -1026,10 +986,12 @@ function parseAIAnalysis(text){
   headings.forEach(
     (heading,index)=>{
 
+
       const start =
         normalized.indexOf(
           heading
         );
+
 
       if(start === -1)
         return;
@@ -1051,6 +1013,7 @@ function parseAIAnalysis(text){
             start + heading.length
           );
 
+
         if(next !== -1){
 
           end = next;
@@ -1061,24 +1024,21 @@ function parseAIAnalysis(text){
       }
 
 
-      const content =
-        normalized
-          .slice(
-            start + heading.length,
-            end
-          )
-          .trim();
-
-
       sections.push({
 
         title:
           heading.replace(":",""),
 
         content:
-          content
+          normalized
+            .slice(
+              start + heading.length,
+              end
+            )
+            .trim()
 
       });
+
 
     }
   );
@@ -1086,34 +1046,18 @@ function parseAIAnalysis(text){
 
   if(!sections.length){
 
-    const section =
-      document.createElement(
-        "div"
-      );
+    container.innerHTML = `
+      <div class="ai-section">
+        <div class="ai-section-text"></div>
+      </div>
+    `;
 
-    section.className =
-      "ai-section";
-
-
-    const content =
-      document.createElement(
-        "div"
-      );
-
-    content.className =
-      "ai-section-text";
-
-    content.textContent =
-      normalized;
-
-
-    section.appendChild(
-      content
-    );
-
-    container.appendChild(
-      section
-    );
+    container
+      .querySelector(
+        ".ai-section-text"
+      )
+      .textContent =
+        normalized;
 
     return;
 
@@ -1122,6 +1066,7 @@ function parseAIAnalysis(text){
 
   sections.forEach(
     sectionData=>{
+
 
       const section =
         document.createElement(
@@ -1156,17 +1101,11 @@ function parseAIAnalysis(text){
         sectionData.content || "-";
 
 
-      section.appendChild(
-        title
-      );
+      section.appendChild(title);
+      section.appendChild(content);
 
-      section.appendChild(
-        content
-      );
+      container.appendChild(section);
 
-      container.appendChild(
-        section
-      );
 
     }
   );
@@ -1176,10 +1115,10 @@ function parseAIAnalysis(text){
 
 function showError(message){
 
-  document.getElementById(
-    "loadingBox"
-  ).style.display =
-    "none";
+  document
+    .getElementById("loadingBox")
+    .style.display =
+      "none";
 
 
   const box =
@@ -1218,16 +1157,11 @@ async function loadPractice(){
       await fetch(
         WEBHOOK_URL,
         {
-
           method:"GET",
-
           cache:"no-store",
-
           headers:{
-            "Accept":
-              "application/json"
+            "Accept":"application/json"
           }
-
         }
       );
 
@@ -1235,8 +1169,7 @@ async function loadPractice(){
     if(!response.ok){
 
       throw new Error(
-        "HTTP " +
-        response.status
+        "HTTP " + response.status
       );
 
     }
@@ -1264,7 +1197,6 @@ async function loadPractice(){
       pratiche.find(
         item=>{
 
-
           const id =
             getValue(
               item,
@@ -1272,7 +1204,6 @@ async function loadPractice(){
                 "ID",
                 "ID Pratica",
                 "ID Pratica (A)",
-                "id",
                 "0"
               ]
             );
@@ -1296,19 +1227,12 @@ async function loadPractice(){
     }
 
 
-
-    /* =========================
-       DATI PRATICA
-    ========================= */
-
-
     const id =
       getValue(
         pratica,
         [
           "ID",
           "ID Pratica",
-          "ID Pratica (A)",
           "0"
         ]
       );
@@ -1319,7 +1243,6 @@ async function loadPractice(){
         pratica,
         [
           "Data",
-          "Data (B)",
           "1"
         ]
       );
@@ -1331,7 +1254,6 @@ async function loadPractice(){
         [
           "DataOraRitiro",
           "Data/Ora Ritiro",
-          "Data/Ora Ritiro (C)",
           "2"
         ]
       );
@@ -1343,7 +1265,6 @@ async function loadPractice(){
         [
           "DataOraConsegna",
           "Data/Ora Consegna",
-          "Data/Ora Consegna (D)",
           "3"
         ]
       );
@@ -1354,7 +1275,6 @@ async function loadPractice(){
         pratica,
         [
           "Partenza",
-          "Partenza (E)",
           "4"
         ]
       );
@@ -1366,7 +1286,6 @@ async function loadPractice(){
         [
           "IndirizzoRitiro",
           "Indirizzo Ritiro",
-          "Indirizzo Ritiro (F)",
           "5"
         ]
       );
@@ -1378,7 +1297,6 @@ async function loadPractice(){
         [
           "CAPRitiro",
           "CAP Ritiro",
-          "CAP Ritiro (G)",
           "6"
         ]
       );
@@ -1389,7 +1307,6 @@ async function loadPractice(){
         pratica,
         [
           "Destinazione",
-          "Destinazione (H)",
           "7"
         ]
       );
@@ -1401,7 +1318,6 @@ async function loadPractice(){
         [
           "IndirizzoConsegna",
           "Indirizzo Consegna",
-          "Indirizzo Consegna (I)",
           "8"
         ]
       );
@@ -1413,7 +1329,6 @@ async function loadPractice(){
         [
           "CAPConsegna",
           "CAP Consegna",
-          "CAP Consegna (J)",
           "9"
         ]
       );
@@ -1424,7 +1339,6 @@ async function loadPractice(){
         pratica,
         [
           "Cliente",
-          "Cliente (K)",
           "10"
         ]
       );
@@ -1435,7 +1349,6 @@ async function loadPractice(){
         pratica,
         [
           "Vettore",
-          "Vettore (L)",
           "11"
         ]
       );
@@ -1447,7 +1360,6 @@ async function loadPractice(){
         [
           "TipoMerce",
           "Tipo Merce",
-          "Tipo Merce (M)",
           "12"
         ]
       );
@@ -1458,7 +1370,6 @@ async function loadPractice(){
         pratica,
         [
           "Colli",
-          "Colli (N)",
           "13"
         ]
       );
@@ -1470,7 +1381,6 @@ async function loadPractice(){
         [
           "PesoKg",
           "Peso kg",
-          "Peso kg (O)",
           "14"
         ]
       );
@@ -1482,66 +1392,45 @@ async function loadPractice(){
         [
           "VolumeM3",
           "Volume m³",
-          "Volume m³ (P)",
           "15"
         ]
       );
 
 
     const note =
-      getValue(
-        pratica,
-        [
-          "NoteOperative",
-          "Note Operative",
-          "Note Operative (Q)",
-          "16"
-        ]
+      findNotes(
+        pratica
       );
 
 
     const stato =
-      getValue(
-        pratica,
-        [
-          "Stato",
-          "Stato AI",
-          "Stato AI (R)",
-          "17"
-        ]
+      findStatus(
+        pratica
       );
 
 
     const analisi =
-      getValue(
-        pratica,
-        [
-          "AnalisiAI",
-          "Analisi AI",
-          "Analisi AI (S)",
-          "18"
-        ]
+      findAnalysis(
+        pratica
       );
 
 
-
-    /* =========================
-       VISUALIZZAZIONE
-    ========================= */
-
-
-    document.getElementById(
-      "practiceId"
-    ).textContent =
-      id || "-";
+    document
+      .getElementById(
+        "practiceId"
+      )
+      .textContent =
+        id || "-";
 
 
-    document.getElementById(
-      "route"
-    ).textContent =
-      (partenza || "-") +
-      " → " +
-      (destinazione || "-");
+    document
+      .getElementById(
+        "route"
+      )
+      .textContent =
+        (partenza || "-") +
+        " → " +
+        (destinazione || "-");
 
 
     setStatus(
@@ -1660,16 +1549,20 @@ async function loadPractice(){
     );
 
 
-    document.getElementById(
-      "loadingBox"
-    ).style.display =
-      "none";
+    document
+      .getElementById(
+        "loadingBox"
+      )
+      .style.display =
+        "none";
 
 
-    document.getElementById(
-      "content"
-    ).style.display =
-      "block";
+    document
+      .getElementById(
+        "content"
+      )
+      .style.display =
+        "block";
 
 
   }
