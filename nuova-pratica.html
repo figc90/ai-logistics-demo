@@ -29,7 +29,6 @@ a{
 
 input,
 textarea,
-select,
 button{
   font:inherit;
 }
@@ -206,11 +205,6 @@ textarea{
   resize:vertical;
 }
 
-.helper{
-  color:#98a3b2;
-  font-size:11px;
-}
-
 .ai-card{
   position:sticky;
   top:78px;
@@ -284,7 +278,7 @@ textarea{
   border-radius:999px;
   font-size:12px;
   font-weight:900;
-  margin-bottom:18px;
+  margin-bottom:14px;
 }
 
 .ai-status-ok{
@@ -307,6 +301,60 @@ textarea{
   color:#596778;
 }
 
+.confirm-box{
+  display:none;
+  margin-bottom:20px;
+  padding:14px;
+  border-radius:12px;
+  background:#f8fafc;
+  border:1px solid #e4e9ef;
+}
+
+.confirm-note{
+  color:#68778c;
+  font-size:13px;
+  line-height:1.55;
+  margin-bottom:12px;
+}
+
+.ai-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.ai-buttons button{
+  flex:1;
+}
+
+.correct-btn{
+  min-height:48px;
+  border:1px solid #dce3eb;
+  border-radius:11px;
+  background:#f3f6fa;
+  color:#173459;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.correct-btn:hover{
+  background:#e9eef4;
+}
+
+.confirm-btn{
+  min-height:48px;
+  border:none;
+  border-radius:11px;
+  background:linear-gradient(135deg,#163d67,#1d6f9d);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.confirm-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
 .ai-section{
   margin-bottom:18px;
 }
@@ -324,36 +372,6 @@ textarea{
   font-size:14px;
   line-height:1.6;
   white-space:pre-wrap;
-}
-
-.confirm-box{
-  display:none;
-  margin-top:22px;
-  padding-top:20px;
-  border-top:1px solid #edf0f4;
-}
-
-.confirm-note{
-  color:#68778c;
-  font-size:13px;
-  line-height:1.55;
-  margin-bottom:12px;
-}
-
-.confirm-btn{
-  width:100%;
-  min-height:48px;
-  border:none;
-  border-radius:11px;
-  background:linear-gradient(135deg,#163d67,#1d6f9d);
-  color:#fff;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.confirm-btn:disabled{
-  opacity:.55;
-  cursor:not-allowed;
 }
 
 .actions-bar{
@@ -464,12 +482,15 @@ footer strong{
     width:100%;
   }
 
+  .ai-buttons{
+    flex-direction:column;
+  }
+
 }
 
 </style>
 
 </head>
-
 
 <body>
 
@@ -479,11 +500,13 @@ footer strong{
   <div class="top-header-inner">
 
     <a href="index.html">
+
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
         class="logo"
       >
+
     </a>
 
     <div class="header-actions">
@@ -595,8 +618,7 @@ footer strong{
           type="text"
           inputmode="numeric"
           maxlength="5"
-          pattern="[0-9]{5}"
-        >
+          pattern="[0-9]{5}">
       </div>
 
 
@@ -613,8 +635,7 @@ footer strong{
           type="text"
           inputmode="numeric"
           maxlength="5"
-          pattern="[0-9]{5}"
-        >
+          pattern="[0-9]{5}">
       </div>
 
 
@@ -623,7 +644,6 @@ footer strong{
   </div>
 
 </section>
-
 
 
 <section class="card">
@@ -705,7 +725,6 @@ footer strong{
 </div>
 
 
-
 <aside class="card ai-card">
 
   <div class="ai-header">
@@ -752,29 +771,45 @@ footer strong{
         class="ai-status ai-status-default">
         -
       </div>
-<div
-  id="confirmBox"
-  class="confirm-box">
 
-  <div
-    id="confirmNote"
-    class="confirm-note">
-  </div>
 
-  <button
-    id="confirmButton"
-    type="button"
-    class="confirm-btn">
-    Conferma pratica
-  </button>
+      <div
+        id="confirmBox"
+        class="confirm-box">
 
-</div>
+        <div
+          id="confirmNote"
+          class="confirm-note">
+        </div>
+
+        <div class="ai-buttons">
+
+          <button
+            id="correctButton"
+            type="button"
+            class="correct-btn">
+            Correggi dati
+          </button>
+
+          <button
+            id="confirmButton"
+            type="button"
+            class="confirm-btn">
+            Conferma pratica
+          </button>
+
+        </div>
+
+      </div>
+
 
       <div class="ai-section">
 
         <h3>MOTIVO</h3>
 
-        <p id="aiReason">-</p>
+        <p id="aiReason">
+          -
+        </p>
 
       </div>
 
@@ -783,10 +818,11 @@ footer strong{
 
         <h3>AZIONE RICHIESTA</h3>
 
-        <p id="aiAction">-</p>
+        <p id="aiAction">
+          -
+        </p>
 
       </div>
-
 
 
     </div>
@@ -827,6 +863,9 @@ const submitButton =
 const confirmButton =
   document.getElementById("confirmButton");
 
+const correctButton =
+  document.getElementById("correctButton");
+
 const confirmBox =
   document.getElementById("confirmBox");
 
@@ -859,7 +898,8 @@ let analisiValida = false;
 
 function showMessage(type,text){
 
-  messageBox.style.display = "block";
+  messageBox.style.display =
+    "block";
 
   messageBox.className =
     "message " +
@@ -869,11 +909,16 @@ function showMessage(type,text){
         : "message-error"
     );
 
-  messageBox.textContent = text;
+  messageBox.textContent =
+    text;
 }
 
 
-function extractSection(text,startLabel,endLabel){
+function extractSection(
+  text,
+  startLabel,
+  endLabel
+){
 
   const start =
     text.indexOf(startLabel);
@@ -1006,31 +1051,35 @@ function invalidateAnalysis(){
   if(!analisiValida)
     return;
 
-  analisiValida = false;
+  analisiValida =
+    false;
 
   confirmBox.style.display =
     "none";
+
+  aiStateText.textContent =
+    "Analisi da aggiornare";
 
   showMessage(
     "error",
     "Hai modificato i dati. Esegui nuovamente l'analisi prima di confermare."
   );
 
-  aiStateText.textContent =
-    "Analisi da aggiornare";
 }
 
 
-form.querySelectorAll(
-  "input, textarea"
-).forEach(field => {
+form
+  .querySelectorAll(
+    "input, textarea"
+  )
+  .forEach(field => {
 
-  field.addEventListener(
-    "input",
-    invalidateAnalysis
-  );
+    field.addEventListener(
+      "input",
+      invalidateAnalysis
+    );
 
-});
+  });
 
 
 function showAIResult(result){
@@ -1057,6 +1106,9 @@ function showAIResult(result){
     confirmButton.textContent =
       "Conferma pratica";
 
+    correctButton.style.display =
+      "none";
+
   }
   else if(result.status === "ATTENZIONE"){
 
@@ -1068,6 +1120,9 @@ function showAIResult(result){
 
     confirmButton.textContent =
       "Conferma comunque";
+
+    correctButton.style.display =
+      "block";
 
   }
   else if(result.status === "PROBLEMA"){
@@ -1081,6 +1136,9 @@ function showAIResult(result){
     confirmButton.textContent =
       "Conferma comunque";
 
+    correctButton.style.display =
+      "block";
+
   }
   else{
 
@@ -1092,6 +1150,9 @@ function showAIResult(result){
 
     confirmButton.textContent =
       "Conferma pratica";
+
+    correctButton.style.display =
+      "block";
   }
 
 
@@ -1108,7 +1169,28 @@ function showAIResult(result){
 }
 
 
-/* ANALISI */
+/* CORREGGI DATI */
+
+correctButton.addEventListener(
+  "click",
+  function(){
+
+    document
+      .getElementById("data")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+
+    document
+      .getElementById("data")
+      .focus();
+
+  }
+);
+
+
+/* ANALIZZA */
 
 form.addEventListener(
   "submit",
@@ -1116,9 +1198,11 @@ form.addEventListener(
 
     event.preventDefault();
 
+
     if(!form.checkValidity()){
 
       form.reportValidity();
+
       return;
     }
 
@@ -1146,6 +1230,7 @@ form.addEventListener(
         await fetch(
           WEBHOOK_URL,
           {
+
             method:"POST",
 
             headers:{
@@ -1155,8 +1240,11 @@ form.addEventListener(
 
             body:
               JSON.stringify(
-                getFormData("analizza")
+                getFormData(
+                  "analizza"
+                )
               )
+
           }
         );
 
@@ -1164,7 +1252,8 @@ form.addEventListener(
       if(!response.ok){
 
         throw new Error(
-          "HTTP " + response.status
+          "HTTP " +
+          response.status
         );
       }
 
@@ -1220,6 +1309,7 @@ form.addEventListener(
       aiStateText.textContent =
         "Errore nell'analisi";
 
+
     }
     finally{
 
@@ -1268,6 +1358,7 @@ confirmButton.addEventListener(
         await fetch(
           WEBHOOK_URL,
           {
+
             method:"POST",
 
             headers:{
@@ -1277,8 +1368,11 @@ confirmButton.addEventListener(
 
             body:
               JSON.stringify(
-                getFormData("conferma")
+                getFormData(
+                  "conferma"
+                )
               )
+
           }
         );
 
@@ -1286,7 +1380,8 @@ confirmButton.addEventListener(
       if(!response.ok){
 
         throw new Error(
-          "HTTP " + response.status
+          "HTTP " +
+          response.status
         );
       }
 
@@ -1373,7 +1468,6 @@ confirmButton.addEventListener(
 );
 
 </script>
-
 
 </body>
 </html>
