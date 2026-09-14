@@ -2,452 +2,424 @@
 <html lang="it">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="description"
-        content="Gestione pratiche MatRi-mIA Logistics">
-
-  <title>Pratiche | MatRi-mIA Logistics</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f3f6fa;
-      color: #172033;
-      min-height: 100vh;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    .top-header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5eaf0;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .top-header-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 8px 22px;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .logo {
-      width: 175px;
-      max-width: 60%;
-      height: auto;
-      display: block;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .header-btn {
-      min-height: 42px;
-      padding: 0 16px;
-      border-radius: 10px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 800;
-      transition: 0.2s ease;
-    }
-
-    .header-btn-secondary {
-      background: #eef3f8;
-      color: #173459;
-    }
-
-    .header-btn-primary {
-      background: linear-gradient(
-        135deg,
-        #ec4f32,
-        #ff7b1f
-      );
-      color: #ffffff;
-    }
-
-    .header-btn:hover {
-      transform: translateY(-1px);
-    }
-
-
-    /* =========================
-       LAYOUT
-    ========================= */
-
-    .page {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 34px 22px 60px;
-    }
-
-    .page-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 24px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .eyebrow {
-      color: #2ca9d2;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 2.3px;
-      margin-bottom: 8px;
-    }
-
-    .page-heading h1 {
-      color: #10284a;
-      font-size: clamp(32px, 5vw, 46px);
-      line-height: 1.05;
-      margin-bottom: 8px;
-    }
-
-    .page-heading p {
-      color: #738095;
-      font-size: 16px;
-      line-height: 1.55;
-    }
-
-    .counter {
-      background: #ffffff;
-      border: 1px solid #e0e6ee;
-      box-shadow: 0 8px 24px rgba(19, 40, 74, 0.06);
-      border-radius: 14px;
-      padding: 15px 18px;
-      min-width: 150px;
-    }
-
-    .counter span {
-      display: block;
-      color: #8b97a8;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      margin-bottom: 3px;
-    }
-
-    .counter strong {
-      color: #10284a;
-      font-size: 26px;
-    }
-
-
-    /* =========================
-       TOOLBAR
-    ========================= */
-
-    .toolbar {
-      background: #ffffff;
-      border: 1px solid #e2e7ee;
-      border-radius: 16px;
-      padding: 14px;
-
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: space-between;
-      flex-wrap: wrap;
-
-      box-shadow: 0 10px 28px rgba(19, 40, 74, 0.05);
-
-      margin-bottom: 18px;
-    }
-
-    .search-wrap {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    .search-input {
-      width: 100%;
-      border: 1px solid #d9e1e9;
-      background: #f9fbfd;
-      color: #172033;
-      border-radius: 11px;
-      padding: 13px 14px;
-      outline: none;
-    }
-
-    .search-input:focus {
-      border-color: #53c6e7;
-      box-shadow: 0 0 0 3px rgba(83, 198, 231, 0.10);
-    }
-
-    .reload-btn {
-      border: 1px solid #d9e1e9;
-      background: #ffffff;
-      color: #18375d;
-      min-height: 44px;
-      padding: 0 16px;
-      border-radius: 10px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-
-    /* =========================
-       STATUS
-    ========================= */
-
-    .status-box {
-      display: none;
-      margin-bottom: 16px;
-      border-radius: 12px;
-      padding: 13px 15px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .status-loading {
-      display: block;
-      color: #176b9c;
-      background: #edf8fd;
-      border: 1px solid #ccebf7;
-    }
-
-    .status-success {
-      display: block;
-      color: #1d704c;
-      background: #ecf9f2;
-      border: 1px solid #ccebd9;
-    }
-
-    .status-error {
-      display: block;
-      color: #b42318;
-      background: #fff1f0;
-      border: 1px solid #ffd4d1;
-    }
-
-
-    /* =========================
-       TABLE CARD
-    ========================= */
-
-    .table-card {
-      background: #ffffff;
-      border: 1px solid #e2e7ee;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 14px 36px rgba(19, 40, 74, 0.07);
-    }
-
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 940px;
-    }
-
-    thead {
-      background: #f5f8fb;
-    }
-
-    th {
-      color: #516075;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0.7px;
-      text-transform: uppercase;
-      text-align: left;
-      padding: 15px 16px;
-      border-bottom: 1px solid #e2e7ee;
-    }
-
-    td {
-      padding: 16px;
-      color: #364255;
-      font-size: 14px;
-      border-bottom: 1px solid #edf0f4;
-    }
-
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    tbody tr:hover {
-      background: #fbfdff;
-    }
-
-    .id-pratica {
-      color: #13375f;
-      font-weight: 900;
-    }
-
-    .route {
-      color: #243954;
-      font-weight: 700;
-    }
-
-
-    /* =========================
-       BADGES
-    ========================= */
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 7px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-    }
-
-    .badge-ok {
-      background: #e9f8f0;
-      color: #23784f;
-    }
-
-    .badge-warning {
-      background: #fff3d9;
-      color: #a46700;
-    }
-
-    .badge-error {
-      background: #ffe8e5;
-      color: #b42318;
-    }
-
-    .badge-default {
-      background: #edf1f5;
-      color: #5c6978;
-    }
-
-
-    /* =========================
-       EMPTY
-    ========================= */
-
-    .empty-state {
-      display: none;
-      padding: 55px 20px;
-      text-align: center;
-      color: #778395;
-    }
-
-    .empty-state strong {
-      display: block;
-      color: #243954;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      text-align: center;
-      color: #8894a5;
-      font-size: 13px;
-      padding: 34px 20px 10px;
-    }
-
-    footer strong {
-      color: #173459;
-    }
-
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 760px) {
-
-      .top-header-inner {
-        padding: 7px 14px;
-      }
-
-      .logo {
-        width: 150px;
-      }
-
-      .header-btn-secondary {
-        display: none;
-      }
-
-      .header-btn-primary {
-        padding: 0 12px;
-        font-size: 13px;
-      }
-
-      .page {
-        padding: 25px 13px 45px;
-      }
-
-      .page-heading {
-        align-items: stretch;
-      }
-
-      .counter {
-        width: 100%;
-      }
-
-      .toolbar {
-        padding: 11px;
-      }
-
-      .search-wrap {
-        min-width: 100%;
-      }
-
-      .reload-btn {
-        width: 100%;
-      }
-
-      .table-card {
-        border-radius: 14px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pratiche | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+}
+
+a{
+  text-decoration:none;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+.top-header{
+  background:#fff;
+  border-bottom:1px solid #e5eaf0;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.top-header-inner{
+  max-width:1280px;
+  margin:0 auto;
+  padding:8px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.logo{
+  width:175px;
+  height:auto;
+  display:block;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.header-btn{
+  min-height:42px;
+  padding:0 16px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:800;
+  transition:.2s ease;
+}
+
+.header-btn-secondary{
+  background:#eef3f8;
+  color:#173459;
+}
+
+.header-btn-primary{
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+}
+
+.header-btn:hover{
+  transform:translateY(-1px);
+}
+
+.page{
+  max-width:1280px;
+  margin:0 auto;
+  padding:34px 22px 60px;
+}
+
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:24px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2.3px;
+  margin-bottom:8px;
+}
+
+.page-heading h1{
+  color:#10284a;
+  font-size:clamp(32px,5vw,46px);
+  line-height:1.05;
+  margin-bottom:8px;
+}
+
+.page-heading p{
+  color:#738095;
+  font-size:16px;
+  line-height:1.55;
+}
+
+.counter{
+  background:#fff;
+  border:1px solid #e0e6ee;
+  box-shadow:0 8px 24px rgba(19,40,74,.06);
+  border-radius:14px;
+  padding:15px 18px;
+  min-width:160px;
+}
+
+.counter span{
+  display:block;
+  color:#8b97a8;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1px;
+  margin-bottom:3px;
+}
+
+.counter strong{
+  color:#10284a;
+  font-size:28px;
+}
+
+.toolbar{
+  background:#fff;
+  border:1px solid #e2e7ee;
+  border-radius:16px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  box-shadow:0 10px 28px rgba(19,40,74,.05);
+  margin-bottom:18px;
+}
+
+.search-wrap{
+  flex:1;
+  min-width:260px;
+}
+
+.search-input{
+  width:100%;
+  border:1px solid #d9e1e9;
+  background:#f9fbfd;
+  color:#172033;
+  border-radius:11px;
+  padding:13px 14px;
+  outline:none;
+}
+
+.search-input:focus{
+  border-color:#53c6e7;
+  box-shadow:0 0 0 3px rgba(83,198,231,.10);
+}
+
+.filter-wrap{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.filter-select{
+  min-height:44px;
+  padding:0 14px;
+  border:1px solid #d9e1e9;
+  background:#fff;
+  color:#173459;
+  border-radius:10px;
+  font-weight:700;
+  outline:none;
+}
+
+.reload-btn{
+  border:1px solid #d9e1e9;
+  background:#fff;
+  color:#18375d;
+  min-height:44px;
+  padding:0 16px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.status-box{
+  display:none;
+  margin-bottom:16px;
+  border-radius:12px;
+  padding:13px 15px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.status-loading{
+  display:block;
+  color:#176b9c;
+  background:#edf8fd;
+  border:1px solid #ccebf7;
+}
+
+.status-success{
+  display:block;
+  color:#1d704c;
+  background:#ecf9f2;
+  border:1px solid #ccebd9;
+}
+
+.status-error{
+  display:block;
+  color:#b42318;
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+}
+
+.table-card{
+  background:#fff;
+  border:1px solid #e2e7ee;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 14px 36px rgba(19,40,74,.07);
+}
+
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:940px;
+}
+
+thead{
+  background:#f5f8fb;
+}
+
+th{
+  color:#516075;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.7px;
+  text-transform:uppercase;
+  text-align:left;
+  padding:15px 16px;
+  border-bottom:1px solid #e2e7ee;
+}
+
+td{
+  padding:16px;
+  color:#364255;
+  font-size:14px;
+  border-bottom:1px solid #edf0f4;
+}
+
+tbody tr{
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+tbody tr:last-child td{
+  border-bottom:none;
+}
+
+tbody tr:hover{
+  background:#fbfdff;
+}
+
+.id-pratica{
+  color:#13375f;
+  font-weight:900;
+}
+
+.route{
+  color:#243954;
+  font-weight:700;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.3px;
+  white-space:nowrap;
+}
+
+.badge-ok{
+  background:#e9f8f0;
+  color:#23784f;
+}
+
+.badge-warning{
+  background:#fff3d9;
+  color:#a46700;
+}
+
+.badge-error{
+  background:#ffe8e5;
+  color:#b42318;
+}
+
+.badge-default{
+  background:#edf1f5;
+  color:#5c6978;
+}
+
+.empty-state{
+  display:none;
+  padding:55px 20px;
+  text-align:center;
+  color:#778395;
+}
+
+.empty-state strong{
+  display:block;
+  color:#243954;
+  font-size:18px;
+  margin-bottom:5px;
+}
+
+footer{
+  text-align:center;
+  color:#8894a5;
+  font-size:13px;
+  padding:34px 20px 10px;
+}
+
+footer strong{
+  color:#173459;
+}
+
+@media(max-width:760px){
+
+  .top-header-inner{
+    padding:7px 14px;
+  }
+
+  .logo{
+    width:150px;
+  }
+
+  .header-btn-secondary{
+    display:none;
+  }
+
+  .header-btn-primary{
+    padding:0 12px;
+    font-size:13px;
+  }
+
+  .page{
+    padding:25px 13px 45px;
+  }
+
+  .page-heading{
+    align-items:stretch;
+  }
+
+  .counter{
+    width:100%;
+  }
+
+  .toolbar{
+    padding:11px;
+  }
+
+  .search-wrap{
+    min-width:100%;
+  }
+
+  .filter-wrap{
+    width:100%;
+  }
+
+  .filter-select,
+  .reload-btn{
+    flex:1;
+    min-width:140px;
+  }
+
+  .table-card{
+    border-radius:14px;
+  }
+
+}
+
+</style>
 
 </head>
 
@@ -459,11 +431,13 @@
   <div class="top-header-inner">
 
     <a href="index.html">
+
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
         class="logo"
       >
+
     </a>
 
     <div class="header-actions">
@@ -487,7 +461,6 @@
 </header>
 
 
-
 <main class="page">
 
   <div class="page-heading">
@@ -501,8 +474,7 @@
       <h1>Pratiche</h1>
 
       <p>
-        Gestisci e controlla le pratiche di trasporto
-        elaborate da MatRi-mIA.
+        Gestisci, filtra e controlla le pratiche di trasporto elaborate da MatRi-mIA.
       </p>
 
     </div>
@@ -535,12 +507,62 @@
 
     </div>
 
-    <button
-      id="reloadBtn"
-      class="reload-btn"
-      type="button">
-      Aggiorna
-    </button>
+    <div class="filter-wrap">
+
+      <select
+        id="statusFilter"
+        class="filter-select">
+
+        <option value="tutti">
+          Tutti gli stati
+        </option>
+
+        <option value="REGOLARE">
+          Regolare
+        </option>
+
+        <option value="ATTENZIONE">
+          Attenzione
+        </option>
+
+        <option value="PROBLEMA">
+          Problema
+        </option>
+
+      </select>
+
+
+      <select
+        id="sortOrder"
+        class="filter-select">
+
+        <option value="newest">
+          Più recenti
+        </option>
+
+        <option value="oldest">
+          Meno recenti
+        </option>
+
+        <option value="id-desc">
+          ID decrescente
+        </option>
+
+        <option value="id-asc">
+          ID crescente
+        </option>
+
+      </select>
+
+
+      <button
+        id="reloadBtn"
+        class="reload-btn"
+        type="button">
+        Aggiorna
+      </button>
+
+    </div>
 
   </div>
 
@@ -561,14 +583,12 @@
         <thead>
 
           <tr>
-
             <th>ID Pratica</th>
             <th>Data</th>
             <th>Partenza</th>
             <th>Destinazione</th>
             <th>Cliente</th>
             <th>Stato AI</th>
-
           </tr>
 
         </thead>
@@ -589,8 +609,7 @@
         Nessuna pratica trovata
       </strong>
 
-      Non risultano pratiche da visualizzare
-      con i criteri attuali.
+      Non risultano pratiche da visualizzare con i criteri attuali.
 
     </div>
 
@@ -602,6 +621,7 @@
     <strong>
       MatRi-mIA Logistics
     </strong>
+
     · AI per trasporti e logistica
 
   </footer>
@@ -609,145 +629,159 @@
 </main>
 
 
-
 <script>
 
-  const WEBHOOK_URL =
-    "https://hook.eu1.make.com/05uyyblgxp9m8j72ldy4s6lc9puif86j";
+const WEBHOOK_URL =
+  "https://hook.eu1.make.com/05uyyblgxp9m8j72ldy4s6lc9puif86j";
 
 
-  const praticheBody =
-    document.getElementById("praticheBody");
+const praticheBody =
+  document.getElementById("praticheBody");
 
-  const statusBox =
-    document.getElementById("statusBox");
+const statusBox =
+  document.getElementById("statusBox");
 
-  const emptyState =
-    document.getElementById("emptyState");
+const emptyState =
+  document.getElementById("emptyState");
 
-  const searchInput =
-    document.getElementById("searchInput");
+const searchInput =
+  document.getElementById("searchInput");
 
-  const practiceCount =
-    document.getElementById("practiceCount");
+const practiceCount =
+  document.getElementById("practiceCount");
 
-  const reloadBtn =
-    document.getElementById("reloadBtn");
+const reloadBtn =
+  document.getElementById("reloadBtn");
+
+const statusFilter =
+  document.getElementById("statusFilter");
+
+const sortOrder =
+  document.getElementById("sortOrder");
 
 
-  let allPratiche = [];
+let allPratiche = [];
 
 
-  function escapeHtml(value) {
+function escapeHtml(value){
 
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function getValue(obj,keys){
+
+  for(const key of keys){
+
+    if(
+      obj &&
+      Object.prototype.hasOwnProperty.call(obj,key) &&
+      obj[key] !== null &&
+      obj[key] !== undefined &&
+      obj[key] !== ""
+    ){
+      return obj[key];
+    }
+
+  }
+
+  return "";
+
+}
+
+
+function formatDate(value){
+
+  if(!value){
+    return "-";
+  }
+
+  const date =
+    new Date(value);
+
+  if(isNaN(date.getTime())){
+    return value;
+  }
+
+  return date.toLocaleDateString("it-IT");
+
+}
+
+
+function normalizeStatus(value){
+
+  const text =
+    String(value || "")
+      .trim()
+      .toUpperCase();
+
+  if(text.includes("REGOLARE")){
+    return "REGOLARE";
+  }
+
+  if(text.includes("ATTENZIONE")){
+    return "ATTENZIONE";
+  }
+
+  if(text.includes("PROBLEMA")){
+    return "PROBLEMA";
+  }
+
+  return text || "-";
+
+}
+
+
+function createStatusBadge(status){
+
+  const normalized =
+    normalizeStatus(status);
+
+  let className =
+    "badge badge-default";
+
+
+  if(normalized === "REGOLARE"){
+
+    className =
+      "badge badge-ok";
+
+  }
+  else if(normalized === "ATTENZIONE"){
+
+    className =
+      "badge badge-warning";
+
+  }
+  else if(normalized === "PROBLEMA"){
+
+    className =
+      "badge badge-error";
 
   }
 
 
-  function getValue(obj, keys) {
+  return `
+    <span class="${className}">
+      ${escapeHtml(normalized)}
+    </span>
+  `;
 
-    for (const key of keys) {
-
-      if (
-        obj &&
-        Object.prototype.hasOwnProperty.call(obj, key) &&
-        obj[key] !== null &&
-        obj[key] !== undefined &&
-        obj[key] !== ""
-      ) {
-        return obj[key];
-      }
-
-    }
-
-    return "";
-
-  }
+}
 
 
-  function formatDate(value) {
+function normalizePratica(pratica){
 
-    if (!value) {
-      return "-";
-    }
+  return {
 
-    const date = new Date(value);
-
-    if (isNaN(date.getTime())) {
-      return value;
-    }
-
-    return date.toLocaleDateString("it-IT");
-
-  }
-
-
-  function createStatusBadge(status) {
-
-    const raw =
-      String(status || "-");
-
-    const normalized =
-      raw.trim().toUpperCase();
-
-    let className =
-      "badge badge-default";
-
-
-    if (
-      normalized.includes("OK") ||
-      normalized.includes("VERIFIC") ||
-      normalized.includes("COMPLET")
-    ) {
-
-      className =
-        "badge badge-ok";
-
-    }
-
-
-    if (
-      normalized.includes("ATTENZ") ||
-      normalized.includes("DA VERIFIC")
-    ) {
-
-      className =
-        "badge badge-warning";
-
-    }
-
-
-    if (
-      normalized.includes("ERRORE") ||
-      normalized.includes("BLOCC")
-    ) {
-
-      className =
-        "badge badge-error";
-
-    }
-
-
-    return `
-      <span class="${className}">
-        ${escapeHtml(raw)}
-      </span>
-    `;
-
-  }
-
-
-  function normalizePratica(pratica) {
-
-    return {
-
-      id: getValue(
+    id:
+      getValue(
         pratica,
         [
           "ID",
@@ -759,7 +793,8 @@
         ]
       ),
 
-      data: getValue(
+    data:
+      getValue(
         pratica,
         [
           "Data",
@@ -769,7 +804,8 @@
         ]
       ),
 
-      partenza: getValue(
+    partenza:
+      getValue(
         pratica,
         [
           "Partenza",
@@ -779,65 +815,167 @@
         ]
       ),
 
-      destinazione: getValue(
+    destinazione:
+      getValue(
         pratica,
         [
           "Destinazione",
           "destinazione",
-          "Destinazione (G)",
-          "6"
+          "Destinazione (H)",
+          "7"
         ]
       ),
 
-      cliente: getValue(
+    cliente:
+      getValue(
         pratica,
         [
           "Cliente",
           "cliente",
-          "Cliente (I)",
-          "8"
+          "Cliente (K)",
+          "10"
         ]
       ),
 
-      stato: getValue(
+    stato:
+      getValue(
         pratica,
         [
           "Stato",
           "stato",
           "Stato AI",
-          "Stato AI (P)",
-          "15"
+          "Stato AI (R)",
+          "17"
         ]
       )
 
-    };
+  };
+
+}
+
+
+function extractNumericId(id){
+
+  const match =
+    String(id || "")
+      .match(/(\d+)\s*$/);
+
+  return match
+    ? Number(match[1])
+    : 0;
+
+}
+
+
+function sortPratiche(pratiche){
+
+  const sorted =
+    [...pratiche];
+
+  const mode =
+    sortOrder.value;
+
+
+  if(mode === "newest"){
+
+    sorted.sort(
+      (a,b)=>{
+
+        const dateA =
+          new Date(a.data).getTime() || 0;
+
+        const dateB =
+          new Date(b.data).getTime() || 0;
+
+        if(dateB !== dateA){
+          return dateB - dateA;
+        }
+
+        return (
+          extractNumericId(b.id) -
+          extractNumericId(a.id)
+        );
+
+      }
+    );
+
+  }
+  else if(mode === "oldest"){
+
+    sorted.sort(
+      (a,b)=>{
+
+        const dateA =
+          new Date(a.data).getTime() || 0;
+
+        const dateB =
+          new Date(b.data).getTime() || 0;
+
+        if(dateA !== dateB){
+          return dateA - dateB;
+        }
+
+        return (
+          extractNumericId(a.id) -
+          extractNumericId(b.id)
+        );
+
+      }
+    );
+
+  }
+  else if(mode === "id-desc"){
+
+    sorted.sort(
+      (a,b)=>
+        extractNumericId(b.id) -
+        extractNumericId(a.id)
+    );
+
+  }
+  else if(mode === "id-asc"){
+
+    sorted.sort(
+      (a,b)=>
+        extractNumericId(a.id) -
+        extractNumericId(b.id)
+    );
 
   }
 
 
-  function renderPratiche(pratiche) {
+  return sorted;
 
-    praticheBody.innerHTML = "";
-
-    practiceCount.textContent =
-      pratiche.length;
+}
 
 
-    if (!pratiche.length) {
+function renderPratiche(pratiche){
 
-      emptyState.style.display =
-        "block";
+  praticheBody.innerHTML =
+    "";
 
-      return;
 
-    }
+  practiceCount.textContent =
+    pratiche.length;
 
+
+  if(!pratiche.length){
 
     emptyState.style.display =
-      "none";
+      "block";
+
+    return;
+
+  }
 
 
-    pratiche.forEach(pratica => {
+  emptyState.style.display =
+    "none";
+
+
+  pratiche.forEach(
+    pratica=>{
+
 
       const row =
         document.createElement("tr");
@@ -845,14 +983,9 @@
 
       row.innerHTML = `
 
-       <td class="id-pratica">
-  <a
-    href="dettaglio-pratica.html?id=${encodeURIComponent(pratica.id || "")}"
-    style="color:#13375f;font-weight:900;text-decoration:none;"
-  >
-    ${escapeHtml(pratica.id || "-")}
-  </a>
-</td>
+        <td class="id-pratica">
+          ${escapeHtml(pratica.id || "-")}
+        </td>
 
         <td>
           ${escapeHtml(
@@ -887,34 +1020,49 @@
       `;
 
 
-      praticheBody.appendChild(row);
+      row.addEventListener(
+        "click",
+        function(){
 
-    });
+          if(!pratica.id){
+            return;
+          }
 
-  }
+          window.location.href =
+            "dettaglio-pratica.html?id=" +
+            encodeURIComponent(
+              pratica.id
+            );
 
-
-  function filterPratiche() {
-
-    const query =
-      searchInput.value
-        .trim()
-        .toLowerCase();
-
-
-    if (!query) {
-
-      renderPratiche(
-        allPratiche
+        }
       );
 
-      return;
+
+      praticheBody.appendChild(
+        row
+      );
 
     }
+  );
+
+}
 
 
-    const filtered =
-      allPratiche.filter(pratica => {
+function applyFilters(){
+
+  const query =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  const selectedStatus =
+    statusFilter.value;
+
+
+  let filtered =
+    allPratiche.filter(
+      pratica=>{
+
 
         const searchable =
           [
@@ -929,171 +1077,213 @@
           .toLowerCase();
 
 
-        return searchable.includes(
-          query
+        const matchesSearch =
+          !query ||
+          searchable.includes(query);
+
+
+        const normalizedStatus =
+          normalizeStatus(
+            pratica.stato
+          );
+
+
+        const matchesStatus =
+          selectedStatus === "tutti" ||
+          normalizedStatus ===
+            selectedStatus;
+
+
+        return (
+          matchesSearch &&
+          matchesStatus
         );
 
-      });
+      }
+    );
 
 
-    renderPratiche(filtered);
+  filtered =
+    sortPratiche(
+      filtered
+    );
 
-  }
+
+  renderPratiche(
+    filtered
+  );
+
+}
 
 
-  async function loadPratiche() {
+async function loadPratiche(){
+
+  statusBox.className =
+    "status-box status-loading";
+
+  statusBox.textContent =
+    "Caricamento pratiche...";
+
+  statusBox.style.display =
+    "block";
+
+  emptyState.style.display =
+    "none";
+
+
+  try{
+
+
+    const response =
+      await fetch(
+        WEBHOOK_URL,
+        {
+          method:"GET",
+          cache:"no-store",
+          headers:{
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const rawText =
+      await response.text();
+
+
+    let data;
+
+
+    try{
+
+      data =
+        JSON.parse(rawText);
+
+    }
+    catch(error){
+
+      throw new Error(
+        "Make non ha restituito JSON valido"
+      );
+
+    }
+
+
+    let pratiche =
+      data.pratiche;
+
+
+    if(!Array.isArray(pratiche)){
+
+      if(
+        pratiche &&
+        typeof pratiche === "object"
+      ){
+
+        pratiche =
+          Object.values(pratiche);
+
+      }
+      else{
+
+        pratiche =
+          [];
+
+      }
+
+    }
+
+
+    allPratiche =
+      pratiche.map(
+        normalizePratica
+      );
+
+
+    applyFilters();
+
 
     statusBox.className =
-      "status-box status-loading";
+      "status-box status-success";
 
     statusBox.textContent =
-      "Caricamento pratiche...";
-
-    statusBox.style.display =
-      "block";
-
-    emptyState.style.display =
-      "none";
+      allPratiche.length +
+      " pratiche caricate correttamente.";
 
 
-    try {
-
-      const response =
-        await fetch(
-          WEBHOOK_URL,
-          {
-            method: "GET",
-            cache: "no-store",
-            headers: {
-              "Accept": "application/json"
-            }
-          }
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          "HTTP " + response.status
-        );
-
-      }
-
-
-      const rawText =
-        await response.text();
-
-
-      console.log(
-        "Risposta Make:",
-        rawText
-      );
-
-
-      let data;
-
-
-      try {
-
-        data =
-          JSON.parse(rawText);
-
-      } catch (error) {
-
-        throw new Error(
-          "Make non ha restituito JSON valido"
-        );
-
-      }
-
-
-      let pratiche =
-        data.pratiche;
-
-
-      if (!Array.isArray(pratiche)) {
-
-        if (
-          pratiche &&
-          typeof pratiche === "object"
-        ) {
-
-          pratiche =
-            Object.values(pratiche);
-
-        } else {
-
-          pratiche = [];
-
-        }
-
-      }
-
-
-      allPratiche =
-        pratiche.map(
-          normalizePratica
-        );
-
-
-      renderPratiche(
-        allPratiche
-      );
-
-
-      statusBox.className =
-        "status-box status-success";
-
-      statusBox.textContent =
-        allPratiche.length +
-        " pratiche caricate correttamente.";
-
-
-      setTimeout(() => {
+    setTimeout(
+      function(){
 
         statusBox.style.display =
           "none";
 
-      }, 2200);
+      },
+      1800
+    );
 
 
-    } catch (error) {
-
-      console.error(
-        "Errore pratiche:",
-        error
-      );
+  }
+  catch(error){
 
 
-      statusBox.className =
-        "status-box status-error";
-
-      statusBox.textContent =
-        "Errore nel caricamento delle pratiche: " +
-        error.message;
+    console.error(
+      "Errore pratiche:",
+      error
+    );
 
 
-      practiceCount.textContent =
-        "0";
+    statusBox.className =
+      "status-box status-error";
 
-    }
+    statusBox.textContent =
+      "Errore nel caricamento delle pratiche: " +
+      error.message;
+
+
+    practiceCount.textContent =
+      "0";
 
   }
 
-
-  searchInput.addEventListener(
-    "input",
-    filterPratiche
-  );
+}
 
 
-  reloadBtn.addEventListener(
-    "click",
-    loadPratiche
-  );
+searchInput.addEventListener(
+  "input",
+  applyFilters
+);
 
 
-  loadPratiche();
+statusFilter.addEventListener(
+  "change",
+  applyFilters
+);
+
+
+sortOrder.addEventListener(
+  "change",
+  applyFilters
+);
+
+
+reloadBtn.addEventListener(
+  "click",
+  loadPratiche
+);
+
+
+loadPratiche();
 
 </script>
 
