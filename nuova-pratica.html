@@ -21,6 +21,11 @@ body{
   background:#f3f6fa;
   color:#172033;
   min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
 }
 
 a{
@@ -59,6 +64,7 @@ button{
 
 .header-actions{
   display:flex;
+  align-items:center;
   gap:10px;
 }
 
@@ -78,6 +84,12 @@ button{
 .btn-secondary{
   background:#eef3f8;
   color:#173459;
+}
+
+.logout-btn{
+  background:#fff1f0;
+  color:#b42318;
+  border:1px solid #ffd4d1;
 }
 
 .page{
@@ -117,6 +129,16 @@ h1{
   color:#758399;
   font-size:16px;
   line-height:1.5;
+}
+
+.user-info{
+  margin-top:8px;
+  color:#8795a8;
+  font-size:12px;
+}
+
+.user-info strong{
+  color:#173459;
 }
 
 .layout{
@@ -458,6 +480,11 @@ footer strong{
     width:145px;
   }
 
+  .btn{
+    padding:0 12px;
+    font-size:13px;
+  }
+
   .page{
     padding:24px 13px 45px;
   }
@@ -517,6 +544,13 @@ footer strong{
         Pratiche
       </a>
 
+      <button
+        id="logoutButton"
+        class="btn logout-btn"
+        type="button">
+        Esci
+      </button>
+
     </div>
 
   </div>
@@ -538,11 +572,18 @@ footer strong{
     MATRI-MIA · NUOVA PRATICA
   </div>
 
-  <h1>Nuova pratica</h1>
+  <h1>
+    Nuova pratica
+  </h1>
 
   <div class="subtitle">
     Inserisci i dati, analizza la pratica e confermala
     solo dopo aver verificato il risultato dell’AI.
+  </div>
+
+  <div
+    id="userInfo"
+    class="user-info">
   </div>
 
 </div>
@@ -568,48 +609,40 @@ footer strong{
 
     <div class="fields">
 
-
       <div class="field">
         <label for="data">Data</label>
         <input id="data" type="date" required>
       </div>
-
 
       <div class="field">
         <label for="cliente">Cliente</label>
         <input id="cliente" type="text" required>
       </div>
 
-
       <div class="field">
         <label for="ritiro">Data/Ora Ritiro</label>
         <input id="ritiro" type="datetime-local">
       </div>
-
 
       <div class="field">
         <label for="consegna">Data/Ora Consegna</label>
         <input id="consegna" type="datetime-local">
       </div>
 
-
       <div class="field">
         <label for="partenza">Partenza</label>
         <input id="partenza" type="text" required>
       </div>
-
 
       <div class="field">
         <label for="destinazione">Destinazione</label>
         <input id="destinazione" type="text" required>
       </div>
 
-
       <div class="field">
         <label for="indirizzoRitiro">Indirizzo Ritiro</label>
         <input id="indirizzoRitiro" type="text">
       </div>
-
 
       <div class="field">
         <label for="capRitiro">CAP Ritiro</label>
@@ -621,12 +654,10 @@ footer strong{
           pattern="[0-9]{5}">
       </div>
 
-
       <div class="field">
         <label for="indirizzoConsegna">Indirizzo Consegna</label>
         <input id="indirizzoConsegna" type="text">
       </div>
-
 
       <div class="field">
         <label for="capConsegna">CAP Consegna</label>
@@ -637,7 +668,6 @@ footer strong{
           maxlength="5"
           pattern="[0-9]{5}">
       </div>
-
 
     </div>
 
@@ -657,42 +687,35 @@ footer strong{
 
     <div class="fields">
 
-
       <div class="field">
         <label for="vettore">Vettore</label>
         <input id="vettore" type="text">
       </div>
-
 
       <div class="field">
         <label for="tipoMerce">Tipo Merce</label>
         <input id="tipoMerce" type="text" required>
       </div>
 
-
       <div class="field">
         <label for="colli">Colli</label>
         <input id="colli" type="number" min="0" step="1">
       </div>
-
 
       <div class="field">
         <label for="peso">Peso kg</label>
         <input id="peso" type="number" min="0" step="0.01">
       </div>
 
-
       <div class="field">
         <label for="volume">Volume m³</label>
         <input id="volume" type="number" min="0" step="0.01">
       </div>
 
-
       <div class="field wide">
         <label for="note">Note Operative</label>
         <textarea id="note"></textarea>
       </div>
-
 
     </div>
 
@@ -733,13 +756,14 @@ footer strong{
       MATRI-MIA AI
     </div>
 
-    <h2>Controllo pratica</h2>
+    <h2>
+      Controllo pratica
+    </h2>
 
   </div>
 
 
   <div class="ai-content">
-
 
     <div class="ai-state">
 
@@ -760,11 +784,9 @@ footer strong{
 
     <div id="aiResult" class="ai-result">
 
-
       <div class="ai-result-title">
         RISULTATO ANALISI
       </div>
-
 
       <div
         id="aiStatus"
@@ -805,7 +827,9 @@ footer strong{
 
       <div class="ai-section">
 
-        <h3>MOTIVO</h3>
+        <h3>
+          MOTIVO
+        </h3>
 
         <p id="aiReason">
           -
@@ -816,7 +840,9 @@ footer strong{
 
       <div class="ai-section">
 
-        <h3>AZIONE RICHIESTA</h3>
+        <h3>
+          AZIONE RICHIESTA
+        </h3>
 
         <p id="aiAction">
           -
@@ -824,9 +850,7 @@ footer strong{
 
       </div>
 
-
     </div>
-
 
   </div>
 
@@ -848,11 +872,44 @@ footer strong{
 </main>
 
 
-<script>
+<script type="module">
+
+import {
+  createClient
+}
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* ============================
+   SUPABASE
+============================ */
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ============================
+   MAKE
+============================ */
 
 const WEBHOOK_URL =
   "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
 
+
+/* ============================
+   ELEMENTI
+============================ */
 
 const form =
   document.getElementById("practiceForm");
@@ -890,16 +947,203 @@ const aiReason =
 const aiAction =
   document.getElementById("aiAction");
 
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const userInfo =
+  document.getElementById("userInfo");
+
 
 let ultimaAnalisi = "";
 let ultimoStato = "";
 let analisiValida = false;
+
+let currentUser = null;
+let currentProfile = null;
+
+
+/* ============================
+   AUTENTICAZIONE
+============================ */
+
+async function protectPage(){
+
+  try{
+
+    const {
+      data:{
+        session
+      },
+      error
+    } =
+      await supabase.auth
+        .getSession();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(
+      !session ||
+      !session.user
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    currentUser =
+      session.user;
+
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .single();
+
+
+    if(
+      profileError ||
+      !profile
+    ){
+
+      console.error(
+        "Profilo non autorizzato:",
+        profileError
+      );
+
+
+      await supabase.auth
+        .signOut();
+
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    currentProfile =
+      profile;
+
+
+    userInfo.innerHTML =
+      `Accesso: <strong>${
+        escapeHtml(
+          profile.email ||
+          currentUser.email ||
+          ""
+        )
+      }</strong> · ${
+        escapeHtml(
+          profile.ruolo ||
+          ""
+        )
+      }`;
+
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
+
+
+    window.location.replace(
+      "login.html"
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+/* ============================
+   LOGOUT
+============================ */
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled =
+      true;
+
+    logoutButton.textContent =
+      "Uscita...";
+
+
+    try{
+
+      await supabase.auth
+        .signOut();
+
+    }
+    finally{
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
+  }
+);
+
+
+/* ============================
+   UTILITY
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
 
 
 function showMessage(type,text){
 
   messageBox.style.display =
     "block";
+
 
   messageBox.className =
     "message " +
@@ -909,8 +1153,10 @@ function showMessage(type,text){
         : "message-error"
     );
 
+
   messageBox.textContent =
     text;
+
 }
 
 
@@ -921,16 +1167,24 @@ function extractSection(
 ){
 
   const start =
-    text.indexOf(startLabel);
+    text.indexOf(
+      startLabel
+    );
 
-  if(start === -1)
+
+  if(start === -1){
     return "";
+  }
+
 
   const contentStart =
-    start + startLabel.length;
+    start +
+    startLabel.length;
+
 
   let end =
     text.length;
+
 
   if(endLabel){
 
@@ -940,15 +1194,30 @@ function extractSection(
         contentStart
       );
 
-    if(foundEnd !== -1)
-      end = foundEnd;
+
+    if(foundEnd !== -1){
+
+      end =
+        foundEnd;
+
+    }
+
   }
 
+
   return text
-    .slice(contentStart,end)
+    .slice(
+      contentStart,
+      end
+    )
     .trim();
+
 }
 
+
+/* ============================
+   ANALISI AI
+============================ */
 
 function parseAnalysis(text){
 
@@ -957,11 +1226,13 @@ function parseAnalysis(text){
       /STATO:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
     );
 
+
   return {
 
     status:
       statusMatch
-        ? statusMatch[1].toUpperCase()
+        ? statusMatch[1]
+            .toUpperCase()
         : "",
 
     reason:
@@ -979,6 +1250,7 @@ function parseAnalysis(text){
       )
 
   };
+
 }
 
 
@@ -986,55 +1258,87 @@ function getFormData(azione){
 
   return {
 
-    azione,
+    azione:azione,
 
     data:
-      document.getElementById("data").value,
+      document
+        .getElementById("data")
+        .value,
 
     cliente:
-      document.getElementById("cliente").value,
+      document
+        .getElementById("cliente")
+        .value,
 
     ritiro:
-      document.getElementById("ritiro").value,
+      document
+        .getElementById("ritiro")
+        .value,
 
     consegna:
-      document.getElementById("consegna").value,
+      document
+        .getElementById("consegna")
+        .value,
 
     partenza:
-      document.getElementById("partenza").value,
+      document
+        .getElementById("partenza")
+        .value,
 
     indirizzoRitiro:
-      document.getElementById("indirizzoRitiro").value,
+      document
+        .getElementById("indirizzoRitiro")
+        .value,
 
     capRitiro:
-      document.getElementById("capRitiro").value,
+      document
+        .getElementById("capRitiro")
+        .value,
 
     destinazione:
-      document.getElementById("destinazione").value,
+      document
+        .getElementById("destinazione")
+        .value,
 
     indirizzoConsegna:
-      document.getElementById("indirizzoConsegna").value,
+      document
+        .getElementById("indirizzoConsegna")
+        .value,
 
     capConsegna:
-      document.getElementById("capConsegna").value,
+      document
+        .getElementById("capConsegna")
+        .value,
 
     vettore:
-      document.getElementById("vettore").value,
+      document
+        .getElementById("vettore")
+        .value,
 
     tipoMerce:
-      document.getElementById("tipoMerce").value,
+      document
+        .getElementById("tipoMerce")
+        .value,
 
     colli:
-      document.getElementById("colli").value,
+      document
+        .getElementById("colli")
+        .value,
 
     peso:
-      document.getElementById("peso").value,
+      document
+        .getElementById("peso")
+        .value,
 
     volume:
-      document.getElementById("volume").value,
+      document
+        .getElementById("volume")
+        .value,
 
     note:
-      document.getElementById("note").value,
+      document
+        .getElementById("note")
+        .value,
 
     statoAI:
       ultimoStato,
@@ -1043,22 +1347,28 @@ function getFormData(azione){
       ultimaAnalisi
 
   };
+
 }
 
 
 function invalidateAnalysis(){
 
-  if(!analisiValida)
+  if(!analisiValida){
     return;
+  }
+
 
   analisiValida =
     false;
 
+
   confirmBox.style.display =
     "none";
 
+
   aiStateText.textContent =
     "Analisi da aggiornare";
+
 
   showMessage(
     "error",
@@ -1072,14 +1382,16 @@ form
   .querySelectorAll(
     "input, textarea"
   )
-  .forEach(field => {
+  .forEach(
+    field=>{
 
-    field.addEventListener(
-      "input",
-      invalidateAnalysis
-    );
+      field.addEventListener(
+        "input",
+        invalidateAnalysis
+      );
 
-  });
+    }
+  );
 
 
 function showAIResult(result){
@@ -1087,54 +1399,74 @@ function showAIResult(result){
   aiResult.style.display =
     "block";
 
+
   aiStateText.textContent =
     "Analisi completata";
+
 
   aiStatus.textContent =
     result.status ||
     "ANALISI COMPLETATA";
 
 
-  if(result.status === "REGOLARE"){
+  if(
+    result.status ===
+      "REGOLARE"
+  ){
 
     aiStatus.className =
       "ai-status ai-status-ok";
 
+
     confirmNote.textContent =
       "La pratica risulta regolare. Puoi confermarla.";
 
+
     confirmButton.textContent =
       "Conferma pratica";
+
 
     correctButton.style.display =
       "none";
 
   }
-  else if(result.status === "ATTENZIONE"){
+  else if(
+    result.status ===
+      "ATTENZIONE"
+  ){
 
     aiStatus.className =
       "ai-status ai-status-warning";
 
+
     confirmNote.textContent =
       "Sono presenti elementi da verificare. Puoi correggere i dati e analizzare di nuovo oppure confermare comunque.";
 
+
     confirmButton.textContent =
       "Conferma comunque";
+
 
     correctButton.style.display =
       "block";
 
   }
-  else if(result.status === "PROBLEMA"){
+  else if(
+    result.status ===
+      "PROBLEMA"
+  ){
 
     aiStatus.className =
       "ai-status ai-status-error";
 
+
     confirmNote.textContent =
       "L'AI ha rilevato un problema. È consigliato correggere i dati prima della conferma.";
 
+
     confirmButton.textContent =
       "Conferma comunque";
+
 
     correctButton.style.display =
       "block";
@@ -1145,14 +1477,18 @@ function showAIResult(result){
     aiStatus.className =
       "ai-status ai-status-default";
 
+
     confirmNote.textContent =
       "Controlla il risultato prima di confermare.";
+
 
     confirmButton.textContent =
       "Conferma pratica";
 
+
     correctButton.style.display =
       "block";
+
   }
 
 
@@ -1160,16 +1496,21 @@ function showAIResult(result){
     result.reason ||
     "Nessun motivo disponibile.";
 
+
   aiAction.textContent =
     result.action ||
     "Nessuna indicazione disponibile.";
 
+
   confirmBox.style.display =
     "block";
+
 }
 
 
-/* CORREGGI DATI */
+/* ============================
+   CORREGGI DATI
+============================ */
 
 correctButton.addEventListener(
   "click",
@@ -1182,6 +1523,7 @@ correctButton.addEventListener(
         block:"center"
       });
 
+
     document
       .getElementById("data")
       .focus();
@@ -1190,7 +1532,9 @@ correctButton.addEventListener(
 );
 
 
-/* ANALIZZA */
+/* ============================
+   ANALIZZA
+============================ */
 
 form.addEventListener(
   "submit",
@@ -1199,25 +1543,44 @@ form.addEventListener(
     event.preventDefault();
 
 
+    if(
+      !currentUser ||
+      !currentProfile
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return;
+
+    }
+
+
     if(!form.checkValidity()){
 
       form.reportValidity();
 
       return;
+
     }
 
 
     messageBox.style.display =
       "none";
 
+
     confirmBox.style.display =
       "none";
+
 
     submitButton.disabled =
       true;
 
+
     submitButton.textContent =
       "Analisi in corso...";
+
 
     aiStateText.textContent =
       "Analisi in corso...";
@@ -1255,6 +1618,7 @@ form.addEventListener(
           "HTTP " +
           response.status
         );
+
       }
 
 
@@ -1309,13 +1673,13 @@ form.addEventListener(
       aiStateText.textContent =
         "Errore nell'analisi";
 
-
     }
     finally{
 
 
       submitButton.disabled =
         false;
+
 
       submitButton.textContent =
         "Analizza pratica";
@@ -1326,11 +1690,27 @@ form.addEventListener(
 );
 
 
-/* CONFERMA */
+/* ============================
+   CONFERMA
+============================ */
 
 confirmButton.addEventListener(
   "click",
   async function(){
+
+
+    if(
+      !currentUser ||
+      !currentProfile
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return;
+
+    }
 
 
     if(!analisiValida){
@@ -1341,11 +1721,13 @@ confirmButton.addEventListener(
       );
 
       return;
+
     }
 
 
     confirmButton.disabled =
       true;
+
 
     confirmButton.textContent =
       "Registrazione in corso...";
@@ -1383,6 +1765,7 @@ confirmButton.addEventListener(
           "HTTP " +
           response.status
         );
+
       }
 
 
@@ -1457,8 +1840,10 @@ confirmButton.addEventListener(
       confirmButton.disabled =
         false;
 
+
       confirmButton.textContent =
-        ultimoStato === "REGOLARE"
+        ultimoStato ===
+          "REGOLARE"
           ? "Conferma pratica"
           : "Conferma comunque";
 
@@ -1467,7 +1852,29 @@ confirmButton.addEventListener(
   }
 );
 
+
+/* ============================
+   AVVIO PAGINA
+============================ */
+
+async function startPage(){
+
+  const authenticated =
+    await protectPage();
+
+
+  if(!authenticated){
+    return;
+  }
+
+}
+
+
+startPage();
+
 </script>
 
+
 </body>
+
 </html>
