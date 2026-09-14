@@ -19,11 +19,18 @@ html{
   scroll-behavior:smooth;
 }
 
+/* Evita che la pagina venga mostrata
+   prima del controllo autenticazione */
 body{
   font-family:Arial,Helvetica,sans-serif;
   background:#f3f6fa;
   color:#172033;
   min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
 }
 
 a{
@@ -76,6 +83,8 @@ select{
   font-size:14px;
   font-weight:800;
   transition:.2s ease;
+  border:none;
+  cursor:pointer;
 }
 
 .header-btn-secondary{
@@ -86,6 +95,12 @@ select{
 .header-btn-primary{
   background:linear-gradient(135deg,#ec4f32,#ff7b1f);
   color:#fff;
+}
+
+.logout-btn{
+  background:#fff1f0;
+  color:#b42318;
+  border:1px solid #ffd4d1;
 }
 
 .header-btn:hover{
@@ -126,6 +141,16 @@ select{
   color:#738095;
   font-size:16px;
   line-height:1.55;
+}
+
+.user-info{
+  color:#8795a8;
+  font-size:12px;
+  margin-top:7px;
+}
+
+.user-info strong{
+  color:#173459;
 }
 
 .counter{
@@ -378,7 +403,8 @@ footer strong{
     display:none;
   }
 
-  .header-btn-primary{
+  .header-btn-primary,
+  .logout-btn{
     padding:0 12px;
     font-size:13px;
   }
@@ -440,6 +466,7 @@ footer strong{
 
     </a>
 
+
     <div class="header-actions">
 
       <a
@@ -453,6 +480,13 @@ footer strong{
         class="header-btn header-btn-primary">
         + Nuova pratica
       </a>
+
+      <button
+        id="logoutButton"
+        class="header-btn logout-btn"
+        type="button">
+        Esci
+      </button>
 
     </div>
 
@@ -471,13 +505,21 @@ footer strong{
         MATRI-MIA · OPERATIVITÀ
       </div>
 
-      <h1>Pratiche</h1>
+      <h1>
+        Pratiche
+      </h1>
 
       <p>
         Gestisci, filtra e controlla le pratiche di trasporto elaborate da MatRi-mIA.
       </p>
 
+      <div
+        id="userInfo"
+        class="user-info">
+      </div>
+
     </div>
+
 
     <div class="counter">
 
@@ -506,6 +548,7 @@ footer strong{
       >
 
     </div>
+
 
     <div class="filter-wrap">
 
@@ -629,11 +672,44 @@ footer strong{
 </main>
 
 
-<script>
+<script type="module">
+
+import {
+  createClient
+}
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* ============================
+   SUPABASE
+============================ */
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ============================
+   MAKE
+============================ */
 
 const WEBHOOK_URL =
   "https://hook.eu1.make.com/05uyyblgxp9m8j72ldy4s6lc9puif86j";
 
+
+/* ============================
+   ELEMENTI PAGINA
+============================ */
 
 const praticheBody =
   document.getElementById("praticheBody");
@@ -659,9 +735,181 @@ const statusFilter =
 const sortOrder =
   document.getElementById("sortOrder");
 
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const userInfo =
+  document.getElementById("userInfo");
+
 
 let allPratiche = [];
 
+let currentUser = null;
+let currentProfile = null;
+
+
+/* ============================
+   AUTENTICAZIONE
+============================ */
+
+async function protectPage(){
+
+  try{
+
+    const {
+      data:{
+        session
+      },
+      error
+    } =
+      await supabase.auth
+        .getSession();
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    if(
+      !session ||
+      !session.user
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    currentUser =
+      session.user;
+
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .single();
+
+
+    if(
+      profileError ||
+      !profile
+    ){
+
+      console.error(
+        "Profilo non trovato:",
+        profileError
+      );
+
+
+      await supabase.auth
+        .signOut();
+
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    currentProfile =
+      profile;
+
+
+    userInfo.innerHTML =
+      `Accesso: <strong>${escapeHtml(
+        profile.email ||
+        currentUser.email ||
+        ""
+      )}</strong> · ${escapeHtml(
+        profile.ruolo ||
+        ""
+      )}`;
+
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
+
+
+    window.location.replace(
+      "login.html"
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+/* ============================
+   LOGOUT
+============================ */
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled =
+      true;
+
+    logoutButton.textContent =
+      "Uscita...";
+
+
+    try{
+
+      await supabase.auth
+        .signOut();
+
+    }
+    finally{
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
+  }
+);
+
+
+/* ============================
+   FUNZIONI PRATICHE
+============================ */
 
 function escapeHtml(value){
 
@@ -681,12 +929,17 @@ function getValue(obj,keys){
 
     if(
       obj &&
-      Object.prototype.hasOwnProperty.call(obj,key) &&
+      Object.prototype.hasOwnProperty.call(
+        obj,
+        key
+      ) &&
       obj[key] !== null &&
       obj[key] !== undefined &&
       obj[key] !== ""
     ){
+
       return obj[key];
+
     }
 
   }
@@ -702,14 +955,19 @@ function formatDate(value){
     return "-";
   }
 
+
   const date =
     new Date(value);
+
 
   if(isNaN(date.getTime())){
     return value;
   }
 
-  return date.toLocaleDateString("it-IT");
+
+  return date.toLocaleDateString(
+    "it-IT"
+  );
 
 }
 
@@ -721,17 +979,21 @@ function normalizeStatus(value){
       .trim()
       .toUpperCase();
 
+
   if(text.includes("REGOLARE")){
     return "REGOLARE";
   }
+
 
   if(text.includes("ATTENZIONE")){
     return "ATTENZIONE";
   }
 
+
   if(text.includes("PROBLEMA")){
     return "PROBLEMA";
   }
+
 
   return text || "-";
 
@@ -743,6 +1005,7 @@ function createStatusBadge(status){
   const normalized =
     normalizeStatus(status);
 
+
   let className =
     "badge badge-default";
 
@@ -753,13 +1016,17 @@ function createStatusBadge(status){
       "badge badge-ok";
 
   }
-  else if(normalized === "ATTENZIONE"){
+  else if(
+    normalized === "ATTENZIONE"
+  ){
 
     className =
       "badge badge-warning";
 
   }
-  else if(normalized === "PROBLEMA"){
+  else if(
+    normalized === "PROBLEMA"
+  ){
 
     className =
       "badge badge-error";
@@ -837,19 +1104,19 @@ function normalizePratica(pratica){
         ]
       ),
 
-stato:
-  getValue(
-    pratica,
-    [
-      "StatoAI",
-      "statoAI",
-      "Stato",
-      "stato",
-      "Stato AI",
-      "Stato AI (R)",
-      "16"
-    ]
-  )
+    stato:
+      getValue(
+        pratica,
+        [
+          "StatoAI",
+          "statoAI",
+          "Stato",
+          "stato",
+          "Stato AI",
+          "Stato AI (R)",
+          "16"
+        ]
+      )
 
   };
 
@@ -861,6 +1128,7 @@ function extractNumericId(id){
   const match =
     String(id || "")
       .match(/(\d+)\s*$/);
+
 
   return match
     ? Number(match[1])
@@ -874,6 +1142,7 @@ function sortPratiche(pratiche){
   const sorted =
     [...pratiche];
 
+
   const mode =
     sortOrder.value;
 
@@ -884,14 +1153,20 @@ function sortPratiche(pratiche){
       (a,b)=>{
 
         const dateA =
-          new Date(a.data).getTime() || 0;
+          new Date(a.data)
+            .getTime() || 0;
 
         const dateB =
-          new Date(b.data).getTime() || 0;
+          new Date(b.data)
+            .getTime() || 0;
+
 
         if(dateB !== dateA){
+
           return dateB - dateA;
+
         }
+
 
         return (
           extractNumericId(b.id) -
@@ -908,14 +1183,20 @@ function sortPratiche(pratiche){
       (a,b)=>{
 
         const dateA =
-          new Date(a.data).getTime() || 0;
+          new Date(a.data)
+            .getTime() || 0;
 
         const dateB =
-          new Date(b.data).getTime() || 0;
+          new Date(b.data)
+            .getTime() || 0;
+
 
         if(dateA !== dateB){
+
           return dateA - dateB;
+
         }
+
 
         return (
           extractNumericId(a.id) -
@@ -980,18 +1261,24 @@ function renderPratiche(pratiche){
 
 
       const row =
-        document.createElement("tr");
+        document.createElement(
+          "tr"
+        );
 
 
       row.innerHTML = `
 
         <td class="id-pratica">
-          ${escapeHtml(pratica.id || "-")}
+          ${escapeHtml(
+            pratica.id || "-"
+          )}
         </td>
 
         <td>
           ${escapeHtml(
-            formatDate(pratica.data)
+            formatDate(
+              pratica.data
+            )
           )}
         </td>
 
@@ -1026,9 +1313,11 @@ function renderPratiche(pratiche){
         "click",
         function(){
 
+
           if(!pratica.id){
             return;
           }
+
 
           window.location.href =
             "dettaglio-pratica.html?id=" +
@@ -1040,9 +1329,10 @@ function renderPratiche(pratiche){
       );
 
 
-      praticheBody.appendChild(
-        row
-      );
+      praticheBody
+        .appendChild(
+          row
+        );
 
     }
   );
@@ -1056,6 +1346,7 @@ function applyFilters(){
     searchInput.value
       .trim()
       .toLowerCase();
+
 
   const selectedStatus =
     statusFilter.value;
@@ -1081,7 +1372,9 @@ function applyFilters(){
 
         const matchesSearch =
           !query ||
-          searchable.includes(query);
+          searchable.includes(
+            query
+          );
 
 
         const normalizedStatus =
@@ -1118,16 +1411,23 @@ function applyFilters(){
 }
 
 
+/* ============================
+   CARICAMENTO DA MAKE
+============================ */
+
 async function loadPratiche(){
 
   statusBox.className =
     "status-box status-loading";
 
+
   statusBox.textContent =
     "Caricamento pratiche...";
 
+
   statusBox.style.display =
     "block";
+
 
   emptyState.style.display =
     "none";
@@ -1170,7 +1470,9 @@ async function loadPratiche(){
     try{
 
       data =
-        JSON.parse(rawText);
+        JSON.parse(
+          rawText
+        );
 
     }
     catch(error){
@@ -1186,15 +1488,22 @@ async function loadPratiche(){
       data.pratiche;
 
 
-    if(!Array.isArray(pratiche)){
+    if(
+      !Array.isArray(
+        pratiche
+      )
+    ){
 
       if(
         pratiche &&
-        typeof pratiche === "object"
+        typeof pratiche ===
+          "object"
       ){
 
         pratiche =
-          Object.values(pratiche);
+          Object.values(
+            pratiche
+          );
 
       }
       else{
@@ -1218,6 +1527,7 @@ async function loadPratiche(){
 
     statusBox.className =
       "status-box status-success";
+
 
     statusBox.textContent =
       allPratiche.length +
@@ -1248,6 +1558,7 @@ async function loadPratiche(){
     statusBox.className =
       "status-box status-error";
 
+
     statusBox.textContent =
       "Errore nel caricamento delle pratiche: " +
       error.message;
@@ -1260,6 +1571,10 @@ async function loadPratiche(){
 
 }
 
+
+/* ============================
+   EVENTI
+============================ */
 
 searchInput.addEventListener(
   "input",
@@ -1285,7 +1600,27 @@ reloadBtn.addEventListener(
 );
 
 
-loadPratiche();
+/* ============================
+   AVVIO PAGINA
+============================ */
+
+async function startPage(){
+
+  const authenticated =
+    await protectPage();
+
+
+  if(!authenticated){
+    return;
+  }
+
+
+  await loadPratiche();
+
+}
+
+
+startPage();
 
 </script>
 
