@@ -2,7 +2,6 @@
 <html lang="it">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -303,6 +302,86 @@ textarea{
   line-height:1.5;
 }
 
+.ai-result{
+  display:none;
+  margin-top:22px;
+  border-top:1px solid #edf0f4;
+  padding-top:20px;
+}
+
+.ai-result-title{
+  color:#8795a8;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  margin-bottom:8px;
+}
+
+.ai-status{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:18px;
+}
+
+.ai-status-ok{
+  background:#e8f7ef;
+  color:#23784f;
+}
+
+.ai-status-warning{
+  background:#fff2d6;
+  color:#a76600;
+}
+
+.ai-status-error{
+  background:#ffe7e3;
+  color:#b42318;
+}
+
+.ai-status-default{
+  background:#edf1f5;
+  color:#596778;
+}
+
+.ai-section{
+  margin-bottom:18px;
+}
+
+.ai-section:last-child{
+  margin-bottom:0;
+}
+
+.ai-section h3{
+  color:#2ca9d2;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.1px;
+  margin-bottom:6px;
+}
+
+.ai-section p{
+  color:#4d5c72;
+  font-size:14px;
+  line-height:1.6;
+  white-space:pre-wrap;
+}
+
+.practice-created{
+  display:none;
+  margin-top:18px;
+  padding:12px 14px;
+  border-radius:11px;
+  background:#eef8fc;
+  color:#176b9c;
+  font-size:13px;
+  font-weight:800;
+}
+
 .actions-bar{
   margin-top:22px;
   display:flex;
@@ -418,12 +497,9 @@ footer strong{
 }
 
 </style>
-
 </head>
 
-
 <body>
-
 
 <header class="top-header">
 
@@ -454,9 +530,7 @@ footer strong{
 </header>
 
 
-
 <main class="page">
-
 
 <a href="pratiche.html" class="back">
   ← Torna alle pratiche
@@ -481,32 +555,19 @@ footer strong{
 </div>
 
 
-
 <form id="practiceForm">
 
-
 <div class="layout">
-
 
 <div>
 
 
-<!-- DATI TRASPORTO -->
-
 <section class="card">
 
   <div class="card-header">
-
-    <h2>
-      Dati trasporto
-    </h2>
-
-    <p>
-      Informazioni principali relative a ritiro e consegna.
-    </p>
-
+    <h2>Dati trasporto</h2>
+    <p>Informazioni principali relative a ritiro e consegna.</p>
   </div>
-
 
   <div class="card-body">
 
@@ -696,22 +757,12 @@ footer strong{
 
 
 
-<!-- MERCE E VETTORE -->
-
 <section class="card">
 
   <div class="card-header">
-
-    <h2>
-      Merce e vettore
-    </h2>
-
-    <p>
-      Dati utili alla gestione operativa del trasporto.
-    </p>
-
+    <h2>Merce e vettore</h2>
+    <p>Dati utili alla gestione operativa del trasporto.</p>
   </div>
-
 
   <div class="card-body">
 
@@ -827,10 +878,7 @@ footer strong{
 </section>
 
 
-
-<div id="messageBox" class="message">
-</div>
-
+<div id="messageBox" class="message"></div>
 
 
 <div class="actions-bar">
@@ -840,7 +888,6 @@ footer strong{
     class="btn cancel-btn">
     Annulla
   </a>
-
 
   <button
     id="submitButton"
@@ -854,9 +901,6 @@ footer strong{
 
 </div>
 
-
-
-<!-- AI SIDEBAR -->
 
 <aside class="card ai-card">
 
@@ -887,7 +931,7 @@ footer strong{
     </div>
 
 
-    <div class="ai-text">
+    <div id="aiIntro" class="ai-text">
 
       Dopo il salvataggio MatRi-mIA controllerà
       i dati inseriti e potrà evidenziare
@@ -897,14 +941,12 @@ footer strong{
     </div>
 
 
-    <div class="ai-checklist">
+    <div id="aiChecklist" class="ai-checklist">
 
 
       <div class="ai-check">
 
-        <div class="ai-check-icon">
-          ✓
-        </div>
+        <div class="ai-check-icon">✓</div>
 
         <span>
           Controllo date e orari di ritiro e consegna.
@@ -915,9 +957,7 @@ footer strong{
 
       <div class="ai-check">
 
-        <div class="ai-check-icon">
-          ✓
-        </div>
+        <div class="ai-check-icon">✓</div>
 
         <span>
           Verifica di indirizzi, città e CAP.
@@ -928,9 +968,7 @@ footer strong{
 
       <div class="ai-check">
 
-        <div class="ai-check-icon">
-          ✓
-        </div>
+        <div class="ai-check-icon">✓</div>
 
         <span>
           Analisi di peso, volume, colli e merce.
@@ -941,14 +979,58 @@ footer strong{
 
       <div class="ai-check">
 
-        <div class="ai-check-icon">
-          ✓
-        </div>
+        <div class="ai-check-icon">✓</div>
 
         <span>
           Creazione automatica dello stato AI.
         </span>
 
+      </div>
+
+
+    </div>
+
+
+    <div id="aiResult" class="ai-result">
+
+
+      <div class="ai-result-title">
+        RISULTATO ANALISI
+      </div>
+
+
+      <div
+        id="aiStatus"
+        class="ai-status ai-status-default">
+        -
+      </div>
+
+
+      <div class="ai-section">
+
+        <h3>
+          MOTIVO
+        </h3>
+
+        <p id="aiReason">-</p>
+
+      </div>
+
+
+      <div class="ai-section">
+
+        <h3>
+          AZIONE RICHIESTA
+        </h3>
+
+        <p id="aiAction">-</p>
+
+      </div>
+
+
+      <div
+        id="practiceCreated"
+        class="practice-created">
       </div>
 
 
@@ -962,24 +1044,15 @@ footer strong{
 
 </div>
 
-
 </form>
 
 
-
 <footer>
-
-  <strong>
-    MatRi-mIA Logistics
-  </strong>
-
+  <strong>MatRi-mIA Logistics</strong>
   · AI per trasporti e logistica
-
 </footer>
 
-
 </main>
-
 
 
 <script>
@@ -1000,8 +1073,23 @@ const messageBox =
 const aiStateText =
   document.getElementById("aiStateText");
 
+const aiResult =
+  document.getElementById("aiResult");
 
-function showMessage(type, text){
+const aiStatus =
+  document.getElementById("aiStatus");
+
+const aiReason =
+  document.getElementById("aiReason");
+
+const aiAction =
+  document.getElementById("aiAction");
+
+const practiceCreated =
+  document.getElementById("practiceCreated");
+
+
+function showMessage(type,text){
 
   messageBox.className =
     "message " +
@@ -1011,7 +1099,160 @@ function showMessage(type, text){
         : "message-error"
     );
 
-  messageBox.textContent = text;
+  messageBox.textContent =
+    text;
+
+}
+
+
+function extractSection(text,startLabel,endLabel){
+
+  const start =
+    text.indexOf(startLabel);
+
+  if(start === -1)
+    return "";
+
+  const contentStart =
+    start + startLabel.length;
+
+  let end =
+    text.length;
+
+  if(endLabel){
+
+    const foundEnd =
+      text.indexOf(
+        endLabel,
+        contentStart
+      );
+
+    if(foundEnd !== -1)
+      end = foundEnd;
+
+  }
+
+  return text
+    .slice(contentStart,end)
+    .trim();
+
+}
+
+
+function parseMakeResponse(text){
+
+  const idMatch =
+    text.match(
+      /ID PRATICA:\s*([^\r\n]+)/i
+    );
+
+  const practiceId =
+    idMatch
+      ? idMatch[1].trim()
+      : "";
+
+
+  const statusMatch =
+    text.match(
+      /STATO:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
+    );
+
+  const status =
+    statusMatch
+      ? statusMatch[1].toUpperCase()
+      : "";
+
+
+  const reason =
+    extractSection(
+      text,
+      "MOTIVO:",
+      "AZIONE RICHIESTA:"
+    );
+
+
+  const action =
+    extractSection(
+      text,
+      "AZIONE RICHIESTA:",
+      "DATI DELLA PRATICA:"
+    );
+
+
+  return {
+    practiceId,
+    status,
+    reason,
+    action
+  };
+
+}
+
+
+function showAIResult(result){
+
+  aiResult.style.display =
+    "block";
+
+  aiStateText.textContent =
+    "Analisi completata";
+
+
+  aiStatus.textContent =
+    result.status || "ANALISI COMPLETATA";
+
+
+  if(result.status === "REGOLARE"){
+
+    aiStatus.className =
+      "ai-status ai-status-ok";
+
+  }
+  else if(result.status === "ATTENZIONE"){
+
+    aiStatus.className =
+      "ai-status ai-status-warning";
+
+  }
+  else if(result.status === "PROBLEMA"){
+
+    aiStatus.className =
+      "ai-status ai-status-error";
+
+  }
+  else{
+
+    aiStatus.className =
+      "ai-status ai-status-default";
+
+  }
+
+
+  aiReason.textContent =
+    result.reason ||
+    "Analisi completata.";
+
+  aiAction.textContent =
+    result.action ||
+    "Nessuna";
+
+
+  if(result.practiceId){
+
+    practiceCreated.style.display =
+      "block";
+
+    practiceCreated.textContent =
+      "Pratica creata: " +
+      result.practiceId;
+
+  }
+  else{
+
+    practiceCreated.style.display =
+      "none";
+
+  }
 
 }
 
@@ -1035,6 +1276,12 @@ form.addEventListener(
     messageBox.style.display =
       "none";
 
+    aiResult.style.display =
+      "none";
+
+    practiceCreated.style.display =
+      "none";
+
 
     submitButton.disabled =
       true;
@@ -1049,84 +1296,52 @@ form.addEventListener(
     const payload = {
 
       data:
-        document.getElementById(
-          "data"
-        ).value,
+        document.getElementById("data").value,
 
       cliente:
-        document.getElementById(
-          "cliente"
-        ).value,
+        document.getElementById("cliente").value,
 
       ritiro:
-        document.getElementById(
-          "ritiro"
-        ).value,
+        document.getElementById("ritiro").value,
 
       consegna:
-        document.getElementById(
-          "consegna"
-        ).value,
+        document.getElementById("consegna").value,
 
       partenza:
-        document.getElementById(
-          "partenza"
-        ).value,
+        document.getElementById("partenza").value,
 
       indirizzoRitiro:
-        document.getElementById(
-          "indirizzoRitiro"
-        ).value,
+        document.getElementById("indirizzoRitiro").value,
 
       capRitiro:
-        document.getElementById(
-          "capRitiro"
-        ).value,
+        document.getElementById("capRitiro").value,
 
       destinazione:
-        document.getElementById(
-          "destinazione"
-        ).value,
+        document.getElementById("destinazione").value,
 
       indirizzoConsegna:
-        document.getElementById(
-          "indirizzoConsegna"
-        ).value,
+        document.getElementById("indirizzoConsegna").value,
 
       capConsegna:
-        document.getElementById(
-          "capConsegna"
-        ).value,
+        document.getElementById("capConsegna").value,
 
       vettore:
-        document.getElementById(
-          "vettore"
-        ).value,
+        document.getElementById("vettore").value,
 
       tipoMerce:
-        document.getElementById(
-          "tipoMerce"
-        ).value,
+        document.getElementById("tipoMerce").value,
 
       colli:
-        document.getElementById(
-          "colli"
-        ).value,
+        document.getElementById("colli").value,
 
       peso:
-        document.getElementById(
-          "peso"
-        ).value,
+        document.getElementById("peso").value,
 
       volume:
-        document.getElementById(
-          "volume"
-        ).value,
+        document.getElementById("volume").value,
 
       note:
-        document.getElementById(
-          "note"
-        ).value
+        document.getElementById("note").value
 
     };
 
@@ -1167,51 +1382,28 @@ form.addEventListener(
         await response.text();
 
 
-      let result = {};
+      const result =
+        parseMakeResponse(
+          responseText
+        );
 
 
-      if(responseText){
-
-        try{
-
-          result =
-            JSON.parse(responseText);
-
-        }
-        catch{
-
-          console.log(
-            "Risposta Make:",
-            responseText
-          );
-
-        }
-
-      }
-
-
-      const practiceId =
-        result.idPratica ||
-        result.id ||
-        result.ID ||
-        "";
+      showAIResult(
+        result
+      );
 
 
       showMessage(
         "success",
-        practiceId
+        result.practiceId
           ? "Pratica " +
-            practiceId +
-            " creata e analizzata correttamente."
-          : "Pratica inviata correttamente a MatRi-mIA."
+            result.practiceId +
+            " salvata e analizzata correttamente."
+          : "Pratica salvata e analizzata correttamente."
       );
 
 
-      aiStateText.textContent =
-        "Analisi completata";
-
-
-      if(practiceId){
+      if(result.practiceId){
 
         setTimeout(
           function(){
@@ -1219,11 +1411,11 @@ form.addEventListener(
             window.location.href =
               "dettaglio-pratica.html?id=" +
               encodeURIComponent(
-                practiceId
+                result.practiceId
               );
 
           },
-          900
+          5000
         );
 
       }
@@ -1268,7 +1460,5 @@ form.addEventListener(
 
 </script>
 
-
 </body>
-
 </html>
