@@ -213,6 +213,12 @@ textarea{
   resize:vertical;
 }
 
+.helper{
+  color:#98a3b2;
+  font-size:11px;
+  line-height:1.4;
+}
+
 .ai-card{
   position:sticky;
   top:78px;
@@ -315,9 +321,37 @@ textarea{
   color:#fff;
 }
 
+.save-btn:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
 .cancel-btn{
   background:#edf2f7;
   color:#173459;
+}
+
+.message{
+  display:none;
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.message-error{
+  display:block;
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+  color:#b42318;
+}
+
+.message-success{
+  display:block;
+  background:#ecf9f2;
+  border:1px solid #ccebd9;
+  color:#1d704c;
 }
 
 footer{
@@ -387,7 +421,9 @@ footer strong{
 
 </head>
 
+
 <body>
+
 
 <header class="top-header">
 
@@ -418,7 +454,9 @@ footer strong{
 </header>
 
 
+
 <main class="page">
+
 
 <a href="pratiche.html" class="back">
   ← Torna alle pratiche
@@ -443,12 +481,17 @@ footer strong{
 </div>
 
 
+
 <form id="practiceForm">
+
 
 <div class="layout">
 
+
 <div>
 
+
+<!-- DATI TRASPORTO -->
 
 <section class="card">
 
@@ -463,6 +506,7 @@ footer strong{
     </p>
 
   </div>
+
 
   <div class="card-body">
 
@@ -566,7 +610,7 @@ footer strong{
       </div>
 
 
-      <div class="field wide">
+      <div class="field">
 
         <label for="indirizzoRitiro">
           Indirizzo Ritiro
@@ -576,30 +620,36 @@ footer strong{
           id="indirizzoRitiro"
           name="indirizzoRitiro"
           type="text"
-          placeholder="Es. Via Roma 10, Milano"
+          placeholder="Es. Via Roma 10"
         >
 
       </div>
+
+
       <div class="field">
 
-  <label for="capRitiro">
-    CAP Ritiro
-  </label>
+        <label for="capRitiro">
+          CAP Ritiro
+        </label>
 
-  <input
-    id="capRitiro"
-    name="capRitiro"
-    type="text"
-    inputmode="numeric"
-    maxlength="5"
-    pattern="[0-9]{5}"
-    placeholder="Es. 20121"
-  >
+        <input
+          id="capRitiro"
+          name="capRitiro"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          pattern="[0-9]{5}"
+          placeholder="Es. 20121"
+        >
 
-</div>
+        <span class="helper">
+          Inserisci le 5 cifre del CAP.
+        </span>
+
+      </div>
 
 
-      <div class="field wide">
+      <div class="field">
 
         <label for="indirizzoConsegna">
           Indirizzo Consegna
@@ -609,27 +659,33 @@ footer strong{
           id="indirizzoConsegna"
           name="indirizzoConsegna"
           type="text"
-          placeholder="Es. Via Milano 20, Bergamo"
+          placeholder="Es. Via Milano 20"
         >
 
       </div>
+
+
       <div class="field">
 
-  <label for="capConsegna">
-    CAP Consegna
-  </label>
+        <label for="capConsegna">
+          CAP Consegna
+        </label>
 
-  <input
-    id="capConsegna"
-    name="capConsegna"
-    type="text"
-    inputmode="numeric"
-    maxlength="5"
-    pattern="[0-9]{5}"
-    placeholder="Es. 24121"
-  >
+        <input
+          id="capConsegna"
+          name="capConsegna"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          pattern="[0-9]{5}"
+          placeholder="Es. 24121"
+        >
 
-</div>
+        <span class="helper">
+          Inserisci le 5 cifre del CAP.
+        </span>
+
+      </div>
 
 
     </div>
@@ -639,6 +695,8 @@ footer strong{
 </section>
 
 
+
+<!-- MERCE E VETTORE -->
 
 <section class="card">
 
@@ -653,6 +711,7 @@ footer strong{
     </p>
 
   </div>
+
 
   <div class="card-body">
 
@@ -768,6 +827,12 @@ footer strong{
 </section>
 
 
+
+<div id="messageBox" class="message">
+</div>
+
+
+
 <div class="actions-bar">
 
   <a
@@ -776,7 +841,9 @@ footer strong{
     Annulla
   </a>
 
+
   <button
+    id="submitButton"
     type="submit"
     class="btn save-btn">
     Salva e analizza pratica
@@ -788,6 +855,8 @@ footer strong{
 </div>
 
 
+
+<!-- AI SIDEBAR -->
 
 <aside class="card ai-card">
 
@@ -803,6 +872,7 @@ footer strong{
 
   </div>
 
+
   <div class="ai-content">
 
 
@@ -810,7 +880,7 @@ footer strong{
 
       <div class="ai-dot"></div>
 
-      <strong>
+      <strong id="aiStateText">
         AI pronta
       </strong>
 
@@ -850,7 +920,7 @@ footer strong{
         </div>
 
         <span>
-          Verifica dei principali dati del trasporto.
+          Verifica di indirizzi, città e CAP.
         </span>
 
       </div>
@@ -892,7 +962,9 @@ footer strong{
 
 </div>
 
+
 </form>
+
 
 
 <footer>
@@ -909,20 +981,287 @@ footer strong{
 </main>
 
 
+
 <script>
+
+const WEBHOOK_URL =
+  "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
+
 
 const form =
   document.getElementById("practiceForm");
 
+const submitButton =
+  document.getElementById("submitButton");
+
+const messageBox =
+  document.getElementById("messageBox");
+
+const aiStateText =
+  document.getElementById("aiStateText");
+
+
+function showMessage(type, text){
+
+  messageBox.className =
+    "message " +
+    (
+      type === "success"
+        ? "message-success"
+        : "message-error"
+    );
+
+  messageBox.textContent = text;
+
+}
+
+
 form.addEventListener(
   "submit",
-  function(event){
+  async function(event){
 
     event.preventDefault();
 
-    alert(
-      "Interfaccia completata. Nel prossimo passaggio collegheremo questa pratica a Make per salvarla e analizzarla automaticamente."
-    );
+
+    if(!form.checkValidity()){
+
+      form.reportValidity();
+
+      return;
+
+    }
+
+
+    messageBox.style.display =
+      "none";
+
+
+    submitButton.disabled =
+      true;
+
+    submitButton.textContent =
+      "Analisi in corso...";
+
+    aiStateText.textContent =
+      "Analisi in corso...";
+
+
+    const payload = {
+
+      data:
+        document.getElementById(
+          "data"
+        ).value,
+
+      cliente:
+        document.getElementById(
+          "cliente"
+        ).value,
+
+      ritiro:
+        document.getElementById(
+          "ritiro"
+        ).value,
+
+      consegna:
+        document.getElementById(
+          "consegna"
+        ).value,
+
+      partenza:
+        document.getElementById(
+          "partenza"
+        ).value,
+
+      indirizzoRitiro:
+        document.getElementById(
+          "indirizzoRitiro"
+        ).value,
+
+      capRitiro:
+        document.getElementById(
+          "capRitiro"
+        ).value,
+
+      destinazione:
+        document.getElementById(
+          "destinazione"
+        ).value,
+
+      indirizzoConsegna:
+        document.getElementById(
+          "indirizzoConsegna"
+        ).value,
+
+      capConsegna:
+        document.getElementById(
+          "capConsegna"
+        ).value,
+
+      vettore:
+        document.getElementById(
+          "vettore"
+        ).value,
+
+      tipoMerce:
+        document.getElementById(
+          "tipoMerce"
+        ).value,
+
+      colli:
+        document.getElementById(
+          "colli"
+        ).value,
+
+      peso:
+        document.getElementById(
+          "peso"
+        ).value,
+
+      volume:
+        document.getElementById(
+          "volume"
+        ).value,
+
+      note:
+        document.getElementById(
+          "note"
+        ).value
+
+    };
+
+
+    try{
+
+
+      const response =
+        await fetch(
+          WEBHOOK_URL,
+          {
+
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(payload)
+
+          }
+        );
+
+
+      if(!response.ok){
+
+        throw new Error(
+          "HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const responseText =
+        await response.text();
+
+
+      let result = {};
+
+
+      if(responseText){
+
+        try{
+
+          result =
+            JSON.parse(responseText);
+
+        }
+        catch{
+
+          console.log(
+            "Risposta Make:",
+            responseText
+          );
+
+        }
+
+      }
+
+
+      const practiceId =
+        result.idPratica ||
+        result.id ||
+        result.ID ||
+        "";
+
+
+      showMessage(
+        "success",
+        practiceId
+          ? "Pratica " +
+            practiceId +
+            " creata e analizzata correttamente."
+          : "Pratica inviata correttamente a MatRi-mIA."
+      );
+
+
+      aiStateText.textContent =
+        "Analisi completata";
+
+
+      if(practiceId){
+
+        setTimeout(
+          function(){
+
+            window.location.href =
+              "dettaglio-pratica.html?id=" +
+              encodeURIComponent(
+                practiceId
+              );
+
+          },
+          900
+        );
+
+      }
+
+
+    }
+    catch(error){
+
+
+      console.error(
+        "Errore invio pratica:",
+        error
+      );
+
+
+      showMessage(
+        "error",
+        "Errore durante l'invio della pratica: " +
+        error.message
+      );
+
+
+      aiStateText.textContent =
+        "Errore nell'analisi";
+
+
+    }
+    finally{
+
+
+      submitButton.disabled =
+        false;
+
+      submitButton.textContent =
+        "Salva e analizza pratica";
+
+
+    }
 
   }
 );
@@ -931,4 +1270,5 @@ form.addEventListener(
 
 
 </body>
+
 </html>
