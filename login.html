@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Accedi | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top right,#e9f8fc 0,#f3f6fa 35%,#f3f6fa 100%);
+  color:#172033;
+  display:flex;
+  flex-direction:column;
+}
+
+.top-header{
+  width:100%;
+  background:#fff;
+  border-bottom:1px solid #e5eaf0;
+}
+
+.top-header-inner{
+  max-width:1280px;
+  margin:auto;
+  padding:10px 22px;
+  display:flex;
+  align-items:center;
+}
+
+.logo{
+  width:175px;
+  height:auto;
+  display:block;
+}
+
+.page{
+  flex:1;
+  width:100%;
+  max-width:1280px;
+  margin:auto;
+  padding:50px 22px;
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(380px,.8fr);
+  gap:70px;
+  align-items:center;
+}
+
+.presentation{
+  max-width:650px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2.2px;
+  margin-bottom:14px;
+}
+
+.presentation h1{
+  color:#10284a;
+  font-size:56px;
+  line-height:1.05;
+  margin-bottom:20px;
+}
+
+.presentation p{
+  color:#66768c;
+  font-size:18px;
+  line-height:1.65;
+  max-width:600px;
+}
+
+.features{
+  margin-top:32px;
+  display:grid;
+  gap:15px;
+}
+
+.feature{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#42536a;
+  font-size:14px;
+  font-weight:700;
+}
+
+.feature-icon{
+  width:30px;
+  height:30px;
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e8f7fc;
+  color:#1c9dcc;
+  font-weight:900;
+}
+
+.login-card{
+  background:#fff;
+  border:1px solid #e1e7ee;
+  border-radius:22px;
+  box-shadow:0 18px 50px rgba(19,40,74,.10);
+  overflow:hidden;
+}
+
+.login-header{
+  background:linear-gradient(135deg,#0b1d3a,#123b67);
+  padding:28px;
+  color:#fff;
+}
+
+.login-label{
+  color:#55c9e9;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+.login-header h2{
+  font-size:25px;
+  margin-bottom:7px;
+}
+
+.login-header p{
+  color:#ccd8e7;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.login-body{
+  padding:28px;
+}
+
+.field{
+  margin-bottom:18px;
+}
+
+label{
+  display:block;
+  color:#65758b;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.5px;
+  margin-bottom:7px;
+}
+
+input{
+  width:100%;
+  min-height:50px;
+  border:1px solid #dce3eb;
+  background:#f9fbfd;
+  color:#24384f;
+  border-radius:11px;
+  padding:0 14px;
+  outline:none;
+  font-size:15px;
+}
+
+input:focus{
+  border-color:#4ec5e6;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(78,197,230,.10);
+}
+
+.login-btn{
+  width:100%;
+  min-height:52px;
+  border:none;
+  border-radius:11px;
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+  margin-top:4px;
+}
+
+.login-btn:hover{
+  filter:brightness(.98);
+}
+
+.login-btn:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.message{
+  display:none;
+  margin-top:18px;
+  padding:13px 14px;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.message-error{
+  display:block;
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+  color:#b42318;
+}
+
+.message-success{
+  display:block;
+  background:#ecf9f2;
+  border:1px solid #ccebd9;
+  color:#1d704c;
+}
+
+.security-note{
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid #edf0f4;
+  color:#8795a8;
+  font-size:12px;
+  line-height:1.55;
+  text-align:center;
+}
+
+footer{
+  text-align:center;
+  color:#8995a5;
+  font-size:12px;
+  padding:20px;
+}
+
+footer strong{
+  color:#173459;
+}
+
+@media(max-width:900px){
+
+  .page{
+    grid-template-columns:1fr;
+    gap:35px;
+    padding-top:32px;
+  }
+
+  .presentation{
+    text-align:center;
+    margin:auto;
+  }
+
+  .features{
+    max-width:420px;
+    margin:28px auto 0;
+    text-align:left;
+  }
+
+  .login-card{
+    width:100%;
+    max-width:470px;
+    margin:auto;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .top-header-inner{
+    padding:8px 14px;
+  }
+
+  .logo{
+    width:150px;
+  }
+
+  .page{
+    padding:25px 14px 40px;
+  }
+
+  .presentation h1{
+    font-size:38px;
+  }
+
+  .presentation p{
+    font-size:16px;
+  }
+
+  .login-header,
+  .login-body{
+    padding:22px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="top-header">
+
+  <div class="top-header-inner">
+
+    <img
+      src="matrimia-logo-web.png"
+      alt="MatRi-mIA Logistics"
+      class="logo">
+
+  </div>
+
+</header>
+
+
+
+<main class="page">
+
+
+<section class="presentation">
+
+  <div class="eyebrow">
+    MATRI-MIA · LOGISTICS AI
+  </div>
+
+  <h1>
+    La logistica,
+    più intelligente.
+  </h1>
+
+  <p>
+    Accedi alla piattaforma MatRi-mIA per gestire pratiche,
+    controlli AI e operatività della tua azienda di trasporti.
+  </p>
+
+
+  <div class="features">
+
+    <div class="feature">
+
+      <div class="feature-icon">
+        ✓
+      </div>
+
+      Controllo intelligente delle pratiche di trasporto.
+
+    </div>
+
+
+    <div class="feature">
+
+      <div class="feature-icon">
+        ✓
+      </div>
+
+      Analisi automatica di dati e incongruenze.
+
+    </div>
+
+
+    <div class="feature">
+
+      <div class="feature-icon">
+        ✓
+      </div>
+
+      Accesso protetto ai dati della tua azienda.
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<section class="login-card">
+
+
+  <div class="login-header">
+
+    <div class="login-label">
+      ACCESSO RISERVATO
+    </div>
+
+    <h2>
+      Accedi a MatRi-mIA
+    </h2>
+
+    <p>
+      Inserisci le credenziali associate al tuo account.
+    </p>
+
+  </div>
+
+
+  <div class="login-body">
+
+
+    <form id="loginForm">
+
+
+      <div class="field">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          autocomplete="email"
+          placeholder="nome@azienda.it"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Inserisci la password"
+          required>
+
+      </div>
+
+
+      <button
+        id="loginButton"
+        class="login-btn"
+        type="submit">
+
+        Accedi
+
+      </button>
+
+
+      <div
+        id="messageBox"
+        class="message">
+      </div>
+
+
+    </form>
+
+
+    <div class="security-note">
+
+      L'accesso alla piattaforma è riservato agli utenti
+      autorizzati da MatRi-mIA Logistics.
+
+    </div>
+
+
+  </div>
+
+
+</section>
+
+
+</main>
+
+
+
+<footer>
+
+  <strong>
+    MatRi-mIA Logistics
+  </strong>
+
+  · Accesso sicuro
+
+</footer>
+
+
+
+<script type="module">
+
+import {
+  createClient
+}
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+const loginForm =
+  document.getElementById(
+    "loginForm"
+  );
+
+const loginButton =
+  document.getElementById(
+    "loginButton"
+  );
+
+const messageBox =
+  document.getElementById(
+    "messageBox"
+  );
+
+
+function showMessage(
+  type,
+  text
+){
+
+  messageBox.className =
+    "message " +
+    (
+      type === "success"
+        ? "message-success"
+        : "message-error"
+    );
+
+  messageBox.textContent =
+    text;
+
+}
+
+
+/* Se l'utente è già autenticato,
+   non mostriamo nuovamente il login */
+
+async function checkExistingSession(){
+
+  const {
+    data:{
+      session
+    }
+  } =
+    await supabase.auth.getSession();
+
+
+  if(session){
+
+    window.location.href =
+      "index.html";
+
+  }
+
+}
+
+
+checkExistingSession();
+
+
+
+loginForm.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+
+    messageBox.style.display =
+      "none";
+
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+
+    loginButton.disabled =
+      true;
+
+    loginButton.textContent =
+      "Accesso in corso...";
+
+
+    try{
+
+
+      const {
+        data,
+        error
+      } =
+        await supabase.auth
+          .signInWithPassword({
+
+            email:
+              email,
+
+            password:
+              password
+
+          });
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      if(
+        !data ||
+        !data.user
+      ){
+
+        throw new Error(
+          "Accesso non riuscito."
+        );
+
+      }
+
+
+      /* Verifica che esista anche
+         il profilo dell'utente */
+
+      const {
+        data:profile,
+        error:profileError
+      } =
+        await supabase
+          .from("profiles")
+          .select(
+            "id,email,ruolo,azienda_id"
+          )
+          .eq(
+            "id",
+            data.user.id
+          )
+          .single();
+
+
+      if(profileError){
+
+        await supabase.auth
+          .signOut();
+
+        throw new Error(
+          "Profilo utente non autorizzato."
+        );
+
+      }
+
+
+      if(!profile){
+
+        await supabase.auth
+          .signOut();
+
+        throw new Error(
+          "Profilo utente non trovato."
+        );
+
+      }
+
+
+      showMessage(
+        "success",
+        "Accesso effettuato. Apertura MatRi-mIA..."
+      );
+
+
+      setTimeout(
+        function(){
+
+          window.location.href =
+            "index.html";
+
+        },
+        500
+      );
+
+
+    }
+    catch(error){
+
+
+      console.error(
+        "Errore login:",
+        error
+      );
+
+
+      let message =
+        error.message ||
+        "Credenziali non valide.";
+
+
+      if(
+        message
+          .toLowerCase()
+          .includes(
+            "invalid login credentials"
+          )
+      ){
+
+        message =
+          "Email o password non corretti.";
+
+      }
+
+
+      showMessage(
+        "error",
+        message
+      );
+
+
+    }
+    finally{
+
+
+      loginButton.disabled =
+        false;
+
+      loginButton.textContent =
+        "Accedi";
+
+    }
+
+  }
+);
+
+</script>
+
+
+</body>
+
+</html>
