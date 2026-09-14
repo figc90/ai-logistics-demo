@@ -21,10 +21,19 @@ body{
   background:#f3f6fa;
   color:#172033;
   min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
 }
 
 a{
   text-decoration:none;
+}
+
+button{
+  font:inherit;
 }
 
 .top-header{
@@ -47,11 +56,13 @@ a{
 
 .logo{
   width:175px;
+  height:auto;
   display:block;
 }
 
 .header-actions{
   display:flex;
+  align-items:center;
   gap:10px;
 }
 
@@ -64,6 +75,8 @@ a{
   justify-content:center;
   font-size:14px;
   font-weight:800;
+  border:none;
+  cursor:pointer;
 }
 
 .btn-secondary{
@@ -74,6 +87,12 @@ a{
 .btn-primary{
   background:linear-gradient(135deg,#ec4f32,#ff7b1f);
   color:#fff;
+}
+
+.logout-btn{
+  background:#fff1f0;
+  color:#b42318;
+  border:1px solid #ffd4d1;
 }
 
 .page{
@@ -120,6 +139,16 @@ h1{
 .route{
   color:#758399;
   font-size:16px;
+}
+
+.user-info{
+  margin-top:8px;
+  color:#8795a8;
+  font-size:12px;
+}
+
+.user-info strong{
+  color:#173459;
 }
 
 .status-area{
@@ -334,8 +363,9 @@ footer strong{
     width:145px;
   }
 
-  .header-actions .btn-secondary{
-    display:none;
+  .btn{
+    padding:0 12px;
+    font-size:13px;
   }
 
   .page{
@@ -379,11 +409,15 @@ footer strong{
   <div class="top-header-inner">
 
     <a href="index.html">
+
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
-        class="logo">
+        class="logo"
+      >
+
     </a>
+
 
     <div class="header-actions">
 
@@ -398,6 +432,13 @@ footer strong{
         class="btn btn-primary">
         + Nuova pratica
       </a>
+
+      <button
+        id="logoutButton"
+        class="btn logout-btn"
+        type="button">
+        Esci
+      </button>
 
     </div>
 
@@ -452,6 +493,11 @@ footer strong{
       <div
         id="route"
         class="route">
+      </div>
+
+      <div
+        id="userInfo"
+        class="user-info">
       </div>
 
     </div>
@@ -653,7 +699,36 @@ footer strong{
 
 
 
-<script>
+<script type="module">
+
+import {
+  createClient
+}
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* ============================
+   SUPABASE
+============================ */
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ============================
+   MAKE
+============================ */
 
 const WEBHOOK_URL =
   "https://hook.eu1.make.com/05uyyblgxp9m8j72ldy4s6lc9puif86j";
@@ -664,8 +739,41 @@ const params =
     window.location.search
   );
 
+
 const requestedId =
   params.get("id");
+
+
+const logoutButton =
+  document.getElementById(
+    "logoutButton"
+  );
+
+
+const userInfo =
+  document.getElementById(
+    "userInfo"
+  );
+
+
+let currentUser = null;
+let currentProfile = null;
+
+
+/* ============================
+   UTILITY
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
 
 
 function getValue(obj,names){
@@ -674,12 +782,17 @@ function getValue(obj,names){
 
     if(
       obj &&
-      Object.prototype.hasOwnProperty.call(obj,name) &&
+      Object.prototype.hasOwnProperty.call(
+        obj,
+        name
+      ) &&
       obj[name] !== null &&
       obj[name] !== undefined &&
       obj[name] !== ""
     ){
+
       return obj[name];
+
     }
 
   }
@@ -705,33 +818,48 @@ function setValue(id,value){
 
 function formatDate(value){
 
-  if(!value)
+  if(!value){
     return "-";
+  }
+
 
   const date =
     new Date(value);
 
-  if(isNaN(date.getTime()))
-    return value;
 
-  return date.toLocaleDateString("it-IT");
+  if(isNaN(date.getTime())){
+    return value;
+  }
+
+
+  return date.toLocaleDateString(
+    "it-IT"
+  );
 
 }
 
 
 function formatDateTime(value){
 
-  if(!value)
+  if(!value){
     return "-";
+  }
+
 
   const date =
     new Date(value);
 
-  if(isNaN(date.getTime()))
+
+  if(isNaN(date.getTime())){
     return value;
+  }
+
 
   const day =
-    date.toLocaleDateString("it-IT");
+    date.toLocaleDateString(
+      "it-IT"
+    );
+
 
   const time =
     date.toLocaleTimeString(
@@ -742,10 +870,176 @@ function formatDateTime(value){
       }
     );
 
+
   return day + " · " + time;
 
 }
 
+
+/* ============================
+   AUTENTICAZIONE
+============================ */
+
+async function protectPage(){
+
+  try{
+
+    const {
+      data:{
+        session
+      },
+      error
+    } =
+      await supabase.auth
+        .getSession();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(
+      !session ||
+      !session.user
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    currentUser =
+      session.user;
+
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .single();
+
+
+    if(
+      profileError ||
+      !profile
+    ){
+
+      console.error(
+        "Profilo non autorizzato:",
+        profileError
+      );
+
+
+      await supabase.auth
+        .signOut();
+
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    currentProfile =
+      profile;
+
+
+    userInfo.innerHTML =
+      `Accesso: <strong>${
+        escapeHtml(
+          profile.email ||
+          currentUser.email ||
+          ""
+        )
+      }</strong> · ${
+        escapeHtml(
+          profile.ruolo ||
+          ""
+        )
+      }`;
+
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
+
+
+    window.location.replace(
+      "login.html"
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+/* ============================
+   LOGOUT
+============================ */
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled =
+      true;
+
+    logoutButton.textContent =
+      "Uscita...";
+
+
+    try{
+
+      await supabase.auth
+        .signOut();
+
+    }
+    finally{
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
+  }
+);
+
+
+/* ============================
+   STATO / ANALISI AI
+============================ */
 
 function cleanStatus(value){
 
@@ -753,14 +1047,21 @@ function cleanStatus(value){
     String(value || "")
       .toUpperCase();
 
-  if(text.includes("PROBLEMA"))
+
+  if(text.includes("PROBLEMA")){
     return "PROBLEMA";
+  }
 
-  if(text.includes("ATTENZIONE"))
+
+  if(text.includes("ATTENZIONE")){
     return "ATTENZIONE";
+  }
 
-  if(text.includes("REGOLARE"))
+
+  if(text.includes("REGOLARE")){
     return "REGOLARE";
+  }
+
 
   return "";
 
@@ -772,6 +1073,7 @@ function looksLikeAnalysis(value){
   const text =
     String(value || "")
       .toUpperCase();
+
 
   return (
     text.includes("STATO:") &&
@@ -799,18 +1101,25 @@ function findStatus(pratica){
 
   for(const value of candidates){
 
-    if(!value)
+    if(!value){
       continue;
+    }
+
 
     const text =
-      String(value).trim();
+      String(value)
+        .trim()
+        .toUpperCase();
+
 
     if(
       text === "REGOLARE" ||
       text === "ATTENZIONE" ||
       text === "PROBLEMA"
     ){
+
       return text;
+
     }
 
   }
@@ -819,10 +1128,14 @@ function findStatus(pratica){
   for(const value of candidates){
 
     const status =
-      cleanStatus(value);
+      cleanStatus(
+        value
+      );
 
-    if(status)
+
+    if(status){
       return status;
+    }
 
   }
 
@@ -851,9 +1164,13 @@ function findAnalysis(pratica){
 
     if(
       value &&
-      looksLikeAnalysis(value)
+      looksLikeAnalysis(
+        value
+      )
     ){
+
       return value;
+
     }
 
   }
@@ -876,20 +1193,37 @@ function findNotes(pratica){
       ]
     );
 
-  if(named)
+
+  if(named){
     return named;
+  }
 
 
-  const candidate =
-    pratica["16"];
+  const candidates = [
+
+    pratica["16"],
+    pratica["17"],
+    pratica["18"]
+
+  ];
 
 
-  if(
-    candidate &&
-    !looksLikeAnalysis(candidate) &&
-    !cleanStatus(candidate)
-  ){
-    return candidate;
+  for(const candidate of candidates){
+
+    if(
+      candidate &&
+      !looksLikeAnalysis(
+        candidate
+      ) &&
+      !cleanStatus(
+        candidate
+      )
+    ){
+
+      return candidate;
+
+    }
+
   }
 
 
@@ -905,27 +1239,39 @@ function setStatus(status){
       "statusBadge"
     );
 
+
   const normalized =
-    cleanStatus(status);
+    cleanStatus(
+      status
+    );
 
 
   badge.textContent =
     normalized || "-";
 
 
-  if(normalized === "REGOLARE"){
+  if(
+    normalized ===
+      "REGOLARE"
+  ){
 
     badge.className =
       "status-badge status-ok";
 
   }
-  else if(normalized === "ATTENZIONE"){
+  else if(
+    normalized ===
+      "ATTENZIONE"
+  ){
 
     badge.className =
       "status-badge status-warning";
 
   }
-  else if(normalized === "PROBLEMA"){
+  else if(
+    normalized ===
+      "PROBLEMA"
+  ){
 
     badge.className =
       "status-badge status-error";
@@ -948,16 +1294,20 @@ function parseAIAnalysis(text){
       "aiContent"
     );
 
-  container.innerHTML = "";
+
+  container.innerHTML =
+    "";
 
 
   if(!text){
 
     container.innerHTML = `
       <div class="ai-section">
+
         <div class="ai-section-text">
           Nessuna analisi AI disponibile.
         </div>
+
       </div>
     `;
 
@@ -973,10 +1323,12 @@ function parseAIAnalysis(text){
 
 
   const headings = [
+
     "STATO:",
     "MOTIVO:",
     "AZIONE RICHIESTA:",
     "DATI DELLA PRATICA:"
+
   ];
 
 
@@ -993,8 +1345,9 @@ function parseAIAnalysis(text){
         );
 
 
-      if(start === -1)
+      if(start === -1){
         return;
+      }
 
 
       let end =
@@ -1010,13 +1363,16 @@ function parseAIAnalysis(text){
         const next =
           normalized.indexOf(
             headings[i],
-            start + heading.length
+            start +
+            heading.length
           );
 
 
         if(next !== -1){
 
-          end = next;
+          end =
+            next;
+
           break;
 
         }
@@ -1032,13 +1388,13 @@ function parseAIAnalysis(text){
         content:
           normalized
             .slice(
-              start + heading.length,
+              start +
+              heading.length,
               end
             )
             .trim()
 
       });
-
 
     }
   );
@@ -1046,18 +1402,39 @@ function parseAIAnalysis(text){
 
   if(!sections.length){
 
-    container.innerHTML = `
-      <div class="ai-section">
-        <div class="ai-section-text"></div>
-      </div>
-    `;
+    const section =
+      document.createElement(
+        "div"
+      );
 
-    container
-      .querySelector(
-        ".ai-section-text"
-      )
-      .textContent =
-        normalized;
+
+    section.className =
+      "ai-section";
+
+
+    const content =
+      document.createElement(
+        "div"
+      );
+
+
+    content.className =
+      "ai-section-text";
+
+
+    content.textContent =
+      normalized;
+
+
+    section.appendChild(
+      content
+    );
+
+
+    container.appendChild(
+      section
+    );
+
 
     return;
 
@@ -1073,6 +1450,7 @@ function parseAIAnalysis(text){
           "div"
         );
 
+
       section.className =
         "ai-section";
 
@@ -1082,8 +1460,10 @@ function parseAIAnalysis(text){
           "div"
         );
 
+
       title.className =
         "ai-section-title";
+
 
       title.textContent =
         sectionData.title;
@@ -1094,18 +1474,28 @@ function parseAIAnalysis(text){
           "div"
         );
 
+
       content.className =
         "ai-section-text";
+
 
       content.textContent =
         sectionData.content || "-";
 
 
-      section.appendChild(title);
-      section.appendChild(content);
+      section.appendChild(
+        title
+      );
 
-      container.appendChild(section);
 
+      section.appendChild(
+        content
+      );
+
+
+      container.appendChild(
+        section
+      );
 
     }
   );
@@ -1113,10 +1503,16 @@ function parseAIAnalysis(text){
 }
 
 
+/* ============================
+   ERRORI
+============================ */
+
 function showError(message){
 
   document
-    .getElementById("loadingBox")
+    .getElementById(
+      "loadingBox"
+    )
     .style.display =
       "none";
 
@@ -1128,7 +1524,8 @@ function showError(message){
 
 
   box.textContent =
-    "Errore: " + message;
+    "Errore: " +
+    message;
 
 
   box.style.display =
@@ -1136,6 +1533,10 @@ function showError(message){
 
 }
 
+
+/* ============================
+   CARICAMENTO PRATICA
+============================ */
 
 async function loadPractice(){
 
@@ -1157,11 +1558,16 @@ async function loadPractice(){
       await fetch(
         WEBHOOK_URL,
         {
+
           method:"GET",
+
           cache:"no-store",
+
           headers:{
-            "Accept":"application/json"
+            "Accept":
+              "application/json"
           }
+
         }
       );
 
@@ -1169,7 +1575,8 @@ async function loadPractice(){
     if(!response.ok){
 
       throw new Error(
-        "HTTP " + response.status
+        "HTTP " +
+        response.status
       );
 
     }
@@ -1183,11 +1590,17 @@ async function loadPractice(){
       data.pratiche;
 
 
-    if(!Array.isArray(pratiche)){
+    if(
+      !Array.isArray(
+        pratiche
+      )
+    ){
 
       pratiche =
         pratiche
-          ? Object.values(pratiche)
+          ? Object.values(
+              pratiche
+            )
           : [];
 
     }
@@ -1196,6 +1609,7 @@ async function loadPractice(){
     const pratica =
       pratiche.find(
         item=>{
+
 
           const id =
             getValue(
@@ -1210,7 +1624,9 @@ async function loadPractice(){
 
 
           return String(id) ===
-            String(requestedId);
+            String(
+              requestedId
+            );
 
         }
       );
@@ -1583,7 +1999,27 @@ async function loadPractice(){
 }
 
 
-loadPractice();
+/* ============================
+   AVVIO
+============================ */
+
+async function startPage(){
+
+  const authenticated =
+    await protectPage();
+
+
+  if(!authenticated){
+    return;
+  }
+
+
+  await loadPractice();
+
+}
+
+
+startPage();
 
 </script>
 
