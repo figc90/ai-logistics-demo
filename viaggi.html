@@ -1,24 +1,1829 @@
-.from("viaggi")
-.select(`
-  id,
-  numero_viaggio,
-  pratica_id,
-  stato,
-  vettore,
-  autista,
-  targa_trattore,
-  targa_rimorchio,
-  data_partenza,
-  data_arrivo,
-  km_previsti,
-  costo_previsto,
-  created_at,
-  pratiche (
-    id,
-    numero_pratica,
-    cliente,
-    partenza,
-    destinazione
-  )
-`)
-.order("created_at", { ascending:false });
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Viaggi | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+/* ============================
+   LAYOUT
+============================ */
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* ============================
+   SIDEBAR
+============================ */
+
+.sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+  border-right:1px solid rgba(255,255,255,.05);
+}
+
+.sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#ffffff,#f4f8fc);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:14px;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.18),
+    0 0 18px rgba(73,193,229,.14);
+  transition:.2s ease;
+}
+
+.sidebar-logo-link:hover{
+  transform:translateY(-1px);
+}
+
+.sidebar-logo img{
+  width:175px;
+  max-width:90%;
+  height:auto;
+  display:block;
+}
+
+/* ============================
+   NAV
+============================ */
+
+.sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+}
+
+.nav-section{
+  margin-bottom:28px;
+}
+
+.nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
+}
+
+.nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:16px;
+}
+
+.nav-disabled{
+  opacity:.42;
+  cursor:default;
+}
+
+.nav-disabled:hover{
+  background:transparent;
+  color:#c7d3e1;
+}
+
+.soon{
+  margin-left:auto;
+  padding:4px 7px;
+  background:rgba(255,255,255,.08);
+  border-radius:999px;
+  color:#8fa5bb;
+  font-size:8px;
+  font-weight:900;
+}
+
+/* ============================
+   USER
+============================ */
+
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px 12px;
+  margin-bottom:9px;
+}
+
+.user-label{
+  color:#7994af;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin-bottom:4px;
+}
+
+.user-email{
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+
+.logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.logout-btn:hover{
+  background:rgba(255,255,255,.09);
+}
+
+/* ============================
+   MAIN
+============================ */
+
+.main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+  min-height:100vh;
+}
+
+.topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+}
+
+.new-trip-btn{
+  min-height:40px;
+  padding:0 17px;
+  border:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:900;
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* ============================
+   CONTENT
+============================ */
+
+.content{
+  max-width:1360px;
+  margin:0 auto;
+  padding:32px 30px 55px;
+}
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
+  margin-bottom:24px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+h1{
+  color:#10284a;
+  font-size:38px;
+  line-height:1;
+  margin-bottom:9px;
+}
+
+.subtitle{
+  color:#7d8ba0;
+  font-size:14px;
+}
+
+.counter{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:14px;
+  padding:14px 20px;
+  min-width:150px;
+  box-shadow:0 9px 25px rgba(19,40,74,.05);
+}
+
+.counter span{
+  display:block;
+  color:#8795a8;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.8px;
+  margin-bottom:5px;
+}
+
+.counter strong{
+  color:#10284a;
+  font-size:27px;
+}
+
+/* ============================
+   KPI
+============================ */
+
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.kpi{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:14px;
+  padding:17px;
+  box-shadow:0 9px 25px rgba(19,40,74,.04);
+}
+
+.kpi-label{
+  color:#8492a6;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.6px;
+  margin-bottom:9px;
+}
+
+.kpi-number{
+  color:#10284a;
+  font-size:25px;
+  font-weight:900;
+}
+
+/* ============================
+   TOOLBAR
+============================ */
+
+.toolbar{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  box-shadow:0 8px 22px rgba(19,40,74,.04);
+}
+
+.search-wrap{
+  flex:1;
+  min-width:250px;
+}
+
+.search-input{
+  width:100%;
+  height:42px;
+  border:1px solid #dce3eb;
+  border-radius:9px;
+  padding:0 13px;
+  color:#30465f;
+  outline:none;
+}
+
+.search-input:focus,
+.filter-select:focus{
+  border-color:#2ca9d2;
+  box-shadow:0 0 0 3px rgba(44,169,210,.08);
+}
+
+.filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.filter-select,
+.reload-btn{
+  height:42px;
+  border:1px solid #dce3eb;
+  border-radius:9px;
+  background:#fff;
+  color:#526177;
+  padding:0 12px;
+}
+
+.reload-btn{
+  cursor:pointer;
+  font-weight:800;
+}
+
+.reload-btn:hover{
+  background:#f6f9fb;
+}
+
+/* ============================
+   TABLE
+============================ */
+
+.table-card{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(19,40,74,.05);
+}
+
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:950px;
+}
+
+thead{
+  background:#f6f8fb;
+}
+
+th{
+  padding:12px 15px;
+  color:#8290a4;
+  font-size:9px;
+  text-align:left;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+td{
+  padding:14px 15px;
+  border-top:1px solid #edf0f4;
+  color:#526177;
+  font-size:11px;
+  vertical-align:middle;
+}
+
+tbody tr{
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+tbody tr:hover{
+  background:#fafcff;
+}
+
+.trip-id{
+  color:#173f69;
+  font-weight:900;
+}
+
+.practice-id{
+  color:#1596c2;
+  font-weight:800;
+}
+
+.route{
+  color:#344b68;
+  font-weight:700;
+}
+
+.driver{
+  color:#30465f;
+  font-weight:700;
+}
+
+.driver small{
+  display:block;
+  color:#98a4b4;
+  font-size:9px;
+  margin-top:3px;
+  font-weight:500;
+}
+
+/* ============================
+   BADGES
+============================ */
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.badge-plan{
+  background:#edf1f5;
+  color:#687689;
+}
+
+.badge-programmed{
+  background:#e8f4fb;
+  color:#167fa5;
+}
+
+.badge-running{
+  background:#fff0ce;
+  color:#a46700;
+}
+
+.badge-done{
+  background:#e5f7ee;
+  color:#23784f;
+}
+
+.badge-cancelled{
+  background:#ffe8e5;
+  color:#b42318;
+}
+
+/* ============================
+   STATUS / EMPTY
+============================ */
+
+.status-box{
+  margin-bottom:14px;
+  padding:13px 15px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.status-loading{
+  background:#edf8fd;
+  border:1px solid #ccebf7;
+  color:#176b9c;
+}
+
+.status-error{
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+  color:#b42318;
+}
+
+.empty-state{
+  display:none;
+  padding:45px 20px;
+  text-align:center;
+  color:#8795a8;
+}
+
+.empty-state strong{
+  display:block;
+  color:#30465f;
+  font-size:17px;
+  margin-bottom:7px;
+}
+
+/* ============================
+   MOBILE
+============================ */
+
+@media(max-width:1050px){
+
+  .kpi-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:760px){
+
+  .sidebar{
+    width:72px;
+  }
+
+  .main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+    border-radius:10px;
+  }
+
+  .sidebar-logo img{
+    width:50px;
+  }
+
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .soon,
+  .user-card{
+    display:none;
+  }
+
+  .nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .sidebar-bottom{
+    padding:8px;
+  }
+
+  .logout-btn{
+    font-size:0;
+  }
+
+  .logout-btn::after{
+    content:"↪";
+    font-size:18px;
+  }
+
+  .topbar{
+    padding:0 15px;
+  }
+
+  .content{
+    padding:25px 14px 40px;
+  }
+
+  .page-heading{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .counter{
+    width:100%;
+  }
+
+  .kpi-grid{
+    grid-template-columns:1fr;
+  }
+
+  .search-wrap{
+    min-width:100%;
+  }
+
+  .filters{
+    width:100%;
+  }
+
+  .filter-select,
+  .reload-btn{
+    flex:1;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ============================
+     SIDEBAR
+============================ -->
+
+<aside class="sidebar">
+
+  <div class="sidebar-logo">
+
+    <a
+      href="dashboard.html"
+      class="sidebar-logo-link"
+      aria-label="Vai alla Dashboard">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+
+    </a>
+
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-section">
+
+      <div class="nav-title">
+        OPERATIVITÀ
+      </div>
+
+      <a
+        href="dashboard.html"
+        class="nav-item">
+
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+
+      </a>
+
+      <a
+        href="pratiche.html"
+        class="nav-item">
+
+        <span class="nav-icon">▤</span>
+        <span>Pratiche</span>
+
+      </a>
+
+      <a
+        href="nuova-pratica.html"
+        class="nav-item">
+
+        <span class="nav-icon">＋</span>
+        <span>Nuova pratica</span>
+
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">
+        AUTOMAZIONI
+      </div>
+
+      <div class="nav-item nav-disabled">
+
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+
+        <span class="soon">
+          PRESTO
+        </span>
+
+      </div>
+
+      <a
+        href="viaggi.html"
+        class="nav-item active">
+
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">
+        GESTIONE
+      </div>
+
+      <div class="nav-item nav-disabled">
+
+        <span class="nav-icon">▣</span>
+        <span>Aziende</span>
+
+        <span class="soon">
+          PRESTO
+        </span>
+
+      </div>
+
+    </div>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+
+    <div class="user-card">
+
+      <div class="user-label">
+        UTENTE
+      </div>
+
+      <div
+        id="userEmail"
+        class="user-email">
+        -
+      </div>
+
+    </div>
+
+    <button
+      id="logoutButton"
+      class="logout-btn"
+      type="button">
+      Esci
+    </button>
+
+  </div>
+
+</aside>
+
+<!-- ============================
+     MAIN
+============================ -->
+
+<div class="main">
+
+<header class="topbar">
+
+  <div class="topbar-brand">
+    MatRi-mIA Logistics · Viaggi
+  </div>
+
+  <button
+    class="new-trip-btn"
+    type="button"
+    title="La creazione dei viaggi sarà attivata nel prossimo passaggio">
+    + Nuovo viaggio
+  </button>
+
+</header>
+
+<main class="content">
+
+<div class="page-heading">
+
+  <div>
+
+    <div class="eyebrow">
+      MATRI-MIA · OPERATIVITÀ
+    </div>
+
+    <h1>
+      Viaggi
+    </h1>
+
+    <div class="subtitle">
+      Pianifica e controlla i trasporti collegati alle pratiche.
+    </div>
+
+  </div>
+
+  <div class="counter">
+
+    <span>
+      VIAGGI TOTALI
+    </span>
+
+    <strong id="tripCount">
+      0
+    </strong>
+
+  </div>
+
+</div>
+
+<!-- KPI -->
+
+<div class="kpi-grid">
+
+  <div class="kpi">
+
+    <div class="kpi-label">
+      DA PROGRAMMARE
+    </div>
+
+    <div
+      id="toPlanCount"
+      class="kpi-number">
+      0
+    </div>
+
+  </div>
+
+  <div class="kpi">
+
+    <div class="kpi-label">
+      PROGRAMMATI
+    </div>
+
+    <div
+      id="programmedCount"
+      class="kpi-number">
+      0
+    </div>
+
+  </div>
+
+  <div class="kpi">
+
+    <div class="kpi-label">
+      IN CORSO
+    </div>
+
+    <div
+      id="runningCount"
+      class="kpi-number">
+      0
+    </div>
+
+  </div>
+
+  <div class="kpi">
+
+    <div class="kpi-label">
+      CONSEGNATI
+    </div>
+
+    <div
+      id="deliveredCount"
+      class="kpi-number">
+      0
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TOOLBAR -->
+
+<div class="toolbar">
+
+  <div class="search-wrap">
+
+    <input
+      id="searchInput"
+      class="search-input"
+      type="search"
+      placeholder="Cerca viaggio, pratica, cliente, tratta, vettore o autista...">
+
+  </div>
+
+  <div class="filters">
+
+    <select
+      id="statusFilter"
+      class="filter-select">
+
+      <option value="TUTTI">
+        Tutti gli stati
+      </option>
+
+      <option value="DA PROGRAMMARE">
+        Da programmare
+      </option>
+
+      <option value="PROGRAMMATO">
+        Programmato
+      </option>
+
+      <option value="IN CORSO">
+        In corso
+      </option>
+
+      <option value="CONSEGNATO">
+        Consegnato
+      </option>
+
+      <option value="ANNULLATO">
+        Annullato
+      </option>
+
+    </select>
+
+    <select
+      id="sortOrder"
+      class="filter-select">
+
+      <option value="newest">
+        Più recenti
+      </option>
+
+      <option value="oldest">
+        Meno recenti
+      </option>
+
+      <option value="departure">
+        Partenza
+      </option>
+
+    </select>
+
+    <button
+      id="reloadBtn"
+      class="reload-btn"
+      type="button">
+      Aggiorna
+    </button>
+
+  </div>
+
+</div>
+
+<div
+  id="statusBox"
+  class="status-box status-loading">
+  Caricamento viaggi...
+</div>
+
+<div class="table-card">
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Viaggio</th>
+          <th>Pratica</th>
+          <th>Cliente</th>
+          <th>Tratta</th>
+          <th>Vettore / Autista</th>
+          <th>Partenza</th>
+          <th>Stato</th>
+        </tr>
+
+      </thead>
+
+      <tbody id="viaggiBody">
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div
+    id="emptyState"
+    class="empty-state">
+
+    <strong>
+      Nessun viaggio trovato
+    </strong>
+
+    Non risultano viaggi da visualizzare con i criteri attuali.
+
+  </div>
+
+</div>
+
+</main>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import {
+  createClient
+}
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+/* ============================
+   SUPABASE
+============================ */
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+/* ============================
+   ELEMENTI
+============================ */
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const userEmail =
+  document.getElementById("userEmail");
+
+const tripCount =
+  document.getElementById("tripCount");
+
+const toPlanCount =
+  document.getElementById("toPlanCount");
+
+const programmedCount =
+  document.getElementById("programmedCount");
+
+const runningCount =
+  document.getElementById("runningCount");
+
+const deliveredCount =
+  document.getElementById("deliveredCount");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const statusFilter =
+  document.getElementById("statusFilter");
+
+const sortOrder =
+  document.getElementById("sortOrder");
+
+const reloadBtn =
+  document.getElementById("reloadBtn");
+
+const statusBox =
+  document.getElementById("statusBox");
+
+const viaggiBody =
+  document.getElementById("viaggiBody");
+
+const emptyState =
+  document.getElementById("emptyState");
+
+let currentUser = null;
+let currentProfile = null;
+let allViaggi = [];
+
+/* ============================
+   UTILITY
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+function normalizeStatus(value){
+
+  const status =
+    String(value || "")
+      .trim()
+      .toUpperCase();
+
+  if(status === "DA PROGRAMMARE"){
+    return "DA PROGRAMMARE";
+  }
+
+  if(status === "PROGRAMMATO"){
+    return "PROGRAMMATO";
+  }
+
+  if(status === "IN CORSO"){
+    return "IN CORSO";
+  }
+
+  if(status === "CONSEGNATO"){
+    return "CONSEGNATO";
+  }
+
+  if(status === "ANNULLATO"){
+    return "ANNULLATO";
+  }
+
+  return "DA PROGRAMMARE";
+
+}
+
+function formatDateTime(value){
+
+  if(!value){
+    return "-";
+  }
+
+  const date =
+    new Date(value);
+
+  if(isNaN(date.getTime())){
+    return value;
+  }
+
+  return date.toLocaleString(
+    "it-IT",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+function createBadge(status){
+
+  const normalized =
+    normalizeStatus(status);
+
+  if(normalized === "PROGRAMMATO"){
+
+    return `
+      <span class="badge badge-programmed">
+        PROGRAMMATO
+      </span>
+    `;
+
+  }
+
+  if(normalized === "IN CORSO"){
+
+    return `
+      <span class="badge badge-running">
+        IN CORSO
+      </span>
+    `;
+
+  }
+
+  if(normalized === "CONSEGNATO"){
+
+    return `
+      <span class="badge badge-done">
+        CONSEGNATO
+      </span>
+    `;
+
+  }
+
+  if(normalized === "ANNULLATO"){
+
+    return `
+      <span class="badge badge-cancelled">
+        ANNULLATO
+      </span>
+    `;
+
+  }
+
+  return `
+    <span class="badge badge-plan">
+      DA PROGRAMMARE
+    </span>
+  `;
+
+}
+
+/* ============================
+   AUTENTICAZIONE
+============================ */
+
+async function protectPage(){
+
+  try{
+
+    const {
+      data:{
+        session
+      },
+      error
+    } =
+      await supabase.auth
+        .getSession();
+
+    if(error){
+      throw error;
+    }
+
+    if(
+      !session ||
+      !session.user
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+    currentUser =
+      session.user;
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .single();
+
+    if(
+      profileError ||
+      !profile
+    ){
+
+      console.error(
+        "Profilo non trovato:",
+        profileError
+      );
+
+      await supabase.auth
+        .signOut();
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+    currentProfile =
+      profile;
+
+    userEmail.textContent =
+      profile.email ||
+      currentUser.email ||
+      "-";
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+}
+
+/* ============================
+   LOGOUT
+============================ */
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled =
+      true;
+
+    logoutButton.textContent =
+      "Uscita...";
+
+    try{
+
+      await supabase.auth
+        .signOut();
+
+    }
+    finally{
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
+  }
+);
+
+/* ============================
+   CARICA VIAGGI
+============================ */
+
+async function loadViaggi(){
+
+  statusBox.style.display =
+    "block";
+
+  statusBox.className =
+    "status-box status-loading";
+
+  statusBox.textContent =
+    "Caricamento viaggi...";
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("viaggi")
+        .select(`
+          id,
+          numero_viaggio,
+          pratica_id,
+          stato,
+          vettore,
+          autista,
+          targa_trattore,
+          targa_rimorchio,
+          data_partenza,
+          data_arrivo,
+          km_previsti,
+          costo_previsto,
+          created_at,
+          pratiche (
+            id,
+            numero_pratica,
+            cliente,
+            partenza,
+            destinazione
+          )
+        `)
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
+
+    if(error){
+      throw error;
+    }
+
+    allViaggi =
+      data || [];
+
+    updateCounters();
+
+    applyFilters();
+
+    statusBox.style.display =
+      "none";
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore caricamento viaggi:",
+      error
+    );
+
+    statusBox.className =
+      "status-box status-error";
+
+    statusBox.textContent =
+      "Errore nel caricamento dei viaggi: " +
+      error.message;
+
+  }
+
+}
+
+/* ============================
+   CONTATORI
+============================ */
+
+function updateCounters(){
+
+  tripCount.textContent =
+    allViaggi.length;
+
+  toPlanCount.textContent =
+    allViaggi.filter(
+      viaggio =>
+        normalizeStatus(
+          viaggio.stato
+        ) === "DA PROGRAMMARE"
+    ).length;
+
+  programmedCount.textContent =
+    allViaggi.filter(
+      viaggio =>
+        normalizeStatus(
+          viaggio.stato
+        ) === "PROGRAMMATO"
+    ).length;
+
+  runningCount.textContent =
+    allViaggi.filter(
+      viaggio =>
+        normalizeStatus(
+          viaggio.stato
+        ) === "IN CORSO"
+    ).length;
+
+  deliveredCount.textContent =
+    allViaggi.filter(
+      viaggio =>
+        normalizeStatus(
+          viaggio.stato
+        ) === "CONSEGNATO"
+    ).length;
+
+}
+
+/* ============================
+   FILTRI
+============================ */
+
+function applyFilters(){
+
+  const search =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  const selectedStatus =
+    statusFilter.value;
+
+  let filtered =
+    [...allViaggi];
+
+  if(
+    selectedStatus !== "TUTTI"
+  ){
+
+    filtered =
+      filtered.filter(
+        viaggio =>
+          normalizeStatus(
+            viaggio.stato
+          ) === selectedStatus
+      );
+
+  }
+
+  if(search){
+
+    filtered =
+      filtered.filter(
+        viaggio=>{
+
+          const pratica =
+            viaggio.pratiche || {};
+
+          const searchable =
+            [
+              viaggio.numero_viaggio,
+              pratica.numero_pratica,
+              pratica.cliente,
+              pratica.partenza,
+              pratica.destinazione,
+              viaggio.vettore,
+              viaggio.autista,
+              viaggio.targa_trattore,
+              viaggio.targa_rimorchio
+            ]
+            .join(" ")
+            .toLowerCase();
+
+          return searchable.includes(
+            search
+          );
+
+        }
+      );
+
+  }
+
+  if(
+    sortOrder.value === "oldest"
+  ){
+
+    filtered.sort(
+      (a,b)=>
+        new Date(a.created_at) -
+        new Date(b.created_at)
+    );
+
+  }
+  else if(
+    sortOrder.value === "departure"
+  ){
+
+    filtered.sort(
+      (a,b)=>{
+
+        if(!a.data_partenza){
+          return 1;
+        }
+
+        if(!b.data_partenza){
+          return -1;
+        }
+
+        return (
+          new Date(a.data_partenza) -
+          new Date(b.data_partenza)
+        );
+
+      }
+    );
+
+  }
+  else{
+
+    filtered.sort(
+      (a,b)=>
+        new Date(b.created_at) -
+        new Date(a.created_at)
+    );
+
+  }
+
+  renderViaggi(
+    filtered
+  );
+
+}
+
+/* ============================
+   RENDER VIAGGI
+============================ */
+
+function renderViaggi(viaggi){
+
+  viaggiBody.innerHTML =
+    "";
+
+  if(!viaggi.length){
+
+    emptyState.style.display =
+      "block";
+
+    return;
+
+  }
+
+  emptyState.style.display =
+    "none";
+
+  viaggi.forEach(
+    viaggio=>{
+
+      const pratica =
+        viaggio.pratiche || {};
+
+      const row =
+        document.createElement(
+          "tr"
+        );
+
+      row.innerHTML = `
+
+        <td class="trip-id">
+          ${escapeHtml(
+            viaggio.numero_viaggio ||
+            "-"
+          )}
+        </td>
+
+        <td class="practice-id">
+          ${escapeHtml(
+            pratica.numero_pratica ||
+            "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            pratica.cliente ||
+            "-"
+          )}
+        </td>
+
+        <td class="route">
+          ${escapeHtml(
+            pratica.partenza ||
+            "-"
+          )}
+          →
+          ${escapeHtml(
+            pratica.destinazione ||
+            "-"
+          )}
+        </td>
+
+        <td class="driver">
+
+          ${escapeHtml(
+            viaggio.vettore ||
+            "-"
+          )}
+
+          <small>
+            Autista:
+            ${escapeHtml(
+              viaggio.autista ||
+              "-"
+            )}
+          </small>
+
+        </td>
+
+        <td>
+          ${escapeHtml(
+            formatDateTime(
+              viaggio.data_partenza
+            )
+          )}
+        </td>
+
+        <td>
+          ${createBadge(
+            viaggio.stato
+          )}
+        </td>
+
+      `;
+
+      row.addEventListener(
+        "click",
+        function(){
+
+          /*
+           * La pagina verrà creata
+           * nel prossimo passaggio.
+           */
+
+          if(!viaggio.id){
+            return;
+          }
+
+          window.location.href =
+            "dettaglio-viaggio.html?id=" +
+            encodeURIComponent(
+              viaggio.id
+            );
+
+        }
+      );
+
+      viaggiBody.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+/* ============================
+   EVENTI
+============================ */
+
+searchInput.addEventListener(
+  "input",
+  applyFilters
+);
+
+statusFilter.addEventListener(
+  "change",
+  applyFilters
+);
+
+sortOrder.addEventListener(
+  "change",
+  applyFilters
+);
+
+reloadBtn.addEventListener(
+  "click",
+  loadViaggi
+);
+
+/* ============================
+   AVVIO
+============================ */
+
+async function startPage(){
+
+  const authenticated =
+    await protectPage();
+
+  if(!authenticated){
+    return;
+  }
+
+  await loadViaggi();
+
+}
+
+startPage();
+
+</script>
+
+</body>
+</html>
