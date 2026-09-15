@@ -556,13 +556,11 @@ footer strong{
 
 </header>
 
-
 <main class="page">
 
 <a href="pratiche.html" class="back">
   ← Torna alle pratiche
 </a>
-
 
 <div class="heading">
 
@@ -585,7 +583,6 @@ footer strong{
   </div>
 
 </div>
-
 
 <form id="practiceForm">
 
@@ -670,7 +667,6 @@ footer strong{
 
 </section>
 
-
 <section class="card">
 
   <div class="card-header">
@@ -718,9 +714,7 @@ footer strong{
 
 </section>
 
-
 <div id="messageBox" class="message"></div>
-
 
 <div class="actions-bar">
 
@@ -740,7 +734,6 @@ footer strong{
 </div>
 
 </div>
-
 
 <aside class="card ai-card">
 
@@ -820,9 +813,7 @@ footer strong{
           MOTIVO
         </h3>
 
-        <p id="aiReason">
-          -
-        </p>
+        <p id="aiReason">-</p>
 
       </div>
 
@@ -832,9 +823,7 @@ footer strong{
           AZIONE RICHIESTA
         </h3>
 
-        <p id="aiAction">
-          -
-        </p>
+        <p id="aiAction">-</p>
 
       </div>
 
@@ -848,14 +837,12 @@ footer strong{
 
 </form>
 
-
 <footer>
   <strong>MatRi-mIA Logistics</strong>
   · AI per trasporti e logistica
 </footer>
 
 </main>
-
 
 <script type="module">
 
@@ -946,147 +933,6 @@ let currentProfile = null;
 
 
 /* ============================
-   UTILITY
-============================ */
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-function emptyToNull(value){
-
-  const cleaned =
-    String(value ?? "").trim();
-
-  return cleaned === ""
-    ? null
-    : cleaned;
-
-}
-
-
-function numberOrNull(value){
-
-  if(
-    value === null ||
-    value === undefined ||
-    value === ""
-  ){
-    return null;
-  }
-
-  const number =
-    Number(value);
-
-  return Number.isFinite(number)
-    ? number
-    : null;
-
-}
-
-
-function dateTimeOrNull(value){
-
-  if(!value){
-    return null;
-  }
-
-  const date =
-    new Date(value);
-
-  if(
-    Number.isNaN(
-      date.getTime()
-    )
-  ){
-    return null;
-  }
-
-  return date.toISOString();
-
-}
-
-
-function showMessage(type,text){
-
-  messageBox.style.display =
-    "block";
-
-  messageBox.className =
-    "message " +
-    (
-      type === "success"
-        ? "message-success"
-        : "message-error"
-    );
-
-  messageBox.textContent =
-    text;
-
-}
-
-
-function extractSection(
-  text,
-  startLabel,
-  endLabel
-){
-
-  const upperText =
-    text.toUpperCase();
-
-  const upperStart =
-    startLabel.toUpperCase();
-
-  const start =
-    upperText.indexOf(
-      upperStart
-    );
-
-  if(start === -1){
-    return "";
-  }
-
-  const contentStart =
-    start +
-    startLabel.length;
-
-  let end =
-    text.length;
-
-  if(endLabel){
-
-    const foundEnd =
-      upperText.indexOf(
-        endLabel.toUpperCase(),
-        contentStart
-      );
-
-    if(foundEnd !== -1){
-      end = foundEnd;
-    }
-
-  }
-
-  return text
-    .slice(
-      contentStart,
-      end
-    )
-    .trim();
-
-}
-
-
-/* ============================
    AUTENTICAZIONE
 ============================ */
 
@@ -1095,13 +941,10 @@ async function protectPage(){
   try{
 
     const {
-      data:{
-        session
-      },
+      data:{session},
       error
     } =
-      await supabase.auth
-        .getSession();
+      await supabase.auth.getSession();
 
     if(error){
       throw error;
@@ -1117,6 +960,7 @@ async function protectPage(){
       );
 
       return false;
+
     }
 
     currentUser =
@@ -1147,20 +991,24 @@ async function protectPage(){
         profileError
       );
 
-      await supabase.auth
-        .signOut();
+      await supabase.auth.signOut();
 
       window.location.replace(
         "login.html"
       );
 
       return false;
+
     }
 
+    /*
+     * Senza azienda_id non possiamo
+     * creare una pratica.
+     */
     if(!profile.azienda_id){
 
       throw new Error(
-        "Il profilo non è associato a nessuna azienda."
+        "Il profilo non è associato a un'azienda."
       );
 
     }
@@ -1196,13 +1044,14 @@ async function protectPage(){
       error
     );
 
-    alert(
-      "Errore di autenticazione: " +
-      error.message
+    document.body.classList.add(
+      "auth-ready"
     );
 
-    window.location.replace(
-      "login.html"
+    showMessage(
+      "error",
+      error.message ||
+      "Errore durante l'autenticazione."
     );
 
     return false;
@@ -1220,16 +1069,12 @@ logoutButton.addEventListener(
   "click",
   async function(){
 
-    logoutButton.disabled =
-      true;
-
-    logoutButton.textContent =
-      "Uscita...";
+    logoutButton.disabled = true;
+    logoutButton.textContent = "Uscita...";
 
     try{
 
-      await supabase.auth
-        .signOut();
+      await supabase.auth.signOut();
 
     }
     finally{
@@ -1242,6 +1087,115 @@ logoutButton.addEventListener(
 
   }
 );
+
+
+/* ============================
+   UTILITY
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+function showMessage(type,text){
+
+  messageBox.style.display =
+    "block";
+
+  messageBox.className =
+    "message " +
+    (
+      type === "success"
+        ? "message-success"
+        : "message-error"
+    );
+
+  messageBox.textContent =
+    text;
+
+}
+
+function emptyToNull(value){
+
+  if(
+    value === "" ||
+    value === undefined ||
+    value === null
+  ){
+    return null;
+  }
+
+  return value;
+
+}
+
+function numberOrNull(value){
+
+  if(
+    value === "" ||
+    value === undefined ||
+    value === null
+  ){
+    return null;
+  }
+
+  const number =
+    Number(value);
+
+  return Number.isNaN(number)
+    ? null
+    : number;
+
+}
+
+function extractSection(
+  text,
+  startLabel,
+  endLabel
+){
+
+  const start =
+    text.indexOf(startLabel);
+
+  if(start === -1){
+    return "";
+  }
+
+  const contentStart =
+    start + startLabel.length;
+
+  let end =
+    text.length;
+
+  if(endLabel){
+
+    const foundEnd =
+      text.indexOf(
+        endLabel,
+        contentStart
+      );
+
+    if(foundEnd !== -1){
+      end = foundEnd;
+    }
+
+  }
+
+  return text
+    .slice(
+      contentStart,
+      end
+    )
+    .trim();
+
+}
 
 
 /* ============================
@@ -1281,96 +1235,175 @@ function parseAnalysis(text){
 }
 
 
-function getFormData(){
+/* ============================
+   DATI PER MAKE
+============================ */
+
+function getAnalysisData(){
 
   return {
 
     azione:"analizza",
 
     data:
-      document
-        .getElementById("data")
-        .value,
+      document.getElementById("data").value,
 
     cliente:
-      document
-        .getElementById("cliente")
-        .value,
+      document.getElementById("cliente").value,
 
     ritiro:
-      document
-        .getElementById("ritiro")
-        .value,
+      document.getElementById("ritiro").value,
 
     consegna:
-      document
-        .getElementById("consegna")
-        .value,
+      document.getElementById("consegna").value,
 
     partenza:
-      document
-        .getElementById("partenza")
-        .value,
+      document.getElementById("partenza").value,
 
     indirizzoRitiro:
-      document
-        .getElementById("indirizzoRitiro")
-        .value,
+      document.getElementById("indirizzoRitiro").value,
 
     capRitiro:
-      document
-        .getElementById("capRitiro")
-        .value,
+      document.getElementById("capRitiro").value,
 
     destinazione:
-      document
-        .getElementById("destinazione")
-        .value,
+      document.getElementById("destinazione").value,
 
     indirizzoConsegna:
-      document
-        .getElementById("indirizzoConsegna")
-        .value,
+      document.getElementById("indirizzoConsegna").value,
 
     capConsegna:
-      document
-        .getElementById("capConsegna")
-        .value,
+      document.getElementById("capConsegna").value,
 
     vettore:
-      document
-        .getElementById("vettore")
-        .value,
+      document.getElementById("vettore").value,
 
     tipoMerce:
-      document
-        .getElementById("tipoMerce")
-        .value,
+      document.getElementById("tipoMerce").value,
 
     colli:
-      document
-        .getElementById("colli")
-        .value,
+      document.getElementById("colli").value,
 
     peso:
-      document
-        .getElementById("peso")
-        .value,
+      document.getElementById("peso").value,
 
     volume:
-      document
-        .getElementById("volume")
-        .value,
+      document.getElementById("volume").value,
 
     note:
-      document
-        .getElementById("note")
-        .value
+      document.getElementById("note").value
 
   };
 
 }
 
+
+/* ============================
+   DATI PER SUPABASE
+============================ */
+
+function getSupabaseData(){
+
+  return {
+
+    /*
+     * numero_pratica NON viene inviato.
+     * Lo genera il trigger di Supabase.
+     */
+
+    azienda_id:
+      currentProfile.azienda_id,
+
+    data:
+      document.getElementById("data").value,
+
+    cliente:
+      document.getElementById("cliente").value.trim(),
+
+    ritiro:
+      emptyToNull(
+        document.getElementById("ritiro").value
+      ),
+
+    consegna:
+      emptyToNull(
+        document.getElementById("consegna").value
+      ),
+
+    partenza:
+      document.getElementById("partenza").value.trim(),
+
+    indirizzo_ritiro:
+      emptyToNull(
+        document.getElementById("indirizzoRitiro").value.trim()
+      ),
+
+    cap_ritiro:
+      emptyToNull(
+        document.getElementById("capRitiro").value.trim()
+      ),
+
+    destinazione:
+      document.getElementById("destinazione").value.trim(),
+
+    indirizzo_consegna:
+      emptyToNull(
+        document.getElementById("indirizzoConsegna").value.trim()
+      ),
+
+    cap_consegna:
+      emptyToNull(
+        document.getElementById("capConsegna").value.trim()
+      ),
+
+    vettore:
+      emptyToNull(
+        document.getElementById("vettore").value.trim()
+      ),
+
+    tipo_merce:
+      document.getElementById("tipoMerce").value.trim(),
+
+    colli:
+      numberOrNull(
+        document.getElementById("colli").value
+      ),
+
+    peso_kg:
+      numberOrNull(
+        document.getElementById("peso").value
+      ),
+
+    volume_m3:
+      numberOrNull(
+        document.getElementById("volume").value
+      ),
+
+    note:
+      emptyToNull(
+        document.getElementById("note").value.trim()
+      ),
+
+    stato_ai:
+      ultimoStato || null,
+
+    analisi_ai:
+      ultimaAnalisi || null,
+
+    created_by:
+      currentUser.id,
+
+    updated_by:
+      currentUser.id
+
+  };
+
+}
+
+
+/* ============================
+   INVALIDA ANALISI
+============================ */
 
 function invalidateAnalysis(){
 
@@ -1378,8 +1411,7 @@ function invalidateAnalysis(){
     return;
   }
 
-  analisiValida =
-    false;
+  analisiValida = false;
 
   confirmBox.style.display =
     "none";
@@ -1393,7 +1425,6 @@ function invalidateAnalysis(){
   );
 
 }
-
 
 form
   .querySelectorAll(
@@ -1411,6 +1442,10 @@ form
   );
 
 
+/* ============================
+   MOSTRA RISULTATO AI
+============================ */
+
 function showAIResult(result){
 
   aiResult.style.display =
@@ -1424,8 +1459,7 @@ function showAIResult(result){
     "ANALISI COMPLETATA";
 
   if(
-    result.status ===
-    "REGOLARE"
+    result.status === "REGOLARE"
   ){
 
     aiStatus.className =
@@ -1442,8 +1476,7 @@ function showAIResult(result){
 
   }
   else if(
-    result.status ===
-    "ATTENZIONE"
+    result.status === "ATTENZIONE"
   ){
 
     aiStatus.className =
@@ -1460,8 +1493,7 @@ function showAIResult(result){
 
   }
   else if(
-    result.status ===
-    "PROBLEMA"
+    result.status === "PROBLEMA"
   ){
 
     aiStatus.className =
@@ -1508,7 +1540,7 @@ function showAIResult(result){
 
 
 /* ============================
-   CORREGGI DATI
+   CORREGGI
 ============================ */
 
 correctButton.addEventListener(
@@ -1545,18 +1577,20 @@ form.addEventListener(
       !currentProfile
     ){
 
-      window.location.replace(
-        "login.html"
+      showMessage(
+        "error",
+        "Sessione non valida."
       );
 
       return;
+
     }
 
     if(!form.checkValidity()){
 
       form.reportValidity();
-
       return;
+
     }
 
     messageBox.style.display =
@@ -1580,7 +1614,6 @@ form.addEventListener(
         await fetch(
           WEBHOOK_URL,
           {
-
             method:"POST",
 
             headers:{
@@ -1590,9 +1623,8 @@ form.addEventListener(
 
             body:
               JSON.stringify(
-                getFormData()
+                getAnalysisData()
               )
-
           }
         );
 
@@ -1616,14 +1648,6 @@ form.addEventListener(
           responseText
         );
 
-      if(!result.status){
-
-        throw new Error(
-          "L'AI non ha restituito uno stato valido."
-        );
-
-      }
-
       ultimoStato =
         result.status;
 
@@ -1642,13 +1666,13 @@ form.addEventListener(
     }
     catch(error){
 
+      analisiValida =
+        false;
+
       console.error(
         "Errore analisi:",
         error
       );
-
-      analisiValida =
-        false;
 
       showMessage(
         "error",
@@ -1675,144 +1699,8 @@ form.addEventListener(
 
 
 /* ============================
-   DATI PER SUPABASE
-============================ */
-
-function getSupabasePractice(){
-
-  return {
-
-    azienda_id:
-      currentProfile.azienda_id,
-
-    /*
-      numero_pratica NON viene inviato.
-      Lo genera automaticamente
-      il trigger PostgreSQL.
-    */
-
-    data:
-      document
-        .getElementById("data")
-        .value,
-
-    cliente:
-      document
-        .getElementById("cliente")
-        .value
-        .trim(),
-
-    ritiro:
-      dateTimeOrNull(
-        document
-          .getElementById("ritiro")
-          .value
-      ),
-
-    consegna:
-      dateTimeOrNull(
-        document
-          .getElementById("consegna")
-          .value
-      ),
-
-    partenza:
-      document
-        .getElementById("partenza")
-        .value
-        .trim(),
-
-    indirizzo_ritiro:
-      emptyToNull(
-        document
-          .getElementById("indirizzoRitiro")
-          .value
-      ),
-
-    cap_ritiro:
-      emptyToNull(
-        document
-          .getElementById("capRitiro")
-          .value
-      ),
-
-    destinazione:
-      document
-        .getElementById("destinazione")
-        .value
-        .trim(),
-
-    indirizzo_consegna:
-      emptyToNull(
-        document
-          .getElementById("indirizzoConsegna")
-          .value
-      ),
-
-    cap_consegna:
-      emptyToNull(
-        document
-          .getElementById("capConsegna")
-          .value
-      ),
-
-    vettore:
-      emptyToNull(
-        document
-          .getElementById("vettore")
-          .value
-      ),
-
-    tipo_merce:
-      document
-        .getElementById("tipoMerce")
-        .value
-        .trim(),
-
-    colli:
-      numberOrNull(
-        document
-          .getElementById("colli")
-          .value
-      ),
-
-    peso_kg:
-      numberOrNull(
-        document
-          .getElementById("peso")
-          .value
-      ),
-
-    volume_m3:
-      numberOrNull(
-        document
-          .getElementById("volume")
-          .value
-      ),
-
-    note:
-      emptyToNull(
-        document
-          .getElementById("note")
-          .value
-      ),
-
-    stato_ai:
-      ultimoStato,
-
-    analisi_ai:
-      ultimaAnalisi,
-
-    created_by:
-      currentUser.id
-
-  };
-
-}
-
-
-/* ============================
-   CONFERMA SU SUPABASE
+   CONFERMA DIRETTAMENTE
+   SU SUPABASE
 ============================ */
 
 confirmButton.addEventListener(
@@ -1824,11 +1712,13 @@ confirmButton.addEventListener(
       !currentProfile
     ){
 
-      window.location.replace(
-        "login.html"
+      showMessage(
+        "error",
+        "Sessione non valida."
       );
 
       return;
+
     }
 
     if(!analisiValida){
@@ -1839,39 +1729,43 @@ confirmButton.addEventListener(
       );
 
       return;
+
     }
 
     if(!form.checkValidity()){
 
       form.reportValidity();
-
       return;
+
     }
 
     confirmButton.disabled =
       true;
 
-    const originalText =
-      ultimoStato === "REGOLARE"
-        ? "Conferma pratica"
-        : "Conferma comunque";
+    const oldButtonText =
+      confirmButton.textContent;
 
     confirmButton.textContent =
       "Registrazione in corso...";
 
     try{
 
-      const practiceData =
-        getSupabasePractice();
+      const praticaDaSalvare =
+        getSupabaseData();
+
+      console.log(
+        "Inserimento Supabase:",
+        praticaDaSalvare
+      );
 
       const {
-        data:insertedPractice,
+        data:praticaCreata,
         error
       } =
         await supabase
           .from("pratiche")
           .insert(
-            practiceData
+            praticaDaSalvare
           )
           .select(
             "id,numero_pratica"
@@ -1879,46 +1773,57 @@ confirmButton.addEventListener(
           .single();
 
       if(error){
-        throw error;
-      }
 
-      if(!insertedPractice){
+        console.error(
+          "Errore INSERT Supabase:",
+          error
+        );
 
         throw new Error(
-          "Supabase non ha restituito la pratica registrata."
+          error.message
         );
 
       }
 
+      if(
+        !praticaCreata ||
+        !praticaCreata.numero_pratica
+      ){
+
+        throw new Error(
+          "La pratica è stata inserita ma Supabase non ha restituito il numero pratica."
+        );
+
+      }
+
+      const numeroPratica =
+        praticaCreata.numero_pratica;
+
       analisiValida =
         false;
-
-      confirmBox.style.display =
-        "none";
-
-      aiStateText.textContent =
-        "Pratica registrata";
 
       showMessage(
         "success",
         "Pratica " +
-        insertedPractice.numero_pratica +
-        " registrata correttamente."
+        numeroPratica +
+        " registrata correttamente in Supabase."
       );
 
-      /*
-        Usiamo numero_pratica nel link perché
-        la pagina pratiche/dettaglio attuale
-        lavora con il numero visibile.
-      */
+      aiStateText.textContent =
+        "Pratica registrata";
 
+      /*
+       * Apriamo il dettaglio usando
+       * numero_pratica, come già fa
+       * dettaglio-pratica.html.
+       */
       setTimeout(
         function(){
 
           window.location.href =
             "dettaglio-pratica.html?id=" +
             encodeURIComponent(
-              insertedPractice.numero_pratica
+              numeroPratica
             );
 
         },
@@ -1929,24 +1834,21 @@ confirmButton.addEventListener(
     catch(error){
 
       console.error(
-        "Errore registrazione Supabase:",
+        "Errore conferma:",
         error
       );
 
       showMessage(
         "error",
         "Errore durante la registrazione: " +
-        (
-          error.message ||
-          "errore sconosciuto"
-        )
+        error.message
       );
 
       confirmButton.disabled =
         false;
 
       confirmButton.textContent =
-        originalText;
+        oldButtonText;
 
     }
 
@@ -1955,7 +1857,7 @@ confirmButton.addEventListener(
 
 
 /* ============================
-   AVVIO PAGINA
+   AVVIO
 ============================ */
 
 async function startPage(){
@@ -1967,32 +1869,6 @@ async function startPage(){
     return;
   }
 
-  /*
-    Impostiamo automaticamente
-    la data di oggi se il campo è vuoto.
-  */
-
-  const dataField =
-    document.getElementById("data");
-
-  if(!dataField.value){
-
-    const now =
-      new Date();
-
-    const localDate =
-      new Date(
-        now.getTime() -
-        now.getTimezoneOffset() * 60000
-      )
-      .toISOString()
-      .slice(0,10);
-
-    dataField.value =
-      localDate;
-
-  }
-
 }
 
 startPage();
@@ -2000,5 +1876,4 @@ startPage();
 </script>
 
 </body>
-
 </html>
