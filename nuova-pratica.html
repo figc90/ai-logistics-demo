@@ -521,7 +521,6 @@ footer strong{
 
 <body>
 
-
 <header class="top-header">
 
   <div class="top-header-inner">
@@ -560,7 +559,6 @@ footer strong{
 
 <main class="page">
 
-
 <a href="pratiche.html" class="back">
   ← Torna alle pratiche
 </a>
@@ -591,12 +589,9 @@ footer strong{
 
 <form id="practiceForm">
 
-
 <div class="layout">
 
-
 <div>
-
 
 <section class="card">
 
@@ -744,7 +739,6 @@ footer strong{
 
 </div>
 
-
 </div>
 
 
@@ -762,7 +756,6 @@ footer strong{
 
   </div>
 
-
   <div class="ai-content">
 
     <div class="ai-state">
@@ -775,12 +768,10 @@ footer strong{
 
     </div>
 
-
     <div class="ai-text">
       L’AI analizzerà i dati senza registrare la pratica.
       Potrai correggere i dati prima della conferma.
     </div>
-
 
     <div id="aiResult" class="ai-result">
 
@@ -793,7 +784,6 @@ footer strong{
         class="ai-status ai-status-default">
         -
       </div>
-
 
       <div
         id="confirmBox"
@@ -824,7 +814,6 @@ footer strong{
 
       </div>
 
-
       <div class="ai-section">
 
         <h3>
@@ -836,7 +825,6 @@ footer strong{
         </p>
 
       </div>
-
 
       <div class="ai-section">
 
@@ -856,9 +844,7 @@ footer strong{
 
 </aside>
 
-
 </div>
-
 
 </form>
 
@@ -867,7 +853,6 @@ footer strong{
   <strong>MatRi-mIA Logistics</strong>
   · AI per trasporti e logistica
 </footer>
-
 
 </main>
 
@@ -887,10 +872,8 @@ from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 const SUPABASE_URL =
   "https://sctzockiurjsxzdkctmy.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
-
 
 const supabase =
   createClient(
@@ -900,7 +883,7 @@ const supabase =
 
 
 /* ============================
-   MAKE
+   MAKE - SOLO ANALISI AI
 ============================ */
 
 const WEBHOOK_URL =
@@ -963,6 +946,147 @@ let currentProfile = null;
 
 
 /* ============================
+   UTILITY
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function emptyToNull(value){
+
+  const cleaned =
+    String(value ?? "").trim();
+
+  return cleaned === ""
+    ? null
+    : cleaned;
+
+}
+
+
+function numberOrNull(value){
+
+  if(
+    value === null ||
+    value === undefined ||
+    value === ""
+  ){
+    return null;
+  }
+
+  const number =
+    Number(value);
+
+  return Number.isFinite(number)
+    ? number
+    : null;
+
+}
+
+
+function dateTimeOrNull(value){
+
+  if(!value){
+    return null;
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return null;
+  }
+
+  return date.toISOString();
+
+}
+
+
+function showMessage(type,text){
+
+  messageBox.style.display =
+    "block";
+
+  messageBox.className =
+    "message " +
+    (
+      type === "success"
+        ? "message-success"
+        : "message-error"
+    );
+
+  messageBox.textContent =
+    text;
+
+}
+
+
+function extractSection(
+  text,
+  startLabel,
+  endLabel
+){
+
+  const upperText =
+    text.toUpperCase();
+
+  const upperStart =
+    startLabel.toUpperCase();
+
+  const start =
+    upperText.indexOf(
+      upperStart
+    );
+
+  if(start === -1){
+    return "";
+  }
+
+  const contentStart =
+    start +
+    startLabel.length;
+
+  let end =
+    text.length;
+
+  if(endLabel){
+
+    const foundEnd =
+      upperText.indexOf(
+        endLabel.toUpperCase(),
+        contentStart
+      );
+
+    if(foundEnd !== -1){
+      end = foundEnd;
+    }
+
+  }
+
+  return text
+    .slice(
+      contentStart,
+      end
+    )
+    .trim();
+
+}
+
+
+/* ============================
    AUTENTICAZIONE
 ============================ */
 
@@ -979,11 +1103,9 @@ async function protectPage(){
       await supabase.auth
         .getSession();
 
-
     if(error){
       throw error;
     }
-
 
     if(
       !session ||
@@ -995,13 +1117,10 @@ async function protectPage(){
       );
 
       return false;
-
     }
-
 
     currentUser =
       session.user;
-
 
     const {
       data:profile,
@@ -1018,7 +1137,6 @@ async function protectPage(){
         )
         .single();
 
-
     if(
       profileError ||
       !profile
@@ -1029,23 +1147,26 @@ async function protectPage(){
         profileError
       );
 
-
       await supabase.auth
         .signOut();
-
 
       window.location.replace(
         "login.html"
       );
 
       return false;
+    }
+
+    if(!profile.azienda_id){
+
+      throw new Error(
+        "Il profilo non è associato a nessuna azienda."
+      );
 
     }
 
-
     currentProfile =
       profile;
-
 
     userInfo.innerHTML =
       `Accesso: <strong>${
@@ -1061,11 +1182,9 @@ async function protectPage(){
         )
       }`;
 
-
     document.body.classList.add(
       "auth-ready"
     );
-
 
     return true;
 
@@ -1077,11 +1196,14 @@ async function protectPage(){
       error
     );
 
+    alert(
+      "Errore di autenticazione: " +
+      error.message
+    );
 
     window.location.replace(
       "login.html"
     );
-
 
     return false;
 
@@ -1104,7 +1226,6 @@ logoutButton.addEventListener(
     logoutButton.textContent =
       "Uscita...";
 
-
     try{
 
       await supabase.auth
@@ -1124,98 +1245,6 @@ logoutButton.addEventListener(
 
 
 /* ============================
-   UTILITY
-============================ */
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-function showMessage(type,text){
-
-  messageBox.style.display =
-    "block";
-
-
-  messageBox.className =
-    "message " +
-    (
-      type === "success"
-        ? "message-success"
-        : "message-error"
-    );
-
-
-  messageBox.textContent =
-    text;
-
-}
-
-
-function extractSection(
-  text,
-  startLabel,
-  endLabel
-){
-
-  const start =
-    text.indexOf(
-      startLabel
-    );
-
-
-  if(start === -1){
-    return "";
-  }
-
-
-  const contentStart =
-    start +
-    startLabel.length;
-
-
-  let end =
-    text.length;
-
-
-  if(endLabel){
-
-    const foundEnd =
-      text.indexOf(
-        endLabel,
-        contentStart
-      );
-
-
-    if(foundEnd !== -1){
-
-      end =
-        foundEnd;
-
-    }
-
-  }
-
-
-  return text
-    .slice(
-      contentStart,
-      end
-    )
-    .trim();
-
-}
-
-
-/* ============================
    ANALISI AI
 ============================ */
 
@@ -1226,13 +1255,11 @@ function parseAnalysis(text){
       /STATO:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
     );
 
-
   return {
 
     status:
       statusMatch
-        ? statusMatch[1]
-            .toUpperCase()
+        ? statusMatch[1].toUpperCase()
         : "",
 
     reason:
@@ -1254,11 +1281,11 @@ function parseAnalysis(text){
 }
 
 
-function getFormData(azione){
+function getFormData(){
 
   return {
 
-    azione:azione,
+    azione:"analizza",
 
     data:
       document
@@ -1338,13 +1365,7 @@ function getFormData(azione){
     note:
       document
         .getElementById("note")
-        .value,
-
-    statoAI:
-      ultimoStato,
-
-    analisiAI:
-      ultimaAnalisi
+        .value
 
   };
 
@@ -1357,18 +1378,14 @@ function invalidateAnalysis(){
     return;
   }
 
-
   analisiValida =
     false;
-
 
   confirmBox.style.display =
     "none";
 
-
   aiStateText.textContent =
     "Analisi da aggiornare";
-
 
   showMessage(
     "error",
@@ -1399,32 +1416,26 @@ function showAIResult(result){
   aiResult.style.display =
     "block";
 
-
   aiStateText.textContent =
     "Analisi completata";
-
 
   aiStatus.textContent =
     result.status ||
     "ANALISI COMPLETATA";
 
-
   if(
     result.status ===
-      "REGOLARE"
+    "REGOLARE"
   ){
 
     aiStatus.className =
       "ai-status ai-status-ok";
 
-
     confirmNote.textContent =
       "La pratica risulta regolare. Puoi confermarla.";
 
-
     confirmButton.textContent =
       "Conferma pratica";
-
 
     correctButton.style.display =
       "none";
@@ -1432,20 +1443,17 @@ function showAIResult(result){
   }
   else if(
     result.status ===
-      "ATTENZIONE"
+    "ATTENZIONE"
   ){
 
     aiStatus.className =
       "ai-status ai-status-warning";
 
-
     confirmNote.textContent =
       "Sono presenti elementi da verificare. Puoi correggere i dati e analizzare di nuovo oppure confermare comunque.";
 
-
     confirmButton.textContent =
       "Conferma comunque";
-
 
     correctButton.style.display =
       "block";
@@ -1453,20 +1461,17 @@ function showAIResult(result){
   }
   else if(
     result.status ===
-      "PROBLEMA"
+    "PROBLEMA"
   ){
 
     aiStatus.className =
       "ai-status ai-status-error";
 
-
     confirmNote.textContent =
       "L'AI ha rilevato un problema. È consigliato correggere i dati prima della conferma.";
 
-
     confirmButton.textContent =
       "Conferma comunque";
-
 
     correctButton.style.display =
       "block";
@@ -1477,30 +1482,24 @@ function showAIResult(result){
     aiStatus.className =
       "ai-status ai-status-default";
 
-
     confirmNote.textContent =
       "Controlla il risultato prima di confermare.";
 
-
     confirmButton.textContent =
       "Conferma pratica";
-
 
     correctButton.style.display =
       "block";
 
   }
 
-
   aiReason.textContent =
     result.reason ||
     "Nessun motivo disponibile.";
 
-
   aiAction.textContent =
     result.action ||
     "Nessuna indicazione disponibile.";
-
 
   confirmBox.style.display =
     "block";
@@ -1523,7 +1522,6 @@ correctButton.addEventListener(
         block:"center"
       });
 
-
     document
       .getElementById("data")
       .focus();
@@ -1533,7 +1531,7 @@ correctButton.addEventListener(
 
 
 /* ============================
-   ANALIZZA
+   ANALIZZA CON MAKE
 ============================ */
 
 form.addEventListener(
@@ -1541,7 +1539,6 @@ form.addEventListener(
   async function(event){
 
     event.preventDefault();
-
 
     if(
       !currentUser ||
@@ -1553,41 +1550,31 @@ form.addEventListener(
       );
 
       return;
-
     }
-
 
     if(!form.checkValidity()){
 
       form.reportValidity();
 
       return;
-
     }
-
 
     messageBox.style.display =
       "none";
 
-
     confirmBox.style.display =
       "none";
-
 
     submitButton.disabled =
       true;
 
-
     submitButton.textContent =
       "Analisi in corso...";
-
 
     aiStateText.textContent =
       "Analisi in corso...";
 
-
     try{
-
 
       const response =
         await fetch(
@@ -1603,14 +1590,11 @@ form.addEventListener(
 
             body:
               JSON.stringify(
-                getFormData(
-                  "analizza"
-                )
+                getFormData()
               )
 
           }
         );
-
 
       if(!response.ok){
 
@@ -1621,47 +1605,50 @@ form.addEventListener(
 
       }
 
-
       const responseText =
         await response.text();
 
-
       ultimaAnalisi =
         responseText;
-
 
       const result =
         parseAnalysis(
           responseText
         );
 
+      if(!result.status){
+
+        throw new Error(
+          "L'AI non ha restituito uno stato valido."
+        );
+
+      }
 
       ultimoStato =
         result.status;
 
-
       analisiValida =
         true;
-
 
       showAIResult(
         result
       );
-
 
       showMessage(
         "success",
         "Analisi completata. La pratica non è ancora stata registrata."
       );
 
-
     }
     catch(error){
 
+      console.error(
+        "Errore analisi:",
+        error
+      );
 
       analisiValida =
         false;
-
 
       showMessage(
         "error",
@@ -1669,17 +1656,14 @@ form.addEventListener(
         error.message
       );
 
-
       aiStateText.textContent =
         "Errore nell'analisi";
 
     }
     finally{
 
-
       submitButton.disabled =
         false;
-
 
       submitButton.textContent =
         "Analizza pratica";
@@ -1691,13 +1675,149 @@ form.addEventListener(
 
 
 /* ============================
-   CONFERMA
+   DATI PER SUPABASE
+============================ */
+
+function getSupabasePractice(){
+
+  return {
+
+    azienda_id:
+      currentProfile.azienda_id,
+
+    /*
+      numero_pratica NON viene inviato.
+      Lo genera automaticamente
+      il trigger PostgreSQL.
+    */
+
+    data:
+      document
+        .getElementById("data")
+        .value,
+
+    cliente:
+      document
+        .getElementById("cliente")
+        .value
+        .trim(),
+
+    ritiro:
+      dateTimeOrNull(
+        document
+          .getElementById("ritiro")
+          .value
+      ),
+
+    consegna:
+      dateTimeOrNull(
+        document
+          .getElementById("consegna")
+          .value
+      ),
+
+    partenza:
+      document
+        .getElementById("partenza")
+        .value
+        .trim(),
+
+    indirizzo_ritiro:
+      emptyToNull(
+        document
+          .getElementById("indirizzoRitiro")
+          .value
+      ),
+
+    cap_ritiro:
+      emptyToNull(
+        document
+          .getElementById("capRitiro")
+          .value
+      ),
+
+    destinazione:
+      document
+        .getElementById("destinazione")
+        .value
+        .trim(),
+
+    indirizzo_consegna:
+      emptyToNull(
+        document
+          .getElementById("indirizzoConsegna")
+          .value
+      ),
+
+    cap_consegna:
+      emptyToNull(
+        document
+          .getElementById("capConsegna")
+          .value
+      ),
+
+    vettore:
+      emptyToNull(
+        document
+          .getElementById("vettore")
+          .value
+      ),
+
+    tipo_merce:
+      document
+        .getElementById("tipoMerce")
+        .value
+        .trim(),
+
+    colli:
+      numberOrNull(
+        document
+          .getElementById("colli")
+          .value
+      ),
+
+    peso_kg:
+      numberOrNull(
+        document
+          .getElementById("peso")
+          .value
+      ),
+
+    volume_m3:
+      numberOrNull(
+        document
+          .getElementById("volume")
+          .value
+      ),
+
+    note:
+      emptyToNull(
+        document
+          .getElementById("note")
+          .value
+      ),
+
+    stato_ai:
+      ultimoStato,
+
+    analisi_ai:
+      ultimaAnalisi,
+
+    created_by:
+      currentUser.id
+
+  };
+
+}
+
+
+/* ============================
+   CONFERMA SU SUPABASE
 ============================ */
 
 confirmButton.addEventListener(
   "click",
   async function(){
-
 
     if(
       !currentUser ||
@@ -1709,9 +1829,7 @@ confirmButton.addEventListener(
       );
 
       return;
-
     }
-
 
     if(!analisiValida){
 
@@ -1721,131 +1839,114 @@ confirmButton.addEventListener(
       );
 
       return;
-
     }
 
+    if(!form.checkValidity()){
+
+      form.reportValidity();
+
+      return;
+    }
 
     confirmButton.disabled =
       true;
 
+    const originalText =
+      ultimoStato === "REGOLARE"
+        ? "Conferma pratica"
+        : "Conferma comunque";
 
     confirmButton.textContent =
       "Registrazione in corso...";
 
-
     try{
 
+      const practiceData =
+        getSupabasePractice();
 
-      const response =
-        await fetch(
-          WEBHOOK_URL,
-          {
+      const {
+        data:insertedPractice,
+        error
+      } =
+        await supabase
+          .from("pratiche")
+          .insert(
+            practiceData
+          )
+          .select(
+            "id,numero_pratica"
+          )
+          .single();
 
-            method:"POST",
+      if(error){
+        throw error;
+      }
 
-            headers:{
-              "Content-Type":
-                "application/json"
-            },
-
-            body:
-              JSON.stringify(
-                getFormData(
-                  "conferma"
-                )
-              )
-
-          }
-        );
-
-
-      if(!response.ok){
+      if(!insertedPractice){
 
         throw new Error(
-          "HTTP " +
-          response.status
+          "Supabase non ha restituito la pratica registrata."
         );
 
       }
 
+      analisiValida =
+        false;
 
-      const responseText =
-        await response.text();
+      confirmBox.style.display =
+        "none";
 
-
-      const idMatch =
-        responseText.match(
-          /ID PRATICA:\s*([^\r\n]+)/i
-        );
-
-
-      const practiceId =
-        idMatch
-          ? idMatch[1].trim()
-          : "";
-
+      aiStateText.textContent =
+        "Pratica registrata";
 
       showMessage(
         "success",
-        practiceId
-          ? "Pratica " +
-            practiceId +
-            " confermata e registrata."
-          : "Pratica confermata e registrata."
+        "Pratica " +
+        insertedPractice.numero_pratica +
+        " registrata correttamente."
       );
 
+      /*
+        Usiamo numero_pratica nel link perché
+        la pagina pratiche/dettaglio attuale
+        lavora con il numero visibile.
+      */
 
-      if(practiceId){
+      setTimeout(
+        function(){
 
-        setTimeout(
-          function(){
+          window.location.href =
+            "dettaglio-pratica.html?id=" +
+            encodeURIComponent(
+              insertedPractice.numero_pratica
+            );
 
-            window.location.href =
-              "dettaglio-pratica.html?id=" +
-              encodeURIComponent(
-                practiceId
-              );
-
-          },
-          900
-        );
-
-      }
-      else{
-
-        setTimeout(
-          function(){
-
-            window.location.href =
-              "pratiche.html";
-
-          },
-          1200
-        );
-
-      }
-
+        },
+        900
+      );
 
     }
     catch(error){
 
+      console.error(
+        "Errore registrazione Supabase:",
+        error
+      );
 
       showMessage(
         "error",
-        "Errore durante la conferma: " +
-        error.message
+        "Errore durante la registrazione: " +
+        (
+          error.message ||
+          "errore sconosciuto"
+        )
       );
-
 
       confirmButton.disabled =
         false;
 
-
       confirmButton.textContent =
-        ultimoStato ===
-          "REGOLARE"
-          ? "Conferma pratica"
-          : "Conferma comunque";
+        originalText;
 
     }
 
@@ -1862,18 +1963,41 @@ async function startPage(){
   const authenticated =
     await protectPage();
 
-
   if(!authenticated){
     return;
   }
 
-}
+  /*
+    Impostiamo automaticamente
+    la data di oggi se il campo è vuoto.
+  */
 
+  const dataField =
+    document.getElementById("data");
+
+  if(!dataField.value){
+
+    const now =
+      new Date();
+
+    const localDate =
+      new Date(
+        now.getTime() -
+        now.getTimezoneOffset() * 60000
+      )
+      .toISOString()
+      .slice(0,10);
+
+    dataField.value =
+      localDate;
+
+  }
+
+}
 
 startPage();
 
 </script>
-
 
 </body>
 
