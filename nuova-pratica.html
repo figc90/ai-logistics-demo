@@ -515,46 +515,370 @@ footer strong{
 
 }
 
+
+/* =========================================================
+   AREA RISERVATA MATRI-MIA - LAYOUT UNIFICATO CON DASHBOARD
+   ========================================================= */
+
+.app-shell{
+  min-height:100vh;
+  display:flex;
+}
+
+.app-sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+  border-right:1px solid rgba(255,255,255,.05);
+}
+
+.app-sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.app-sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.app-sidebar-logo-link:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 28px rgba(0,0,0,.22),0 0 22px rgba(73,193,229,.20);
+}
+
+.app-sidebar-logo-link img{
+  width:175px;
+  max-width:90%;
+  height:auto;
+  display:block;
+}
+
+.app-sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+}
+
+.app-nav-section{
+  margin-bottom:28px;
+}
+
+.app-nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.app-nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
+}
+
+.app-nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.app-nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.app-nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:16px;
+  opacity:.9;
+}
+
+.app-nav-disabled{
+  opacity:.42;
+  cursor:default;
+}
+
+.app-nav-disabled:hover{
+  background:transparent;
+  color:#c7d3e1;
+}
+
+.app-soon{
+  margin-left:auto;
+  padding:4px 7px;
+  background:rgba(255,255,255,.08);
+  border-radius:999px;
+  color:#8fa5bb;
+  font-size:8px;
+  font-weight:900;
+}
+
+.app-sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.app-logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+  transition:.18s ease;
+}
+
+.app-logout-btn:hover{
+  background:rgba(255,255,255,.09);
+  color:#fff;
+}
+
+.app-main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+  min-height:100vh;
+}
+
+.app-topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.app-topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+  font-weight:700;
+}
+
+.app-topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.app-topbar-link{
+  min-height:40px;
+  padding:0 16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:900;
+}
+
+.app-topbar-secondary{
+  background:#eef3f8;
+  color:#173459;
+}
+
+.app-topbar-primary{
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+  box-shadow:0 7px 18px rgba(236,79,50,.18);
+}
+
+.app-main > .page{
+  max-width:1360px;
+  margin:0 auto;
+  padding:32px 30px 55px;
+}
+
+@media(max-width:760px){
+  .app-sidebar{
+    width:72px;
+  }
+
+  .app-main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .app-sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .app-sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+    border-radius:10px;
+  }
+
+  .app-sidebar-logo-link img{
+    width:50px;
+  }
+
+  .app-nav-title,
+  .app-nav-item span:not(.app-nav-icon),
+  .app-soon{
+    display:none;
+  }
+
+  .app-nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .app-sidebar-bottom{
+    padding:8px;
+  }
+
+  .app-logout-btn{
+    font-size:0;
+  }
+
+  .app-logout-btn::after{
+    content:"↪";
+    font-size:18px;
+  }
+
+  .app-topbar{
+    padding:0 14px;
+  }
+
+  .app-topbar-brand{
+    display:none;
+  }
+
+  .app-topbar-actions{
+    margin-left:auto;
+  }
+
+  .app-topbar-link{
+    padding:0 12px;
+    font-size:12px;
+  }
+
+  .app-main > .page{
+    padding:24px 13px 45px;
+  }
+}
+
 </style>
 
 </head>
 
 <body>
 
-<header class="top-header">
 
-  <div class="top-header-inner">
+<div class="app-shell">
 
-    <a href="dashboard.html">
+<aside class="app-sidebar">
 
-      <img
-        src="matrimia-logo-web.png"
-        alt="MatRi-mIA Logistics"
-        class="logo"
-      >
-
+  <div class="app-sidebar-logo">
+    <a href="dashboard.html" class="app-sidebar-logo-link" aria-label="Vai alla Dashboard">
+      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
     </a>
-
-    <div class="header-actions">
-
-      <a
-        href="pratiche.html"
-        class="btn btn-secondary">
-        Pratiche
-      </a>
-
-      <button
-        id="logoutButton"
-        class="btn logout-btn"
-        type="button">
-        Esci
-      </button>
-
-    </div>
-
   </div>
 
+  <nav class="app-sidebar-nav">
+
+    <div class="app-nav-section">
+      <div class="app-nav-title">OPERATIVITÀ</div>
+
+      <a href="dashboard.html" class="app-nav-item">
+        <span class="app-nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pratiche.html" class="app-nav-item">
+        <span class="app-nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
+
+      <a href="nuova-pratica.html" class="app-nav-item active">
+        <span class="app-nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
+    </div>
+
+    <div class="app-nav-section">
+      <div class="app-nav-title">AUTOMAZIONI</div>
+
+      <div class="app-nav-item app-nav-disabled">
+        <span class="app-nav-icon">✉</span>
+        <span>Email AI</span>
+        <span class="app-soon">PRESTO</span>
+      </div>
+
+      <div class="app-nav-item app-nav-disabled">
+        <span class="app-nav-icon">↗</span>
+        <span>Viaggi</span>
+        <span class="app-soon">PRESTO</span>
+      </div>
+    </div>
+
+    <div class="app-nav-section">
+      <div class="app-nav-title">GESTIONE</div>
+
+      <div class="app-nav-item app-nav-disabled">
+        <span class="app-nav-icon">▣</span>
+        <span>Aziende</span>
+        <span class="app-soon">PRESTO</span>
+      </div>
+    </div>
+
+  </nav>
+
+  <div class="app-sidebar-bottom">
+    <button id="logoutButton" class="app-logout-btn" type="button">Esci</button>
+  </div>
+
+</aside>
+
+<div class="app-main">
+
+<header class="app-topbar">
+  <div class="app-topbar-brand">MatRi-mIA Logistics</div>
+  <div class="app-topbar-actions">
+    
+      <a href="pratiche.html" class="app-topbar-link app-topbar-secondary">Pratiche</a>
+  </div>
 </header>
+
 
 <main class="page">
 
@@ -843,6 +1167,9 @@ footer strong{
 </footer>
 
 </main>
+
+</div>
+</div>
 
 <script type="module">
 
