@@ -198,15 +198,51 @@ h1{
   color:#596778;
 }
 
+.practice-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
 .edit-button{
   min-height:42px;
-  padding:0 17px;
+  padding:0 16px;
   border:none;
   border-radius:10px;
   background:#173f69;
   color:#fff;
   font-weight:900;
   cursor:pointer;
+}
+
+.ai-button{
+  min-height:42px;
+  padding:0 16px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.delete-button{
+  min-height:42px;
+  padding:0 16px;
+  border:1px solid #ffd0cc;
+  border-radius:10px;
+  background:#fff1f0;
+  color:#b42318;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.edit-button:disabled,
+.ai-button:disabled,
+.delete-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
 .layout{
@@ -399,6 +435,16 @@ textarea.edit-input{
   overflow-wrap:anywhere;
 }
 
+.ai-loading{
+  color:#176b9c;
+  background:#edf8fd;
+  border:1px solid #ccebf7;
+  padding:14px;
+  border-radius:11px;
+  font-size:14px;
+  font-weight:700;
+}
+
 .loading,
 .error,
 .success{
@@ -478,6 +524,10 @@ footer strong{
     padding-top:0;
   }
 
+  .practice-actions{
+    justify-content:flex-start;
+  }
+
   h1{
     font-size:36px;
   }
@@ -506,6 +556,7 @@ footer strong{
 </head>
 
 <body>
+
 
 <header class="top-header">
 
@@ -551,9 +602,7 @@ footer strong{
 
 <main class="page">
 
-<a
-  href="pratiche.html"
-  class="back">
+<a href="pratiche.html" class="back">
   ← Torna alle pratiche
 </a>
 
@@ -586,10 +635,7 @@ footer strong{
 
       <h1 id="practiceId">-</h1>
 
-      <div
-        id="route"
-        class="route">
-      </div>
+      <div id="route" class="route"></div>
 
       <div
         id="userInfo"
@@ -607,12 +653,30 @@ footer strong{
         -
       </div>
 
-      <button
-        id="editButton"
-        type="button"
-        class="edit-button">
-        Modifica pratica
-      </button>
+      <div class="practice-actions">
+
+        <button
+          id="editButton"
+          type="button"
+          class="edit-button">
+          Modifica pratica
+        </button>
+
+        <button
+          id="reanalyzeButton"
+          type="button"
+          class="ai-button">
+          Rianalizza con AI
+        </button>
+
+        <button
+          id="deleteButton"
+          type="button"
+          class="delete-button">
+          Elimina
+        </button>
+
+      </div>
 
     </div>
 
@@ -789,7 +853,6 @@ footer strong{
 
             </div>
 
-
           </div>
 
         </div>
@@ -895,11 +958,9 @@ footer strong{
 
               <textarea
                 id="noteInput"
-                class="edit-input">
-              </textarea>
+                class="edit-input"></textarea>
 
             </div>
-
 
           </div>
 
@@ -928,7 +989,6 @@ footer strong{
 
       </section>
 
-
     </div>
 
 
@@ -952,7 +1012,6 @@ footer strong{
       </div>
 
     </aside>
-
 
   </div>
 
@@ -993,6 +1052,14 @@ const supabase =
 
 
 /* ============================
+   MAKE - ANALISI AI
+============================ */
+
+const AI_WEBHOOK_URL =
+  "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
+
+
+/* ============================
    PARAMETRI
 ============================ */
 
@@ -1018,6 +1085,12 @@ const userInfo =
 const editButton =
   document.getElementById("editButton");
 
+const reanalyzeButton =
+  document.getElementById("reanalyzeButton");
+
+const deleteButton =
+  document.getElementById("deleteButton");
+
 const cancelEditButton =
   document.getElementById("cancelEditButton");
 
@@ -1042,11 +1115,13 @@ const goodsCard =
 const practiceLayout =
   document.getElementById("practiceLayout");
 
+const aiContent =
+  document.getElementById("aiContent");
+
 
 let currentUser = null;
 let currentProfile = null;
 let currentPractice = null;
-let editing = false;
 
 
 /* ============================
@@ -1128,16 +1203,16 @@ function formatDateTime(value){
     return value;
   }
 
-  return date.toLocaleDateString(
-    "it-IT"
-  ) +
-  " · " +
-  date.toLocaleTimeString(
-    "it-IT",
-    {
-      hour:"2-digit",
-      minute:"2-digit"
-    }
+  return (
+    date.toLocaleDateString("it-IT") +
+    " · " +
+    date.toLocaleTimeString(
+      "it-IT",
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    )
   );
 
 }
@@ -1156,8 +1231,8 @@ function toDateTimeLocal(value){
   }
 
   const pad =
-    number =>
-      String(number).padStart(2,"0");
+    n =>
+      String(n).padStart(2,"0");
 
   return (
     date.getFullYear() +
@@ -1208,8 +1283,7 @@ async function protectPage(){
       data:{session},
       error
     } =
-      await supabase.auth
-        .getSession();
+      await supabase.auth.getSession();
 
     if(error){
       throw error;
@@ -1251,12 +1325,7 @@ async function protectPage(){
       !profile
     ){
 
-      console.error(
-        profileError
-      );
-
-      await supabase.auth
-        .signOut();
+      await supabase.auth.signOut();
 
       window.location.replace(
         "login.html"
@@ -1278,8 +1347,7 @@ async function protectPage(){
         )
       }</strong> · ${
         escapeHtml(
-          profile.ruolo ||
-          ""
+          profile.ruolo || ""
         )
       }`;
 
@@ -1321,8 +1389,7 @@ logoutButton.addEventListener(
 
     try{
 
-      await supabase.auth
-        .signOut();
+      await supabase.auth.signOut();
 
     }
     finally{
@@ -1405,21 +1472,47 @@ function setStatus(value){
 
 
 /* ============================
-   ANALISI AI
+   PARSING RISPOSTA AI
+============================ */
+
+function parseAIResponse(text){
+
+  const normalized =
+    String(text || "")
+      .replace(/\r/g,"")
+      .trim();
+
+  const statusMatch =
+    normalized.match(
+      /STATO:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
+    );
+
+  return {
+
+    status:
+      statusMatch
+        ? statusMatch[1].toUpperCase()
+        : "",
+
+    analysis:
+      normalized
+
+  };
+
+}
+
+
+/* ============================
+   MOSTRA ANALISI
 ============================ */
 
 function parseAIAnalysis(text){
 
-  const container =
-    document.getElementById(
-      "aiContent"
-    );
-
-  container.innerHTML = "";
+  aiContent.innerHTML = "";
 
   if(!text){
 
-    container.innerHTML =
+    aiContent.innerHTML =
       `<div class="ai-section">
         <div class="ai-section-text">
           Nessuna analisi AI disponibile.
@@ -1448,9 +1541,7 @@ function parseAIAnalysis(text){
     (heading,index)=>{
 
       const start =
-        normalized.indexOf(
-          heading
-        );
+        normalized.indexOf(heading);
 
       if(start === -1){
         return;
@@ -1506,20 +1597,20 @@ function parseAIAnalysis(text){
     section.className =
       "ai-section";
 
-    const sectionText =
+    const textElement =
       document.createElement("div");
 
-    sectionText.className =
+    textElement.className =
       "ai-section-text";
 
-    sectionText.textContent =
+    textElement.textContent =
       normalized;
 
     section.appendChild(
-      sectionText
+      textElement
     );
 
-    container.appendChild(
+    aiContent.appendChild(
       section
     );
 
@@ -1557,7 +1648,7 @@ function parseAIAnalysis(text){
       section.appendChild(title);
       section.appendChild(textElement);
 
-      container.appendChild(section);
+      aiContent.appendChild(section);
 
     }
   );
@@ -1681,100 +1772,68 @@ function renderPractice(pratica){
 
 
 /* ============================
-   COMPILA CAMPI MODIFICA
+   CAMPI MODIFICA
 ============================ */
 
 function populateEditFields(){
 
-  document.getElementById(
-    "dataInput"
-  ).value =
+  document.getElementById("dataInput").value =
     currentPractice.data || "";
 
-  document.getElementById(
-    "clienteInput"
-  ).value =
+  document.getElementById("clienteInput").value =
     currentPractice.cliente || "";
 
-  document.getElementById(
-    "ritiroInput"
-  ).value =
+  document.getElementById("ritiroInput").value =
     toDateTimeLocal(
       currentPractice.ritiro
     );
 
-  document.getElementById(
-    "consegnaInput"
-  ).value =
+  document.getElementById("consegnaInput").value =
     toDateTimeLocal(
       currentPractice.consegna
     );
 
-  document.getElementById(
-    "partenzaInput"
-  ).value =
+  document.getElementById("partenzaInput").value =
     currentPractice.partenza || "";
 
-  document.getElementById(
-    "destinazioneInput"
-  ).value =
+  document.getElementById("destinazioneInput").value =
     currentPractice.destinazione || "";
 
-  document.getElementById(
-    "indirizzoRitiroInput"
-  ).value =
+  document.getElementById("indirizzoRitiroInput").value =
     currentPractice.indirizzo_ritiro || "";
 
-  document.getElementById(
-    "capRitiroInput"
-  ).value =
+  document.getElementById("capRitiroInput").value =
     currentPractice.cap_ritiro || "";
 
-  document.getElementById(
-    "indirizzoConsegnaInput"
-  ).value =
+  document.getElementById("indirizzoConsegnaInput").value =
     currentPractice.indirizzo_consegna || "";
 
-  document.getElementById(
-    "capConsegnaInput"
-  ).value =
+  document.getElementById("capConsegnaInput").value =
     currentPractice.cap_consegna || "";
 
-  document.getElementById(
-    "vettoreInput"
-  ).value =
+  document.getElementById("vettoreInput").value =
     currentPractice.vettore || "";
 
-  document.getElementById(
-    "merceInput"
-  ).value =
+  document.getElementById("merceInput").value =
     currentPractice.tipo_merce || "";
 
-  document.getElementById(
-    "colliInput"
-  ).value =
+  document.getElementById("colliInput").value =
     currentPractice.colli ?? "";
 
-  document.getElementById(
-    "pesoInput"
-  ).value =
+  document.getElementById("pesoInput").value =
     currentPractice.peso_kg ?? "";
 
-  document.getElementById(
-    "volumeInput"
-  ).value =
+  document.getElementById("volumeInput").value =
     currentPractice.volume_m3 ?? "";
 
-  document.getElementById(
-    "noteInput"
-  ).value =
+  document.getElementById("noteInput").value =
     currentPractice.note || "";
 
 }
 
 
 /* ============================
-   MODALITÀ MODIFICA
+   MODIFICA
 ============================ */
 
 function startEditing(){
@@ -1786,8 +1845,6 @@ function startEditing(){
   hideMessage();
 
   populateEditFields();
-
-  editing = true;
 
   transportCard.classList.add(
     "editing"
@@ -1804,11 +1861,15 @@ function startEditing(){
   editButton.style.display =
     "none";
 
+  reanalyzeButton.disabled =
+    true;
+
+  deleteButton.disabled =
+    true;
+
 }
 
 function stopEditing(){
-
-  editing = false;
 
   transportCard.classList.remove(
     "editing"
@@ -1825,11 +1886,17 @@ function stopEditing(){
   editButton.style.display =
     "inline-block";
 
+  reanalyzeButton.disabled =
+    false;
+
+  deleteButton.disabled =
+    false;
+
 }
 
 
 /* ============================
-   DATI AGGIORNAMENTO
+   DATI UPDATE
 ============================ */
 
 function getUpdatedData(){
@@ -1992,8 +2059,6 @@ function validateEdit(){
   if(!capRitiro.checkValidity()){
 
     capRitiro.reportValidity();
-    capRitiro.focus();
-
     return false;
 
   }
@@ -2001,8 +2066,6 @@ function validateEdit(){
   if(!capConsegna.checkValidity()){
 
     capConsegna.reportValidity();
-    capConsegna.focus();
-
     return false;
 
   }
@@ -2013,18 +2076,10 @@ function validateEdit(){
 
 
 /* ============================
-   SALVA MODIFICHE
+   SALVA
 ============================ */
 
 async function saveChanges(){
-
-  if(
-    !currentPractice ||
-    !currentUser ||
-    !currentProfile
-  ){
-    return;
-  }
 
   if(!validateEdit()){
     return;
@@ -2061,14 +2116,6 @@ async function saveChanges(){
       throw error;
     }
 
-    if(!data){
-
-      throw new Error(
-        "La pratica non è stata aggiornata."
-      );
-
-    }
-
     currentPractice =
       data;
 
@@ -2080,21 +2127,13 @@ async function saveChanges(){
 
     showMessage(
       "success",
-      "Modifiche salvate correttamente."
-    );
-
-    setTimeout(
-      hideMessage,
-      2500
+      "Modifiche salvate correttamente. Puoi rianalizzare la pratica con l'AI."
     );
 
   }
   catch(error){
 
-    console.error(
-      "Errore aggiornamento:",
-      error
-    );
+    console.error(error);
 
     showMessage(
       "error",
@@ -2117,7 +2156,371 @@ async function saveChanges(){
 
 
 /* ============================
-   EVENTI MODIFICA
+   DATI PER MAKE
+============================ */
+
+function getAIData(){
+
+  return {
+
+    azione:"analizza",
+
+    data:
+      currentPractice.data || "",
+
+    cliente:
+      currentPractice.cliente || "",
+
+    ritiro:
+      currentPractice.ritiro || "",
+
+    consegna:
+      currentPractice.consegna || "",
+
+    partenza:
+      currentPractice.partenza || "",
+
+    indirizzoRitiro:
+      currentPractice.indirizzo_ritiro || "",
+
+    capRitiro:
+      currentPractice.cap_ritiro || "",
+
+    destinazione:
+      currentPractice.destinazione || "",
+
+    indirizzoConsegna:
+      currentPractice.indirizzo_consegna || "",
+
+    capConsegna:
+      currentPractice.cap_consegna || "",
+
+    vettore:
+      currentPractice.vettore || "",
+
+    tipoMerce:
+      currentPractice.tipo_merce || "",
+
+    colli:
+      currentPractice.colli ?? "",
+
+    peso:
+      currentPractice.peso_kg ?? "",
+
+    volume:
+      currentPractice.volume_m3 ?? "",
+
+    note:
+      currentPractice.note || "",
+
+    /*
+     * Informazioni aggiuntive.
+     * Make può ignorarle.
+     */
+    numeroPratica:
+      currentPractice.numero_pratica,
+
+    praticaId:
+      currentPractice.id
+
+  };
+
+}
+
+
+/* ============================
+   RIANALIZZA AI
+============================ */
+
+async function reanalyzePractice(){
+
+  if(!currentPractice){
+    return;
+  }
+
+  hideMessage();
+
+  const oldButtonText =
+    reanalyzeButton.textContent;
+
+  reanalyzeButton.disabled =
+    true;
+
+  editButton.disabled =
+    true;
+
+  deleteButton.disabled =
+    true;
+
+  reanalyzeButton.textContent =
+    "Analisi in corso...";
+
+  aiContent.innerHTML =
+    `<div class="ai-loading">
+      MatRi-mIA sta rianalizzando la pratica...
+    </div>`;
+
+  try{
+
+    /*
+     * IMPORTANTE:
+     * viene inviata solo azione = analizza.
+     * Quindi non deve essere creata
+     * una nuova pratica.
+     */
+
+    const response =
+      await fetch(
+        AI_WEBHOOK_URL,
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(
+              getAIData()
+            )
+
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "Errore Make HTTP " +
+        response.status
+      );
+
+    }
+
+    const responseText =
+      await response.text();
+
+    const result =
+      parseAIResponse(
+        responseText
+      );
+
+    if(!result.analysis){
+
+      throw new Error(
+        "Make non ha restituito l'analisi."
+      );
+
+    }
+
+    if(!result.status){
+
+      throw new Error(
+        "Impossibile riconoscere lo stato AI nella risposta."
+      );
+
+    }
+
+    /*
+     * Aggiorniamo la STESSA pratica.
+     */
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("pratiche")
+        .update({
+
+          stato_ai:
+            result.status,
+
+          analisi_ai:
+            result.analysis,
+
+          updated_at:
+            new Date().toISOString(),
+
+          updated_by:
+            currentUser.id
+
+        })
+        .eq(
+          "id",
+          currentPractice.id
+        )
+        .select()
+        .single();
+
+    if(error){
+      throw error;
+    }
+
+    currentPractice =
+      data;
+
+    renderPractice(
+      currentPractice
+    );
+
+    showMessage(
+      "success",
+      "Pratica rianalizzata. Stato AI e analisi aggiornati correttamente."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore rianalisi:",
+      error
+    );
+
+    /*
+     * Ripristiniamo l'analisi precedente
+     * se qualcosa non funziona.
+     */
+
+    parseAIAnalysis(
+      currentPractice.analisi_ai
+    );
+
+    showMessage(
+      "error",
+      "Errore durante la rianalisi: " +
+      error.message
+    );
+
+  }
+  finally{
+
+    reanalyzeButton.disabled =
+      false;
+
+    editButton.disabled =
+      false;
+
+    deleteButton.disabled =
+      false;
+
+    reanalyzeButton.textContent =
+      oldButtonText;
+
+  }
+
+}
+
+
+/* ============================
+   ELIMINA PRATICA
+============================ */
+
+async function deletePractice(){
+
+  if(!currentPractice){
+    return;
+  }
+
+  const numero =
+    currentPractice.numero_pratica ||
+    "";
+
+  const confirmed =
+    window.confirm(
+      "Vuoi eliminare definitivamente la pratica " +
+      numero +
+      "?\n\nQuesta operazione non può essere annullata."
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+  const secondConfirmation =
+    window.confirm(
+      "Confermi l'eliminazione definitiva?"
+    );
+
+  if(!secondConfirmation){
+    return;
+  }
+
+  hideMessage();
+
+  deleteButton.disabled =
+    true;
+
+  editButton.disabled =
+    true;
+
+  reanalyzeButton.disabled =
+    true;
+
+  deleteButton.textContent =
+    "Eliminazione...";
+
+  try{
+
+    const {
+      error
+    } =
+      await supabase
+        .from("pratiche")
+        .delete()
+        .eq(
+          "id",
+          currentPractice.id
+        );
+
+    if(error){
+      throw error;
+    }
+
+    /*
+     * RLS garantisce che l'utente
+     * possa eliminare solamente
+     * una pratica autorizzata.
+     */
+
+    window.location.replace(
+      "pratiche.html"
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore eliminazione:",
+      error
+    );
+
+    showMessage(
+      "error",
+      "Errore durante l'eliminazione: " +
+      error.message
+    );
+
+    deleteButton.disabled =
+      false;
+
+    editButton.disabled =
+      false;
+
+    reanalyzeButton.disabled =
+      false;
+
+    deleteButton.textContent =
+      "Elimina";
+
+  }
+
+}
+
+
+/* ============================
+   EVENTI
 ============================ */
 
 editButton.addEventListener(
@@ -2140,9 +2543,19 @@ saveButton.addEventListener(
   saveChanges
 );
 
+reanalyzeButton.addEventListener(
+  "click",
+  reanalyzePractice
+);
+
+deleteButton.addEventListener(
+  "click",
+  deletePractice
+);
+
 
 /* ============================
-   CARICAMENTO DA SUPABASE
+   CARICAMENTO PRATICA
 ============================ */
 
 async function loadPractice(){
@@ -2162,13 +2575,6 @@ async function loadPractice(){
   }
 
   try{
-
-    /*
-     * requestedId è il numero_pratica
-     * visibile nell'URL, per esempio:
-     *
-     * 2026-0002
-     */
 
     const {
       data:pratica,
@@ -2190,9 +2596,7 @@ async function loadPractice(){
     if(!pratica){
 
       throw new Error(
-        "Pratica " +
-        requestedId +
-        " non trovata."
+        "Pratica non trovata."
       );
 
     }
@@ -2213,10 +2617,7 @@ async function loadPractice(){
   }
   catch(error){
 
-    console.error(
-      "Errore caricamento:",
-      error
-    );
+    console.error(error);
 
     loadingBox.style.display =
       "none";
