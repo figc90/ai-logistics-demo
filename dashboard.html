@@ -16,22 +16,14 @@
   padding:0;
 }
 
-:root{
-  --navy:#10284a;
-  --navy2:#173f69;
-  --blue:#2ca9d2;
-  --orange:#f05a32;
-  --orange2:#ff7b1f;
-  --bg:#f3f6fa;
-  --text:#172033;
-  --muted:#7b899d;
-  --border:#e1e7ee;
+html{
+  scroll-behavior:smooth;
 }
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  background:#f3f6fa;
+  color:#172033;
   min-height:100vh;
   visibility:hidden;
 }
@@ -42,29 +34,30 @@ body.auth-ready{
 
 a{
   text-decoration:none;
+  color:inherit;
 }
 
 button{
   font:inherit;
 }
 
-.app{
-  display:flex;
-  min-height:100vh;
-}
+/* ============================
+   LAYOUT
+============================ */
 
+.app{
+  min-height:100vh;
+  display:flex;
+}
 
 /* ============================
    SIDEBAR
 ============================ */
 
 .sidebar{
-  width:245px;
-  background:linear-gradient(
-    180deg,
-    #081a33 0%,
-    #102d50 100%
-  );
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
   color:#fff;
   position:fixed;
   left:0;
@@ -73,233 +66,285 @@ button{
   display:flex;
   flex-direction:column;
   z-index:100;
+  border-right:1px solid rgba(255,255,255,.05);
 }
 
+/* ============================
+   LOGO
+============================ */
+
 .sidebar-logo{
-  padding:18px 20px 17px;
+  min-height:152px;
+  padding:14px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+/*
+  Il logo mantiene sostanzialmente
+  la stessa dimensione, ma adesso
+  ha uno sfondo chiaro per aumentare
+  il contrasto.
+*/
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:linear-gradient(
+    145deg,
+    #ffffff,
+    #f4f8fc
+  );
+
+  border:1px solid rgba(255,255,255,.85);
+
+  border-radius:14px;
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.18),
+    0 0 18px rgba(73,193,229,.14);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.sidebar-logo-link:hover{
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.22),
+    0 0 22px rgba(73,193,229,.20);
 }
 
 .sidebar-logo img{
   width:175px;
-  max-width:100%;
+  max-width:90%;
+  height:auto;
   display:block;
 }
 
-.nav{
-  padding:22px 13px;
+/* ============================
+   NAVIGAZIONE
+============================ */
+
+.sidebar-nav{
+  padding:24px 12px;
   flex:1;
 }
 
+.nav-section{
+  margin-bottom:28px;
+}
+
 .nav-title{
-  color:#7190ad;
+  color:#7893af;
   font-size:10px;
   font-weight:900;
   letter-spacing:1.8px;
-  padding:0 12px;
-  margin:8px 0 10px;
+  margin:0 5px 9px;
 }
 
-.nav-link{
-  min-height:46px;
-  padding:0 13px;
-  margin-bottom:5px;
-  border-radius:11px;
+.nav-item{
+  min-height:44px;
   display:flex;
   align-items:center;
   gap:12px;
-  color:#c4d0dc;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
   font-size:14px;
-  font-weight:800;
-  transition:.2s ease;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
 }
 
-.nav-link:hover{
+.nav-item:hover{
   background:rgba(255,255,255,.07);
   color:#fff;
 }
 
-.nav-link.active{
-  background:linear-gradient(
-    135deg,
-    rgba(44,169,210,.22),
-    rgba(44,169,210,.10)
-  );
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
   color:#fff;
-  border:1px solid rgba(84,201,233,.16);
 }
 
 .nav-icon{
-  width:22px;
+  width:18px;
   text-align:center;
-  font-size:17px;
+  font-size:16px;
+  opacity:.9;
 }
 
 .nav-disabled{
-  opacity:.38;
+  opacity:.42;
   cursor:default;
 }
 
 .nav-disabled:hover{
   background:transparent;
-  color:#c4d0dc;
+  color:#c7d3e1;
 }
 
 .soon{
   margin-left:auto;
-  font-size:9px;
-  padding:4px 6px;
+  padding:4px 7px;
+  background:rgba(255,255,255,.08);
   border-radius:999px;
-  background:rgba(255,255,255,.10);
-  color:#b8c7d6;
+  color:#8fa5bb;
+  font-size:8px;
+  font-weight:900;
 }
 
+/* ============================
+   SIDEBAR USER
+============================ */
+
 .sidebar-bottom{
-  padding:15px 13px 18px;
+  padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
 }
 
-.sidebar-user{
-  padding:12px;
-  background:rgba(255,255,255,.05);
-  border-radius:12px;
-  margin-bottom:10px;
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px 12px;
+  margin-bottom:9px;
 }
 
-.sidebar-user-label{
-  color:#7f9ab4;
+.user-label{
+  color:#7994af;
   font-size:9px;
   font-weight:900;
   letter-spacing:1.3px;
-  margin-bottom:5px;
+  margin-bottom:4px;
 }
 
-.sidebar-user-email{
-  color:#e8eef5;
+.user-email{
+  color:#fff;
   font-size:12px;
   font-weight:700;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  overflow-wrap:anywhere;
 }
 
-.logout{
+.logout-btn{
   width:100%;
   min-height:40px;
-  border:1px solid rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
   background:rgba(255,255,255,.04);
-  color:#c9d4df;
-  border-radius:10px;
+  color:#dbe5ef;
   font-weight:800;
   cursor:pointer;
+  transition:.18s ease;
 }
 
-.logout:hover{
-  background:rgba(255,255,255,.08);
+.logout-btn:hover{
+  background:rgba(255,255,255,.09);
   color:#fff;
 }
-
 
 /* ============================
    MAIN
 ============================ */
 
 .main{
-  margin-left:245px;
-  width:calc(100% - 245px);
+  margin-left:225px;
+  width:calc(100% - 225px);
   min-height:100vh;
 }
 
+/* ============================
+   TOP BAR
+============================ */
+
 .topbar{
-  height:68px;
+  height:70px;
   background:#fff;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid #e2e7ee;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 30px;
+  padding:0 28px;
   position:sticky;
   top:0;
   z-index:50;
 }
 
-.mobile-logo{
-  display:none;
+.topbar-brand{
+  color:#8492a6;
+  font-size:12px;
 }
 
-.topbar-left{
-  color:#758399;
-  font-size:13px;
-}
-
-.topbar-left strong{
-  color:var(--navy);
-}
-
-.new-practice{
-  min-height:42px;
+.new-practice-btn{
+  min-height:40px;
   padding:0 17px;
-  border-radius:10px;
-  background:linear-gradient(
-    135deg,
-    var(--orange),
-    var(--orange2)
-  );
-  color:#fff;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  font-size:14px;
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+  border-radius:10px;
+  font-size:13px;
   font-weight:900;
-  box-shadow:0 6px 18px rgba(240,90,50,.18);
+  box-shadow:0 7px 18px rgba(236,79,50,.18);
+  transition:.18s ease;
 }
 
+.new-practice-btn:hover{
+  transform:translateY(-1px);
+}
+
+/* ============================
+   CONTENT
+============================ */
+
 .content{
-  max-width:1450px;
-  margin:auto;
+  max-width:1360px;
+  margin:0 auto;
   padding:32px 30px 55px;
 }
 
-
-/* ============================
-   WELCOME
-============================ */
-
-.welcome{
+.dashboard-heading{
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
   gap:20px;
-  margin-bottom:25px;
+  margin-bottom:24px;
 }
 
 .eyebrow{
-  color:var(--blue);
+  color:#2ca9d2;
   font-size:11px;
   font-weight:900;
   letter-spacing:2px;
-  margin-bottom:8px;
+  margin-bottom:7px;
 }
 
-.welcome h1{
-  color:var(--navy);
-  font-size:36px;
-  line-height:1.1;
-  margin-bottom:8px;
+h1{
+  color:#10284a;
+  font-size:38px;
+  line-height:1;
+  margin-bottom:9px;
 }
 
-.welcome p{
-  color:#7a8799;
-  font-size:15px;
-  line-height:1.5;
+.subtitle{
+  color:#7d8ba0;
+  font-size:14px;
 }
 
-.last-update{
-  color:#929dac;
-  font-size:11px;
-  text-align:right;
+.updated{
+  color:#9aa6b6;
+  font-size:10px;
 }
-
 
 /* ============================
    KPI
@@ -308,21 +353,22 @@ button{
 .kpi-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:15px;
+  gap:14px;
   margin-bottom:20px;
 }
 
-.kpi{
+.kpi-card{
   background:#fff;
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px;
-  box-shadow:0 8px 24px rgba(19,40,74,.045);
+  border:1px solid #dfe6ee;
+  border-radius:15px;
+  min-height:135px;
+  padding:20px 18px;
   position:relative;
   overflow:hidden;
+  box-shadow:0 9px 25px rgba(19,40,74,.05);
 }
 
-.kpi::before{
+.kpi-card::before{
   content:"";
   position:absolute;
   left:0;
@@ -332,175 +378,168 @@ button{
 }
 
 .kpi-total::before{
-  background:var(--blue);
+  background:#29a9d2;
 }
 
 .kpi-ok::before{
-  background:#38a36f;
+  background:#2fb878;
 }
 
 .kpi-warning::before{
-  background:#e6a324;
+  background:#f1a51b;
 }
 
 .kpi-error::before{
-  background:#df584d;
-}
-
-.kpi-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-.kpi-label{
-  color:#79869a;
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.7px;
-  text-transform:uppercase;
+  background:#ef4e4e;
 }
 
 .kpi-icon{
-  width:36px;
-  height:36px;
-  border-radius:10px;
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:35px;
+  height:35px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:17px;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:900;
 }
 
 .kpi-total .kpi-icon{
-  background:#eaf7fb;
+  background:#e9f7fb;
+  color:#167fa5;
 }
 
 .kpi-ok .kpi-icon{
-  background:#eaf8f1;
+  background:#e9f8f1;
+  color:#23784f;
 }
 
 .kpi-warning .kpi-icon{
-  background:#fff6e3;
+  background:#fff4dd;
+  color:#a46700;
 }
 
 .kpi-error .kpi-icon{
-  background:#fff0ee;
+  background:#ffeded;
+  color:#b42318;
 }
 
-.kpi-value{
-  color:var(--navy);
-  font-size:31px;
+.kpi-label{
+  color:#7b899e;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.7px;
+  margin-bottom:20px;
+}
+
+.kpi-number{
+  color:#10284a;
+  font-size:30px;
   font-weight:900;
   line-height:1;
-  margin-bottom:7px;
+  margin-bottom:6px;
 }
 
 .kpi-description{
-  color:#9aa4b2;
-  font-size:11px;
+  color:#9aa5b5;
+  font-size:10px;
 }
 
-
 /* ============================
-   GRID
+   DASHBOARD GRID
 ============================ */
 
 .dashboard-grid{
   display:grid;
-  grid-template-columns:minmax(0,2fr) minmax(310px,.85fr);
-  gap:20px;
-}
-
-.left-column,
-.right-column{
-  min-width:0;
+  grid-template-columns:minmax(0,2.3fr) minmax(300px,1fr);
+  gap:18px;
+  align-items:start;
 }
 
 .card{
   background:#fff;
-  border:1px solid var(--border);
-  border-radius:17px;
-  box-shadow:0 10px 28px rgba(19,40,74,.05);
+  border:1px solid #dfe6ee;
+  border-radius:15px;
   overflow:hidden;
+  box-shadow:0 10px 28px rgba(19,40,74,.05);
 }
 
 .card + .card{
-  margin-top:20px;
+  margin-top:18px;
 }
 
 .card-header{
-  padding:18px 20px;
-  border-bottom:1px solid #edf0f4;
+  min-height:66px;
+  padding:16px 18px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:15px;
+  border-bottom:1px solid #e8edf2;
 }
 
-.card-title{
-  color:var(--navy);
-  font-size:17px;
-  font-weight:900;
+.card-header h2{
+  color:#173459;
+  font-size:16px;
+  margin-bottom:3px;
 }
 
-.card-subtitle{
-  color:#929dac;
+.card-header p{
+  color:#9aa6b6;
+  font-size:10px;
+}
+
+.view-all{
+  color:#1596c2;
   font-size:11px;
-  margin-top:4px;
-}
-
-.card-link{
-  color:#238eb5;
-  font-size:12px;
   font-weight:900;
 }
-
 
 /* ============================
-   TABELLA
+   TABLE
 ============================ */
 
 .table-wrap{
+  width:100%;
   overflow-x:auto;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:650px;
+  min-width:720px;
+}
+
+thead{
+  background:#f6f8fb;
 }
 
 th{
+  padding:11px 15px;
+  color:#8290a4;
+  font-size:9px;
   text-align:left;
-  background:#f8fafc;
-  color:#7c899b;
-  font-size:10px;
-  font-weight:900;
   text-transform:uppercase;
-  letter-spacing:.7px;
-  padding:12px 17px;
-  border-bottom:1px solid #edf0f4;
+  letter-spacing:.5px;
 }
 
 td{
-  padding:14px 17px;
-  border-bottom:1px solid #f0f2f5;
-  color:#445268;
-  font-size:13px;
+  padding:13px 15px;
+  border-top:1px solid #edf0f4;
+  color:#526177;
+  font-size:11px;
 }
 
 tbody tr{
   cursor:pointer;
-  transition:.15s;
+  transition:.15s ease;
 }
 
 tbody tr:hover{
-  background:#fafcfe;
-}
-
-tbody tr:last-child td{
-  border-bottom:none;
+  background:#fafcff;
 }
 
 .practice-id{
@@ -509,54 +548,55 @@ tbody tr:last-child td{
 }
 
 .route{
+  color:#344b68;
   font-weight:700;
-  color:#31455e;
 }
 
 .badge{
   display:inline-flex;
   align-items:center;
-  padding:6px 9px;
+  justify-content:center;
+  padding:5px 9px;
   border-radius:999px;
-  font-size:10px;
+  font-size:9px;
   font-weight:900;
 }
 
 .badge-ok{
-  background:#e8f7ef;
+  background:#e5f7ee;
   color:#23784f;
 }
 
 .badge-warning{
-  background:#fff2d6;
-  color:#a76600;
+  background:#fff0ce;
+  color:#a46700;
 }
 
 .badge-error{
-  background:#ffe7e3;
+  background:#ffe8e5;
   color:#b42318;
 }
 
 .badge-default{
   background:#edf1f5;
-  color:#596778;
+  color:#687689;
 }
-
 
 /* ============================
    ATTENZIONE
 ============================ */
 
 .attention-list{
-  padding:7px 0;
+  min-height:80px;
 }
 
 .attention-item{
   display:flex;
   align-items:center;
-  gap:12px;
+  justify-content:space-between;
+  gap:15px;
   padding:13px 18px;
-  border-bottom:1px solid #f0f2f5;
+  border-bottom:1px solid #edf0f4;
   cursor:pointer;
 }
 
@@ -564,176 +604,143 @@ tbody tr:last-child td{
   border-bottom:none;
 }
 
-.attention-item:hover{
-  background:#fafcfe;
+.attention-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.attention-indicator{
-  width:9px;
-  height:9px;
+.attention-dot{
+  width:8px;
+  height:8px;
   border-radius:50%;
   flex-shrink:0;
 }
 
-.indicator-warning{
-  background:#e5a32d;
+.dot-warning{
+  background:#f1a51b;
 }
 
-.indicator-error{
-  background:#dc5348;
-}
-
-.attention-main{
-  min-width:0;
-  flex:1;
+.dot-error{
+  background:#ef4e4e;
 }
 
 .attention-id{
   color:#173f69;
-  font-size:12px;
+  font-size:11px;
   font-weight:900;
-  margin-bottom:3px;
 }
 
 .attention-route{
-  color:#79869a;
-  font-size:11px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+  color:#8a98aa;
+  font-size:9px;
+  margin-top:2px;
 }
 
 .attention-status{
-  font-size:9px;
+  color:#596778;
+  font-size:8px;
   font-weight:900;
 }
 
+.empty{
+  padding:25px 18px;
+  color:#8d9aad;
+  font-size:12px;
+}
 
 /* ============================
    AI CARD
 ============================ */
 
 .ai-card{
-  background:linear-gradient(
-    145deg,
-    #0b1d3a,
-    #123b67
-  );
+  background:linear-gradient(145deg,#0c2a4e,#123e6d);
   color:#fff;
-  border:none;
-}
-
-.ai-card-inner{
-  padding:22px;
+  border-radius:15px;
+  padding:20px;
+  min-height:195px;
+  box-shadow:0 10px 28px rgba(10,42,78,.13);
 }
 
 .ai-label{
   color:#55c9e9;
-  font-size:10px;
+  font-size:9px;
   font-weight:900;
-  letter-spacing:2px;
+  letter-spacing:1.7px;
   margin-bottom:8px;
 }
 
 .ai-card h2{
-  font-size:19px;
-  margin-bottom:11px;
+  font-size:18px;
+  margin-bottom:12px;
 }
 
-.ai-card p{
-  color:#b8c9d9;
-  font-size:13px;
+.ai-text{
+  color:#d5e0eb;
+  font-size:12px;
   line-height:1.6;
+  margin-bottom:18px;
 }
 
 .ai-number{
-  color:#fff;
-  font-size:34px;
+  font-size:29px;
   font-weight:900;
-  margin:17px 0 3px;
+  line-height:1;
+  margin-bottom:4px;
 }
 
 .ai-number-label{
-  color:#7fa0bb;
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.8px;
+  color:#8eabc5;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.7px;
 }
-
 
 /* ============================
    QUICK ACTIONS
 ============================ */
 
 .quick-actions{
-  padding:14px;
+  padding:11px 18px 14px;
 }
 
 .quick-action{
+  min-height:50px;
   display:flex;
   align-items:center;
   gap:12px;
-  min-height:52px;
-  border-radius:11px;
-  padding:0 12px;
-  color:#34465d;
-  font-size:13px;
+  color:#30465f;
+  font-size:11px;
   font-weight:800;
-  transition:.15s;
+  border-radius:10px;
+  padding:7px 5px;
 }
 
 .quick-action:hover{
-  background:#f5f8fb;
+  background:#f7fafc;
 }
 
 .quick-icon{
   width:34px;
   height:34px;
-  background:#eef6fa;
+  flex-shrink:0;
   border-radius:9px;
+  background:#edf5f9;
   display:flex;
   align-items:center;
   justify-content:center;
+  color:#173459;
+  font-size:15px;
 }
-
-.empty{
-  padding:28px 18px;
-  text-align:center;
-  color:#8c98a8;
-  font-size:13px;
-}
-
-
-/* ============================
-   ERROR
-============================ */
-
-.message{
-  display:none;
-  margin-bottom:20px;
-  padding:14px 16px;
-  border-radius:12px;
-  font-size:13px;
-  font-weight:700;
-}
-
-.message-error{
-  display:block;
-  background:#fff1f0;
-  color:#b42318;
-  border:1px solid #ffd4d1;
-}
-
 
 /* ============================
    MOBILE
 ============================ */
 
-@media(max-width:1100px){
+@media(max-width:1050px){
 
   .kpi-grid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:1fr 1fr;
   }
 
   .dashboard-grid{
@@ -742,66 +749,72 @@ tbody tr:last-child td{
 
 }
 
-@media(max-width:800px){
+@media(max-width:760px){
 
   .sidebar{
-    display:none;
+    width:72px;
   }
 
   .main{
-    margin-left:0;
-    width:100%;
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+    border-radius:10px;
+  }
+
+  .sidebar-logo img{
+    width:50px;
+  }
+
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .soon,
+  .user-card{
+    display:none;
+  }
+
+  .nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .sidebar-bottom{
+    padding:8px;
+  }
+
+  .logout-btn{
+    font-size:0;
+  }
+
+  .logout-btn::after{
+    content:"↪";
+    font-size:18px;
   }
 
   .topbar{
     padding:0 15px;
   }
 
-  .mobile-logo{
-    display:block;
-    width:125px;
-  }
-
-  .topbar-left{
-    display:none;
-  }
-
   .content{
-    padding:24px 14px 45px;
+    padding:25px 14px 40px;
   }
 
-}
-
-@media(max-width:550px){
-
-  .welcome{
+  .dashboard-heading{
     align-items:flex-start;
     flex-direction:column;
   }
 
-  .welcome h1{
-    font-size:30px;
-  }
-
-  .last-update{
-    text-align:left;
-  }
-
   .kpi-grid{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
-  .kpi{
-    padding:16px;
-  }
-
-  .kpi-value{
-    font-size:27px;
-  }
-
-  .kpi-description{
-    display:none;
+    grid-template-columns:1fr;
   }
 
 }
@@ -814,16 +827,19 @@ tbody tr:last-child td{
 
 <div class="app">
 
-
-<!-- =========================
+<!-- ============================
      SIDEBAR
-========================= -->
+============================ -->
 
 <aside class="sidebar">
 
   <div class="sidebar-logo">
 
-    <a href="dashboard.html">
+    <!-- CLIC SUL LOGO = DASHBOARD -->
+    <a
+      href="dashboard.html"
+      class="sidebar-logo-link"
+      aria-label="Vai alla Dashboard">
 
       <img
         src="matrimia-logo-web.png"
@@ -834,90 +850,91 @@ tbody tr:last-child td{
   </div>
 
 
-  <nav class="nav">
+  <nav class="sidebar-nav">
 
-    <div class="nav-title">
-      OPERATIVITÀ
-    </div>
+    <div class="nav-section">
 
-    <a
-      href="dashboard.html"
-      class="nav-link active">
+      <div class="nav-title">
+        OPERATIVITÀ
+      </div>
 
-      <span class="nav-icon">▦</span>
+      <a
+        href="dashboard.html"
+        class="nav-item active">
 
-      Dashboard
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
 
-    </a>
+      </a>
 
+      <a
+        href="pratiche.html"
+        class="nav-item">
 
-    <a
-      href="pratiche.html"
-      class="nav-link">
+        <span class="nav-icon">▤</span>
+        <span>Pratiche</span>
 
-      <span class="nav-icon">▤</span>
+      </a>
 
-      Pratiche
+      <a
+        href="nuova-pratica.html"
+        class="nav-item">
 
-    </a>
+        <span class="nav-icon">＋</span>
+        <span>Nuova pratica</span>
 
-
-    <a
-      href="nuova-pratica.html"
-      class="nav-link">
-
-      <span class="nav-icon">＋</span>
-
-      Nuova pratica
-
-    </a>
-
-
-    <div class="nav-title" style="margin-top:25px;">
-      AUTOMAZIONI
-    </div>
-
-
-    <div class="nav-link nav-disabled">
-
-      <span class="nav-icon">✉</span>
-
-      Email AI
-
-      <span class="soon">
-        PRESTO
-      </span>
+      </a>
 
     </div>
 
 
-    <div class="nav-link nav-disabled">
+    <div class="nav-section">
 
-      <span class="nav-icon">↗</span>
+      <div class="nav-title">
+        AUTOMAZIONI
+      </div>
 
-      Viaggi
+      <div class="nav-item nav-disabled">
 
-      <span class="soon">
-        PRESTO
-      </span>
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+
+        <span class="soon">
+          PRESTO
+        </span>
+
+      </div>
+
+      <div class="nav-item nav-disabled">
+
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+
+        <span class="soon">
+          PRESTO
+        </span>
+
+      </div>
 
     </div>
 
 
-    <div class="nav-title" style="margin-top:25px;">
-      GESTIONE
-    </div>
+    <div class="nav-section">
 
+      <div class="nav-title">
+        GESTIONE
+      </div>
 
-    <div class="nav-link nav-disabled">
+      <div class="nav-item nav-disabled">
 
-      <span class="nav-icon">▣</span>
+        <span class="nav-icon">▣</span>
+        <span>Aziende</span>
 
-      Aziende
+        <span class="soon">
+          PRESTO
+        </span>
 
-      <span class="soon">
-        PRESTO
-      </span>
+      </div>
 
     </div>
 
@@ -926,15 +943,15 @@ tbody tr:last-child td{
 
   <div class="sidebar-bottom">
 
-    <div class="sidebar-user">
+    <div class="user-card">
 
-      <div class="sidebar-user-label">
+      <div class="user-label">
         UTENTE
       </div>
 
       <div
-        id="sidebarEmail"
-        class="sidebar-user-email">
+        id="userEmail"
+        class="user-email">
         -
       </div>
 
@@ -942,8 +959,8 @@ tbody tr:last-child td{
 
     <button
       id="logoutButton"
-      type="button"
-      class="logout">
+      class="logout-btn"
+      type="button">
       Esci
     </button>
 
@@ -952,32 +969,21 @@ tbody tr:last-child td{
 </aside>
 
 
-<!-- =========================
+<!-- ============================
      MAIN
-========================= -->
+============================ -->
 
 <div class="main">
 
-
 <header class="topbar">
 
-  <div class="topbar-left">
-
-    <img
-      src="matrimia-logo-web.png"
-      alt="MatRi-mIA"
-      class="mobile-logo">
-
-    <span id="topbarCompany">
-      MatRi-mIA Logistics
-    </span>
-
+  <div class="topbar-brand">
+    MatRi-mIA Logistics
   </div>
-
 
   <a
     href="nuova-pratica.html"
-    class="new-practice">
+    class="new-practice-btn">
     + Nuova pratica
   </a>
 
@@ -987,15 +993,7 @@ tbody tr:last-child td{
 <main class="content">
 
 
-<div
-  id="messageBox"
-  class="message">
-</div>
-
-
-<!-- WELCOME -->
-
-<section class="welcome">
+<div class="dashboard-heading">
 
   <div>
 
@@ -1003,47 +1001,42 @@ tbody tr:last-child td{
       MATRI-MIA · CONTROL CENTER
     </div>
 
-    <h1 id="welcomeTitle">
+    <h1>
       Dashboard
     </h1>
 
-    <p>
+    <div class="subtitle">
       Una panoramica dell'operatività della tua azienda.
-    </p>
+    </div>
 
   </div>
 
   <div
-    id="lastUpdate"
-    class="last-update">
+    id="updatedTime"
+    class="updated">
   </div>
 
-</section>
+</div>
 
 
 <!-- KPI -->
 
-<section class="kpi-grid">
+<div class="kpi-grid">
 
+  <div class="kpi-card kpi-total">
 
-  <div class="kpi kpi-total">
+    <div class="kpi-icon">
+      ▤
+    </div>
 
-    <div class="kpi-top">
-
-      <div class="kpi-label">
-        Pratiche totali
-      </div>
-
-      <div class="kpi-icon">
-        ▤
-      </div>
-
+    <div class="kpi-label">
+      PRATICHE TOTALI
     </div>
 
     <div
       id="totalCount"
-      class="kpi-value">
-      -
+      class="kpi-number">
+      0
     </div>
 
     <div class="kpi-description">
@@ -1053,24 +1046,20 @@ tbody tr:last-child td{
   </div>
 
 
-  <div class="kpi kpi-ok">
+  <div class="kpi-card kpi-ok">
 
-    <div class="kpi-top">
+    <div class="kpi-icon">
+      ✓
+    </div>
 
-      <div class="kpi-label">
-        Regolari
-      </div>
-
-      <div class="kpi-icon">
-        ✓
-      </div>
-
+    <div class="kpi-label">
+      REGOLARI
     </div>
 
     <div
       id="regularCount"
-      class="kpi-value">
-      -
+      class="kpi-number">
+      0
     </div>
 
     <div class="kpi-description">
@@ -1080,24 +1069,20 @@ tbody tr:last-child td{
   </div>
 
 
-  <div class="kpi kpi-warning">
+  <div class="kpi-card kpi-warning">
 
-    <div class="kpi-top">
+    <div class="kpi-icon">
+      !
+    </div>
 
-      <div class="kpi-label">
-        Attenzione
-      </div>
-
-      <div class="kpi-icon">
-        !
-      </div>
-
+    <div class="kpi-label">
+      ATTENZIONE
     </div>
 
     <div
       id="warningCount"
-      class="kpi-value">
-      -
+      class="kpi-number">
+      0
     </div>
 
     <div class="kpi-description">
@@ -1107,24 +1092,20 @@ tbody tr:last-child td{
   </div>
 
 
-  <div class="kpi kpi-error">
+  <div class="kpi-card kpi-error">
 
-    <div class="kpi-top">
+    <div class="kpi-icon">
+      ×
+    </div>
 
-      <div class="kpi-label">
-        Problemi
-      </div>
-
-      <div class="kpi-icon">
-        ×
-      </div>
-
+    <div class="kpi-label">
+      PROBLEMI
     </div>
 
     <div
       id="problemCount"
-      class="kpi-value">
-      -
+      class="kpi-number">
+      0
     </div>
 
     <div class="kpi-description">
@@ -1133,16 +1114,12 @@ tbody tr:last-child td{
 
   </div>
 
+</div>
 
-</section>
-
-
-<!-- MAIN DASHBOARD -->
 
 <div class="dashboard-grid">
 
-
-<div class="left-column">
+<div>
 
 
 <!-- ULTIME PRATICHE -->
@@ -1153,19 +1130,19 @@ tbody tr:last-child td{
 
     <div>
 
-      <div class="card-title">
+      <h2>
         Ultime pratiche
-      </div>
+      </h2>
 
-      <div class="card-subtitle">
+      <p>
         Le pratiche registrate più recentemente
-      </div>
+      </p>
 
     </div>
 
     <a
       href="pratiche.html"
-      class="card-link">
+      class="view-all">
       Vedi tutte →
     </a>
 
@@ -1195,18 +1172,10 @@ tbody tr:last-child td{
 
   </div>
 
-
-  <div
-    id="recentEmpty"
-    class="empty"
-    style="display:none;">
-    Nessuna pratica disponibile.
-  </div>
-
 </section>
 
 
-<!-- RICHIEDONO ATTENZIONE -->
+<!-- ATTENZIONE -->
 
 <section class="card">
 
@@ -1214,13 +1183,13 @@ tbody tr:last-child td{
 
     <div>
 
-      <div class="card-title">
+      <h2>
         Richiedono attenzione
-      </div>
+      </h2>
 
-      <div class="card-subtitle">
+      <p>
         Anomalie rilevate da MatRi-mIA AI
-      </div>
+      </p>
 
     </div>
 
@@ -1231,63 +1200,50 @@ tbody tr:last-child td{
     class="attention-list">
   </div>
 
-  <div
-    id="attentionEmpty"
-    class="empty"
-    style="display:none;">
-    ✓ Nessuna pratica richiede attenzione.
-  </div>
-
 </section>
-
 
 </div>
 
 
-<div class="right-column">
+<!-- COLONNA DESTRA -->
 
+<div>
 
-<!-- AI -->
+<section class="ai-card">
 
-<section class="card ai-card">
+  <div class="ai-label">
+    MATRI-MIA AI
+  </div>
 
-  <div class="ai-card-inner">
+  <h2>
+    Situazione operativa
+  </h2>
 
-    <div class="ai-label">
-      MATRI-MIA AI
-    </div>
+  <div
+    id="aiSummary"
+    class="ai-text">
+    Analisi delle pratiche in corso...
+  </div>
 
-    <h2>
-      Situazione operativa
-    </h2>
+  <div
+    id="aiAttentionNumber"
+    class="ai-number">
+    0
+  </div>
 
-    <p id="aiSummary">
-      Sto analizzando le pratiche della tua azienda...
-    </p>
-
-    <div
-      id="aiAttentionNumber"
-      class="ai-number">
-      -
-    </div>
-
-    <div class="ai-number-label">
-      DA VERIFICARE
-    </div>
-
+  <div class="ai-number-label">
+    DA VERIFICARE
   </div>
 
 </section>
 
-
-<!-- AZIONI RAPIDE -->
 
 <section class="card">
 
   <div class="card-header">
 
-    <div class="card-title">
-      Azioni rapide
+    <div>
+      <h2>Azioni rapide</h2>
     </div>
 
   </div>
@@ -1298,22 +1254,21 @@ tbody tr:last-child td{
       href="nuova-pratica.html"
       class="quick-action">
 
-      <div class="quick-icon">
-        ＋
-      </div>
+      <span class="quick-icon">
+        +
+      </span>
 
       Crea nuova pratica
 
     </a>
 
-
     <a
       href="pratiche.html"
       class="quick-action">
 
-      <div class="quick-icon">
+      <span class="quick-icon">
         ▤
-      </div>
+      </span>
 
       Visualizza tutte le pratiche
 
@@ -1323,9 +1278,7 @@ tbody tr:last-child td{
 
 </section>
 
-
 </div>
-
 
 </div>
 
@@ -1366,79 +1319,41 @@ const supabase =
 ============================ */
 
 const logoutButton =
-  document.getElementById(
-    "logoutButton"
-  );
+  document.getElementById("logoutButton");
 
-const sidebarEmail =
-  document.getElementById(
-    "sidebarEmail"
-  );
+const userEmail =
+  document.getElementById("userEmail");
 
 const totalCount =
-  document.getElementById(
-    "totalCount"
-  );
+  document.getElementById("totalCount");
 
 const regularCount =
-  document.getElementById(
-    "regularCount"
-  );
+  document.getElementById("regularCount");
 
 const warningCount =
-  document.getElementById(
-    "warningCount"
-  );
+  document.getElementById("warningCount");
 
 const problemCount =
-  document.getElementById(
-    "problemCount"
-  );
+  document.getElementById("problemCount");
 
 const recentPractices =
-  document.getElementById(
-    "recentPractices"
-  );
-
-const recentEmpty =
-  document.getElementById(
-    "recentEmpty"
-  );
+  document.getElementById("recentPractices");
 
 const attentionList =
-  document.getElementById(
-    "attentionList"
-  );
-
-const attentionEmpty =
-  document.getElementById(
-    "attentionEmpty"
-  );
+  document.getElementById("attentionList");
 
 const aiSummary =
-  document.getElementById(
-    "aiSummary"
-  );
+  document.getElementById("aiSummary");
 
 const aiAttentionNumber =
-  document.getElementById(
-    "aiAttentionNumber"
-  );
+  document.getElementById("aiAttentionNumber");
 
-const lastUpdate =
-  document.getElementById(
-    "lastUpdate"
-  );
-
-const messageBox =
-  document.getElementById(
-    "messageBox"
-  );
+const updatedTime =
+  document.getElementById("updatedTime");
 
 
 let currentUser = null;
 let currentProfile = null;
-let allPractices = [];
 
 
 /* ============================
@@ -1457,22 +1372,23 @@ function escapeHtml(value){
 }
 
 
-function cleanStatus(value){
+function normalizeStatus(value){
 
   const text =
     String(value || "")
+      .trim()
       .toUpperCase();
 
-  if(text.includes("PROBLEMA")){
-    return "PROBLEMA";
+  if(text.includes("REGOLARE")){
+    return "REGOLARE";
   }
 
   if(text.includes("ATTENZIONE")){
     return "ATTENZIONE";
   }
 
-  if(text.includes("REGOLARE")){
-    return "REGOLARE";
+  if(text.includes("PROBLEMA")){
+    return "PROBLEMA";
   }
 
   return "";
@@ -1486,97 +1402,66 @@ function formatDate(value){
     return "-";
   }
 
-  const text =
-    String(value);
+  const date =
+    new Date(value);
 
-  const parts =
-    text
-      .slice(0,10)
-      .split("-");
-
-  if(parts.length === 3){
-
-    return (
-      parts[2] +
-      "/" +
-      parts[1] +
-      "/" +
-      parts[0]
-    );
-
+  if(isNaN(date.getTime())){
+    return value;
   }
 
-  return text;
+  return date.toLocaleDateString(
+    "it-IT"
+  );
 
 }
 
 
-function getBadge(status){
+function createBadge(status){
 
   const normalized =
-    cleanStatus(status);
-
-  let className =
-    "badge badge-default";
+    normalizeStatus(status);
 
   if(normalized === "REGOLARE"){
 
-    className =
-      "badge badge-ok";
+    return `
+      <span class="badge badge-ok">
+        REGOLARE
+      </span>
+    `;
 
   }
-  else if(
-    normalized === "ATTENZIONE"
-  ){
 
-    className =
-      "badge badge-warning";
+  if(normalized === "ATTENZIONE"){
+
+    return `
+      <span class="badge badge-warning">
+        ATTENZIONE
+      </span>
+    `;
 
   }
-  else if(
-    normalized === "PROBLEMA"
-  ){
 
-    className =
-      "badge badge-error";
+  if(normalized === "PROBLEMA"){
+
+    return `
+      <span class="badge badge-error">
+        PROBLEMA
+      </span>
+    `;
 
   }
 
   return `
-    <span class="${className}">
-      ${escapeHtml(normalized || "-")}
+    <span class="badge badge-default">
+      -
     </span>
   `;
 
 }
 
 
-function openPractice(numero){
-
-  if(!numero){
-    return;
-  }
-
-  window.location.href =
-    "dettaglio-pratica.html?id=" +
-    encodeURIComponent(numero);
-
-}
-
-
-function showError(text){
-
-  messageBox.className =
-    "message message-error";
-
-  messageBox.textContent =
-    text;
-
-}
-
-
 /* ============================
-   LOGIN
+   AUTENTICAZIONE
 ============================ */
 
 async function protectPage(){
@@ -1584,7 +1469,9 @@ async function protectPage(){
   try{
 
     const {
-      data:{session},
+      data:{
+        session
+      },
       error
     } =
       await supabase.auth
@@ -1632,9 +1519,19 @@ async function protectPage(){
       !profile
     ){
 
-      throw new Error(
-        "Profilo utente non trovato."
+      console.error(
+        "Profilo non trovato:",
+        profileError
       );
+
+      await supabase.auth
+        .signOut();
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
 
     }
 
@@ -1643,7 +1540,7 @@ async function protectPage(){
       profile;
 
 
-    sidebarEmail.textContent =
+    userEmail.textContent =
       profile.email ||
       currentUser.email ||
       "-";
@@ -1659,9 +1556,10 @@ async function protectPage(){
   }
   catch(error){
 
-    console.error(error);
-
-    await supabase.auth.signOut();
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
 
     window.location.replace(
       "login.html"
@@ -1710,24 +1608,36 @@ logoutButton.addEventListener(
    CARICA PRATICHE
 ============================ */
 
-async function loadPractices(){
+async function loadDashboard(){
 
   try{
 
     /*
-     * Non serve specificare azienda_id:
-     * la RLS di Supabase restituisce
-     * esclusivamente le pratiche
-     * dell'azienda dell'utente.
+     * Non serve filtrare manualmente
+     * azienda_id.
+     *
+     * La RLS di Supabase permette
+     * all'utente autenticato di vedere
+     * solo le pratiche della propria
+     * azienda.
      */
 
     const {
-      data,
+      data:pratiche,
       error
     } =
       await supabase
         .from("pratiche")
-        .select("*")
+        .select(`
+          id,
+          numero_pratica,
+          data,
+          cliente,
+          partenza,
+          destinazione,
+          stato_ai,
+          created_at
+        `)
         .order(
           "created_at",
           {
@@ -1735,27 +1645,30 @@ async function loadPractices(){
           }
         );
 
+
     if(error){
       throw error;
     }
 
-    allPractices =
-      data || [];
 
-    renderDashboard();
+    const rows =
+      pratiche || [];
+
+
+    renderDashboard(
+      rows
+    );
 
   }
   catch(error){
 
     console.error(
-      "Errore dashboard:",
+      "Errore caricamento dashboard:",
       error
     );
 
-    showError(
-      "Errore durante il caricamento della dashboard: " +
-      error.message
-    );
+    aiSummary.textContent =
+      "Impossibile caricare i dati della dashboard.";
 
   }
 
@@ -1763,38 +1676,44 @@ async function loadPractices(){
 
 
 /* ============================
-   KPI
+   RENDER DASHBOARD
 ============================ */
 
-function renderKPI(){
+function renderDashboard(pratiche){
+
+  const total =
+    pratiche.length;
+
 
   const regular =
-    allPractices.filter(
+    pratiche.filter(
       p =>
-        cleanStatus(
+        normalizeStatus(
           p.stato_ai
         ) === "REGOLARE"
     );
 
+
   const warning =
-    allPractices.filter(
+    pratiche.filter(
       p =>
-        cleanStatus(
+        normalizeStatus(
           p.stato_ai
         ) === "ATTENZIONE"
     );
 
+
   const problems =
-    allPractices.filter(
+    pratiche.filter(
       p =>
-        cleanStatus(
+        normalizeStatus(
           p.stato_ai
         ) === "PROBLEMA"
     );
 
 
   totalCount.textContent =
-    allPractices.length;
+    total;
 
   regularCount.textContent =
     regular.length;
@@ -1806,48 +1725,84 @@ function renderKPI(){
     problems.length;
 
 
-  const attentionTotal =
+  const daVerificare =
     warning.length +
     problems.length;
 
 
   aiAttentionNumber.textContent =
-    attentionTotal;
+    daVerificare;
 
 
-  if(attentionTotal === 0){
+  if(problems.length > 0){
 
     aiSummary.textContent =
-      "Tutte le pratiche analizzate risultano regolari. Non ci sono anomalie che richiedono intervento.";
+      "Sono presenti " +
+      problems.length +
+      " pratiche con problemi e " +
+      warning.length +
+      " pratiche che richiedono verifica.";
 
   }
-  else if(problems.length > 0){
+  else if(warning.length > 0){
 
     aiSummary.textContent =
-      "Ho rilevato " +
-      problems.length +
-      (
-        problems.length === 1
-          ? " pratica con un problema"
-          : " pratiche con problemi"
-      ) +
-      " e " +
+      "Non risultano problemi critici. Ci sono però " +
       warning.length +
-      " da verificare.";
+      " pratiche che richiedono verifica.";
 
   }
   else{
 
     aiSummary.textContent =
-      "Non risultano problemi critici. Ci sono però " +
-      warning.length +
-      (
-        warning.length === 1
-          ? " pratica che richiede verifica."
-          : " pratiche che richiedono verifica."
-      );
+      "La situazione è regolare. Non risultano pratiche che richiedono intervento.";
 
   }
+
+
+  renderRecent(
+    pratiche.slice(
+      0,
+      5
+    )
+  );
+
+
+  renderAttention(
+    pratiche.filter(
+      pratica=>{
+
+        const status =
+          normalizeStatus(
+            pratica.stato_ai
+          );
+
+        return (
+          status === "ATTENZIONE" ||
+          status === "PROBLEMA"
+        );
+
+      }
+    )
+    .slice(
+      0,
+      5
+    )
+  );
+
+
+  const now =
+    new Date();
+
+  updatedTime.textContent =
+    "Aggiornato alle " +
+    now.toLocaleTimeString(
+      "it-IT",
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
 
 }
 
@@ -1856,30 +1811,28 @@ function renderKPI(){
    ULTIME PRATICHE
 ============================ */
 
-function renderRecent(){
+function renderRecent(pratiche){
 
   recentPractices.innerHTML =
     "";
 
-  const recent =
-    allPractices.slice(0,6);
 
+  if(!pratiche.length){
 
-  if(!recent.length){
-
-    recentEmpty.style.display =
-      "block";
+    recentPractices.innerHTML = `
+      <tr>
+        <td colspan="5">
+          Nessuna pratica registrata.
+        </td>
+      </tr>
+    `;
 
     return;
 
   }
 
 
-  recentEmpty.style.display =
-    "none";
-
-
-  recent.forEach(
+  pratiche.forEach(
     pratica=>{
 
       const row =
@@ -1892,7 +1845,8 @@ function renderRecent(){
 
         <td class="practice-id">
           ${escapeHtml(
-            pratica.numero_pratica || "-"
+            pratica.numero_pratica ||
+            "-"
           )}
         </td>
 
@@ -1906,22 +1860,25 @@ function renderRecent(){
 
         <td class="route">
           ${escapeHtml(
-            pratica.partenza || "-"
+            pratica.partenza ||
+            "-"
           )}
           →
           ${escapeHtml(
-            pratica.destinazione || "-"
+            pratica.destinazione ||
+            "-"
           )}
         </td>
 
         <td>
           ${escapeHtml(
-            pratica.cliente || "-"
+            pratica.cliente ||
+            "-"
           )}
         </td>
 
         <td>
-          ${getBadge(
+          ${createBadge(
             pratica.stato_ai
           )}
         </td>
@@ -1933,9 +1890,17 @@ function renderRecent(){
         "click",
         function(){
 
-          openPractice(
-            pratica.numero_pratica
-          );
+          if(
+            !pratica.numero_pratica
+          ){
+            return;
+          }
+
+          window.location.href =
+            "dettaglio-pratica.html?id=" +
+            encodeURIComponent(
+              pratica.numero_pratica
+            );
 
         }
       );
@@ -1953,54 +1918,33 @@ function renderRecent(){
 
 
 /* ============================
-   ATTENZIONE
+   PRATICHE DA VERIFICARE
 ============================ */
 
-function renderAttention(){
+function renderAttention(pratiche){
 
   attentionList.innerHTML =
     "";
 
 
-  const attention =
-    allPractices
-      .filter(
-        pratica=>{
+  if(!pratiche.length){
 
-          const status =
-            cleanStatus(
-              pratica.stato_ai
-            );
-
-          return (
-            status === "ATTENZIONE" ||
-            status === "PROBLEMA"
-          );
-
-        }
-      )
-      .slice(0,5);
-
-
-  if(!attention.length){
-
-    attentionEmpty.style.display =
-      "block";
+    attentionList.innerHTML = `
+      <div class="empty">
+        Nessuna pratica richiede attenzione.
+      </div>
+    `;
 
     return;
 
   }
 
 
-  attentionEmpty.style.display =
-    "none";
-
-
-  attention.forEach(
+  pratiche.forEach(
     pratica=>{
 
       const status =
-        cleanStatus(
+        normalizeStatus(
           pratica.stato_ai
         );
 
@@ -2015,40 +1959,49 @@ function renderAttention(){
         "attention-item";
 
 
-      const indicatorClass =
-        status === "PROBLEMA"
-          ? "indicator-error"
-          : "indicator-warning";
-
-
       item.innerHTML = `
 
-        <div
-          class="attention-indicator ${indicatorClass}">
-        </div>
+        <div class="attention-left">
 
-        <div class="attention-main">
-
-          <div class="attention-id">
-            ${escapeHtml(
-              pratica.numero_pratica || "-"
-            )}
+          <div class="
+            attention-dot
+            ${
+              status === "PROBLEMA"
+                ? "dot-error"
+                : "dot-warning"
+            }
+          ">
           </div>
 
-          <div class="attention-route">
-            ${escapeHtml(
-              pratica.partenza || "-"
-            )}
-            →
-            ${escapeHtml(
-              pratica.destinazione || "-"
-            )}
+          <div>
+
+            <div class="attention-id">
+              ${escapeHtml(
+                pratica.numero_pratica ||
+                "-"
+              )}
+            </div>
+
+            <div class="attention-route">
+              ${escapeHtml(
+                pratica.partenza ||
+                "-"
+              )}
+              →
+              ${escapeHtml(
+                pratica.destinazione ||
+                "-"
+              )}
+            </div>
+
           </div>
 
         </div>
 
         <div class="attention-status">
-          ${escapeHtml(status)}
+          ${escapeHtml(
+            status
+          )}
         </div>
 
       `;
@@ -2058,9 +2011,17 @@ function renderAttention(){
         "click",
         function(){
 
-          openPractice(
-            pratica.numero_pratica
-          );
+          if(
+            !pratica.numero_pratica
+          ){
+            return;
+          }
+
+          window.location.href =
+            "dettaglio-pratica.html?id=" +
+            encodeURIComponent(
+              pratica.numero_pratica
+            );
 
         }
       );
@@ -2078,36 +2039,6 @@ function renderAttention(){
 
 
 /* ============================
-   DASHBOARD
-============================ */
-
-function renderDashboard(){
-
-  renderKPI();
-
-  renderRecent();
-
-  renderAttention();
-
-
-  const now =
-    new Date();
-
-
-  lastUpdate.textContent =
-    "Aggiornato alle " +
-    now.toLocaleTimeString(
-      "it-IT",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
-
-}
-
-
-/* ============================
    AVVIO
 ============================ */
 
@@ -2120,7 +2051,7 @@ async function startDashboard(){
     return;
   }
 
-  await loadPractices();
+  await loadDashboard();
 
 }
 
@@ -2130,5 +2061,4 @@ startDashboard();
 </script>
 
 </body>
-
 </html>
