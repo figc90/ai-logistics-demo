@@ -400,24 +400,19 @@ footer strong{
 
 </head>
 
-
 <body>
-
 
 <header class="top-header">
 
   <div class="top-header-inner">
 
     <a href="index.html">
-
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
         class="logo"
       >
-
     </a>
-
 
     <div class="header-actions">
 
@@ -446,24 +441,15 @@ footer strong{
 
 </header>
 
-
-
 <main class="page">
 
-
-<a
-  href="pratiche.html"
-  class="back">
+<a href="pratiche.html" class="back">
   ← Torna alle pratiche
 </a>
 
-
-<div
-  id="loadingBox"
-  class="loading">
+<div id="loadingBox" class="loading">
   Caricamento pratica...
 </div>
-
 
 <div
   id="errorBox"
@@ -471,14 +457,11 @@ footer strong{
   style="display:none">
 </div>
 
-
 <div
   id="content"
   style="display:none">
 
-
   <div class="heading">
-
 
     <div class="heading-main">
 
@@ -486,9 +469,7 @@ footer strong{
         MATRI-MIA · DETTAGLIO PRATICA
       </div>
 
-      <h1 id="practiceId">
-        -
-      </h1>
+      <h1 id="practiceId">-</h1>
 
       <div
         id="route"
@@ -502,7 +483,6 @@ footer strong{
 
     </div>
 
-
     <div class="status-area">
 
       <div
@@ -513,16 +493,11 @@ footer strong{
 
     </div>
 
-
   </div>
-
-
 
   <div class="layout">
 
-
     <div>
-
 
       <section class="card">
 
@@ -534,74 +509,61 @@ footer strong{
 
           <div class="fields">
 
-
             <div class="field">
               <span class="label">Data</span>
               <div id="data" class="value">-</div>
             </div>
-
 
             <div class="field">
               <span class="label">Cliente</span>
               <div id="cliente" class="value">-</div>
             </div>
 
-
             <div class="field">
               <span class="label">Data/Ora Ritiro</span>
               <div id="ritiro" class="value">-</div>
             </div>
-
 
             <div class="field">
               <span class="label">Data/Ora Consegna</span>
               <div id="consegna" class="value">-</div>
             </div>
 
-
             <div class="field">
               <span class="label">Partenza</span>
               <div id="partenza" class="value">-</div>
             </div>
-
 
             <div class="field">
               <span class="label">Destinazione</span>
               <div id="destinazione" class="value">-</div>
             </div>
 
-
             <div class="field">
               <span class="label">Indirizzo Ritiro</span>
               <div id="indirizzoRitiro" class="value">-</div>
             </div>
-
 
             <div class="field">
               <span class="label">CAP Ritiro</span>
               <div id="capRitiro" class="value">-</div>
             </div>
 
-
             <div class="field">
               <span class="label">Indirizzo Consegna</span>
               <div id="indirizzoConsegna" class="value">-</div>
             </div>
-
 
             <div class="field">
               <span class="label">CAP Consegna</span>
               <div id="capConsegna" class="value">-</div>
             </div>
 
-
           </div>
 
         </div>
 
       </section>
-
-
 
       <section class="card">
 
@@ -613,42 +575,35 @@ footer strong{
 
           <div class="fields">
 
-
             <div class="field">
               <span class="label">Vettore</span>
               <div id="vettore" class="value">-</div>
             </div>
-
 
             <div class="field">
               <span class="label">Tipo merce</span>
               <div id="merce" class="value">-</div>
             </div>
 
-
             <div class="field">
               <span class="label">Colli</span>
               <div id="colli" class="value">-</div>
             </div>
-
 
             <div class="field">
               <span class="label">Peso</span>
               <div id="peso" class="value">-</div>
             </div>
 
-
             <div class="field">
               <span class="label">Volume</span>
               <div id="volume" class="value">-</div>
             </div>
 
-
             <div class="field wide">
               <span class="label">Note operative</span>
               <div id="note" class="value">-</div>
             </div>
-
 
           </div>
 
@@ -656,10 +611,7 @@ footer strong{
 
       </section>
 
-
     </div>
-
-
 
     <aside class="card ai-card">
 
@@ -682,22 +634,16 @@ footer strong{
 
     </aside>
 
-
   </div>
 
-
 </div>
-
 
 <footer>
   <strong>MatRi-mIA Logistics</strong>
   · AI per trasporti e logistica
 </footer>
 
-
 </main>
-
-
 
 <script type="module">
 
@@ -714,10 +660,8 @@ from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 const SUPABASE_URL =
   "https://sctzockiurjsxzdkctmy.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
-
 
 const supabase =
   createClient(
@@ -727,34 +671,26 @@ const supabase =
 
 
 /* ============================
-   MAKE
+   PARAMETRI
 ============================ */
-
-const WEBHOOK_URL =
-  "https://hook.eu1.make.com/05uyyblgxp9m8j72ldy4s6lc9puif86j";
-
 
 const params =
   new URLSearchParams(
     window.location.search
   );
 
-
 const requestedId =
   params.get("id");
-
 
 const logoutButton =
   document.getElementById(
     "logoutButton"
   );
 
-
 const userInfo =
   document.getElementById(
     "userInfo"
   );
-
 
 let currentUser = null;
 let currentProfile = null;
@@ -775,33 +711,6 @@ function escapeHtml(value){
 
 }
 
-
-function getValue(obj,names){
-
-  for(const name of names){
-
-    if(
-      obj &&
-      Object.prototype.hasOwnProperty.call(
-        obj,
-        name
-      ) &&
-      obj[name] !== null &&
-      obj[name] !== undefined &&
-      obj[name] !== ""
-    ){
-
-      return obj[name];
-
-    }
-
-  }
-
-  return "";
-
-}
-
-
 function setValue(id,value){
 
   document
@@ -815,22 +724,40 @@ function setValue(id,value){
 
 }
 
-
 function formatDate(value){
 
   if(!value){
     return "-";
   }
 
+  /*
+   * Le colonne DATE di PostgreSQL arrivano come
+   * YYYY-MM-DD. Le formattiamo senza conversione
+   * di fuso orario.
+   */
+  const match =
+    String(value).match(
+      /^(\d{4})-(\d{2})-(\d{2})$/
+    );
+
+  if(match){
+
+    return (
+      match[3] +
+      "/" +
+      match[2] +
+      "/" +
+      match[1]
+    );
+
+  }
 
   const date =
     new Date(value);
 
-
   if(isNaN(date.getTime())){
     return value;
   }
-
 
   return date.toLocaleDateString(
     "it-IT"
@@ -838,40 +765,29 @@ function formatDate(value){
 
 }
 
-
 function formatDateTime(value){
 
   if(!value){
     return "-";
   }
 
-
   const date =
     new Date(value);
-
 
   if(isNaN(date.getTime())){
     return value;
   }
 
-
-  const day =
-    date.toLocaleDateString(
-      "it-IT"
-    );
-
-
-  const time =
-    date.toLocaleTimeString(
-      "it-IT",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
-
-
-  return day + " · " + time;
+  return date.toLocaleString(
+    "it-IT",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
 
 }
 
@@ -893,11 +809,9 @@ async function protectPage(){
       await supabase.auth
         .getSession();
 
-
     if(error){
       throw error;
     }
-
 
     if(
       !session ||
@@ -912,10 +826,8 @@ async function protectPage(){
 
     }
 
-
     currentUser =
       session.user;
-
 
     const {
       data:profile,
@@ -932,7 +844,6 @@ async function protectPage(){
         )
         .single();
 
-
     if(
       profileError ||
       !profile
@@ -943,10 +854,8 @@ async function protectPage(){
         profileError
       );
 
-
       await supabase.auth
         .signOut();
-
 
       window.location.replace(
         "login.html"
@@ -956,10 +865,8 @@ async function protectPage(){
 
     }
 
-
     currentProfile =
       profile;
-
 
     userInfo.innerHTML =
       `Accesso: <strong>${
@@ -975,11 +882,9 @@ async function protectPage(){
         )
       }`;
 
-
     document.body.classList.add(
       "auth-ready"
     );
-
 
     return true;
 
@@ -991,11 +896,9 @@ async function protectPage(){
       error
     );
 
-
     window.location.replace(
       "login.html"
     );
-
 
     return false;
 
@@ -1018,7 +921,6 @@ logoutButton.addEventListener(
     logoutButton.textContent =
       "Uscita...";
 
-
     try{
 
       await supabase.auth
@@ -1038,7 +940,7 @@ logoutButton.addEventListener(
 
 
 /* ============================
-   STATO / ANALISI AI
+   STATO AI
 ============================ */
 
 function cleanStatus(value){
@@ -1047,190 +949,21 @@ function cleanStatus(value){
     String(value || "")
       .toUpperCase();
 
-
   if(text.includes("PROBLEMA")){
     return "PROBLEMA";
   }
-
 
   if(text.includes("ATTENZIONE")){
     return "ATTENZIONE";
   }
 
-
   if(text.includes("REGOLARE")){
     return "REGOLARE";
   }
 
-
   return "";
 
 }
-
-
-function looksLikeAnalysis(value){
-
-  const text =
-    String(value || "")
-      .toUpperCase();
-
-
-  return (
-    text.includes("STATO:") &&
-    text.includes("MOTIVO:")
-  );
-
-}
-
-
-function findStatus(pratica){
-
-  const candidates = [
-
-    pratica.StatoAI,
-    pratica.statoAI,
-    pratica.Stato,
-    pratica["Stato AI"],
-
-    pratica["16"],
-    pratica["17"],
-    pratica["18"]
-
-  ];
-
-
-  for(const value of candidates){
-
-    if(!value){
-      continue;
-    }
-
-
-    const text =
-      String(value)
-        .trim()
-        .toUpperCase();
-
-
-    if(
-      text === "REGOLARE" ||
-      text === "ATTENZIONE" ||
-      text === "PROBLEMA"
-    ){
-
-      return text;
-
-    }
-
-  }
-
-
-  for(const value of candidates){
-
-    const status =
-      cleanStatus(
-        value
-      );
-
-
-    if(status){
-      return status;
-    }
-
-  }
-
-
-  return "";
-
-}
-
-
-function findAnalysis(pratica){
-
-  const candidates = [
-
-    pratica.AnalisiAI,
-    pratica.analisiAI,
-    pratica["Analisi AI"],
-
-    pratica["16"],
-    pratica["17"],
-    pratica["18"]
-
-  ];
-
-
-  for(const value of candidates){
-
-    if(
-      value &&
-      looksLikeAnalysis(
-        value
-      )
-    ){
-
-      return value;
-
-    }
-
-  }
-
-
-  return "";
-
-}
-
-
-function findNotes(pratica){
-
-  const named =
-    getValue(
-      pratica,
-      [
-        "NoteOperative",
-        "Note Operative",
-        "Note Operative (Q)"
-      ]
-    );
-
-
-  if(named){
-    return named;
-  }
-
-
-  const candidates = [
-
-    pratica["16"],
-    pratica["17"],
-    pratica["18"]
-
-  ];
-
-
-  for(const candidate of candidates){
-
-    if(
-      candidate &&
-      !looksLikeAnalysis(
-        candidate
-      ) &&
-      !cleanStatus(
-        candidate
-      )
-    ){
-
-      return candidate;
-
-    }
-
-  }
-
-
-  return "";
-
-}
-
 
 function setStatus(status){
 
@@ -1239,20 +972,16 @@ function setStatus(status){
       "statusBadge"
     );
 
-
   const normalized =
     cleanStatus(
       status
     );
 
-
   badge.textContent =
     normalized || "-";
 
-
   if(
-    normalized ===
-      "REGOLARE"
+    normalized === "REGOLARE"
   ){
 
     badge.className =
@@ -1260,8 +989,7 @@ function setStatus(status){
 
   }
   else if(
-    normalized ===
-      "ATTENZIONE"
+    normalized === "ATTENZIONE"
   ){
 
     badge.className =
@@ -1269,8 +997,7 @@ function setStatus(status){
 
   }
   else if(
-    normalized ===
-      "PROBLEMA"
+    normalized === "PROBLEMA"
   ){
 
     badge.className =
@@ -1287,6 +1014,10 @@ function setStatus(status){
 }
 
 
+/* ============================
+   ANALISI AI
+============================ */
+
 function parseAIAnalysis(text){
 
   const container =
@@ -1294,20 +1025,15 @@ function parseAIAnalysis(text){
       "aiContent"
     );
 
-
-  container.innerHTML =
-    "";
-
+  container.innerHTML = "";
 
   if(!text){
 
     container.innerHTML = `
       <div class="ai-section">
-
         <div class="ai-section-text">
           Nessuna analisi AI disponibile.
         </div>
-
       </div>
     `;
 
@@ -1315,44 +1041,34 @@ function parseAIAnalysis(text){
 
   }
 
-
   const normalized =
     String(text)
       .replace(/\r/g,"")
       .trim();
 
-
   const headings = [
-
     "STATO:",
     "MOTIVO:",
     "AZIONE RICHIESTA:",
     "DATI DELLA PRATICA:"
-
   ];
-
 
   const sections = [];
 
-
   headings.forEach(
     (heading,index)=>{
-
 
       const start =
         normalized.indexOf(
           heading
         );
 
-
       if(start === -1){
         return;
       }
 
-
       let end =
         normalized.length;
-
 
       for(
         let i=index+1;
@@ -1363,10 +1079,8 @@ function parseAIAnalysis(text){
         const next =
           normalized.indexOf(
             headings[i],
-            start +
-            heading.length
+            start + heading.length
           );
-
 
         if(next !== -1){
 
@@ -1379,7 +1093,6 @@ function parseAIAnalysis(text){
 
       }
 
-
       sections.push({
 
         title:
@@ -1388,8 +1101,7 @@ function parseAIAnalysis(text){
         content:
           normalized
             .slice(
-              start +
-              heading.length,
+              start + heading.length,
               end
             )
             .trim()
@@ -1399,7 +1111,10 @@ function parseAIAnalysis(text){
     }
   );
 
-
+  /*
+   * Se il testo non contiene le intestazioni
+   * previste, mostriamo comunque l'analisi.
+   */
   if(!sections.length){
 
     const section =
@@ -1407,91 +1122,72 @@ function parseAIAnalysis(text){
         "div"
       );
 
-
     section.className =
       "ai-section";
-
 
     const content =
       document.createElement(
         "div"
       );
 
-
     content.className =
       "ai-section-text";
 
-
     content.textContent =
       normalized;
-
 
     section.appendChild(
       content
     );
 
-
     container.appendChild(
       section
     );
-
 
     return;
 
   }
 
-
   sections.forEach(
     sectionData=>{
-
 
       const section =
         document.createElement(
           "div"
         );
 
-
       section.className =
         "ai-section";
-
 
       const title =
         document.createElement(
           "div"
         );
 
-
       title.className =
         "ai-section-title";
 
-
       title.textContent =
         sectionData.title;
-
 
       const content =
         document.createElement(
           "div"
         );
 
-
       content.className =
         "ai-section-text";
 
-
       content.textContent =
         sectionData.content || "-";
-
 
       section.appendChild(
         title
       );
 
-
       section.appendChild(
         content
       );
-
 
       container.appendChild(
         section
@@ -1516,17 +1212,14 @@ function showError(message){
     .style.display =
       "none";
 
-
   const box =
     document.getElementById(
       "errorBox"
     );
 
-
   box.textContent =
     "Errore: " +
     message;
-
 
   box.style.display =
     "block";
@@ -1535,7 +1228,7 @@ function showError(message){
 
 
 /* ============================
-   CARICAMENTO PRATICA
+   CARICAMENTO DA SUPABASE
 ============================ */
 
 async function loadPractice(){
@@ -1550,86 +1243,68 @@ async function loadPractice(){
 
   }
 
-
   try{
 
+    /*
+     * NOVITÀ:
+     * niente più Make e niente più Google Sheets.
+     *
+     * Cerchiamo direttamente nella tabella
+     * public.pratiche.
+     */
 
-    const response =
-      await fetch(
-        WEBHOOK_URL,
-        {
+    const {
+      data:pratica,
+      error
+    } =
+      await supabase
+        .from("pratiche")
+        .select(`
+          id,
+          created_at,
+          azienda_id,
+          numero_pratica,
+          data,
+          cliente,
+          ritiro,
+          consegna,
+          partenza,
+          indirizzo_ritiro,
+          cap_ritiro,
+          destinazione,
+          indirizzo_consegna,
+          cap_consegna,
+          vettore,
+          tipo_merce,
+          colli,
+          peso_kg,
+          volume_m3,
+          note,
+          stato_ai,
+          analisi_ai,
+          created_by,
+          updated_at,
+          updated_by
+        `)
+        .eq(
+          "numero_pratica",
+          requestedId
+        )
+        .maybeSingle();
 
-          method:"GET",
 
-          cache:"no-store",
+    if(error){
 
-          headers:{
-            "Accept":
-              "application/json"
-          }
-
-        }
+      console.error(
+        "Errore Supabase:",
+        error
       );
-
-
-    if(!response.ok){
 
       throw new Error(
-        "HTTP " +
-        response.status
+        error.message
       );
 
     }
-
-
-    const data =
-      await response.json();
-
-
-    let pratiche =
-      data.pratiche;
-
-
-    if(
-      !Array.isArray(
-        pratiche
-      )
-    ){
-
-      pratiche =
-        pratiche
-          ? Object.values(
-              pratiche
-            )
-          : [];
-
-    }
-
-
-    const pratica =
-      pratiche.find(
-        item=>{
-
-
-          const id =
-            getValue(
-              item,
-              [
-                "ID",
-                "ID Pratica",
-                "ID Pratica (A)",
-                "0"
-              ]
-            );
-
-
-          return String(id) ===
-            String(
-              requestedId
-            );
-
-        }
-      );
 
 
     if(!pratica){
@@ -1643,200 +1318,38 @@ async function loadPractice(){
     }
 
 
-    const id =
-      getValue(
-        pratica,
-        [
-          "ID",
-          "ID Pratica",
-          "0"
-        ]
+    /*
+     * ULTERIORE CONTROLLO AZIENDA.
+     *
+     * La protezione principale resta RLS.
+     * Questo controllo serve anche come
+     * verifica lato interfaccia.
+     */
+
+    if(
+      currentProfile.azienda_id &&
+      pratica.azienda_id !==
+        currentProfile.azienda_id
+    ){
+
+      throw new Error(
+        "Non hai accesso a questa pratica."
       );
 
-
-    const dataPratica =
-      getValue(
-        pratica,
-        [
-          "Data",
-          "1"
-        ]
-      );
+    }
 
 
-    const ritiro =
-      getValue(
-        pratica,
-        [
-          "DataOraRitiro",
-          "Data/Ora Ritiro",
-          "2"
-        ]
-      );
-
-
-    const consegna =
-      getValue(
-        pratica,
-        [
-          "DataOraConsegna",
-          "Data/Ora Consegna",
-          "3"
-        ]
-      );
-
-
-    const partenza =
-      getValue(
-        pratica,
-        [
-          "Partenza",
-          "4"
-        ]
-      );
-
-
-    const indirizzoRitiro =
-      getValue(
-        pratica,
-        [
-          "IndirizzoRitiro",
-          "Indirizzo Ritiro",
-          "5"
-        ]
-      );
-
-
-    const capRitiro =
-      getValue(
-        pratica,
-        [
-          "CAPRitiro",
-          "CAP Ritiro",
-          "6"
-        ]
-      );
-
-
-    const destinazione =
-      getValue(
-        pratica,
-        [
-          "Destinazione",
-          "7"
-        ]
-      );
-
-
-    const indirizzoConsegna =
-      getValue(
-        pratica,
-        [
-          "IndirizzoConsegna",
-          "Indirizzo Consegna",
-          "8"
-        ]
-      );
-
-
-    const capConsegna =
-      getValue(
-        pratica,
-        [
-          "CAPConsegna",
-          "CAP Consegna",
-          "9"
-        ]
-      );
-
-
-    const cliente =
-      getValue(
-        pratica,
-        [
-          "Cliente",
-          "10"
-        ]
-      );
-
-
-    const vettore =
-      getValue(
-        pratica,
-        [
-          "Vettore",
-          "11"
-        ]
-      );
-
-
-    const merce =
-      getValue(
-        pratica,
-        [
-          "TipoMerce",
-          "Tipo Merce",
-          "12"
-        ]
-      );
-
-
-    const colli =
-      getValue(
-        pratica,
-        [
-          "Colli",
-          "13"
-        ]
-      );
-
-
-    const peso =
-      getValue(
-        pratica,
-        [
-          "PesoKg",
-          "Peso kg",
-          "14"
-        ]
-      );
-
-
-    const volume =
-      getValue(
-        pratica,
-        [
-          "VolumeM3",
-          "Volume m³",
-          "15"
-        ]
-      );
-
-
-    const note =
-      findNotes(
-        pratica
-      );
-
-
-    const stato =
-      findStatus(
-        pratica
-      );
-
-
-    const analisi =
-      findAnalysis(
-        pratica
-      );
-
+    /* ============================
+       DATI PRINCIPALI
+    ============================ */
 
     document
       .getElementById(
         "practiceId"
       )
       .textContent =
-        id || "-";
+        pratica.numero_pratica ||
+        "-";
 
 
     document
@@ -1844,126 +1357,134 @@ async function loadPractice(){
         "route"
       )
       .textContent =
-        (partenza || "-") +
+        (pratica.partenza || "-") +
         " → " +
-        (destinazione || "-");
+        (pratica.destinazione || "-");
 
+
+    /* ============================
+       STATO AI
+    ============================ */
 
     setStatus(
-      stato
+      pratica.stato_ai
     );
 
+
+    /* ============================
+       TRASPORTO
+    ============================ */
 
     setValue(
       "data",
       formatDate(
-        dataPratica
+        pratica.data
       )
     );
 
-
     setValue(
       "cliente",
-      cliente
+      pratica.cliente
     );
-
 
     setValue(
       "ritiro",
       formatDateTime(
-        ritiro
+        pratica.ritiro
       )
     );
-
 
     setValue(
       "consegna",
       formatDateTime(
-        consegna
+        pratica.consegna
       )
     );
 
-
     setValue(
       "partenza",
-      partenza
+      pratica.partenza
     );
-
 
     setValue(
       "destinazione",
-      destinazione
+      pratica.destinazione
     );
-
 
     setValue(
       "indirizzoRitiro",
-      indirizzoRitiro
+      pratica.indirizzo_ritiro
     );
-
 
     setValue(
       "capRitiro",
-      capRitiro
+      pratica.cap_ritiro
     );
-
 
     setValue(
       "indirizzoConsegna",
-      indirizzoConsegna
+      pratica.indirizzo_consegna
     );
-
 
     setValue(
       "capConsegna",
-      capConsegna
+      pratica.cap_consegna
     );
 
+
+    /* ============================
+       MERCE
+    ============================ */
 
     setValue(
       "vettore",
-      vettore
+      pratica.vettore
     );
-
 
     setValue(
       "merce",
-      merce
+      pratica.tipo_merce
     );
-
 
     setValue(
       "colli",
-      colli
+      pratica.colli
     );
-
 
     setValue(
       "peso",
-      peso
-        ? peso + " kg"
+      pratica.peso_kg !== null &&
+      pratica.peso_kg !== undefined
+        ? pratica.peso_kg + " kg"
         : "-"
     );
-
 
     setValue(
       "volume",
-      volume
-        ? volume + " m³"
+      pratica.volume_m3 !== null &&
+      pratica.volume_m3 !== undefined
+        ? pratica.volume_m3 + " m³"
         : "-"
     );
 
-
     setValue(
       "note",
-      note
+      pratica.note
     );
 
+
+    /* ============================
+       ANALISI AI
+    ============================ */
 
     parseAIAnalysis(
-      analisi
+      pratica.analisi_ai
     );
 
+
+    /* ============================
+       MOSTRA PAGINA
+    ============================ */
 
     document
       .getElementById(
@@ -1971,7 +1492,6 @@ async function loadPractice(){
       )
       .style.display =
         "none";
-
 
     document
       .getElementById(
@@ -1984,11 +1504,10 @@ async function loadPractice(){
   }
   catch(error){
 
-
     console.error(
+      "Errore caricamento pratica:",
       error
     );
-
 
     showError(
       error.message
@@ -2008,21 +1527,17 @@ async function startPage(){
   const authenticated =
     await protectPage();
 
-
   if(!authenticated){
     return;
   }
-
 
   await loadPractice();
 
 }
 
-
 startPage();
 
 </script>
-
 
 </body>
 
