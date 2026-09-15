@@ -1,1 +1,1303 @@
+<!DOCTYPE html>
+<html lang="it">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Email AI | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+}
+
+.sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+
+.sidebar-logo img{
+  width:175px;
+  max-width:90%;
+  display:block;
+}
+
+.sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+}
+
+.nav-section{
+  margin-bottom:28px;
+}
+
+.nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
+}
+
+.nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+}
+
+.nav-disabled{
+  opacity:.42;
+}
+
+.soon{
+  margin-left:auto;
+  padding:4px 7px;
+  background:rgba(255,255,255,.08);
+  border-radius:999px;
+  color:#8fa5bb;
+  font-size:8px;
+  font-weight:900;
+}
+
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px 12px;
+  margin-bottom:9px;
+}
+
+.user-label{
+  color:#7994af;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin-bottom:4px;
+}
+
+.user-email{
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+
+.logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+  min-height:100vh;
+}
+
+.topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+}
+
+.refresh-btn{
+  min-height:40px;
+  padding:0 16px;
+  border:1px solid #dce4ec;
+  background:#fff;
+  color:#173459;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.content{
+  max-width:1360px;
+  margin:0 auto;
+  padding:32px 30px 55px;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.heading{
+  margin-bottom:25px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+h1{
+  color:#10284a;
+  font-size:38px;
+  margin-bottom:9px;
+}
+
+.subtitle{
+  color:#7d8ba0;
+  font-size:14px;
+}
+
+/* =========================
+   KPI
+========================= */
+
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.kpi{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:15px;
+  padding:19px;
+  box-shadow:0 9px 25px rgba(19,40,74,.05);
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px;
+}
+
+.kpi-total:before{
+  background:#29a9d2;
+}
+
+.kpi-new:before{
+  background:#8294aa;
+}
+
+.kpi-check:before{
+  background:#f1a51b;
+}
+
+.kpi-ready:before{
+  background:#2fb878;
+}
+
+.kpi-label{
+  color:#7b899e;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.7px;
+  margin-bottom:15px;
+}
+
+.kpi-number{
+  color:#10284a;
+  font-size:30px;
+  font-weight:900;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:15px;
+  padding:15px;
+  display:flex;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.search{
+  flex:1;
+  min-height:42px;
+  border:1px solid #dce4ec;
+  border-radius:10px;
+  padding:0 13px;
+  outline:none;
+}
+
+.filter{
+  min-height:42px;
+  min-width:180px;
+  border:1px solid #dce4ec;
+  border-radius:10px;
+  padding:0 12px;
+  background:#fff;
+  color:#354a64;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.card{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(19,40,74,.05);
+}
+
+.card-header{
+  padding:18px 20px;
+  border-bottom:1px solid #e8edf2;
+}
+
+.card-header h2{
+  color:#173459;
+  font-size:17px;
+  margin-bottom:3px;
+}
+
+.card-header p{
+  color:#9aa6b6;
+  font-size:10px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:850px;
+}
+
+thead{
+  background:#f6f8fb;
+}
+
+th{
+  padding:12px 15px;
+  text-align:left;
+  color:#8290a4;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+}
+
+td{
+  padding:15px;
+  border-top:1px solid #edf0f4;
+  color:#526177;
+  font-size:11px;
+}
+
+tbody tr{
+  cursor:pointer;
+  transition:.15s;
+}
+
+tbody tr:hover{
+  background:#fafcff;
+}
+
+.sender{
+  color:#173f69;
+  font-weight:900;
+}
+
+.subject{
+  color:#344b68;
+  font-weight:700;
+}
+
+.badge{
+  display:inline-flex;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:900;
+}
+
+.badge-new{
+  background:#edf1f5;
+  color:#5e6e82;
+}
+
+.badge-check{
+  background:#fff0ce;
+  color:#a46700;
+}
+
+.badge-ready{
+  background:#e5f7ee;
+  color:#23784f;
+}
+
+.badge-managed{
+  background:#e7f2fb;
+  color:#176b9c;
+}
+
+.empty{
+  padding:35px 20px;
+  text-align:center;
+  color:#8d9aad;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px){
+
+  .kpi-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:760px){
+
+  .sidebar{
+    width:72px;
+  }
+
+  .main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+  }
+
+  .sidebar-logo img{
+    width:50px;
+  }
+
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .soon,
+  .user-card{
+    display:none;
+  }
+
+  .nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .content{
+    padding:25px 14px 40px;
+  }
+
+  .toolbar{
+    flex-direction:column;
+  }
+
+  .filter{
+    width:100%;
+  }
+
+  .kpi-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+  <div class="sidebar-logo">
+    <a href="dashboard.html" class="sidebar-logo-link">
+      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+    </a>
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-section">
+
+      <div class="nav-title">OPERATIVITÀ</div>
+
+      <a href="dashboard.html" class="nav-item">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pratiche.html" class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
+
+      <a href="nuova-pratica.html" class="nav-item">
+        <span class="nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">AUTOMAZIONI</div>
+
+      <a href="email-ai.html" class="nav-item active">
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+      </a>
+
+      <a href="viaggi.html" class="nav-item">
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">GESTIONE</div>
+
+      <div class="nav-item nav-disabled">
+        <span class="nav-icon">▣</span>
+        <span>Aziende</span>
+        <span class="soon">PRESTO</span>
+      </div>
+
+    </div>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+
+    <div class="user-card">
+      <div class="user-label">UTENTE</div>
+      <div id="userEmail" class="user-email">-</div>
+    </div>
+
+    <button id="logoutButton" class="logout-btn">
+      Esci
+    </button>
+
+  </div>
+
+</aside>
+
+<div class="main">
+
+<header class="topbar">
+
+  <div class="topbar-brand">
+    MatRi-mIA Logistics
+  </div>
+
+  <button id="refreshButton" class="refresh-btn">
+    ↻ Aggiorna
+  </button>
+
+</header>
+
+<main class="content">
+
+<div class="heading">
+
+  <div class="eyebrow">
+    MATRI-MIA · EMAIL INTELLIGENCE
+  </div>
+
+  <h1>Email AI</h1>
+
+  <div class="subtitle">
+    MatRi-mIA analizza le richieste ricevute e prepara i dati per le tue pratiche.
+  </div>
+
+</div>
+
+<div class="kpi-grid">
+
+  <div class="kpi kpi-total">
+    <div class="kpi-label">EMAIL TOTALI</div>
+    <div id="totalCount" class="kpi-number">0</div>
+  </div>
+
+  <div class="kpi kpi-new">
+    <div class="kpi-label">DA ANALIZZARE</div>
+    <div id="newCount" class="kpi-number">0</div>
+  </div>
+
+  <div class="kpi kpi-check">
+    <div class="kpi-label">DA VERIFICARE</div>
+    <div id="checkCount" class="kpi-number">0</div>
+  </div>
+
+  <div class="kpi kpi-ready">
+    <div class="kpi-label">PRONTE</div>
+    <div id="readyCount" class="kpi-number">0</div>
+  </div>
+
+</div>
+
+<div class="toolbar">
+
+  <input
+    id="searchInput"
+    class="search"
+    type="search"
+    placeholder="Cerca mittente, oggetto, cliente, tratta...">
+
+  <select id="statusFilter" class="filter">
+
+    <option value="">
+      Tutti gli stati
+    </option>
+
+    <option value="DA_ANALIZZARE">
+      Da analizzare
+    </option>
+
+    <option value="DA_VERIFICARE">
+      Da verificare
+    </option>
+
+    <option value="PRONTA">
+      Pronte
+    </option>
+
+    <option value="GESTITA">
+      Gestite
+    </option>
+
+  </select>
+
+</div>
+
+<section class="card">
+
+  <div class="card-header">
+    <h2>Email ricevute</h2>
+    <p>Seleziona una email per visualizzare l'analisi completa.</p>
+  </div>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Mittente</th>
+          <th>Oggetto</th>
+          <th>Data</th>
+          <th>Cliente</th>
+          <th>Tratta</th>
+          <th>Stato</th>
+        </tr>
+      </thead>
+
+      <tbody id="emailRows"></tbody>
+
+    </table>
+
+  </div>
+
+  <div
+    id="emptyState"
+    class="empty"
+    style="display:none">
+    Nessuna email presente.
+  </div>
+
+</section>
+
+</main>
+
+</div>
+</div>
+
+<script type="module">
+
+import {
+  createClient
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+const userEmail =
+  document.getElementById("userEmail");
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const refreshButton =
+  document.getElementById("refreshButton");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const statusFilter =
+  document.getElementById("statusFilter");
+
+const emailRows =
+  document.getElementById("emailRows");
+
+const emptyState =
+  document.getElementById("emptyState");
+
+const totalCount =
+  document.getElementById("totalCount");
+
+const newCount =
+  document.getElementById("newCount");
+
+const checkCount =
+  document.getElementById("checkCount");
+
+const readyCount =
+  document.getElementById("readyCount");
+
+let emails = [];
+
+/* =========================
+   UTILITY
+========================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+function normalizeStatus(value){
+
+  return String(value || "")
+    .trim()
+    .toUpperCase();
+
+}
+
+function formatDate(value){
+
+  if(!value){
+    return "-";
+  }
+
+  const date = new Date(value);
+
+  if(isNaN(date.getTime())){
+    return value;
+  }
+
+  return date.toLocaleString(
+    "it-IT",
+    {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+function badge(status){
+
+  const normalized =
+    normalizeStatus(status);
+
+  if(normalized === "DA_ANALIZZARE"){
+
+    return `
+      <span class="badge badge-new">
+        DA ANALIZZARE
+      </span>
+    `;
+
+  }
+
+  if(normalized === "DA_VERIFICARE"){
+
+    return `
+      <span class="badge badge-check">
+        DA VERIFICARE
+      </span>
+    `;
+
+  }
+
+  if(normalized === "PRONTA"){
+
+    return `
+      <span class="badge badge-ready">
+        PRONTA
+      </span>
+    `;
+
+  }
+
+  if(normalized === "GESTITA"){
+
+    return `
+      <span class="badge badge-managed">
+        GESTITA
+      </span>
+    `;
+
+  }
+
+  return `
+    <span class="badge badge-new">
+      ${escapeHtml(normalized || "-")}
+    </span>
+  `;
+
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+async function protectPage(){
+
+  try{
+
+    const {
+      data:{session},
+      error
+    } =
+      await supabase.auth.getSession();
+
+    if(error){
+      throw error;
+    }
+
+    if(!session?.user){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          session.user.id
+        )
+        .single();
+
+    if(profileError || !profile){
+
+      throw profileError ||
+        new Error(
+          "Profilo non trovato."
+        );
+
+    }
+
+    userEmail.textContent =
+      profile.email ||
+      session.user.email ||
+      "-";
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+}
+
+/* =========================
+   LOAD EMAIL
+========================= */
+
+async function loadEmails(){
+
+  refreshButton.disabled = true;
+  refreshButton.textContent =
+    "Aggiornamento...";
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("email_ai")
+        .select(`
+          id,
+          created_at,
+          mittente,
+          email_mittente,
+          oggetto,
+          data_email,
+          stato,
+          tipo_richiesta,
+          cliente,
+          partenza,
+          destinazione,
+          pratica_id
+        `)
+        .order(
+          "data_email",
+          {
+            ascending:false,
+            nullsFirst:false
+          }
+        );
+
+    if(error){
+      throw error;
+    }
+
+    emails =
+      data || [];
+
+    renderKpi();
+    renderEmails();
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore caricamento Email AI:",
+      error
+    );
+
+    emailRows.innerHTML = "";
+
+    emptyState.style.display =
+      "block";
+
+    emptyState.textContent =
+      "Errore durante il caricamento delle email: " +
+      error.message;
+
+  }
+  finally{
+
+    refreshButton.disabled = false;
+    refreshButton.textContent =
+      "↻ Aggiorna";
+
+  }
+
+}
+
+/* =========================
+   KPI
+========================= */
+
+function renderKpi(){
+
+  totalCount.textContent =
+    emails.length;
+
+  newCount.textContent =
+    emails.filter(
+      email =>
+        normalizeStatus(email.stato) ===
+        "DA_ANALIZZARE"
+    ).length;
+
+  checkCount.textContent =
+    emails.filter(
+      email =>
+        normalizeStatus(email.stato) ===
+        "DA_VERIFICARE"
+    ).length;
+
+  readyCount.textContent =
+    emails.filter(
+      email =>
+        normalizeStatus(email.stato) ===
+        "PRONTA"
+    ).length;
+
+}
+
+/* =========================
+   RENDER
+========================= */
+
+function renderEmails(){
+
+  const search =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  const selectedStatus =
+    statusFilter.value;
+
+  const filtered =
+    emails.filter(
+      email => {
+
+        const status =
+          normalizeStatus(
+            email.stato
+          );
+
+        if(
+          selectedStatus &&
+          status !== selectedStatus
+        ){
+          return false;
+        }
+
+        if(!search){
+          return true;
+        }
+
+        const searchable = [
+          email.mittente,
+          email.email_mittente,
+          email.oggetto,
+          email.cliente,
+          email.partenza,
+          email.destinazione
+        ]
+        .join(" ")
+        .toLowerCase();
+
+        return searchable.includes(
+          search
+        );
+
+      }
+    );
+
+  emailRows.innerHTML = "";
+
+  if(!filtered.length){
+
+    emptyState.style.display =
+      "block";
+
+    emptyState.textContent =
+      emails.length
+        ? "Nessuna email corrisponde ai filtri selezionati."
+        : "Nessuna email presente.";
+
+    return;
+
+  }
+
+  emptyState.style.display =
+    "none";
+
+  filtered.forEach(
+    email => {
+
+      const row =
+        document.createElement("tr");
+
+      const sender =
+        email.mittente ||
+        email.email_mittente ||
+        "-";
+
+      const route =
+        email.partenza ||
+        email.destinazione
+          ? (
+              (email.partenza || "-") +
+              " → " +
+              (email.destinazione || "-")
+            )
+          : "-";
+
+      row.innerHTML = `
+
+        <td class="sender">
+          ${escapeHtml(sender)}
+        </td>
+
+        <td class="subject">
+          ${escapeHtml(email.oggetto || "-")}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            formatDate(
+              email.data_email ||
+              email.created_at
+            )
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            email.cliente || "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(route)}
+        </td>
+
+        <td>
+          ${badge(email.stato)}
+        </td>
+
+      `;
+
+      row.addEventListener(
+        "click",
+        function(){
+
+          window.location.href =
+            "dettaglio-email.html?id=" +
+            encodeURIComponent(
+              email.id
+            );
+
+        }
+      );
+
+      emailRows.appendChild(row);
+
+    }
+  );
+
+}
+
+/* =========================
+   EVENTI
+========================= */
+
+searchInput.addEventListener(
+  "input",
+  renderEmails
+);
+
+statusFilter.addEventListener(
+  "change",
+  renderEmails
+);
+
+refreshButton.addEventListener(
+  "click",
+  loadEmails
+);
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled = true;
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+  }
+);
+
+/* =========================
+   START
+========================= */
+
+async function start(){
+
+  const authenticated =
+    await protectPage();
+
+  if(!authenticated){
+    return;
+  }
+
+  await loadEmails();
+
+}
+
+start();
+
+</script>
+
+</body>
+</html>
