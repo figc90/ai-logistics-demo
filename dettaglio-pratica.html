@@ -32,7 +32,9 @@ a{
   text-decoration:none;
 }
 
-button{
+button,
+input,
+textarea{
   font:inherit;
 }
 
@@ -77,6 +79,11 @@ button{
   font-weight:800;
   border:none;
   cursor:pointer;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
 }
 
 .btn-secondary{
@@ -153,7 +160,9 @@ h1{
 
 .status-area{
   display:flex;
-  justify-content:flex-end;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:10px;
   flex-shrink:0;
   padding-top:8px;
 }
@@ -167,7 +176,6 @@ h1{
   font-size:12px;
   font-weight:900;
   white-space:nowrap;
-  max-width:220px;
 }
 
 .status-warning{
@@ -188,6 +196,17 @@ h1{
 .status-default{
   background:#edf1f5;
   color:#596778;
+}
+
+.edit-button{
+  min-height:42px;
+  padding:0 17px;
+  border:none;
+  border-radius:10px;
+  background:#173f69;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
 }
 
 .layout{
@@ -234,7 +253,7 @@ h1{
   border:1px solid #e1e7ee;
   border-radius:13px;
   padding:15px;
-  min-height:66px;
+  min-height:82px;
 }
 
 .field.wide{
@@ -248,7 +267,7 @@ h1{
   font-weight:900;
   letter-spacing:.7px;
   text-transform:uppercase;
-  margin-bottom:6px;
+  margin-bottom:7px;
 }
 
 .value{
@@ -257,6 +276,76 @@ h1{
   font-weight:700;
   line-height:1.45;
   overflow-wrap:anywhere;
+}
+
+.edit-input{
+  display:none;
+  width:100%;
+  border:1px solid #d7e0e9;
+  background:#fff;
+  color:#25384f;
+  border-radius:9px;
+  padding:10px 11px;
+  outline:none;
+}
+
+.edit-input:focus{
+  border-color:#4ec5e6;
+  box-shadow:0 0 0 3px rgba(78,197,230,.10);
+}
+
+textarea.edit-input{
+  min-height:100px;
+  resize:vertical;
+}
+
+.editing .value{
+  display:none;
+}
+
+.editing .edit-input{
+  display:block;
+}
+
+.edit-actions{
+  display:none;
+  margin-top:20px;
+  padding:18px 22px;
+  background:#f8fafc;
+  border-top:1px solid #edf0f4;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.editing-page .edit-actions{
+  display:flex;
+}
+
+.cancel-edit{
+  min-height:46px;
+  padding:0 19px;
+  border:1px solid #d8e0e8;
+  background:#fff;
+  color:#173459;
+  border-radius:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.save-edit{
+  min-height:46px;
+  padding:0 20px;
+  border:none;
+  background:linear-gradient(135deg,#173f69,#1f729d);
+  color:#fff;
+  border-radius:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.save-edit:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
 
 .ai-card{
@@ -311,7 +400,8 @@ h1{
 }
 
 .loading,
-.error{
+.error,
+.success{
   padding:15px;
   border-radius:12px;
   margin-bottom:18px;
@@ -328,6 +418,12 @@ h1{
   background:#fff1f0;
   border:1px solid #ffd4d1;
   color:#b42318;
+}
+
+.success{
+  background:#ecf9f2;
+  border:1px solid #ccebd9;
+  color:#1d704c;
 }
 
 footer{
@@ -378,7 +474,7 @@ footer strong{
   }
 
   .status-area{
-    justify-content:flex-start;
+    align-items:flex-start;
     padding-top:0;
   }
 
@@ -394,6 +490,15 @@ footer strong{
     grid-column:auto;
   }
 
+  .edit-actions{
+    flex-direction:column-reverse;
+  }
+
+  .cancel-edit,
+  .save-edit{
+    width:100%;
+  }
+
 }
 
 </style>
@@ -407,11 +512,13 @@ footer strong{
   <div class="top-header-inner">
 
     <a href="index.html">
+
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
         class="logo"
       >
+
     </a>
 
     <div class="header-actions">
@@ -441,25 +548,33 @@ footer strong{
 
 </header>
 
+
 <main class="page">
 
-<a href="pratiche.html" class="back">
+<a
+  href="pratiche.html"
+  class="back">
   ← Torna alle pratiche
 </a>
 
-<div id="loadingBox" class="loading">
+
+<div
+  id="loadingBox"
+  class="loading">
   Caricamento pratica...
 </div>
 
+
 <div
-  id="errorBox"
-  class="error"
+  id="messageBox"
   style="display:none">
 </div>
+
 
 <div
   id="content"
   style="display:none">
+
 
   <div class="heading">
 
@@ -483,6 +598,7 @@ footer strong{
 
     </div>
 
+
     <div class="status-area">
 
       <div
@@ -491,15 +607,29 @@ footer strong{
         -
       </div>
 
+      <button
+        id="editButton"
+        type="button"
+        class="edit-button">
+        Modifica pratica
+      </button>
+
     </div>
 
   </div>
 
-  <div class="layout">
+
+  <div
+    id="practiceLayout"
+    class="layout">
+
 
     <div>
 
-      <section class="card">
+
+      <section
+        id="transportCard"
+        class="card">
 
         <div class="card-header">
           <h2>Dati trasporto</h2>
@@ -509,55 +639,156 @@ footer strong{
 
           <div class="fields">
 
+
             <div class="field">
+
               <span class="label">Data</span>
-              <div id="data" class="value">-</div>
+
+              <div id="dataValue" class="value">-</div>
+
+              <input
+                id="dataInput"
+                class="edit-input"
+                type="date"
+                required>
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Cliente</span>
-              <div id="cliente" class="value">-</div>
+
+              <div id="clienteValue" class="value">-</div>
+
+              <input
+                id="clienteInput"
+                class="edit-input"
+                type="text"
+                required>
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Data/Ora Ritiro</span>
-              <div id="ritiro" class="value">-</div>
+
+              <div id="ritiroValue" class="value">-</div>
+
+              <input
+                id="ritiroInput"
+                class="edit-input"
+                type="datetime-local">
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Data/Ora Consegna</span>
-              <div id="consegna" class="value">-</div>
+
+              <div id="consegnaValue" class="value">-</div>
+
+              <input
+                id="consegnaInput"
+                class="edit-input"
+                type="datetime-local">
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Partenza</span>
-              <div id="partenza" class="value">-</div>
+
+              <div id="partenzaValue" class="value">-</div>
+
+              <input
+                id="partenzaInput"
+                class="edit-input"
+                type="text"
+                required>
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Destinazione</span>
-              <div id="destinazione" class="value">-</div>
+
+              <div id="destinazioneValue" class="value">-</div>
+
+              <input
+                id="destinazioneInput"
+                class="edit-input"
+                type="text"
+                required>
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Indirizzo Ritiro</span>
-              <div id="indirizzoRitiro" class="value">-</div>
+
+              <div id="indirizzoRitiroValue" class="value">-</div>
+
+              <input
+                id="indirizzoRitiroInput"
+                class="edit-input"
+                type="text">
+
             </div>
 
+
             <div class="field">
+
               <span class="label">CAP Ritiro</span>
-              <div id="capRitiro" class="value">-</div>
+
+              <div id="capRitiroValue" class="value">-</div>
+
+              <input
+                id="capRitiroInput"
+                class="edit-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="5"
+                pattern="[0-9]{5}">
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Indirizzo Consegna</span>
-              <div id="indirizzoConsegna" class="value">-</div>
+
+              <div id="indirizzoConsegnaValue" class="value">-</div>
+
+              <input
+                id="indirizzoConsegnaInput"
+                class="edit-input"
+                type="text">
+
             </div>
 
+
             <div class="field">
+
               <span class="label">CAP Consegna</span>
-              <div id="capConsegna" class="value">-</div>
+
+              <div id="capConsegnaValue" class="value">-</div>
+
+              <input
+                id="capConsegnaInput"
+                class="edit-input"
+                type="text"
+                inputmode="numeric"
+                maxlength="5"
+                pattern="[0-9]{5}">
+
             </div>
+
 
           </div>
 
@@ -565,7 +796,10 @@ footer strong{
 
       </section>
 
-      <section class="card">
+
+      <section
+        id="goodsCard"
+        class="card">
 
         <div class="card-header">
           <h2>Dati merce e vettore</h2>
@@ -575,43 +809,128 @@ footer strong{
 
           <div class="fields">
 
+
             <div class="field">
+
               <span class="label">Vettore</span>
-              <div id="vettore" class="value">-</div>
+
+              <div id="vettoreValue" class="value">-</div>
+
+              <input
+                id="vettoreInput"
+                class="edit-input"
+                type="text">
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Tipo merce</span>
-              <div id="merce" class="value">-</div>
+
+              <div id="merceValue" class="value">-</div>
+
+              <input
+                id="merceInput"
+                class="edit-input"
+                type="text"
+                required>
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Colli</span>
-              <div id="colli" class="value">-</div>
+
+              <div id="colliValue" class="value">-</div>
+
+              <input
+                id="colliInput"
+                class="edit-input"
+                type="number"
+                min="0"
+                step="1">
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Peso</span>
-              <div id="peso" class="value">-</div>
+
+              <div id="pesoValue" class="value">-</div>
+
+              <input
+                id="pesoInput"
+                class="edit-input"
+                type="number"
+                min="0"
+                step="0.01">
+
             </div>
 
+
             <div class="field">
+
               <span class="label">Volume</span>
-              <div id="volume" class="value">-</div>
+
+              <div id="volumeValue" class="value">-</div>
+
+              <input
+                id="volumeInput"
+                class="edit-input"
+                type="number"
+                min="0"
+                step="0.01">
+
             </div>
+
 
             <div class="field wide">
+
               <span class="label">Note operative</span>
-              <div id="note" class="value">-</div>
+
+              <div id="noteValue" class="value">-</div>
+
+              <textarea
+                id="noteInput"
+                class="edit-input">
+              </textarea>
+
             </div>
+
 
           </div>
 
         </div>
 
+
+        <div
+          id="editActions"
+          class="edit-actions">
+
+          <button
+            id="cancelEditButton"
+            type="button"
+            class="cancel-edit">
+            Annulla modifiche
+          </button>
+
+          <button
+            id="saveButton"
+            type="button"
+            class="save-edit">
+            Salva modifiche
+          </button>
+
+        </div>
+
       </section>
 
+
     </div>
+
 
     <aside class="card ai-card">
 
@@ -634,9 +953,11 @@ footer strong{
 
     </aside>
 
+
   </div>
 
 </div>
+
 
 <footer>
   <strong>MatRi-mIA Logistics</strong>
@@ -644,6 +965,7 @@ footer strong{
 </footer>
 
 </main>
+
 
 <script type="module">
 
@@ -682,18 +1004,49 @@ const params =
 const requestedId =
   params.get("id");
 
+
+/* ============================
+   ELEMENTI
+============================ */
+
 const logoutButton =
-  document.getElementById(
-    "logoutButton"
-  );
+  document.getElementById("logoutButton");
 
 const userInfo =
-  document.getElementById(
-    "userInfo"
-  );
+  document.getElementById("userInfo");
+
+const editButton =
+  document.getElementById("editButton");
+
+const cancelEditButton =
+  document.getElementById("cancelEditButton");
+
+const saveButton =
+  document.getElementById("saveButton");
+
+const messageBox =
+  document.getElementById("messageBox");
+
+const content =
+  document.getElementById("content");
+
+const loadingBox =
+  document.getElementById("loadingBox");
+
+const transportCard =
+  document.getElementById("transportCard");
+
+const goodsCard =
+  document.getElementById("goodsCard");
+
+const practiceLayout =
+  document.getElementById("practiceLayout");
+
 
 let currentUser = null;
 let currentProfile = null;
+let currentPractice = null;
+let editing = false;
 
 
 /* ============================
@@ -711,14 +1064,25 @@ function escapeHtml(value){
 
 }
 
-function setValue(id,value){
+function emptyToNull(value){
+
+  const cleaned =
+    String(value ?? "").trim();
+
+  return cleaned === ""
+    ? null
+    : cleaned;
+
+}
+
+function setText(id,value){
 
   document
     .getElementById(id)
     .textContent =
-      value === "" ||
       value === null ||
-      value === undefined
+      value === undefined ||
+      value === ""
         ? "-"
         : value;
 
@@ -730,38 +1094,24 @@ function formatDate(value){
     return "-";
   }
 
-  /*
-   * Le colonne DATE di PostgreSQL arrivano come
-   * YYYY-MM-DD. Le formattiamo senza conversione
-   * di fuso orario.
-   */
-  const match =
-    String(value).match(
-      /^(\d{4})-(\d{2})-(\d{2})$/
-    );
+  const parts =
+    String(value)
+      .slice(0,10)
+      .split("-");
 
-  if(match){
+  if(parts.length === 3){
 
     return (
-      match[3] +
+      parts[2] +
       "/" +
-      match[2] +
+      parts[1] +
       "/" +
-      match[1]
+      parts[0]
     );
 
   }
 
-  const date =
-    new Date(value);
-
-  if(isNaN(date.getTime())){
-    return value;
-  }
-
-  return date.toLocaleDateString(
-    "it-IT"
-  );
+  return value;
 
 }
 
@@ -778,16 +1128,70 @@ function formatDateTime(value){
     return value;
   }
 
-  return date.toLocaleString(
+  return date.toLocaleDateString(
+    "it-IT"
+  ) +
+  " · " +
+  date.toLocaleTimeString(
     "it-IT",
     {
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric",
       hour:"2-digit",
       minute:"2-digit"
     }
   );
+
+}
+
+function toDateTimeLocal(value){
+
+  if(!value){
+    return "";
+  }
+
+  const date =
+    new Date(value);
+
+  if(isNaN(date.getTime())){
+    return "";
+  }
+
+  const pad =
+    number =>
+      String(number).padStart(2,"0");
+
+  return (
+    date.getFullYear() +
+    "-" +
+    pad(date.getMonth()+1) +
+    "-" +
+    pad(date.getDate()) +
+    "T" +
+    pad(date.getHours()) +
+    ":" +
+    pad(date.getMinutes())
+  );
+
+}
+
+function showMessage(type,text){
+
+  messageBox.className =
+    type === "success"
+      ? "success"
+      : "error";
+
+  messageBox.textContent =
+    text;
+
+  messageBox.style.display =
+    "block";
+
+}
+
+function hideMessage(){
+
+  messageBox.style.display =
+    "none";
 
 }
 
@@ -801,9 +1205,7 @@ async function protectPage(){
   try{
 
     const {
-      data:{
-        session
-      },
+      data:{session},
       error
     } =
       await supabase.auth
@@ -850,7 +1252,6 @@ async function protectPage(){
     ){
 
       console.error(
-        "Profilo non autorizzato:",
         profileError
       );
 
@@ -891,10 +1292,7 @@ async function protectPage(){
   }
   catch(error){
 
-    console.error(
-      "Errore autenticazione:",
-      error
-    );
+    console.error(error);
 
     window.location.replace(
       "login.html"
@@ -965,40 +1363,32 @@ function cleanStatus(value){
 
 }
 
-function setStatus(status){
+function setStatus(value){
 
   const badge =
     document.getElementById(
       "statusBadge"
     );
 
-  const normalized =
-    cleanStatus(
-      status
-    );
+  const status =
+    cleanStatus(value);
 
   badge.textContent =
-    normalized || "-";
+    status || "-";
 
-  if(
-    normalized === "REGOLARE"
-  ){
+  if(status === "REGOLARE"){
 
     badge.className =
       "status-badge status-ok";
 
   }
-  else if(
-    normalized === "ATTENZIONE"
-  ){
+  else if(status === "ATTENZIONE"){
 
     badge.className =
       "status-badge status-warning";
 
   }
-  else if(
-    normalized === "PROBLEMA"
-  ){
+  else if(status === "PROBLEMA"){
 
     badge.className =
       "status-badge status-error";
@@ -1029,13 +1419,12 @@ function parseAIAnalysis(text){
 
   if(!text){
 
-    container.innerHTML = `
-      <div class="ai-section">
+    container.innerHTML =
+      `<div class="ai-section">
         <div class="ai-section-text">
           Nessuna analisi AI disponibile.
         </div>
-      </div>
-    `;
+      </div>`;
 
     return;
 
@@ -1084,9 +1473,7 @@ function parseAIAnalysis(text){
 
         if(next !== -1){
 
-          end =
-            next;
-
+          end = next;
           break;
 
         }
@@ -1111,33 +1498,25 @@ function parseAIAnalysis(text){
     }
   );
 
-  /*
-   * Se il testo non contiene le intestazioni
-   * previste, mostriamo comunque l'analisi.
-   */
   if(!sections.length){
 
     const section =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     section.className =
       "ai-section";
 
-    const content =
-      document.createElement(
-        "div"
-      );
+    const sectionText =
+      document.createElement("div");
 
-    content.className =
+    sectionText.className =
       "ai-section-text";
 
-    content.textContent =
+    sectionText.textContent =
       normalized;
 
     section.appendChild(
-      content
+      sectionText
     );
 
     container.appendChild(
@@ -1149,49 +1528,36 @@ function parseAIAnalysis(text){
   }
 
   sections.forEach(
-    sectionData=>{
+    item=>{
 
       const section =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       section.className =
         "ai-section";
 
       const title =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       title.className =
         "ai-section-title";
 
       title.textContent =
-        sectionData.title;
+        item.title;
 
-      const content =
-        document.createElement(
-          "div"
-        );
+      const textElement =
+        document.createElement("div");
 
-      content.className =
+      textElement.className =
         "ai-section-text";
 
-      content.textContent =
-        sectionData.content || "-";
+      textElement.textContent =
+        item.content || "-";
 
-      section.appendChild(
-        title
-      );
+      section.appendChild(title);
+      section.appendChild(textElement);
 
-      section.appendChild(
-        content
-      );
-
-      container.appendChild(
-        section
-      );
+      container.appendChild(section);
 
     }
   );
@@ -1200,31 +1566,579 @@ function parseAIAnalysis(text){
 
 
 /* ============================
-   ERRORI
+   MOSTRA PRATICA
 ============================ */
 
-function showError(message){
+function renderPractice(pratica){
 
   document
-    .getElementById(
-      "loadingBox"
-    )
-    .style.display =
-      "none";
+    .getElementById("practiceId")
+    .textContent =
+      pratica.numero_pratica || "-";
 
-  const box =
-    document.getElementById(
-      "errorBox"
-    );
+  document
+    .getElementById("route")
+    .textContent =
+      (pratica.partenza || "-") +
+      " → " +
+      (pratica.destinazione || "-");
 
-  box.textContent =
-    "Errore: " +
-    message;
+  setStatus(
+    pratica.stato_ai
+  );
 
-  box.style.display =
-    "block";
+  setText(
+    "dataValue",
+    formatDate(pratica.data)
+  );
+
+  setText(
+    "clienteValue",
+    pratica.cliente
+  );
+
+  setText(
+    "ritiroValue",
+    formatDateTime(pratica.ritiro)
+  );
+
+  setText(
+    "consegnaValue",
+    formatDateTime(pratica.consegna)
+  );
+
+  setText(
+    "partenzaValue",
+    pratica.partenza
+  );
+
+  setText(
+    "destinazioneValue",
+    pratica.destinazione
+  );
+
+  setText(
+    "indirizzoRitiroValue",
+    pratica.indirizzo_ritiro
+  );
+
+  setText(
+    "capRitiroValue",
+    pratica.cap_ritiro
+  );
+
+  setText(
+    "indirizzoConsegnaValue",
+    pratica.indirizzo_consegna
+  );
+
+  setText(
+    "capConsegnaValue",
+    pratica.cap_consegna
+  );
+
+  setText(
+    "vettoreValue",
+    pratica.vettore
+  );
+
+  setText(
+    "merceValue",
+    pratica.tipo_merce
+  );
+
+  setText(
+    "colliValue",
+    pratica.colli
+  );
+
+  setText(
+    "pesoValue",
+    pratica.peso_kg !== null &&
+    pratica.peso_kg !== undefined
+      ? pratica.peso_kg + " kg"
+      : "-"
+  );
+
+  setText(
+    "volumeValue",
+    pratica.volume_m3 !== null &&
+    pratica.volume_m3 !== undefined
+      ? pratica.volume_m3 + " m³"
+      : "-"
+  );
+
+  setText(
+    "noteValue",
+    pratica.note
+  );
+
+  parseAIAnalysis(
+    pratica.analisi_ai
+  );
 
 }
+
+
+/* ============================
+   COMPILA CAMPI MODIFICA
+============================ */
+
+function populateEditFields(){
+
+  document.getElementById(
+    "dataInput"
+  ).value =
+    currentPractice.data || "";
+
+  document.getElementById(
+    "clienteInput"
+  ).value =
+    currentPractice.cliente || "";
+
+  document.getElementById(
+    "ritiroInput"
+  ).value =
+    toDateTimeLocal(
+      currentPractice.ritiro
+    );
+
+  document.getElementById(
+    "consegnaInput"
+  ).value =
+    toDateTimeLocal(
+      currentPractice.consegna
+    );
+
+  document.getElementById(
+    "partenzaInput"
+  ).value =
+    currentPractice.partenza || "";
+
+  document.getElementById(
+    "destinazioneInput"
+  ).value =
+    currentPractice.destinazione || "";
+
+  document.getElementById(
+    "indirizzoRitiroInput"
+  ).value =
+    currentPractice.indirizzo_ritiro || "";
+
+  document.getElementById(
+    "capRitiroInput"
+  ).value =
+    currentPractice.cap_ritiro || "";
+
+  document.getElementById(
+    "indirizzoConsegnaInput"
+  ).value =
+    currentPractice.indirizzo_consegna || "";
+
+  document.getElementById(
+    "capConsegnaInput"
+  ).value =
+    currentPractice.cap_consegna || "";
+
+  document.getElementById(
+    "vettoreInput"
+  ).value =
+    currentPractice.vettore || "";
+
+  document.getElementById(
+    "merceInput"
+  ).value =
+    currentPractice.tipo_merce || "";
+
+  document.getElementById(
+    "colliInput"
+  ).value =
+    currentPractice.colli ?? "";
+
+  document.getElementById(
+    "pesoInput"
+  ).value =
+    currentPractice.peso_kg ?? "";
+
+  document.getElementById(
+    "volumeInput"
+  ).value =
+    currentPractice.volume_m3 ?? "";
+
+  document.getElementById(
+    "noteInput"
+  ).value =
+    currentPractice.note || "";
+
+}
+
+
+/* ============================
+   MODALITÀ MODIFICA
+============================ */
+
+function startEditing(){
+
+  if(!currentPractice){
+    return;
+  }
+
+  hideMessage();
+
+  populateEditFields();
+
+  editing = true;
+
+  transportCard.classList.add(
+    "editing"
+  );
+
+  goodsCard.classList.add(
+    "editing"
+  );
+
+  practiceLayout.classList.add(
+    "editing-page"
+  );
+
+  editButton.style.display =
+    "none";
+
+}
+
+function stopEditing(){
+
+  editing = false;
+
+  transportCard.classList.remove(
+    "editing"
+  );
+
+  goodsCard.classList.remove(
+    "editing"
+  );
+
+  practiceLayout.classList.remove(
+    "editing-page"
+  );
+
+  editButton.style.display =
+    "inline-block";
+
+}
+
+
+/* ============================
+   DATI AGGIORNAMENTO
+============================ */
+
+function getUpdatedData(){
+
+  return {
+
+    data:
+      document.getElementById(
+        "dataInput"
+      ).value,
+
+    cliente:
+      document.getElementById(
+        "clienteInput"
+      ).value.trim(),
+
+    ritiro:
+      emptyToNull(
+        document.getElementById(
+          "ritiroInput"
+        ).value
+      ),
+
+    consegna:
+      emptyToNull(
+        document.getElementById(
+          "consegnaInput"
+        ).value
+      ),
+
+    partenza:
+      document.getElementById(
+        "partenzaInput"
+      ).value.trim(),
+
+    destinazione:
+      document.getElementById(
+        "destinazioneInput"
+      ).value.trim(),
+
+    indirizzo_ritiro:
+      emptyToNull(
+        document.getElementById(
+          "indirizzoRitiroInput"
+        ).value
+      ),
+
+    cap_ritiro:
+      emptyToNull(
+        document.getElementById(
+          "capRitiroInput"
+        ).value
+      ),
+
+    indirizzo_consegna:
+      emptyToNull(
+        document.getElementById(
+          "indirizzoConsegnaInput"
+        ).value
+      ),
+
+    cap_consegna:
+      emptyToNull(
+        document.getElementById(
+          "capConsegnaInput"
+        ).value
+      ),
+
+    vettore:
+      emptyToNull(
+        document.getElementById(
+          "vettoreInput"
+        ).value
+      ),
+
+    tipo_merce:
+      document.getElementById(
+        "merceInput"
+      ).value.trim(),
+
+    colli:
+      emptyToNull(
+        document.getElementById(
+          "colliInput"
+        ).value
+      ),
+
+    peso_kg:
+      emptyToNull(
+        document.getElementById(
+          "pesoInput"
+        ).value
+      ),
+
+    volume_m3:
+      emptyToNull(
+        document.getElementById(
+          "volumeInput"
+        ).value
+      ),
+
+    note:
+      emptyToNull(
+        document.getElementById(
+          "noteInput"
+        ).value
+      ),
+
+    updated_at:
+      new Date().toISOString(),
+
+    updated_by:
+      currentUser.id
+
+  };
+
+}
+
+
+/* ============================
+   VALIDAZIONE
+============================ */
+
+function validateEdit(){
+
+  const required = [
+    "dataInput",
+    "clienteInput",
+    "partenzaInput",
+    "destinazioneInput",
+    "merceInput"
+  ];
+
+  for(const id of required){
+
+    const field =
+      document.getElementById(id);
+
+    if(!field.checkValidity()){
+
+      field.reportValidity();
+      field.focus();
+
+      return false;
+
+    }
+
+  }
+
+  const capRitiro =
+    document.getElementById(
+      "capRitiroInput"
+    );
+
+  const capConsegna =
+    document.getElementById(
+      "capConsegnaInput"
+    );
+
+  if(!capRitiro.checkValidity()){
+
+    capRitiro.reportValidity();
+    capRitiro.focus();
+
+    return false;
+
+  }
+
+  if(!capConsegna.checkValidity()){
+
+    capConsegna.reportValidity();
+    capConsegna.focus();
+
+    return false;
+
+  }
+
+  return true;
+
+}
+
+
+/* ============================
+   SALVA MODIFICHE
+============================ */
+
+async function saveChanges(){
+
+  if(
+    !currentPractice ||
+    !currentUser ||
+    !currentProfile
+  ){
+    return;
+  }
+
+  if(!validateEdit()){
+    return;
+  }
+
+  hideMessage();
+
+  saveButton.disabled =
+    true;
+
+  saveButton.textContent =
+    "Salvataggio...";
+
+  try{
+
+    const updates =
+      getUpdatedData();
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("pratiche")
+        .update(updates)
+        .eq(
+          "id",
+          currentPractice.id
+        )
+        .select()
+        .single();
+
+    if(error){
+      throw error;
+    }
+
+    if(!data){
+
+      throw new Error(
+        "La pratica non è stata aggiornata."
+      );
+
+    }
+
+    currentPractice =
+      data;
+
+    renderPractice(
+      currentPractice
+    );
+
+    stopEditing();
+
+    showMessage(
+      "success",
+      "Modifiche salvate correttamente."
+    );
+
+    setTimeout(
+      hideMessage,
+      2500
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore aggiornamento:",
+      error
+    );
+
+    showMessage(
+      "error",
+      "Errore durante il salvataggio: " +
+      error.message
+    );
+
+  }
+  finally{
+
+    saveButton.disabled =
+      false;
+
+    saveButton.textContent =
+      "Salva modifiche";
+
+  }
+
+}
+
+
+/* ============================
+   EVENTI MODIFICA
+============================ */
+
+editButton.addEventListener(
+  "click",
+  startEditing
+);
+
+cancelEditButton.addEventListener(
+  "click",
+  function(){
+
+    stopEditing();
+    hideMessage();
+
+  }
+);
+
+saveButton.addEventListener(
+  "click",
+  saveChanges
+);
 
 
 /* ============================
@@ -1235,7 +2149,11 @@ async function loadPractice(){
 
   if(!requestedId){
 
-    showError(
+    loadingBox.style.display =
+      "none";
+
+    showMessage(
+      "error",
       "ID pratica non specificato."
     );
 
@@ -1246,11 +2164,10 @@ async function loadPractice(){
   try{
 
     /*
-     * NOVITÀ:
-     * niente più Make e niente più Google Sheets.
+     * requestedId è il numero_pratica
+     * visibile nell'URL, per esempio:
      *
-     * Cerchiamo direttamente nella tabella
-     * public.pratiche.
+     * 2026-0002
      */
 
     const {
@@ -1259,53 +2176,16 @@ async function loadPractice(){
     } =
       await supabase
         .from("pratiche")
-        .select(`
-          id,
-          created_at,
-          azienda_id,
-          numero_pratica,
-          data,
-          cliente,
-          ritiro,
-          consegna,
-          partenza,
-          indirizzo_ritiro,
-          cap_ritiro,
-          destinazione,
-          indirizzo_consegna,
-          cap_consegna,
-          vettore,
-          tipo_merce,
-          colli,
-          peso_kg,
-          volume_m3,
-          note,
-          stato_ai,
-          analisi_ai,
-          created_by,
-          updated_at,
-          updated_by
-        `)
+        .select("*")
         .eq(
           "numero_pratica",
           requestedId
         )
-        .maybeSingle();
-
+        .single();
 
     if(error){
-
-      console.error(
-        "Errore Supabase:",
-        error
-      );
-
-      throw new Error(
-        error.message
-      );
-
+      throw error;
     }
-
 
     if(!pratica){
 
@@ -1317,200 +2197,35 @@ async function loadPractice(){
 
     }
 
+    currentPractice =
+      pratica;
 
-    /*
-     * ULTERIORE CONTROLLO AZIENDA.
-     *
-     * La protezione principale resta RLS.
-     * Questo controllo serve anche come
-     * verifica lato interfaccia.
-     */
-
-    if(
-      currentProfile.azienda_id &&
-      pratica.azienda_id !==
-        currentProfile.azienda_id
-    ){
-
-      throw new Error(
-        "Non hai accesso a questa pratica."
-      );
-
-    }
-
-
-    /* ============================
-       DATI PRINCIPALI
-    ============================ */
-
-    document
-      .getElementById(
-        "practiceId"
-      )
-      .textContent =
-        pratica.numero_pratica ||
-        "-";
-
-
-    document
-      .getElementById(
-        "route"
-      )
-      .textContent =
-        (pratica.partenza || "-") +
-        " → " +
-        (pratica.destinazione || "-");
-
-
-    /* ============================
-       STATO AI
-    ============================ */
-
-    setStatus(
-      pratica.stato_ai
+    renderPractice(
+      currentPractice
     );
 
+    loadingBox.style.display =
+      "none";
 
-    /* ============================
-       TRASPORTO
-    ============================ */
-
-    setValue(
-      "data",
-      formatDate(
-        pratica.data
-      )
-    );
-
-    setValue(
-      "cliente",
-      pratica.cliente
-    );
-
-    setValue(
-      "ritiro",
-      formatDateTime(
-        pratica.ritiro
-      )
-    );
-
-    setValue(
-      "consegna",
-      formatDateTime(
-        pratica.consegna
-      )
-    );
-
-    setValue(
-      "partenza",
-      pratica.partenza
-    );
-
-    setValue(
-      "destinazione",
-      pratica.destinazione
-    );
-
-    setValue(
-      "indirizzoRitiro",
-      pratica.indirizzo_ritiro
-    );
-
-    setValue(
-      "capRitiro",
-      pratica.cap_ritiro
-    );
-
-    setValue(
-      "indirizzoConsegna",
-      pratica.indirizzo_consegna
-    );
-
-    setValue(
-      "capConsegna",
-      pratica.cap_consegna
-    );
-
-
-    /* ============================
-       MERCE
-    ============================ */
-
-    setValue(
-      "vettore",
-      pratica.vettore
-    );
-
-    setValue(
-      "merce",
-      pratica.tipo_merce
-    );
-
-    setValue(
-      "colli",
-      pratica.colli
-    );
-
-    setValue(
-      "peso",
-      pratica.peso_kg !== null &&
-      pratica.peso_kg !== undefined
-        ? pratica.peso_kg + " kg"
-        : "-"
-    );
-
-    setValue(
-      "volume",
-      pratica.volume_m3 !== null &&
-      pratica.volume_m3 !== undefined
-        ? pratica.volume_m3 + " m³"
-        : "-"
-    );
-
-    setValue(
-      "note",
-      pratica.note
-    );
-
-
-    /* ============================
-       ANALISI AI
-    ============================ */
-
-    parseAIAnalysis(
-      pratica.analisi_ai
-    );
-
-
-    /* ============================
-       MOSTRA PAGINA
-    ============================ */
-
-    document
-      .getElementById(
-        "loadingBox"
-      )
-      .style.display =
-        "none";
-
-    document
-      .getElementById(
-        "content"
-      )
-      .style.display =
-        "block";
-
+    content.style.display =
+      "block";
 
   }
   catch(error){
 
     console.error(
-      "Errore caricamento pratica:",
+      "Errore caricamento:",
       error
     );
 
-    showError(
-      error.message
+    loadingBox.style.display =
+      "none";
+
+    showMessage(
+      "error",
+      "Pratica " +
+      requestedId +
+      " non trovata oppure non autorizzata."
     );
 
   }
@@ -1540,5 +2255,4 @@ startPage();
 </script>
 
 </body>
-
 </html>
