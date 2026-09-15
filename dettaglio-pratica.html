@@ -881,8 +881,8 @@ footer strong{
         <span class="app-soon">PRESTO</span>
       </div>
 
-      <a href="viaggi.html" class="nav-item">
-  <span class="nav-icon">↗</span>
+      <a href="viaggi.html" class="app-nav-item">
+  <span class="app-nav-icon">↗</span>
   <span>Viaggi</span>
 </a>
     </div>
@@ -1408,6 +1408,9 @@ const logoutButton =
 
 const userInfo =
   document.getElementById("userInfo");
+
+const tripButton =
+  document.getElementById("tripButton");
 
 const editButton =
   document.getElementById("editButton");
@@ -2845,6 +2848,104 @@ async function deletePractice(){
 
 }
 
+  /* ============================
+   VIAGGIO COLLEGATO
+============================ */
+
+async function configureTripButton(){
+
+  if(!currentPractice){
+    return;
+  }
+
+  tripButton.disabled = true;
+  tripButton.textContent = "Controllo viaggio...";
+
+  try{
+
+    const {
+      data:existingTrip,
+      error
+    } =
+      await supabase
+        .from("viaggi")
+        .select(
+          "id,numero_viaggio"
+        )
+        .eq(
+          "pratica_id",
+          currentPractice.id
+        )
+        .maybeSingle();
+
+    if(error){
+      throw error;
+    }
+
+    if(existingTrip){
+
+      tripButton.textContent =
+        "Apri viaggio";
+
+      tripButton.onclick =
+        function(){
+
+          window.location.href =
+            "dettaglio-viaggio.html?id=" +
+            encodeURIComponent(
+              existingTrip.id
+            );
+
+        };
+
+    }
+    else{
+
+      tripButton.textContent =
+        "Programma viaggio";
+
+      tripButton.onclick =
+        function(){
+
+          window.location.href =
+            "nuovo-viaggio.html?pratica=" +
+            encodeURIComponent(
+              currentPractice.id
+            );
+
+        };
+
+    }
+
+    tripButton.disabled = false;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore controllo viaggio:",
+      error
+    );
+
+    tripButton.textContent =
+      "Programma viaggio";
+
+    tripButton.disabled = false;
+
+    tripButton.onclick =
+      function(){
+
+        window.location.href =
+          "nuovo-viaggio.html?pratica=" +
+          encodeURIComponent(
+            currentPractice.id
+          );
+
+      };
+
+  }
+
+}
 
 /* ============================
    EVENTI
@@ -2928,18 +3029,20 @@ async function loadPractice(){
 
     }
 
-    currentPractice =
-      pratica;
+   currentPractice =
+  pratica;
 
-    renderPractice(
-      currentPractice
-    );
+renderPractice(
+  currentPractice
+);
 
-    loadingBox.style.display =
-      "none";
+loadingBox.style.display =
+  "none";
 
-    content.style.display =
-      "block";
+content.style.display =
+  "block";
+
+await configureTripButton();
 
   }
   catch(error){
