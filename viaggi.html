@@ -1,0 +1,24 @@
+.from("viaggi")
+.select(`
+  id,
+  numero_viaggio,
+  pratica_id,
+  stato,
+  vettore,
+  autista,
+  targa_trattore,
+  targa_rimorchio,
+  data_partenza,
+  data_arrivo,
+  km_previsti,
+  costo_previsto,
+  created_at,
+  pratiche (
+    id,
+    numero_pratica,
+    cliente,
+    partenza,
+    destinazione
+  )
+`)
+.order("created_at", { ascending:false });
