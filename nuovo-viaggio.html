@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nuovo viaggio | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+/* LAYOUT */
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+}
+
+.sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+
+.sidebar-logo img{
+  width:175px;
+  max-width:90%;
+}
+
+.sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+}
+
+.nav-section{
+  margin-bottom:28px;
+}
+
+.nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+}
+
+.nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+}
+
+.nav-disabled{
+  opacity:.42;
+}
+
+.soon{
+  margin-left:auto;
+  padding:4px 7px;
+  background:rgba(255,255,255,.08);
+  border-radius:999px;
+  font-size:8px;
+}
+
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px 12px;
+  margin-bottom:9px;
+}
+
+.user-label{
+  color:#7994af;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin-bottom:4px;
+}
+
+.user-email{
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+
+.logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* MAIN */
+
+.main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+}
+
+.topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+}
+
+.back-btn{
+  color:#1596c2;
+  font-size:12px;
+  font-weight:900;
+}
+
+.content{
+  max-width:1100px;
+  margin:auto;
+  padding:32px 30px 55px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+h1{
+  color:#10284a;
+  font-size:38px;
+  margin-bottom:9px;
+}
+
+.subtitle{
+  color:#7d8ba0;
+  font-size:14px;
+  margin-bottom:25px;
+}
+
+/* PRACTICE */
+
+.practice-card{
+  background:linear-gradient(145deg,#0c2a4e,#123e6d);
+  color:#fff;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.practice-label{
+  color:#55c9e9;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.7px;
+  margin-bottom:8px;
+}
+
+.practice-number{
+  font-size:21px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.practice-route{
+  color:#d5e0eb;
+  font-size:14px;
+}
+
+.practice-client{
+  color:#91abc4;
+  font-size:11px;
+  margin-top:5px;
+}
+
+/* FORM */
+
+.card{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(19,40,74,.05);
+}
+
+.card-header{
+  padding:19px 22px;
+  border-bottom:1px solid #e8edf2;
+}
+
+.card-header h2{
+  color:#173459;
+  font-size:17px;
+}
+
+.card-body{
+  padding:22px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.form-group.full{
+  grid-column:1 / -1;
+}
+
+label{
+  color:#526177;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #dce3eb;
+  border-radius:10px;
+  background:#fff;
+  color:#30465f;
+  padding:0 13px;
+  outline:none;
+}
+
+input,
+select{
+  height:44px;
+}
+
+textarea{
+  min-height:100px;
+  padding-top:12px;
+  resize:vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#2ca9d2;
+  box-shadow:0 0 0 3px rgba(44,169,210,.08);
+}
+
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+}
+
+.btn{
+  min-height:44px;
+  border:0;
+  border-radius:10px;
+  padding:0 18px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.btn-secondary{
+  background:#eef3f8;
+  color:#173459;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.message{
+  display:none;
+  margin-bottom:18px;
+  padding:14px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.message-error{
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+  color:#b42318;
+}
+
+.message-info{
+  background:#edf8fd;
+  border:1px solid #ccebf7;
+  color:#176b9c;
+}
+
+@media(max-width:760px){
+
+  .sidebar{
+    width:72px;
+  }
+
+  .main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+  }
+
+  .sidebar-logo img{
+    width:50px;
+  }
+
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .soon,
+  .user-card{
+    display:none;
+  }
+
+  .nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .content{
+    padding:25px 14px 40px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<a href="dashboard.html" class="sidebar-logo-link">
+
+<img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+
+</a>
+
+</div>
+
+<nav class="sidebar-nav">
+
+<div class="nav-section">
+
+<div class="nav-title">OPERATIVITÀ</div>
+
+<a href="dashboard.html" class="nav-item">
+<span class="nav-icon">▦</span>
+<span>Dashboard</span>
+</a>
+
+<a href="pratiche.html" class="nav-item">
+<span class="nav-icon">▤</span>
+<span>Pratiche</span>
+</a>
+
+<a href="nuova-pratica.html" class="nav-item">
+<span class="nav-icon">＋</span>
+<span>Nuova pratica</span>
+</a>
+
+</div>
+
+<div class="nav-section">
+
+<div class="nav-title">AUTOMAZIONI</div>
+
+<div class="nav-item nav-disabled">
+<span class="nav-icon">✉</span>
+<span>Email AI</span>
+<span class="soon">PRESTO</span>
+</div>
+
+<a href="viaggi.html" class="nav-item active">
+<span class="nav-icon">↗</span>
+<span>Viaggi</span>
+</a>
+
+</div>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="user-card">
+<div class="user-label">UTENTE</div>
+<div id="userEmail" class="user-email">-</div>
+</div>
+
+<button id="logoutButton" class="logout-btn">
+Esci
+</button>
+
+</div>
+
+</aside>
+
+<div class="main">
+
+<header class="topbar">
+
+<div class="topbar-brand">
+MatRi-mIA Logistics · Viaggi
+</div>
+
+<a href="viaggi.html" class="back-btn">
+← Torna ai viaggi
+</a>
+
+</header>
+
+<main class="content">
+
+<div class="eyebrow">
+MATRI-MIA · PIANIFICAZIONE
+</div>
+
+<h1>Nuovo viaggio</h1>
+
+<div class="subtitle">
+Programma un trasporto partendo da una pratica esistente.
+</div>
+
+<div id="messageBox" class="message"></div>
+
+<section class="practice-card">
+
+<div class="practice-label">
+PRATICA COLLEGATA
+</div>
+
+<div id="practiceNumber" class="practice-number">
+Seleziona una pratica
+</div>
+
+<div id="practiceRoute" class="practice-route">
+-
+</div>
+
+<div id="practiceClient" class="practice-client">
+-
+</div>
+
+</section>
+
+<section class="card">
+
+<div class="card-header">
+<h2>Pianificazione viaggio</h2>
+</div>
+
+<div class="card-body">
+
+<form id="tripForm">
+
+<div class="form-grid">
+
+<div class="form-group full">
+
+<label for="practiceSelect">
+Pratica
+</label>
+
+<select id="practiceSelect" required>
+<option value="">Seleziona una pratica...</option>
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label for="vettore">
+Vettore
+</label>
+
+<input id="vettore" type="text">
+
+</div>
+
+<div class="form-group">
+
+<label for="autista">
+Autista
+</label>
+
+<input id="autista" type="text">
+
+</div>
+
+<div class="form-group">
+
+<label for="telefonoAutista">
+Telefono autista
+</label>
+
+<input id="telefonoAutista" type="tel">
+
+</div>
+
+<div class="form-group">
+
+<label for="stato">
+Stato
+</label>
+
+<select id="stato">
+
+<option value="DA PROGRAMMARE">
+DA PROGRAMMARE
+</option>
+
+<option value="PROGRAMMATO" selected>
+PROGRAMMATO
+</option>
+
+<option value="IN CORSO">
+IN CORSO
+</option>
+
+<option value="CONSEGNATO">
+CONSEGNATO
+</option>
+
+<option value="ANNULLATO">
+ANNULLATO
+</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label for="targaTrattore">
+Targa trattore
+</label>
+
+<input id="targaTrattore" type="text">
+
+</div>
+
+<div class="form-group">
+
+<label for="targaRimorchio">
+Targa rimorchio
+</label>
+
+<input id="targaRimorchio" type="text">
+
+</div>
+
+<div class="form-group">
+
+<label for="dataPartenza">
+Partenza prevista
+</label>
+
+<input id="dataPartenza" type="datetime-local">
+
+</div>
+
+<div class="form-group">
+
+<label for="dataArrivo">
+Arrivo previsto
+</label>
+
+<input id="dataArrivo" type="datetime-local">
+
+</div>
+
+<div class="form-group">
+
+<label for="kmPrevisti">
+Km previsti
+</label>
+
+<input
+id="kmPrevisti"
+type="number"
+min="0"
+step="1">
+
+</div>
+
+<div class="form-group">
+
+<label for="costoPrevisto">
+Costo previsto €
+</label>
+
+<input
+id="costoPrevisto"
+type="number"
+min="0"
+step="0.01">
+
+</div>
+
+<div class="form-group full">
+
+<label for="note">
+Note operative
+</label>
+
+<textarea id="note"></textarea>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<a href="viaggi.html" class="btn btn-secondary">
+Annulla
+</a>
+
+<button
+id="saveButton"
+type="submit"
+class="btn btn-primary">
+Crea viaggio
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+"https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const params =
+new URLSearchParams(
+  window.location.search
+);
+
+const requestedPractice =
+params.get("pratica");
+
+const userEmail =
+document.getElementById("userEmail");
+
+const logoutButton =
+document.getElementById("logoutButton");
+
+const practiceSelect =
+document.getElementById("practiceSelect");
+
+const practiceNumber =
+document.getElementById("practiceNumber");
+
+const practiceRoute =
+document.getElementById("practiceRoute");
+
+const practiceClient =
+document.getElementById("practiceClient");
+
+const tripForm =
+document.getElementById("tripForm");
+
+const saveButton =
+document.getElementById("saveButton");
+
+const messageBox =
+document.getElementById("messageBox");
+
+let currentUser = null;
+let currentProfile = null;
+let practices = [];
+
+function emptyToNull(value){
+
+  const clean =
+  String(value || "").trim();
+
+  return clean || null;
+
+}
+
+function showMessage(text,type="error"){
+
+  messageBox.style.display =
+  "block";
+
+  messageBox.className =
+  "message " +
+  (
+    type === "info"
+      ? "message-info"
+      : "message-error"
+  );
+
+  messageBox.textContent =
+  text;
+
+}
+
+function hideMessage(){
+
+  messageBox.style.display =
+  "none";
+
+}
+
+async function protectPage(){
+
+  const {
+    data:{session},
+    error
+  } =
+  await supabase.auth.getSession();
+
+  if(error || !session?.user){
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+  currentUser =
+  session.user;
+
+  const {
+    data:profile,
+    error:profileError
+  } =
+  await supabase
+  .from("profiles")
+  .select(
+    "id,email,ruolo,azienda_id"
+  )
+  .eq(
+    "id",
+    currentUser.id
+  )
+  .single();
+
+  if(profileError || !profile){
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+  currentProfile =
+  profile;
+
+  userEmail.textContent =
+  profile.email ||
+  currentUser.email ||
+  "-";
+
+  document.body.classList.add(
+    "auth-ready"
+  );
+
+  return true;
+
+}
+
+logoutButton.addEventListener(
+"click",
+async ()=>{
+
+  await supabase.auth.signOut();
+
+  window.location.replace(
+    "login.html"
+  );
+
+});
+
+async function loadPractices(){
+
+  /*
+   * Carichiamo solo le pratiche
+   * che NON hanno ancora un viaggio.
+   */
+
+  const {
+    data:existingTrips,
+    error:tripError
+  } =
+  await supabase
+  .from("viaggi")
+  .select("pratica_id");
+
+  if(tripError){
+    throw tripError;
+  }
+
+  const usedIds =
+  new Set(
+    (existingTrips || [])
+    .map(v => v.pratica_id)
+  );
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("pratiche")
+  .select(`
+    id,
+    numero_pratica,
+    cliente,
+    partenza,
+    destinazione,
+    ritiro,
+    consegna
+  `)
+  .order(
+    "created_at",
+    {ascending:false}
+  );
+
+  if(error){
+    throw error;
+  }
+
+  practices =
+  (data || [])
+  .filter(
+    p => !usedIds.has(p.id)
+  );
+
+  practiceSelect.innerHTML =
+  `<option value="">
+    Seleziona una pratica...
+   </option>`;
+
+  practices.forEach(
+  pratica=>{
+
+    const option =
+    document.createElement(
+      "option"
+    );
+
+    option.value =
+    pratica.id;
+
+    option.textContent =
+    (
+      pratica.numero_pratica ||
+      "-"
+    ) +
+    " · " +
+    (
+      pratica.partenza ||
+      "-"
+    ) +
+    " → " +
+    (
+      pratica.destinazione ||
+      "-"
+    );
+
+    practiceSelect.appendChild(
+      option
+    );
+
+  });
+
+  if(requestedPractice){
+
+    const found =
+    practices.find(
+      p =>
+      String(p.id) ===
+      String(requestedPractice) ||
+      String(p.numero_pratica) ===
+      String(requestedPractice)
+    );
+
+    if(found){
+
+      practiceSelect.value =
+      found.id;
+
+      updatePracticeCard();
+
+    }
+    else{
+
+      showMessage(
+        "La pratica indicata non è disponibile oppure ha già un viaggio."
+      );
+
+    }
+
+  }
+
+}
+
+function updatePracticeCard(){
+
+  const pratica =
+  practices.find(
+    p =>
+    String(p.id) ===
+    String(practiceSelect.value)
+  );
+
+  if(!pratica){
+
+    practiceNumber.textContent =
+    "Seleziona una pratica";
+
+    practiceRoute.textContent =
+    "-";
+
+    practiceClient.textContent =
+    "-";
+
+    return;
+
+  }
+
+  practiceNumber.textContent =
+  pratica.numero_pratica || "-";
+
+  practiceRoute.textContent =
+  (pratica.partenza || "-") +
+  " → " +
+  (pratica.destinazione || "-");
+
+  practiceClient.textContent =
+  "Cliente: " +
+  (pratica.cliente || "-");
+
+  /*
+   * Se disponibili, proponiamo
+   * automaticamente le date
+   * della pratica.
+   */
+
+  if(
+    pratica.ritiro &&
+    !document.getElementById(
+      "dataPartenza"
+    ).value
+  ){
+
+    document.getElementById(
+      "dataPartenza"
+    ).value =
+    toLocalInput(
+      pratica.ritiro
+    );
+
+  }
+
+  if(
+    pratica.consegna &&
+    !document.getElementById(
+      "dataArrivo"
+    ).value
+  ){
+
+    document.getElementById(
+      "dataArrivo"
+    ).value =
+    toLocalInput(
+      pratica.consegna
+    );
+
+  }
+
+}
+
+function toLocalInput(value){
+
+  const d =
+  new Date(value);
+
+  if(isNaN(d.getTime())){
+    return "";
+  }
+
+  const pad =
+  n => String(n).padStart(2,"0");
+
+  return (
+    d.getFullYear() +
+    "-" +
+    pad(d.getMonth()+1) +
+    "-" +
+    pad(d.getDate()) +
+    "T" +
+    pad(d.getHours()) +
+    ":" +
+    pad(d.getMinutes())
+  );
+
+}
+
+practiceSelect.addEventListener(
+"change",
+updatePracticeCard
+);
+
+tripForm.addEventListener(
+"submit",
+async event=>{
+
+  event.preventDefault();
+
+  hideMessage();
+
+  const praticaId =
+  practiceSelect.value;
+
+  if(!praticaId){
+
+    showMessage(
+      "Seleziona una pratica."
+    );
+
+    return;
+
+  }
+
+  const dataPartenza =
+  emptyToNull(
+    document.getElementById(
+      "dataPartenza"
+    ).value
+  );
+
+  const dataArrivo =
+  emptyToNull(
+    document.getElementById(
+      "dataArrivo"
+    ).value
+  );
+
+  if(
+    dataPartenza &&
+    dataArrivo &&
+    new Date(dataArrivo) <
+    new Date(dataPartenza)
+  ){
+
+    showMessage(
+      "L'arrivo previsto non può essere precedente alla partenza."
+    );
+
+    return;
+
+  }
+
+  saveButton.disabled =
+  true;
+
+  saveButton.textContent =
+  "Creazione...";
+
+  try{
+
+    const payload = {
+
+      azienda_id:
+      currentProfile.azienda_id,
+
+      pratica_id:
+      praticaId,
+
+      stato:
+      document.getElementById(
+        "stato"
+      ).value,
+
+      vettore:
+      emptyToNull(
+        document.getElementById(
+          "vettore"
+        ).value
+      ),
+
+      autista:
+      emptyToNull(
+        document.getElementById(
+          "autista"
+        ).value
+      ),
+
+      telefono_autista:
+      emptyToNull(
+        document.getElementById(
+          "telefonoAutista"
+        ).value
+      ),
+
+      targa_trattore:
+      emptyToNull(
+        document.getElementById(
+          "targaTrattore"
+        ).value
+      ),
+
+      targa_rimorchio:
+      emptyToNull(
+        document.getElementById(
+          "targaRimorchio"
+        ).value
+      ),
+
+      data_partenza:
+      dataPartenza,
+
+      data_arrivo:
+      dataArrivo,
+
+      km_previsti:
+      emptyToNull(
+        document.getElementById(
+          "kmPrevisti"
+        ).value
+      ),
+
+      costo_previsto:
+      emptyToNull(
+        document.getElementById(
+          "costoPrevisto"
+        ).value
+      ),
+
+      note:
+      emptyToNull(
+        document.getElementById(
+          "note"
+        ).value
+      ),
+
+      created_by:
+      currentUser.id,
+
+      updated_by:
+      currentUser.id
+
+    };
+
+    const {
+      data,
+      error
+    } =
+    await supabase
+    .from("viaggi")
+    .insert(payload)
+    .select(
+      "id,numero_viaggio"
+    )
+    .single();
+
+    if(error){
+      throw error;
+    }
+
+    window.location.href =
+    "dettaglio-viaggio.html?id=" +
+    encodeURIComponent(
+      data.id
+    );
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    if(
+      error.code === "23505"
+    ){
+
+      showMessage(
+        "Questa pratica ha già un viaggio programmato."
+      );
+
+    }
+    else{
+
+      showMessage(
+        "Errore durante la creazione del viaggio: " +
+        error.message
+      );
+
+    }
+
+    saveButton.disabled =
+    false;
+
+    saveButton.textContent =
+    "Crea viaggio";
+
+  }
+
+});
+
+async function start(){
+
+  try{
+
+    const authenticated =
+    await protectPage();
+
+    if(!authenticated){
+      return;
+    }
+
+    await loadPractices();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "Errore durante il caricamento: " +
+      error.message
+    );
+
+  }
+
+}
+
+start();
+
+</script>
+
+</body>
+</html>
