@@ -2183,7 +2183,321 @@ confirmButton.addEventListener(
 
   }
 );
+/* ============================
+   PRATICA DA EMAIL AI
+============================ */
 
+const urlParams =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const emailId =
+  urlParams.get("email");
+
+
+function setFieldValue(id, value){
+
+  if(
+    value === null ||
+    value === undefined
+  ){
+    return;
+  }
+
+  const field =
+    document.getElementById(id);
+
+  if(!field){
+    return;
+  }
+
+  field.value =
+    String(value).trim();
+
+}
+
+
+async function loadEmailData(){
+
+  if(!emailId){
+    return;
+  }
+
+  aiStateText.textContent =
+    "Caricamento dati dalla email...";
+
+  try{
+
+    const {
+      data:email,
+      error
+    } =
+      await supabase
+        .from("email_ai")
+        .select("*")
+        .eq("id", emailId)
+        .single();
+
+    if(error){
+      throw error;
+    }
+
+    if(!email){
+
+      throw new Error(
+        "Email non trovata."
+      );
+
+    }
+
+    console.log(
+      "Email caricata:",
+      email
+    );
+
+
+    /*
+     * PRECOMPILAZIONE FORM
+     *
+     * Questi nomi corrispondono ai dati
+     * estratti dalla Email AI.
+     */
+
+    setFieldValue(
+      "cliente",
+      email.cliente
+    );
+
+    setFieldValue(
+      "partenza",
+      email.partenza
+    );
+
+    setFieldValue(
+      "destinazione",
+      email.destinazione
+    );
+
+    setFieldValue(
+      "indirizzoRitiro",
+      email.indirizzo_ritiro
+    );
+
+    setFieldValue(
+      "capRitiro",
+      email.cap_ritiro
+    );
+
+    setFieldValue(
+      "indirizzoConsegna",
+      email.indirizzo_consegna
+    );
+
+    setFieldValue(
+      "capConsegna",
+      email.cap_consegna
+    );
+
+    setFieldValue(
+      "vettore",
+      email.vettore
+    );
+
+    setFieldValue(
+      "tipoMerce",
+      email.tipo_merce
+    );
+
+    setFieldValue(
+      "colli",
+      email.colli
+    );
+
+    setFieldValue(
+      "peso",
+      email.peso_kg ?? email.peso
+    );
+
+    setFieldValue(
+      "volume",
+      email.volume_m3 ?? email.volume
+    );
+
+
+    /*
+     * DATA
+     *
+     * Se l'email contiene una data
+     * utilizziamo quella.
+     * Altrimenti mettiamo la data odierna.
+     */
+
+    if(email.data){
+
+      setFieldValue(
+        "data",
+        String(email.data).slice(0,10)
+      );
+
+    }
+    else{
+
+      const today =
+        new Date()
+          .toISOString()
+          .slice(0,10);
+
+      setFieldValue(
+        "data",
+        today
+      );
+
+    }
+
+
+    /*
+     * DATE / ORARI
+     */
+
+    if(email.ritiro){
+
+      setFieldValue(
+        "ritiro",
+        toDateTimeLocal(
+          email.ritiro
+        )
+      );
+
+    }
+
+    if(email.consegna){
+
+      setFieldValue(
+        "consegna",
+        toDateTimeLocal(
+          email.consegna
+        )
+      );
+
+    }
+
+
+    /*
+     * NOTE
+     *
+     * Manteniamo eventuali note AI.
+     * Se non ci sono, usiamo oggetto/corpo
+     * della mail come riferimento.
+     */
+
+    let noteEmail =
+      email.note ||
+      email.note_operative ||
+      "";
+
+    if(!noteEmail){
+
+      const parts = [];
+
+      if(email.oggetto){
+
+        parts.push(
+          "Email: " +
+          email.oggetto
+        );
+
+      }
+
+      if(email.mittente){
+
+        parts.push(
+          "Mittente: " +
+          email.mittente
+        );
+
+      }
+
+      noteEmail =
+        parts.join("\n");
+
+    }
+
+    setFieldValue(
+      "note",
+      noteEmail
+    );
+
+
+    /*
+     * STATO INTERFACCIA
+     */
+
+    aiStateText.textContent =
+      "Dati importati dalla email";
+
+    showMessage(
+      "success",
+      "Dati della email caricati. Controllali e completa gli eventuali campi mancanti prima di analizzare la pratica."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore caricamento email:",
+      error
+    );
+
+    aiStateText.textContent =
+      "Errore caricamento email";
+
+    showMessage(
+      "error",
+      "Non è stato possibile caricare i dati della email: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* ============================
+   CONVERSIONE DATA EMAIL
+============================ */
+
+function toDateTimeLocal(value){
+
+  if(!value){
+    return "";
+  }
+
+  const date =
+    new Date(value);
+
+  if(isNaN(date.getTime())){
+    return "";
+  }
+
+  const pad =
+    number =>
+      String(number)
+        .padStart(2,"0");
+
+  return (
+    date.getFullYear() +
+    "-" +
+    pad(date.getMonth()+1) +
+    "-" +
+    pad(date.getDate()) +
+    "T" +
+    pad(date.getHours()) +
+    ":" +
+    pad(date.getMinutes())
+  );
+
+}
 
 /* ============================
    AVVIO
@@ -2196,6 +2510,40 @@ async function startPage(){
 
   if(!authenticated){
     return;
+  }
+
+  /*
+   * Se arriviamo dalla sezione Email AI
+   * carichiamo automaticamente i dati
+   * della mail nel form.
+   */
+  if(emailId){
+
+    await loadEmailData();
+
+  }
+  else{
+
+    /*
+     * Nuova pratica manuale:
+     * impostiamo automaticamente
+     * la data di oggi.
+     */
+    const dataField =
+      document.getElementById("data");
+
+    if(
+      dataField &&
+      !dataField.value
+    ){
+
+      dataField.value =
+        new Date()
+          .toISOString()
+          .slice(0,10);
+
+    }
+
   }
 
 }
