@@ -19,8 +19,6 @@ html{
   scroll-behavior:smooth;
 }
 
-/* Evita che la pagina venga mostrata
-   prima del controllo autenticazione */
 body{
   font-family:Arial,Helvetica,sans-serif;
   background:#f3f6fa;
@@ -446,26 +444,21 @@ footer strong{
 }
 
 </style>
-
 </head>
 
 <body>
-
 
 <header class="top-header">
 
   <div class="top-header-inner">
 
     <a href="index.html">
-
       <img
         src="matrimia-logo-web.png"
         alt="MatRi-mIA Logistics"
         class="logo"
       >
-
     </a>
-
 
     <div class="header-actions">
 
@@ -505,9 +498,7 @@ footer strong{
         MATRI-MIA · OPERATIVITÀ
       </div>
 
-      <h1>
-        Pratiche
-      </h1>
+      <h1>Pratiche</h1>
 
       <p>
         Gestisci, filtra e controlla le pratiche di trasporto elaborate da MatRi-mIA.
@@ -519,7 +510,6 @@ footer strong{
       </div>
 
     </div>
-
 
     <div class="counter">
 
@@ -549,7 +539,6 @@ footer strong{
 
     </div>
 
-
     <div class="filter-wrap">
 
       <select
@@ -574,7 +563,6 @@ footer strong{
 
       </select>
 
-
       <select
         id="sortOrder"
         class="filter-select">
@@ -596,7 +584,6 @@ footer strong{
         </option>
 
       </select>
-
 
       <button
         id="reloadBtn"
@@ -643,7 +630,6 @@ footer strong{
 
     </div>
 
-
     <div
       id="emptyState"
       class="empty-state">
@@ -687,24 +673,14 @@ from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 const SUPABASE_URL =
   "https://sctzockiurjsxzdkctmy.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
-
 
 const supabase =
   createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
-
-
-/* ============================
-   MAKE
-============================ */
-
-const WEBHOOK_URL =
-  "https://hook.eu1.make.com/05uyyblgxp9m8j72ldy4s6lc9puif86j";
 
 
 /* ============================
@@ -743,9 +719,24 @@ const userInfo =
 
 
 let allPratiche = [];
-
 let currentUser = null;
 let currentProfile = null;
+
+
+/* ============================
+   FUNZIONI GENERALI
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
 
 
 /* ============================
@@ -767,9 +758,7 @@ async function protectPage(){
 
 
     if(error){
-
       throw error;
-
     }
 
 
@@ -817,10 +806,8 @@ async function protectPage(){
         profileError
       );
 
-
       await supabase.auth
         .signOut();
-
 
       window.location.replace(
         "login.html"
@@ -861,11 +848,9 @@ async function protectPage(){
       error
     );
 
-
     window.location.replace(
       "login.html"
     );
-
 
     return false;
 
@@ -888,7 +873,6 @@ logoutButton.addEventListener(
     logoutButton.textContent =
       "Uscita...";
 
-
     try{
 
       await supabase.auth
@@ -908,46 +892,8 @@ logoutButton.addEventListener(
 
 
 /* ============================
-   FUNZIONI PRATICHE
+   PRATICHE
 ============================ */
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-function getValue(obj,keys){
-
-  for(const key of keys){
-
-    if(
-      obj &&
-      Object.prototype.hasOwnProperty.call(
-        obj,
-        key
-      ) &&
-      obj[key] !== null &&
-      obj[key] !== undefined &&
-      obj[key] !== ""
-    ){
-
-      return obj[key];
-
-    }
-
-  }
-
-  return "";
-
-}
-
 
 function formatDate(value){
 
@@ -955,15 +901,31 @@ function formatDate(value){
     return "-";
   }
 
+  /*
+   * Per una colonna PostgreSQL DATE (YYYY-MM-DD)
+   * evitiamo problemi di fuso orario.
+   */
+  const parts =
+    String(value).split("-");
+
+  if(parts.length === 3){
+
+    return (
+      parts[2] +
+      "/" +
+      parts[1] +
+      "/" +
+      parts[0]
+    );
+
+  }
 
   const date =
     new Date(value);
 
-
   if(isNaN(date.getTime())){
     return value;
   }
-
 
   return date.toLocaleDateString(
     "it-IT"
@@ -984,16 +946,13 @@ function normalizeStatus(value){
     return "REGOLARE";
   }
 
-
   if(text.includes("ATTENZIONE")){
     return "ATTENZIONE";
   }
 
-
   if(text.includes("PROBLEMA")){
     return "PROBLEMA";
   }
-
 
   return text || "-";
 
@@ -1004,7 +963,6 @@ function createStatusBadge(status){
 
   const normalized =
     normalizeStatus(status);
-
 
   let className =
     "badge badge-default";
@@ -1048,75 +1006,28 @@ function normalizePratica(pratica){
   return {
 
     id:
-      getValue(
-        pratica,
-        [
-          "ID",
-          "Id",
-          "id",
-          "ID Pratica",
-          "ID Pratica (A)",
-          "0"
-        ]
-      ),
+      pratica.numero_pratica || "",
+
+    uuid:
+      pratica.id || "",
+
+    azienda_id:
+      pratica.azienda_id || "",
 
     data:
-      getValue(
-        pratica,
-        [
-          "Data",
-          "data",
-          "Data (B)",
-          "1"
-        ]
-      ),
+      pratica.data || "",
 
     partenza:
-      getValue(
-        pratica,
-        [
-          "Partenza",
-          "partenza",
-          "Partenza (E)",
-          "4"
-        ]
-      ),
+      pratica.partenza || "",
 
     destinazione:
-      getValue(
-        pratica,
-        [
-          "Destinazione",
-          "destinazione",
-          "Destinazione (H)",
-          "7"
-        ]
-      ),
+      pratica.destinazione || "",
 
     cliente:
-      getValue(
-        pratica,
-        [
-          "Cliente",
-          "cliente",
-          "Cliente (K)",
-          "10"
-        ]
-      ),
+      pratica.cliente || "",
 
     stato:
-      getValue(
-        pratica,
-        [
-          "StatoAI",
-          "statoAI",
-          "Stato",
-          "stato",
-          "Stato AI",
-          "Stato AI (R)",
-          "16"
-        ]
-      )
+      pratica.stato_ai || ""
 
   };
 
@@ -1129,7 +1040,6 @@ function extractNumericId(id){
     String(id || "")
       .match(/(\d+)\s*$/);
 
-
   return match
     ? Number(match[1])
     : 0;
@@ -1141,7 +1051,6 @@ function sortPratiche(pratiche){
 
   const sorted =
     [...pratiche];
-
 
   const mode =
     sortOrder.value;
@@ -1160,13 +1069,11 @@ function sortPratiche(pratiche){
           new Date(b.data)
             .getTime() || 0;
 
-
         if(dateB !== dateA){
 
           return dateB - dateA;
 
         }
-
 
         return (
           extractNumericId(b.id) -
@@ -1190,13 +1097,11 @@ function sortPratiche(pratiche){
           new Date(b.data)
             .getTime() || 0;
 
-
         if(dateA !== dateB){
 
           return dateA - dateB;
 
         }
-
 
         return (
           extractNumericId(a.id) -
@@ -1237,7 +1142,6 @@ function renderPratiche(pratiche){
   praticheBody.innerHTML =
     "";
 
-
   practiceCount.textContent =
     pratiche.length;
 
@@ -1258,7 +1162,6 @@ function renderPratiche(pratiche){
 
   pratiche.forEach(
     pratica=>{
-
 
       const row =
         document.createElement(
@@ -1313,11 +1216,9 @@ function renderPratiche(pratiche){
         "click",
         function(){
 
-
           if(!pratica.id){
             return;
           }
-
 
           window.location.href =
             "dettaglio-pratica.html?id=" +
@@ -1340,13 +1241,16 @@ function renderPratiche(pratiche){
 }
 
 
+/* ============================
+   FILTRI
+============================ */
+
 function applyFilters(){
 
   const query =
     searchInput.value
       .trim()
       .toLowerCase();
-
 
   const selectedStatus =
     statusFilter.value;
@@ -1355,7 +1259,6 @@ function applyFilters(){
   let filtered =
     allPratiche.filter(
       pratica=>{
-
 
         const searchable =
           [
@@ -1412,7 +1315,7 @@ function applyFilters(){
 
 
 /* ============================
-   CARICAMENTO DA MAKE
+   CARICAMENTO DA SUPABASE
 ============================ */
 
 async function loadPratiche(){
@@ -1420,14 +1323,11 @@ async function loadPratiche(){
   statusBox.className =
     "status-box status-loading";
 
-
   statusBox.textContent =
     "Caricamento pratiche...";
 
-
   statusBox.style.display =
     "block";
-
 
   emptyState.style.display =
     "none";
@@ -1435,89 +1335,66 @@ async function loadPratiche(){
 
   try{
 
-
-    const response =
-      await fetch(
-        WEBHOOK_URL,
-        {
-          method:"GET",
-          cache:"no-store",
-          headers:{
-            "Accept":
-              "application/json"
-          }
-        }
-      );
-
-
-    if(!response.ok){
+    if(!currentProfile){
 
       throw new Error(
-        "HTTP " +
-        response.status
+        "Profilo utente non disponibile"
       );
 
     }
 
 
-    const rawText =
-      await response.text();
+    if(!currentProfile.azienda_id){
+
+      throw new Error(
+        "Nessuna azienda associata all'utente"
+      );
+
+    }
 
 
-    let data;
+    /*
+     * IMPORTANTE:
+     * non filtriamo azienda_id nel browser.
+     *
+     * È la RLS di Supabase che deve decidere
+     * quali righe può leggere l'utente.
+     */
 
-
-    try{
-
-      data =
-        JSON.parse(
-          rawText
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("pratiche")
+        .select(`
+          id,
+          created_at,
+          azienda_id,
+          numero_pratica,
+          data,
+          cliente,
+          partenza,
+          destinazione,
+          stato_ai
+        `)
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
         );
 
-    }
-    catch(error){
 
-      throw new Error(
-        "Make non ha restituito JSON valido"
-      );
+    if(error){
 
-    }
-
-
-    let pratiche =
-      data.pratiche;
-
-
-    if(
-      !Array.isArray(
-        pratiche
-      )
-    ){
-
-      if(
-        pratiche &&
-        typeof pratiche ===
-          "object"
-      ){
-
-        pratiche =
-          Object.values(
-            pratiche
-          );
-
-      }
-      else{
-
-        pratiche =
-          [];
-
-      }
+      throw error;
 
     }
 
 
     allPratiche =
-      pratiche.map(
+      (data || []).map(
         normalizePratica
       );
 
@@ -1528,10 +1405,13 @@ async function loadPratiche(){
     statusBox.className =
       "status-box status-success";
 
-
     statusBox.textContent =
       allPratiche.length +
-      " pratiche caricate correttamente.";
+      (
+        allPratiche.length === 1
+          ? " pratica caricata da Supabase."
+          : " pratiche caricate da Supabase."
+      );
 
 
     setTimeout(
@@ -1544,28 +1424,29 @@ async function loadPratiche(){
       1800
     );
 
-
   }
   catch(error){
 
-
     console.error(
-      "Errore pratiche:",
+      "Errore caricamento pratiche:",
       error
+    );
+
+
+    allPratiche =
+      [];
+
+    renderPratiche(
+      []
     );
 
 
     statusBox.className =
       "status-box status-error";
 
-
     statusBox.textContent =
       "Errore nel caricamento delle pratiche: " +
       error.message;
-
-
-    practiceCount.textContent =
-      "0";
 
   }
 
@@ -1624,7 +1505,5 @@ startPage();
 
 </script>
 
-
 </body>
-
 </html>
