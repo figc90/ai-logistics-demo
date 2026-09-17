@@ -134,20 +134,6 @@ button{
   text-align:center;
 }
 
-.nav-disabled{
-  opacity:.42;
-}
-
-.soon{
-  margin-left:auto;
-  padding:4px 7px;
-  background:rgba(255,255,255,.08);
-  border-radius:999px;
-  color:#8fa5bb;
-  font-size:8px;
-  font-weight:900;
-}
-
 .sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
@@ -556,7 +542,6 @@ button:disabled{
 
   .nav-title,
   .nav-item span:not(.nav-icon),
-  .soon,
   .user-card{
     display:none;
   }
@@ -596,81 +581,160 @@ button:disabled{
 
 <div class="app">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
 <div class="sidebar-logo">
+
   <a href="dashboard.html" class="sidebar-logo-link">
-    <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+
+    <img
+      src="matrimia-logo-web.png"
+      alt="MatRi-mIA Logistics">
+
   </a>
+
 </div>
+
 
 <nav class="sidebar-nav">
 
+<!-- OPERATIVITÀ -->
+
 <div class="nav-section">
 
-  <div class="nav-title">OPERATIVITÀ</div>
+  <div class="nav-title">
+    OPERATIVITÀ
+  </div>
 
   <a href="dashboard.html" class="nav-item">
-    <span class="nav-icon">▦</span>
-    <span>Dashboard</span>
+
+    <span class="nav-icon">
+      ▦
+    </span>
+
+    <span>
+      Dashboard
+    </span>
+
   </a>
 
   <a href="pratiche.html" class="nav-item">
-    <span class="nav-icon">▤</span>
-    <span>Pratiche</span>
+
+    <span class="nav-icon">
+      ▤
+    </span>
+
+    <span>
+      Pratiche
+    </span>
+
   </a>
 
   <a href="nuova-pratica.html" class="nav-item">
-    <span class="nav-icon">＋</span>
-    <span>Nuova pratica</span>
+
+    <span class="nav-icon">
+      ＋
+    </span>
+
+    <span>
+      Nuova pratica
+    </span>
+
   </a>
 
 </div>
 
+
+<!-- AUTOMAZIONI -->
+
 <div class="nav-section">
 
-  <div class="nav-title">AUTOMAZIONI</div>
+  <div class="nav-title">
+    AUTOMAZIONI
+  </div>
 
   <a href="email-ai.html" class="nav-item active">
-    <span class="nav-icon">✉</span>
-    <span>Email AI</span>
+
+    <span class="nav-icon">
+      ✉
+    </span>
+
+    <span>
+      Email AI
+    </span>
+
   </a>
 
   <a href="viaggi.html" class="nav-item">
-    <span class="nav-icon">↗</span>
-    <span>Viaggi</span>
+
+    <span class="nav-icon">
+      ↗
+    </span>
+
+    <span>
+      Viaggi
+    </span>
+
   </a>
 
 </div>
 
+
+<!-- GESTIONE -->
+
 <div class="nav-section">
 
-  <div class="nav-title">GESTIONE</div>
-
-  <div class="nav-item nav-disabled">
-    <span class="nav-icon">▣</span>
-    <span>Aziende</span>
-    <span class="soon">PRESTO</span>
+  <div class="nav-title">
+    GESTIONE
   </div>
+
+  <a href="anagrafiche.html" class="nav-item">
+
+    <span class="nav-icon">
+      ▣
+    </span>
+
+    <span>
+      Anagrafiche
+    </span>
+
+  </a>
 
 </div>
 
 </nav>
 
+
 <div class="sidebar-bottom">
 
   <div class="user-card">
-    <div class="user-label">UTENTE</div>
-    <div id="userEmail" class="user-email">-</div>
+
+    <div class="user-label">
+      UTENTE
+    </div>
+
+    <div
+      id="userEmail"
+      class="user-email">
+      -
+    </div>
+
   </div>
 
-  <button id="logoutButton" class="logout-btn">
+  <button
+    id="logoutButton"
+    class="logout-btn">
     Esci
   </button>
 
 </div>
 
 </aside>
+
+
+<!-- MAIN -->
 
 <div class="main">
 
@@ -680,15 +744,20 @@ button:disabled{
     MatRi-mIA Logistics
   </div>
 
-  <a href="email-ai.html" class="back-link">
+  <a
+    href="email-ai.html"
+    class="back-link">
     ← Email AI
   </a>
 
 </header>
 
+
 <main class="content">
 
-<div id="loadingBox" class="message loading">
+<div
+  id="loadingBox"
+  class="message loading">
   Caricamento email...
 </div>
 
@@ -698,17 +767,29 @@ button:disabled{
   style="display:none">
 </div>
 
-<div id="content" style="display:none">
+
+<div
+  id="content"
+  style="display:none">
 
 <div class="eyebrow">
   MATRI-MIA · EMAIL INTELLIGENCE
 </div>
 
+
 <div class="heading">
 
   <div>
-    <h1 id="emailSubject">-</h1>
-    <div id="headingMeta" class="heading-meta"></div>
+
+    <h1 id="emailSubject">
+      -
+    </h1>
+
+    <div
+      id="headingMeta"
+      class="heading-meta">
+    </div>
+
   </div>
 
   <div
@@ -719,42 +800,92 @@ button:disabled{
 
 </div>
 
+
 <div class="detail-grid">
+
+<!-- EMAIL -->
 
 <div>
 
 <section class="card">
 
   <div class="card-header">
-    <h2>Email originale</h2>
-    <p>Messaggio ricevuto dal cliente.</p>
+
+    <h2>
+      Email originale
+    </h2>
+
+    <p>
+      Messaggio ricevuto dal cliente.
+    </p>
+
   </div>
+
 
   <div class="card-body">
 
     <div class="email-meta">
 
-      <div class="meta-label">Mittente</div>
-      <div id="senderName" class="meta-value">-</div>
+      <div class="meta-label">
+        Mittente
+      </div>
 
-      <div class="meta-label">Email</div>
-      <div id="senderEmail" class="meta-value">-</div>
+      <div
+        id="senderName"
+        class="meta-value">
+        -
+      </div>
 
-      <div class="meta-label">Data</div>
-      <div id="emailDate" class="meta-value">-</div>
 
-      <div class="meta-label">Oggetto</div>
-      <div id="subjectMeta" class="meta-value">-</div>
+      <div class="meta-label">
+        Email
+      </div>
+
+      <div
+        id="senderEmail"
+        class="meta-value">
+        -
+      </div>
+
+
+      <div class="meta-label">
+        Data
+      </div>
+
+      <div
+        id="emailDate"
+        class="meta-value">
+        -
+      </div>
+
+
+      <div class="meta-label">
+        Oggetto
+      </div>
+
+      <div
+        id="subjectMeta"
+        class="meta-value">
+        -
+      </div>
 
     </div>
 
-    <div id="emailText" class="email-text">-</div>
+
+    <div
+      id="emailText"
+      class="email-text">
+      -
+    </div>
 
   </div>
 
 </section>
 
 </div>
+
+
+<!-- AI -->
 
 <div>
 
@@ -772,70 +903,184 @@ button:disabled{
 
 </div>
 
+
 <div class="ai-body">
 
-  <div id="aiSummary" class="ai-summary">
+  <div
+    id="aiSummary"
+    class="ai-summary">
     Nessuna analisi disponibile.
   </div>
+
 
   <div class="data-grid">
 
     <div class="data-item">
-      <div class="data-label">Tipo richiesta</div>
-      <div id="requestType" class="data-value">-</div>
+
+      <div class="data-label">
+        Tipo richiesta
+      </div>
+
+      <div
+        id="requestType"
+        class="data-value">
+        -
+      </div>
+
     </div>
 
-    <div class="data-item">
-      <div class="data-label">Cliente</div>
-      <div id="clientValue" class="data-value">-</div>
-    </div>
 
     <div class="data-item">
-      <div class="data-label">Partenza</div>
-      <div id="departureValue" class="data-value">-</div>
+
+      <div class="data-label">
+        Cliente
+      </div>
+
+      <div
+        id="clientValue"
+        class="data-value">
+        -
+      </div>
+
     </div>
 
-    <div class="data-item">
-      <div class="data-label">Destinazione</div>
-      <div id="destinationValue" class="data-value">-</div>
-    </div>
 
     <div class="data-item">
-      <div class="data-label">Ritiro</div>
-      <div id="pickupValue" class="data-value">-</div>
+
+      <div class="data-label">
+        Partenza
+      </div>
+
+      <div
+        id="departureValue"
+        class="data-value">
+        -
+      </div>
+
     </div>
 
-    <div class="data-item">
-      <div class="data-label">Consegna</div>
-      <div id="deliveryValue" class="data-value">-</div>
-    </div>
 
     <div class="data-item">
-      <div class="data-label">Tipo merce</div>
-      <div id="goodsValue" class="data-value">-</div>
+
+      <div class="data-label">
+        Destinazione
+      </div>
+
+      <div
+        id="destinationValue"
+        class="data-value">
+        -
+      </div>
+
     </div>
 
-    <div class="data-item">
-      <div class="data-label">Colli</div>
-      <div id="packagesValue" class="data-value">-</div>
-    </div>
 
     <div class="data-item">
-      <div class="data-label">Peso</div>
-      <div id="weightValue" class="data-value">-</div>
+
+      <div class="data-label">
+        Ritiro
+      </div>
+
+      <div
+        id="pickupValue"
+        class="data-value">
+        -
+      </div>
+
     </div>
 
+
     <div class="data-item">
-      <div class="data-label">Volume</div>
-      <div id="volumeValue" class="data-value">-</div>
+
+      <div class="data-label">
+        Consegna
+      </div>
+
+      <div
+        id="deliveryValue"
+        class="data-value">
+        -
+      </div>
+
     </div>
+
+
+    <div class="data-item">
+
+      <div class="data-label">
+        Tipo merce
+      </div>
+
+      <div
+        id="goodsValue"
+        class="data-value">
+        -
+      </div>
+
+    </div>
+
+
+    <div class="data-item">
+
+      <div class="data-label">
+        Colli
+      </div>
+
+      <div
+        id="packagesValue"
+        class="data-value">
+        -
+      </div>
+
+    </div>
+
+
+    <div class="data-item">
+
+      <div class="data-label">
+        Peso
+      </div>
+
+      <div
+        id="weightValue"
+        class="data-value">
+        -
+      </div>
+
+    </div>
+
+
+    <div class="data-item">
+
+      <div class="data-label">
+        Volume
+      </div>
+
+      <div
+        id="volumeValue"
+        class="data-value">
+        -
+      </div>
+
+    </div>
+
 
     <div class="data-item wide">
-      <div class="data-label">Note</div>
-      <div id="notesValue" class="data-value">-</div>
+
+      <div class="data-label">
+        Note
+      </div>
+
+      <div
+        id="notesValue"
+        class="data-value">
+        -
+      </div>
+
     </div>
 
   </div>
+
 
   <div class="actions">
 
@@ -871,54 +1116,82 @@ button:disabled{
 
 </div>
 
+
 <script type="module">
 
 import {
   createClient
 } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+
 const SUPABASE_URL =
-  "https://sctzockiurjsxzdkctmy.supabase.co";
+"https://sctzockiurjsxzdkctmy.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+"sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
 
 const supabase =
-  createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 
 const params =
-  new URLSearchParams(
-    window.location.search
-  );
+new URLSearchParams(
+  window.location.search
+);
+
 
 const requestedId =
-  params.get("id");
+params.get("id");
+
 
 const userEmail =
-  document.getElementById("userEmail");
+document.getElementById(
+  "userEmail"
+);
+
 
 const logoutButton =
-  document.getElementById("logoutButton");
+document.getElementById(
+  "logoutButton"
+);
+
 
 const loadingBox =
-  document.getElementById("loadingBox");
+document.getElementById(
+  "loadingBox"
+);
+
 
 const messageBox =
-  document.getElementById("messageBox");
+document.getElementById(
+  "messageBox"
+);
+
 
 const content =
-  document.getElementById("content");
+document.getElementById(
+  "content"
+);
+
 
 const practiceButton =
-  document.getElementById("practiceButton");
+document.getElementById(
+  "practiceButton"
+);
+
 
 const managedButton =
-  document.getElementById("managedButton");
+document.getElementById(
+  "managedButton"
+);
+
 
 let currentEmail = null;
+
 
 /* =========================
    UTILITY
@@ -927,15 +1200,16 @@ let currentEmail = null;
 function setText(id,value){
 
   document
-    .getElementById(id)
-    .textContent =
-      value === null ||
-      value === undefined ||
-      value === ""
-        ? "-"
-        : value;
+  .getElementById(id)
+  .textContent =
+  value === null ||
+  value === undefined ||
+  value === ""
+    ? "-"
+    : value;
 
 }
+
 
 function formatDate(value){
 
@@ -943,12 +1217,15 @@ function formatDate(value){
     return "-";
   }
 
+
   const date =
-    new Date(value);
+  new Date(value);
+
 
   if(isNaN(date.getTime())){
     return value;
   }
+
 
   return date.toLocaleString(
     "it-IT",
@@ -963,31 +1240,36 @@ function formatDate(value){
 
 }
 
+
 function showMessage(type,text){
 
   messageBox.className =
-    "message " +
-    (
-      type === "success"
-        ? "success"
-        : "error"
-    );
+  "message " +
+  (
+    type === "success"
+      ? "success"
+      : "error"
+  );
+
 
   messageBox.textContent =
-    text;
+  text;
+
 
   messageBox.style.display =
-    "block";
+  "block";
 
 }
+
 
 function normalizeStatus(value){
 
   return String(value || "")
-    .trim()
-    .toUpperCase();
+  .trim()
+  .toUpperCase();
 
 }
+
 
 /* =========================
    AUTH
@@ -1001,11 +1283,13 @@ async function protectPage(){
       data:{session},
       error
     } =
-      await supabase.auth.getSession();
+    await supabase.auth.getSession();
+
 
     if(error){
       throw error;
     }
+
 
     if(!session?.user){
 
@@ -1017,53 +1301,70 @@ async function protectPage(){
 
     }
 
+
     const {
       data:profile,
       error:profileError
     } =
-      await supabase
-        .from("profiles")
-        .select(
-          "id,email,ruolo,azienda_id"
-        )
-        .eq(
-          "id",
-          session.user.id
-        )
-        .single();
+    await supabase
+    .from("profiles")
+    .select(
+      "id,email,ruolo,azienda_id"
+    )
+    .eq(
+      "id",
+      session.user.id
+    )
+    .single();
 
-    if(profileError || !profile){
+
+    if(
+      profileError ||
+      !profile
+    ){
+
       throw profileError ||
-        new Error("Profilo non trovato.");
+      new Error(
+        "Profilo non trovato."
+      );
+
     }
 
+
     userEmail.textContent =
-      profile.email ||
-      session.user.email ||
-      "-";
+    profile.email ||
+    session.user.email ||
+    "-";
+
 
     document.body.classList.add(
       "auth-ready"
     );
 
+
     return true;
 
   }
+
   catch(error){
 
     console.error(error);
 
+
     await supabase.auth.signOut();
+
 
     window.location.replace(
       "login.html"
     );
+
 
     return false;
 
   }
 
 }
+
 
 /* =========================
    STATO
@@ -1072,43 +1373,61 @@ async function protectPage(){
 function renderStatus(status){
 
   const badge =
-    document.getElementById(
-      "statusBadge"
-    );
+  document.getElementById(
+    "statusBadge"
+  );
+
 
   const normalized =
-    normalizeStatus(status);
+  normalizeStatus(status);
+
 
   badge.textContent =
-    normalized.replaceAll("_"," ") ||
-    "-";
+  normalized.replaceAll(
+    "_",
+    " "
+  ) || "-";
 
-  if(normalized === "DA_VERIFICARE"){
 
-    badge.className =
-      "status-badge badge-check";
-
-  }
-  else if(normalized === "PRONTA"){
-
-    badge.className =
-      "status-badge badge-ready";
-
-  }
-  else if(normalized === "GESTITA"){
+  if(
+    normalized ===
+    "DA_VERIFICARE"
+  ){
 
     badge.className =
-      "status-badge badge-managed";
+    "status-badge badge-check";
 
   }
+
+  else if(
+    normalized ===
+    "PRONTA"
+  ){
+
+    badge.className =
+    "status-badge badge-ready";
+
+  }
+
+  else if(
+    normalized ===
+    "GESTITA"
+  ){
+
+    badge.className =
+    "status-badge badge-managed";
+
+  }
+
   else{
 
     badge.className =
-      "status-badge badge-new";
+    "status-badge badge-new";
 
   }
 
 }
+
 
 /* =========================
    RENDER EMAIL
@@ -1121,15 +1440,18 @@ function renderEmail(email){
     email.oggetto
   );
 
+
   setText(
     "senderName",
     email.mittente
   );
 
+
   setText(
     "senderEmail",
     email.email_mittente
   );
+
 
   setText(
     "emailDate",
@@ -1139,55 +1461,70 @@ function renderEmail(email){
     )
   );
 
+
   setText(
     "subjectMeta",
     email.oggetto
   );
+
 
   setText(
     "emailText",
     email.testo
   );
 
+
   setText(
     "requestType",
     email.tipo_richiesta
   );
+
 
   setText(
     "clientValue",
     email.cliente
   );
 
+
   setText(
     "departureValue",
     email.partenza
   );
+
 
   setText(
     "destinationValue",
     email.destinazione
   );
 
+
   setText(
     "pickupValue",
-    formatDate(email.ritiro)
+    formatDate(
+      email.ritiro
+    )
   );
+
 
   setText(
     "deliveryValue",
-    formatDate(email.consegna)
+    formatDate(
+      email.consegna
+    )
   );
+
 
   setText(
     "goodsValue",
     email.tipo_merce
   );
 
+
   setText(
     "packagesValue",
     email.colli
   );
+
 
   setText(
     "weightValue",
@@ -1197,6 +1534,7 @@ function renderEmail(email){
       : "-"
   );
 
+
   setText(
     "volumeValue",
     email.volume_m3 !== null &&
@@ -1205,38 +1543,44 @@ function renderEmail(email){
       : "-"
   );
 
+
   setText(
     "notesValue",
     email.note
   );
 
+
   document.getElementById(
     "aiSummary"
   ).textContent =
-    email.analisi_ai ||
-    "Nessuna analisi AI disponibile.";
+  email.analisi_ai ||
+  "Nessuna analisi AI disponibile.";
+
 
   document.getElementById(
     "headingMeta"
   ).textContent =
-    (
-      email.mittente ||
-      email.email_mittente ||
-      "Mittente sconosciuto"
-    ) +
-    " · " +
-    formatDate(
-      email.data_email ||
-      email.created_at
-    );
+  (
+    email.mittente ||
+    email.email_mittente ||
+    "Mittente sconosciuto"
+  ) +
+  " · " +
+  formatDate(
+    email.data_email ||
+    email.created_at
+  );
+
 
   renderStatus(
     email.stato
   );
 
+
   configurePracticeButton();
 
 }
+
 
 /* =========================
    CREA / APRI PRATICA
@@ -1248,85 +1592,92 @@ async function configurePracticeButton(){
     return;
   }
 
-  /*
-   * Se email_ai contiene già pratica_id
-   * significa che questa email è già
-   * collegata ad una pratica.
-   */
 
   if(currentEmail.pratica_id){
 
     practiceButton.textContent =
-      "Apri pratica";
+    "Apri pratica";
+
 
     practiceButton.onclick =
-      async function(){
+    async function(){
 
-        practiceButton.disabled = true;
+      practiceButton.disabled =
+      true;
 
-        try{
 
-          const {
-            data:pratica,
-            error
-          } =
-            await supabase
-              .from("pratiche")
-              .select(
-                "numero_pratica"
-              )
-              .eq(
-                "id",
-                currentEmail.pratica_id
-              )
-              .single();
+      try{
 
-          if(error){
-            throw error;
-          }
+        const {
+          data:pratica,
+          error
+        } =
+        await supabase
+        .from("pratiche")
+        .select(
+          "numero_pratica"
+        )
+        .eq(
+          "id",
+          currentEmail.pratica_id
+        )
+        .single();
 
-          window.location.href =
-            "dettaglio-pratica.html?id=" +
-            encodeURIComponent(
-              pratica.numero_pratica
-            );
 
-        }
-        catch(error){
-
-          console.error(error);
-
-          practiceButton.disabled =
-            false;
-
-          showMessage(
-            "error",
-            "La pratica collegata non è stata trovata."
-          );
-
+        if(error){
+          throw error;
         }
 
-      };
+
+        window.location.href =
+        "dettaglio-pratica.html?id=" +
+        encodeURIComponent(
+          pratica.numero_pratica
+        );
+
+      }
+
+      catch(error){
+
+        console.error(error);
+
+
+        practiceButton.disabled =
+        false;
+
+
+        showMessage(
+          "error",
+          "La pratica collegata non è stata trovata."
+        );
+
+      }
+
+    };
+
 
     return;
 
   }
 
+
   practiceButton.textContent =
-    "Crea pratica";
+  "Crea pratica";
+
 
   practiceButton.onclick =
-    function(){
+  function(){
 
-      window.location.href =
-        "nuova-pratica.html?email=" +
-        encodeURIComponent(
-          currentEmail.id
-        );
+    window.location.href =
+    "nuova-pratica.html?email=" +
+    encodeURIComponent(
+      currentEmail.id
+    );
 
-    };
+  };
 
 }
+
 
 /* =========================
    SEGNA GESTITA
@@ -1340,9 +1691,14 @@ managedButton.addEventListener(
       return;
     }
 
-    managedButton.disabled = true;
+
+    managedButton.disabled =
+    true;
+
+
     managedButton.textContent =
-      "Aggiornamento...";
+    "Aggiornamento...";
+
 
     try{
 
@@ -1350,42 +1706,50 @@ managedButton.addEventListener(
         data,
         error
       } =
-        await supabase
-          .from("email_ai")
-          .update({
-            stato:"GESTITA",
-            updated_at:
-              new Date().toISOString()
-          })
-          .eq(
-            "id",
-            currentEmail.id
-          )
-          .select()
-          .single();
+      await supabase
+      .from("email_ai")
+      .update({
+        stato:"GESTITA",
+        updated_at:
+        new Date().toISOString()
+      })
+      .eq(
+        "id",
+        currentEmail.id
+      )
+      .select()
+      .single();
+
 
       if(error){
         throw error;
       }
 
-      currentEmail = data;
+
+      currentEmail =
+      data;
+
 
       renderStatus(
         currentEmail.stato
       );
+
 
       showMessage(
         "success",
         "Email segnata come gestita."
       );
 
+
       managedButton.textContent =
-        "Gestita";
+      "Gestita";
 
     }
+
     catch(error){
 
       console.error(error);
+
 
       showMessage(
         "error",
@@ -1393,14 +1757,19 @@ managedButton.addEventListener(
         error.message
       );
 
-      managedButton.disabled = false;
+
+      managedButton.disabled =
+      false;
+
+
       managedButton.textContent =
-        "Segna come gestita";
+      "Segna come gestita";
 
     }
 
   }
 );
+
 
 /* =========================
    LOAD EMAIL
@@ -1411,16 +1780,19 @@ async function loadEmail(){
   if(!requestedId){
 
     loadingBox.style.display =
-      "none";
+    "none";
+
 
     showMessage(
       "error",
       "Email non specificata."
     );
 
+
     return;
 
   }
+
 
   try{
 
@@ -1428,38 +1800,47 @@ async function loadEmail(){
       data,
       error
     } =
-      await supabase
-        .from("email_ai")
-        .select("*")
-        .eq(
-          "id",
-          requestedId
-        )
-        .single();
+    await supabase
+    .from("email_ai")
+    .select("*")
+    .eq(
+      "id",
+      requestedId
+    )
+    .single();
+
 
     if(error){
       throw error;
     }
 
-    currentEmail = data;
+
+    currentEmail =
+    data;
+
 
     renderEmail(
       currentEmail
     );
 
+
     loadingBox.style.display =
-      "none";
+    "none";
+
 
     content.style.display =
-      "block";
+    "block";
 
   }
+
   catch(error){
 
     console.error(error);
 
+
     loadingBox.style.display =
-      "none";
+    "none";
+
 
     showMessage(
       "error",
@@ -1469,6 +1850,7 @@ async function loadEmail(){
   }
 
 }
+
 
 /* =========================
    LOGOUT
@@ -1480,12 +1862,14 @@ logoutButton.addEventListener(
 
     await supabase.auth.signOut();
 
+
     window.location.replace(
       "login.html"
     );
 
   }
 );
+
 
 /* =========================
    START
@@ -1494,19 +1878,23 @@ logoutButton.addEventListener(
 async function start(){
 
   const authenticated =
-    await protectPage();
+  await protectPage();
+
 
   if(!authenticated){
     return;
   }
 
+
   await loadEmail();
 
 }
+
 
 start();
 
 </script>
 
 </body>
+
 </html>
