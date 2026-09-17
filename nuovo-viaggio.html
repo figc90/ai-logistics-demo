@@ -132,18 +132,6 @@ button,input,select,textarea{
   text-align:center;
 }
 
-.nav-disabled{
-  opacity:.42;
-}
-
-.soon{
-  margin-left:auto;
-  padding:4px 7px;
-  background:rgba(255,255,255,.08);
-  border-radius:999px;
-  font-size:8px;
-}
-
 .sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
@@ -352,6 +340,33 @@ textarea:focus{
   box-shadow:0 0 0 3px rgba(44,169,210,.08);
 }
 
+/* VETTORE */
+
+.vettore-box{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.vettore-helper{
+  color:#8795a8;
+  font-size:11px;
+  line-height:1.4;
+}
+
+.registry-link{
+  display:none;
+  width:max-content;
+  max-width:100%;
+  color:#176b9c;
+  font-size:11px;
+  font-weight:900;
+}
+
+.registry-link:hover{
+  text-decoration:underline;
+}
+
 .actions{
   display:flex;
   justify-content:flex-end;
@@ -366,6 +381,9 @@ textarea:focus{
   padding:0 18px;
   font-weight:900;
   cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .btn-secondary{
@@ -431,7 +449,6 @@ textarea:focus{
 
   .nav-title,
   .nav-item span:not(.nav-icon),
-  .soon,
   .user-card{
     display:none;
   }
@@ -477,6 +494,8 @@ textarea:focus{
 
 <nav class="sidebar-nav">
 
+<!-- OPERATIVITÀ -->
+
 <div class="nav-section">
 
 <div class="nav-title">OPERATIVITÀ</div>
@@ -498,19 +517,33 @@ textarea:focus{
 
 </div>
 
+<!-- AUTOMAZIONI -->
+
 <div class="nav-section">
 
 <div class="nav-title">AUTOMAZIONI</div>
 
-<div class="nav-item nav-disabled">
+<a href="email-ai.html" class="nav-item">
 <span class="nav-icon">✉</span>
 <span>Email AI</span>
-<span class="soon">PRESTO</span>
-</div>
+</a>
 
 <a href="viaggi.html" class="nav-item active">
 <span class="nav-icon">↗</span>
 <span>Viaggi</span>
+</a>
+
+</div>
+
+<!-- GESTIONE -->
+
+<div class="nav-section">
+
+<div class="nav-title">GESTIONE</div>
+
+<a href="anagrafiche.html" class="nav-item">
+<span class="nav-icon">▣</span>
+<span>Anagrafiche</span>
 </a>
 
 </div>
@@ -520,8 +553,15 @@ textarea:focus{
 <div class="sidebar-bottom">
 
 <div class="user-card">
-<div class="user-label">UTENTE</div>
-<div id="userEmail" class="user-email">-</div>
+
+<div class="user-label">
+UTENTE
+</div>
+
+<div id="userEmail" class="user-email">
+-
+</div>
+
 </div>
 
 <button id="logoutButton" class="logout-btn">
@@ -531,6 +571,7 @@ Esci
 </div>
 
 </aside>
+
 
 <div class="main">
 
@@ -546,6 +587,7 @@ MatRi-mIA Logistics · Viaggi
 
 </header>
 
+
 <main class="content">
 
 <div class="eyebrow">
@@ -558,7 +600,9 @@ MATRI-MIA · PIANIFICAZIONE
 Programma un trasporto partendo da una pratica esistente.
 </div>
 
+
 <div id="messageBox" class="message"></div>
+
 
 <section class="practice-card">
 
@@ -580,6 +624,7 @@ Seleziona una pratica
 
 </section>
 
+
 <section class="card">
 
 <div class="card-header">
@@ -592,6 +637,7 @@ Seleziona una pratica
 
 <div class="form-grid">
 
+
 <div class="form-group full">
 
 <label for="practiceSelect">
@@ -599,20 +645,53 @@ Pratica
 </label>
 
 <select id="practiceSelect" required>
-<option value="">Seleziona una pratica...</option>
+
+<option value="">
+Seleziona una pratica...
+</option>
+
 </select>
 
 </div>
 
-<div class="form-group">
 
-<label for="vettore">
-Vettore
+<!-- VETTORE -->
+
+<div class="form-group full">
+
+<label for="vettoreSelect">
+Vettore da anagrafica
 </label>
 
-<input id="vettore" type="text">
+<div class="vettore-box">
+
+<select id="vettoreSelect">
+
+<option value="">
+Nessun vettore collegato
+</option>
+
+</select>
+
+<input
+id="vettore"
+type="text"
+placeholder="Nome vettore">
+
+<a
+id="vettoreRegistryLink"
+class="registry-link">
+Apri anagrafica vettore →
+</a>
+
+<div class="vettore-helper">
+Seleziona un vettore registrato oppure inserisci manualmente il nome.
+</div>
 
 </div>
+
+</div>
+
 
 <div class="form-group">
 
@@ -624,6 +703,7 @@ Autista
 
 </div>
 
+
 <div class="form-group">
 
 <label for="telefonoAutista">
@@ -633,6 +713,7 @@ Telefono autista
 <input id="telefonoAutista" type="tel">
 
 </div>
+
 
 <div class="form-group">
 
@@ -666,6 +747,7 @@ ANNULLATO
 
 </div>
 
+
 <div class="form-group">
 
 <label for="targaTrattore">
@@ -675,6 +757,7 @@ Targa trattore
 <input id="targaTrattore" type="text">
 
 </div>
+
 
 <div class="form-group">
 
@@ -686,6 +769,7 @@ Targa rimorchio
 
 </div>
 
+
 <div class="form-group">
 
 <label for="dataPartenza">
@@ -696,6 +780,7 @@ Partenza prevista
 
 </div>
 
+
 <div class="form-group">
 
 <label for="dataArrivo">
@@ -705,6 +790,7 @@ Arrivo previsto
 <input id="dataArrivo" type="datetime-local">
 
 </div>
+
 
 <div class="form-group">
 
@@ -720,6 +806,7 @@ step="1">
 
 </div>
 
+
 <div class="form-group">
 
 <label for="costoPrevisto">
@@ -734,6 +821,7 @@ step="0.01">
 
 </div>
 
+
 <div class="form-group full">
 
 <label for="note">
@@ -746,9 +834,12 @@ Note operative
 
 </div>
 
+
 <div class="actions">
 
-<a href="viaggi.html" class="btn btn-secondary">
+<a
+href="viaggi.html"
+class="btn btn-secondary">
 Annulla
 </a>
 
@@ -773,10 +864,16 @@ Crea viaggio
 
 </div>
 
+
 <script type="module">
 
 import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* =========================================================
+   SUPABASE
+   ========================================================= */
 
 const SUPABASE_URL =
 "https://sctzockiurjsxzdkctmy.supabase.co";
@@ -790,6 +887,11 @@ createClient(
   SUPABASE_KEY
 );
 
+
+/* =========================================================
+   PARAMETRI
+   ========================================================= */
+
 const params =
 new URLSearchParams(
   window.location.search
@@ -797,6 +899,11 @@ new URLSearchParams(
 
 const requestedPractice =
 params.get("pratica");
+
+
+/* =========================================================
+   ELEMENTI
+   ========================================================= */
 
 const userEmail =
 document.getElementById("userEmail");
@@ -825,18 +932,49 @@ document.getElementById("saveButton");
 const messageBox =
 document.getElementById("messageBox");
 
+const vettoreSelect =
+document.getElementById("vettoreSelect");
+
+const vettoreInput =
+document.getElementById("vettore");
+
+const vettoreRegistryLink =
+document.getElementById("vettoreRegistryLink");
+
+
 let currentUser = null;
 let currentProfile = null;
+
 let practices = [];
+let vettori = [];
+
+let selectedVettoreId = null;
+
+
+/* =========================================================
+   UTILITY
+   ========================================================= */
 
 function emptyToNull(value){
 
   const clean =
-  String(value || "").trim();
+  String(value ?? "").trim();
 
   return clean || null;
 
 }
+
+
+function normalizeText(value){
+
+  return String(value ?? "")
+  .trim()
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"");
+
+}
+
 
 function showMessage(text,type="error"){
 
@@ -856,6 +994,7 @@ function showMessage(text,type="error"){
 
 }
 
+
 function hideMessage(){
 
   messageBox.style.display =
@@ -863,281 +1002,6 @@ function hideMessage(){
 
 }
 
-async function protectPage(){
-
-  const {
-    data:{session},
-    error
-  } =
-  await supabase.auth.getSession();
-
-  if(error || !session?.user){
-
-    window.location.replace(
-      "login.html"
-    );
-
-    return false;
-
-  }
-
-  currentUser =
-  session.user;
-
-  const {
-    data:profile,
-    error:profileError
-  } =
-  await supabase
-  .from("profiles")
-  .select(
-    "id,email,ruolo,azienda_id"
-  )
-  .eq(
-    "id",
-    currentUser.id
-  )
-  .single();
-
-  if(profileError || !profile){
-
-    await supabase.auth.signOut();
-
-    window.location.replace(
-      "login.html"
-    );
-
-    return false;
-
-  }
-
-  currentProfile =
-  profile;
-
-  userEmail.textContent =
-  profile.email ||
-  currentUser.email ||
-  "-";
-
-  document.body.classList.add(
-    "auth-ready"
-  );
-
-  return true;
-
-}
-
-logoutButton.addEventListener(
-"click",
-async ()=>{
-
-  await supabase.auth.signOut();
-
-  window.location.replace(
-    "login.html"
-  );
-
-});
-
-async function loadPractices(){
-
-  /*
-   * Carichiamo solo le pratiche
-   * che NON hanno ancora un viaggio.
-   */
-
-  const {
-    data:existingTrips,
-    error:tripError
-  } =
-  await supabase
-  .from("viaggi")
-  .select("pratica_id");
-
-  if(tripError){
-    throw tripError;
-  }
-
-  const usedIds =
-  new Set(
-    (existingTrips || [])
-    .map(v => v.pratica_id)
-  );
-
-  const {
-    data,
-    error
-  } =
-  await supabase
-  .from("pratiche")
-  .select(`
-    id,
-    numero_pratica,
-    cliente,
-    partenza,
-    destinazione,
-    ritiro,
-    consegna
-  `)
-  .order(
-    "created_at",
-    {ascending:false}
-  );
-
-  if(error){
-    throw error;
-  }
-
-  practices =
-  (data || [])
-  .filter(
-    p => !usedIds.has(p.id)
-  );
-
-  practiceSelect.innerHTML =
-  `<option value="">
-    Seleziona una pratica...
-   </option>`;
-
-  practices.forEach(
-  pratica=>{
-
-    const option =
-    document.createElement(
-      "option"
-    );
-
-    option.value =
-    pratica.id;
-
-    option.textContent =
-    (
-      pratica.numero_pratica ||
-      "-"
-    ) +
-    " · " +
-    (
-      pratica.partenza ||
-      "-"
-    ) +
-    " → " +
-    (
-      pratica.destinazione ||
-      "-"
-    );
-
-    practiceSelect.appendChild(
-      option
-    );
-
-  });
-
-  if(requestedPractice){
-
-    const found =
-    practices.find(
-      p =>
-      String(p.id) ===
-      String(requestedPractice) ||
-      String(p.numero_pratica) ===
-      String(requestedPractice)
-    );
-
-    if(found){
-
-      practiceSelect.value =
-      found.id;
-
-      updatePracticeCard();
-
-    }
-    else{
-
-      showMessage(
-        "La pratica indicata non è disponibile oppure ha già un viaggio."
-      );
-
-    }
-
-  }
-
-}
-
-function updatePracticeCard(){
-
-  const pratica =
-  practices.find(
-    p =>
-    String(p.id) ===
-    String(practiceSelect.value)
-  );
-
-  if(!pratica){
-
-    practiceNumber.textContent =
-    "Seleziona una pratica";
-
-    practiceRoute.textContent =
-    "-";
-
-    practiceClient.textContent =
-    "-";
-
-    return;
-
-  }
-
-  practiceNumber.textContent =
-  pratica.numero_pratica || "-";
-
-  practiceRoute.textContent =
-  (pratica.partenza || "-") +
-  " → " +
-  (pratica.destinazione || "-");
-
-  practiceClient.textContent =
-  "Cliente: " +
-  (pratica.cliente || "-");
-
-  /*
-   * Se disponibili, proponiamo
-   * automaticamente le date
-   * della pratica.
-   */
-
-  if(
-    pratica.ritiro &&
-    !document.getElementById(
-      "dataPartenza"
-    ).value
-  ){
-
-    document.getElementById(
-      "dataPartenza"
-    ).value =
-    toLocalInput(
-      pratica.ritiro
-    );
-
-  }
-
-  if(
-    pratica.consegna &&
-    !document.getElementById(
-      "dataArrivo"
-    ).value
-  ){
-
-    document.getElementById(
-      "dataArrivo"
-    ).value =
-    toLocalInput(
-      pratica.consegna
-    );
-
-  }
-
-}
 
 function toLocalInput(value){
 
@@ -1165,10 +1029,759 @@ function toLocalInput(value){
 
 }
 
+
+/* =========================================================
+   AUTENTICAZIONE
+   ========================================================= */
+
+async function protectPage(){
+
+  const {
+    data:{session},
+    error
+  } =
+  await supabase.auth.getSession();
+
+  if(error || !session?.user){
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+  currentUser =
+  session.user;
+
+
+  const {
+    data:profile,
+    error:profileError
+  } =
+  await supabase
+  .from("profiles")
+  .select(
+    "id,email,ruolo,azienda_id"
+  )
+  .eq(
+    "id",
+    currentUser.id
+  )
+  .single();
+
+
+  if(
+    profileError ||
+    !profile ||
+    !profile.azienda_id
+  ){
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+
+  currentProfile =
+  profile;
+
+
+  userEmail.textContent =
+  profile.email ||
+  currentUser.email ||
+  "-";
+
+
+  document.body.classList.add(
+    "auth-ready"
+  );
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+logoutButton.addEventListener(
+"click",
+async ()=>{
+
+  await supabase.auth.signOut();
+
+  window.location.replace(
+    "login.html"
+  );
+
+});
+
+
+/* =========================================================
+   CARICA VETTORI DA ANAGRAFICHE
+   ========================================================= */
+
+async function loadVettori(){
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("anagrafiche")
+  .select(`
+    id,
+    tipo,
+    ragione_sociale,
+    attiva
+  `)
+  .eq(
+    "attiva",
+    true
+  )
+  .in(
+    "tipo",
+    [
+      "VETTORE",
+      "CLIENTE_VETTORE"
+    ]
+  )
+  .order(
+    "ragione_sociale",
+    {ascending:true}
+  );
+
+
+  if(error){
+    throw error;
+  }
+
+
+  vettori =
+  data || [];
+
+
+  vettoreSelect.innerHTML =
+  `<option value="">
+    Nessun vettore collegato
+   </option>`;
+
+
+  vettori.forEach(
+  vettore=>{
+
+    const option =
+    document.createElement(
+      "option"
+    );
+
+    option.value =
+    vettore.id;
+
+    option.textContent =
+    vettore.ragione_sociale;
+
+    vettoreSelect.appendChild(
+      option
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   VETTORE
+   ========================================================= */
+
+function findVettore(id){
+
+  return vettori.find(
+    item =>
+    String(item.id) ===
+    String(id)
+  ) || null;
+
+}
+
+
+function setVettoreLink(){
+
+  if(selectedVettoreId){
+
+    vettoreRegistryLink.style.display =
+    "inline-block";
+
+    vettoreRegistryLink.href =
+    "dettaglio-anagrafica.html?id=" +
+    encodeURIComponent(
+      selectedVettoreId
+    );
+
+  }
+  else{
+
+    vettoreRegistryLink.style.display =
+    "none";
+
+    vettoreRegistryLink.removeAttribute(
+      "href"
+    );
+
+  }
+
+}
+
+
+function clearVettore(){
+
+  selectedVettoreId =
+  null;
+
+  vettoreSelect.value =
+  "";
+
+  vettoreInput.value =
+  "";
+
+  setVettoreLink();
+
+}
+
+
+function applyVettoreById(
+  id,
+  fallbackName=""
+){
+
+  if(!id){
+
+    selectedVettoreId =
+    null;
+
+    vettoreSelect.value =
+    "";
+
+    vettoreInput.value =
+    fallbackName || "";
+
+    setVettoreLink();
+
+    return;
+
+  }
+
+
+  const vettore =
+  findVettore(id);
+
+
+  if(vettore){
+
+    selectedVettoreId =
+    vettore.id;
+
+    vettoreSelect.value =
+    vettore.id;
+
+    vettoreInput.value =
+    vettore.ragione_sociale;
+
+  }
+  else{
+
+    /*
+     * L'ID potrebbe riferirsi a
+     * un'anagrafica oggi disattivata.
+     * Manteniamo comunque il nome.
+     */
+
+    selectedVettoreId =
+    id;
+
+    vettoreSelect.value =
+    "";
+
+    vettoreInput.value =
+    fallbackName || "";
+
+  }
+
+
+  setVettoreLink();
+
+}
+
+
+function tryMatchVettoreByName(){
+
+  const name =
+  normalizeText(
+    vettoreInput.value
+  );
+
+
+  if(!name){
+
+    selectedVettoreId =
+    null;
+
+    vettoreSelect.value =
+    "";
+
+    setVettoreLink();
+
+    return;
+
+  }
+
+
+  const match =
+  vettori.find(
+    item =>
+    normalizeText(
+      item.ragione_sociale
+    ) === name
+  );
+
+
+  if(match){
+
+    selectedVettoreId =
+    match.id;
+
+    vettoreSelect.value =
+    match.id;
+
+  }
+  else{
+
+    selectedVettoreId =
+    null;
+
+    vettoreSelect.value =
+    "";
+
+  }
+
+
+  setVettoreLink();
+
+}
+
+
+/* CAMBIO SELECT */
+
+vettoreSelect.addEventListener(
+"change",
+function(){
+
+  const vettore =
+  findVettore(
+    vettoreSelect.value
+  );
+
+
+  if(!vettore){
+
+    selectedVettoreId =
+    null;
+
+    setVettoreLink();
+
+    return;
+
+  }
+
+
+  selectedVettoreId =
+  vettore.id;
+
+  vettoreInput.value =
+  vettore.ragione_sociale;
+
+  setVettoreLink();
+
+});
+
+
+/* MODIFICA MANUALE */
+
+vettoreInput.addEventListener(
+"input",
+function(){
+
+  if(!selectedVettoreId){
+    return;
+  }
+
+
+  const vettore =
+  findVettore(
+    selectedVettoreId
+  );
+
+
+  if(
+    !vettore ||
+    normalizeText(
+      vettoreInput.value
+    ) !==
+    normalizeText(
+      vettore.ragione_sociale
+    )
+  ){
+
+    selectedVettoreId =
+    null;
+
+    vettoreSelect.value =
+    "";
+
+    setVettoreLink();
+
+  }
+
+});
+
+
+vettoreInput.addEventListener(
+"blur",
+tryMatchVettoreByName
+);
+
+
+/* =========================================================
+   CARICA PRATICHE
+   ========================================================= */
+
+async function loadPractices(){
+
+  /*
+   * Recuperiamo prima i viaggi già esistenti.
+   * Una pratica può avere un solo viaggio.
+   */
+
+  const {
+    data:existingTrips,
+    error:tripError
+  } =
+  await supabase
+  .from("viaggi")
+  .select(
+    "pratica_id"
+  );
+
+
+  if(tripError){
+    throw tripError;
+  }
+
+
+  const usedIds =
+  new Set(
+    (existingTrips || [])
+    .map(
+      viaggio =>
+      viaggio.pratica_id
+    )
+  );
+
+
+  /*
+   * IMPORTANTE:
+   * carichiamo anche vettore e vettore_id
+   * dalla pratica.
+   */
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("pratiche")
+  .select(`
+    id,
+    numero_pratica,
+    cliente,
+    partenza,
+    destinazione,
+    ritiro,
+    consegna,
+    vettore,
+    vettore_id
+  `)
+  .order(
+    "created_at",
+    {ascending:false}
+  );
+
+
+  if(error){
+    throw error;
+  }
+
+
+  practices =
+  (data || [])
+  .filter(
+    pratica =>
+    !usedIds.has(
+      pratica.id
+    )
+  );
+
+
+  practiceSelect.innerHTML =
+  `<option value="">
+    Seleziona una pratica...
+   </option>`;
+
+
+  practices.forEach(
+  pratica=>{
+
+    const option =
+    document.createElement(
+      "option"
+    );
+
+
+    option.value =
+    pratica.id;
+
+
+    option.textContent =
+    (
+      pratica.numero_pratica ||
+      "-"
+    ) +
+    " · " +
+    (
+      pratica.partenza ||
+      "-"
+    ) +
+    " → " +
+    (
+      pratica.destinazione ||
+      "-"
+    );
+
+
+    practiceSelect.appendChild(
+      option
+    );
+
+  });
+
+
+  /*
+   * Se arriviamo da dettaglio-pratica.html
+   * preselezioniamo automaticamente
+   * la pratica.
+   */
+
+  if(requestedPractice){
+
+    const found =
+    practices.find(
+      pratica =>
+      String(pratica.id) ===
+      String(requestedPractice) ||
+      String(
+        pratica.numero_pratica
+      ) ===
+      String(requestedPractice)
+    );
+
+
+    if(found){
+
+      practiceSelect.value =
+      found.id;
+
+      updatePracticeCard();
+
+    }
+    else{
+
+      showMessage(
+        "La pratica indicata non è disponibile oppure ha già un viaggio."
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   AGGIORNA PRATICA
+   ========================================================= */
+
+function updatePracticeCard(){
+
+  const pratica =
+  practices.find(
+    pratica =>
+    String(pratica.id) ===
+    String(
+      practiceSelect.value
+    )
+  );
+
+
+  if(!pratica){
+
+    practiceNumber.textContent =
+    "Seleziona una pratica";
+
+    practiceRoute.textContent =
+    "-";
+
+    practiceClient.textContent =
+    "-";
+
+    clearVettore();
+
+    return;
+
+  }
+
+
+  practiceNumber.textContent =
+  pratica.numero_pratica ||
+  "-";
+
+
+  practiceRoute.textContent =
+  (
+    pratica.partenza ||
+    "-"
+  ) +
+  " → " +
+  (
+    pratica.destinazione ||
+    "-"
+  );
+
+
+  practiceClient.textContent =
+  "Cliente: " +
+  (
+    pratica.cliente ||
+    "-"
+  );
+
+
+  /*
+   * VETTORE
+   *
+   * Se la pratica ha vettore_id:
+   * usiamo direttamente l'anagrafica.
+   *
+   * Se ha soltanto il vecchio campo
+   * testuale, proviamo a riconoscerlo.
+   */
+
+  if(pratica.vettore_id){
+
+    applyVettoreById(
+      pratica.vettore_id,
+      pratica.vettore || ""
+    );
+
+  }
+  else if(pratica.vettore){
+
+    selectedVettoreId =
+    null;
+
+    vettoreInput.value =
+    pratica.vettore;
+
+    vettoreSelect.value =
+    "";
+
+    tryMatchVettoreByName();
+
+  }
+  else{
+
+    clearVettore();
+
+  }
+
+
+  /*
+   * DATE
+   */
+
+  const dataPartenzaInput =
+  document.getElementById(
+    "dataPartenza"
+  );
+
+  const dataArrivoInput =
+  document.getElementById(
+    "dataArrivo"
+  );
+
+
+  /*
+   * Quando cambiamo pratica,
+   * impostiamo le date della pratica.
+   * In questo modo non rimangono
+   * accidentalmente quelle della
+   * pratica precedente.
+   */
+
+  dataPartenzaInput.value =
+  pratica.ritiro
+  ? toLocalInput(
+      pratica.ritiro
+    )
+  : "";
+
+
+  dataArrivoInput.value =
+  pratica.consegna
+  ? toLocalInput(
+      pratica.consegna
+    )
+  : "";
+
+}
+
+
+/* =========================================================
+   CAMBIO PRATICA
+   ========================================================= */
+
 practiceSelect.addEventListener(
 "change",
-updatePracticeCard
-);
+function(){
+
+  hideMessage();
+
+  updatePracticeCard();
+
+});
+
+
+/* =========================================================
+   CREA VIAGGIO
+   ========================================================= */
 
 tripForm.addEventListener(
 "submit",
@@ -1178,8 +1791,10 @@ async event=>{
 
   hideMessage();
 
+
   const praticaId =
   practiceSelect.value;
+
 
   if(!praticaId){
 
@@ -1191,6 +1806,16 @@ async event=>{
 
   }
 
+
+  /*
+   * Prima del salvataggio facciamo
+   * un ultimo tentativo di associare
+   * il nome scritto a un'anagrafica.
+   */
+
+  tryMatchVettoreByName();
+
+
   const dataPartenza =
   emptyToNull(
     document.getElementById(
@@ -1198,12 +1823,14 @@ async event=>{
     ).value
   );
 
+
   const dataArrivo =
   emptyToNull(
     document.getElementById(
       "dataArrivo"
     ).value
   );
+
 
   if(
     dataPartenza &&
@@ -1220,11 +1847,13 @@ async event=>{
 
   }
 
+
   saveButton.disabled =
   true;
 
   saveButton.textContent =
   "Creazione...";
+
 
   try{
 
@@ -1241,12 +1870,19 @@ async event=>{
         "stato"
       ).value,
 
+      /*
+       * Manteniamo entrambi:
+       * - nome leggibile
+       * - UUID anagrafica
+       */
+
       vettore:
       emptyToNull(
-        document.getElementById(
-          "vettore"
-        ).value
+        vettoreInput.value
       ),
+
+      vettore_id:
+      selectedVettoreId,
 
       autista:
       emptyToNull(
@@ -1311,6 +1947,7 @@ async event=>{
 
     };
 
+
     const {
       data,
       error
@@ -1323,9 +1960,11 @@ async event=>{
     )
     .single();
 
+
     if(error){
       throw error;
     }
+
 
     window.location.href =
     "dettaglio-viaggio.html?id=" +
@@ -1337,6 +1976,7 @@ async event=>{
   catch(error){
 
     console.error(error);
+
 
     if(
       error.code === "23505"
@@ -1356,6 +1996,7 @@ async event=>{
 
     }
 
+
     saveButton.disabled =
     false;
 
@@ -1366,6 +2007,11 @@ async event=>{
 
 });
 
+
+/* =========================================================
+   AVVIO
+   ========================================================= */
+
 async function start(){
 
   try{
@@ -1373,9 +2019,22 @@ async function start(){
     const authenticated =
     await protectPage();
 
+
     if(!authenticated){
       return;
     }
+
+
+    /*
+     * Prima carichiamo i vettori,
+     * poi le pratiche.
+     *
+     * Così quando viene preselezionata
+     * una pratica possiamo riconoscere
+     * subito il relativo vettore.
+     */
+
+    await loadVettori();
 
     await loadPractices();
 
@@ -1392,6 +2051,7 @@ async function start(){
   }
 
 }
+
 
 start();
 
