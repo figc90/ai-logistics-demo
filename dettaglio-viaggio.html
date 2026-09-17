@@ -42,6 +42,8 @@ button,input,select,textarea{
   display:flex;
 }
 
+/* SIDEBAR */
+
 .sidebar{
   width:225px;
   min-height:100vh;
@@ -174,6 +176,8 @@ button,input,select,textarea{
   font-weight:800;
   cursor:pointer;
 }
+
+/* MAIN */
 
 .main{
   margin-left:225px;
@@ -334,6 +338,8 @@ h1{
   overflow-wrap:anywhere;
 }
 
+/* PRATICA COLLEGATA */
+
 .practice-card{
   background:linear-gradient(145deg,#0c2a4e,#123e6d);
   color:#fff;
@@ -370,6 +376,8 @@ h1{
   font-weight:900;
 }
 
+/* ACTIONS */
+
 .actions{
   display:flex;
   gap:9px;
@@ -400,6 +408,8 @@ h1{
   color:#b42318;
   border:1px solid #ffd4d1;
 }
+
+/* EDITOR */
 
 .editor{
   display:none;
@@ -455,6 +465,8 @@ textarea{
   font-size:12px;
   font-weight:700;
 }
+
+/* RESPONSIVE */
 
 @media(max-width:900px){
 
@@ -529,19 +541,32 @@ textarea{
 
 <div class="app">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
 <div class="sidebar-logo">
+
 <a href="dashboard.html" class="sidebar-logo-link">
-<img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+
+<img
+src="matrimia-logo-web.png"
+alt="MatRi-mIA Logistics">
+
 </a>
+
 </div>
+
 
 <nav class="sidebar-nav">
 
+<!-- OPERATIVITÀ -->
+
 <div class="nav-section">
 
-<div class="nav-title">OPERATIVITÀ</div>
+<div class="nav-title">
+OPERATIVITÀ
+</div>
 
 <a href="dashboard.html" class="nav-item">
 <span class="nav-icon">▦</span>
@@ -560,9 +585,14 @@ textarea{
 
 </div>
 
+
+<!-- AUTOMAZIONI -->
+
 <div class="nav-section">
 
-<div class="nav-title">AUTOMAZIONI</div>
+<div class="nav-title">
+AUTOMAZIONI
+</div>
 
 <a href="email-ai.html" class="nav-item">
 <span class="nav-icon">✉</span>
@@ -574,29 +604,55 @@ textarea{
 <span>Viaggi</span>
 </a>
 
+</div>
+
+
+<!-- GESTIONE -->
+
+<div class="nav-section">
+
+<div class="nav-title">
+GESTIONE
+</div>
+
 <a href="anagrafiche.html" class="nav-item">
-  <span class="nav-icon">▣</span>
-  <span>Anagrafiche</span>
+<span class="nav-icon">▣</span>
+<span>Anagrafiche</span>
 </a>
 
 </div>
 
 </nav>
 
+
 <div class="sidebar-bottom">
 
 <div class="user-card">
-<div class="user-label">UTENTE</div>
-<div id="userEmail" class="user-email">-</div>
+
+<div class="user-label">
+UTENTE
 </div>
 
-<button id="logoutButton" class="logout-btn">
+<div
+id="userEmail"
+class="user-email">
+-
+</div>
+
+</div>
+
+<button
+id="logoutButton"
+class="logout-btn">
 Esci
 </button>
 
 </div>
 
 </aside>
+
+
+<!-- MAIN -->
 
 <div class="main">
 
@@ -612,9 +668,14 @@ MatRi-mIA Logistics · Viaggi
 
 </header>
 
+
 <main class="content">
 
-<div id="messageBox" class="message"></div>
+<div
+id="messageBox"
+class="message">
+</div>
+
 
 <div class="heading">
 
@@ -624,19 +685,30 @@ MatRi-mIA Logistics · Viaggi
 MATRI-MIA · DETTAGLIO VIAGGIO
 </div>
 
-<h1 id="numeroViaggio">-</h1>
+<h1 id="numeroViaggio">
+-
+</h1>
 
-<div id="route" class="route">-</div>
-
-</div>
-
-<div id="statusBadge" class="badge badge-plan">
+<div
+id="route"
+class="route">
 -
 </div>
 
 </div>
 
+<div
+id="statusBadge"
+class="badge badge-plan">
+-
+</div>
+
+</div>
+
+
 <div class="grid">
+
+<!-- COLONNA SINISTRA -->
 
 <div>
 
@@ -644,7 +716,9 @@ MATRI-MIA · DETTAGLIO VIAGGIO
 
 <div class="card-header">
 
-<h2>Dati viaggio</h2>
+<h2>
+Dati viaggio
+</h2>
 
 <div class="actions">
 
@@ -664,145 +738,361 @@ Elimina
 
 </div>
 
-<div id="viewMode" class="card-body">
+
+<!-- VISUALIZZAZIONE -->
+
+<div
+id="viewMode"
+class="card-body">
 
 <div class="fields">
 
 <div class="field">
-<div class="label">Vettore</div>
-<div id="vVettore" class="value">-</div>
+
+<div class="label">
+Vettore
 </div>
 
-<div class="field">
-<div class="label">Autista</div>
-<div id="vAutista" class="value">-</div>
+<div
+id="vVettore"
+class="value">
+-
 </div>
 
-<div class="field">
-<div class="label">Telefono autista</div>
-<div id="vTelefono" class="value">-</div>
 </div>
 
-<div class="field">
-<div class="label">Stato</div>
-<div id="vStato" class="value">-</div>
-</div>
 
 <div class="field">
-<div class="label">Targa trattore</div>
-<div id="vTrattore" class="value">-</div>
+
+<div class="label">
+Autista
 </div>
 
-<div class="field">
-<div class="label">Targa rimorchio</div>
-<div id="vRimorchio" class="value">-</div>
+<div
+id="vAutista"
+class="value">
+-
 </div>
 
-<div class="field">
-<div class="label">Partenza prevista</div>
-<div id="vPartenza" class="value">-</div>
 </div>
 
-<div class="field">
-<div class="label">Arrivo previsto</div>
-<div id="vArrivo" class="value">-</div>
-</div>
 
 <div class="field">
-<div class="label">Km previsti</div>
-<div id="vKm" class="value">-</div>
+
+<div class="label">
+Telefono autista
 </div>
 
-<div class="field">
-<div class="label">Costo previsto</div>
-<div id="vCosto" class="value">-</div>
+<div
+id="vTelefono"
+class="value">
+-
 </div>
+
+</div>
+
+
+<div class="field">
+
+<div class="label">
+Stato
+</div>
+
+<div
+id="vStato"
+class="value">
+-
+</div>
+
+</div>
+
+
+<div class="field">
+
+<div class="label">
+Targa trattore
+</div>
+
+<div
+id="vTrattore"
+class="value">
+-
+</div>
+
+</div>
+
+
+<div class="field">
+
+<div class="label">
+Targa rimorchio
+</div>
+
+<div
+id="vRimorchio"
+class="value">
+-
+</div>
+
+</div>
+
+
+<div class="field">
+
+<div class="label">
+Partenza prevista
+</div>
+
+<div
+id="vPartenza"
+class="value">
+-
+</div>
+
+</div>
+
+
+<div class="field">
+
+<div class="label">
+Arrivo previsto
+</div>
+
+<div
+id="vArrivo"
+class="value">
+-
+</div>
+
+</div>
+
+
+<div class="field">
+
+<div class="label">
+Km previsti
+</div>
+
+<div
+id="vKm"
+class="value">
+-
+</div>
+
+</div>
+
+
+<div class="field">
+
+<div class="label">
+Costo previsto
+</div>
+
+<div
+id="vCosto"
+class="value">
+-
+</div>
+
+</div>
+
 
 <div class="field full">
-<div class="label">Note operative</div>
-<div id="vNote" class="value">-</div>
+
+<div class="label">
+Note operative
+</div>
+
+<div
+id="vNote"
+class="value">
+-
 </div>
 
 </div>
 
 </div>
 
-<div id="editMode" class="card-body editor">
+</div>
+
+
+<!-- MODIFICA -->
+
+<div
+id="editMode"
+class="card-body editor">
 
 <div class="form-grid">
 
 <div class="form-group">
-<label>Vettore</label>
+
+<label>
+Vettore
+</label>
+
 <input id="eVettore">
+
 </div>
 
+
 <div class="form-group">
-<label>Autista</label>
+
+<label>
+Autista
+</label>
+
 <input id="eAutista">
+
 </div>
 
+
 <div class="form-group">
-<label>Telefono autista</label>
+
+<label>
+Telefono autista
+</label>
+
 <input id="eTelefono">
+
 </div>
 
+
 <div class="form-group">
-<label>Stato</label>
+
+<label>
+Stato
+</label>
 
 <select id="eStato">
-<option>DA PROGRAMMARE</option>
-<option>PROGRAMMATO</option>
-<option>IN CORSO</option>
-<option>CONSEGNATO</option>
-<option>ANNULLATO</option>
+
+<option>
+DA PROGRAMMARE
+</option>
+
+<option>
+PROGRAMMATO
+</option>
+
+<option>
+IN CORSO
+</option>
+
+<option>
+CONSEGNATO
+</option>
+
+<option>
+ANNULLATO
+</option>
+
 </select>
 
 </div>
 
+
 <div class="form-group">
-<label>Targa trattore</label>
+
+<label>
+Targa trattore
+</label>
+
 <input id="eTrattore">
+
 </div>
 
+
 <div class="form-group">
-<label>Targa rimorchio</label>
+
+<label>
+Targa rimorchio
+</label>
+
 <input id="eRimorchio">
+
 </div>
 
-<div class="form-group">
-<label>Partenza prevista</label>
-<input id="ePartenza" type="datetime-local">
-</div>
 
 <div class="form-group">
-<label>Arrivo previsto</label>
-<input id="eArrivo" type="datetime-local">
+
+<label>
+Partenza prevista
+</label>
+
+<input
+id="ePartenza"
+type="datetime-local">
+
 </div>
 
-<div class="form-group">
-<label>Km previsti</label>
-<input id="eKm" type="number" min="0">
-</div>
 
 <div class="form-group">
-<label>Costo previsto €</label>
-<input id="eCosto" type="number" min="0" step="0.01">
+
+<label>
+Arrivo previsto
+</label>
+
+<input
+id="eArrivo"
+type="datetime-local">
+
 </div>
+
+
+<div class="form-group">
+
+<label>
+Km previsti
+</label>
+
+<input
+id="eKm"
+type="number"
+min="0">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Costo previsto €
+</label>
+
+<input
+id="eCosto"
+type="number"
+min="0"
+step="0.01">
+
+</div>
+
 
 <div class="form-group full">
-<label>Note operative</label>
+
+<label>
+Note operative
+</label>
+
 <textarea id="eNote"></textarea>
-</div>
 
 </div>
 
-<div class="actions" style="margin-top:18px">
+</div>
 
-<button id="cancelButton" class="btn btn-secondary">
+
+<div
+class="actions"
+style="margin-top:18px">
+
+<button
+id="cancelButton"
+class="btn btn-secondary">
 Annulla
 </button>
 
-<button id="saveButton" class="btn btn-primary">
+<button
+id="saveButton"
+class="btn btn-primary">
 Salva modifiche
 </button>
 
@@ -814,6 +1104,9 @@ Salva modifiche
 
 </div>
 
+
+<!-- COLONNA DESTRA -->
+
 <div>
 
 <section class="practice-card">
@@ -822,15 +1115,21 @@ Salva modifiche
 PRATICA COLLEGATA
 </div>
 
-<div id="practiceNumber" class="practice-number">
+<div
+id="practiceNumber"
+class="practice-number">
 -
 </div>
 
-<div id="practiceRoute" class="practice-route">
+<div
+id="practiceRoute"
+class="practice-route">
 -
 </div>
 
-<div id="practiceClient" class="practice-client">
+<div
+id="practiceClient"
+class="practice-client">
 -
 </div>
 
@@ -853,10 +1152,12 @@ Apri pratica →
 
 </div>
 
+
 <script type="module">
 
 import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
 
 const SUPABASE_URL =
 "https://sctzockiurjsxzdkctmy.supabase.co";
@@ -864,38 +1165,52 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
 
+
 const supabase =
 createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
+
 const id =
 new URLSearchParams(
   window.location.search
 ).get("id");
 
+
 let currentUser = null;
 let viaggio = null;
 
+
 const userEmail =
-document.getElementById("userEmail");
+document.getElementById(
+  "userEmail"
+);
 
 const messageBox =
-document.getElementById("messageBox");
+document.getElementById(
+  "messageBox"
+);
+
+
+/* UTILITY */
 
 function emptyToNull(value){
 
   const v =
-  String(value || "").trim();
+  String(value || "")
+  .trim();
 
   return v || null;
 
 }
 
+
 function text(id,value){
 
-  document.getElementById(id)
+  document
+  .getElementById(id)
   .textContent =
   value === null ||
   value === undefined ||
@@ -904,6 +1219,7 @@ function text(id,value){
     : value;
 
 }
+
 
 function formatDate(value){
 
@@ -928,6 +1244,7 @@ function formatDate(value){
 
 }
 
+
 function inputDate(value){
 
   if(!value){
@@ -942,7 +1259,9 @@ function inputDate(value){
   }
 
   const pad =
-  n => String(n).padStart(2,"0");
+  n =>
+  String(n)
+  .padStart(2,"0");
 
   return (
     d.getFullYear() +
@@ -958,6 +1277,9 @@ function inputDate(value){
 
 }
 
+
+/* BADGE STATO */
+
 function badge(status){
 
   const element =
@@ -968,28 +1290,46 @@ function badge(status){
   element.textContent =
   status || "-";
 
+
   if(status === "CONSEGNATO"){
+
     element.className =
     "badge badge-done";
+
   }
+
   else if(status === "IN CORSO"){
+
     element.className =
     "badge badge-running";
+
   }
+
   else if(status === "PROGRAMMATO"){
+
     element.className =
     "badge badge-programmed";
+
   }
+
   else if(status === "ANNULLATO"){
+
     element.className =
     "badge badge-cancelled";
+
   }
+
   else{
+
     element.className =
     "badge badge-plan";
+
   }
 
 }
+
+
+/* ERRORI */
 
 function showError(message){
 
@@ -1001,12 +1341,16 @@ function showError(message){
 
 }
 
+
+/* AUTENTICAZIONE */
+
 async function protect(){
 
   const {
     data:{session}
   } =
   await supabase.auth.getSession();
+
 
   if(!session?.user){
 
@@ -1018,8 +1362,10 @@ async function protect(){
 
   }
 
+
   currentUser =
   session.user;
+
 
   const {
     data:profile,
@@ -1028,8 +1374,12 @@ async function protect(){
   await supabase
   .from("profiles")
   .select("email")
-  .eq("id",currentUser.id)
+  .eq(
+    "id",
+    currentUser.id
+  )
   .single();
+
 
   if(error){
 
@@ -1041,22 +1391,30 @@ async function protect(){
 
   }
 
+
   userEmail.textContent =
   profile.email ||
   currentUser.email ||
   "-";
 
+
   document.body.classList.add(
     "auth-ready"
   );
+
 
   return true;
 
 }
 
-document.getElementById(
-"logoutButton"
-).onclick =
+
+/* LOGOUT */
+
+document
+.getElementById(
+  "logoutButton"
+)
+.onclick =
 async ()=>{
 
   await supabase.auth.signOut();
@@ -1066,6 +1424,9 @@ async ()=>{
   );
 
 };
+
+
+/* CARICAMENTO VIAGGIO */
 
 async function load(){
 
@@ -1078,6 +1439,7 @@ async function load(){
     return;
 
   }
+
 
   const {
     data,
@@ -1095,8 +1457,12 @@ async function load(){
       destinazione
     )
   `)
-  .eq("id",id)
+  .eq(
+    "id",
+    id
+  )
   .single();
+
 
   if(error){
 
@@ -1109,22 +1475,29 @@ async function load(){
 
   }
 
+
   viaggio =
   data;
+
 
   render();
 
 }
+
+
+/* VISUALIZZAZIONE */
 
 function render(){
 
   const p =
   viaggio.pratiche || {};
 
+
   text(
     "numeroViaggio",
     viaggio.numero_viaggio
   );
+
 
   text(
     "route",
@@ -1133,26 +1506,69 @@ function render(){
     (p.destinazione || "-")
   );
 
+
   badge(
     viaggio.stato
   );
 
-  text("vVettore",viaggio.vettore);
-  text("vAutista",viaggio.autista);
-  text("vTelefono",viaggio.telefono_autista);
-  text("vStato",viaggio.stato);
-  text("vTrattore",viaggio.targa_trattore);
-  text("vRimorchio",viaggio.targa_rimorchio);
-  text("vPartenza",formatDate(viaggio.data_partenza));
-  text("vArrivo",formatDate(viaggio.data_arrivo));
-  text("vKm",viaggio.km_previsti);
+
+  text(
+    "vVettore",
+    viaggio.vettore
+  );
+
+  text(
+    "vAutista",
+    viaggio.autista
+  );
+
+  text(
+    "vTelefono",
+    viaggio.telefono_autista
+  );
+
+  text(
+    "vStato",
+    viaggio.stato
+  );
+
+  text(
+    "vTrattore",
+    viaggio.targa_trattore
+  );
+
+  text(
+    "vRimorchio",
+    viaggio.targa_rimorchio
+  );
+
+  text(
+    "vPartenza",
+    formatDate(
+      viaggio.data_partenza
+    )
+  );
+
+  text(
+    "vArrivo",
+    formatDate(
+      viaggio.data_arrivo
+    )
+  );
+
+  text(
+    "vKm",
+    viaggio.km_previsti
+  );
+
 
   text(
     "vCosto",
     viaggio.costo_previsto != null
       ? Number(
           viaggio.costo_previsto
-        ).toLocaleString(
+        )
+        .toLocaleString(
           "it-IT",
           {
             style:"currency",
@@ -1162,12 +1578,18 @@ function render(){
       : "-"
   );
 
-  text("vNote",viaggio.note);
+
+  text(
+    "vNote",
+    viaggio.note
+  );
+
 
   text(
     "practiceNumber",
     p.numero_pratica
   );
+
 
   text(
     "practiceRoute",
@@ -1176,21 +1598,47 @@ function render(){
     (p.destinazione || "-")
   );
 
+
   text(
     "practiceClient",
     "Cliente: " +
     (p.cliente || "-")
   );
 
+
+  const practiceLink =
   document.getElementById(
     "practiceLink"
-  ).href =
-  "dettaglio-pratica.html?id=" +
-  encodeURIComponent(
-    p.numero_pratica || ""
   );
 
+
+  if(p.numero_pratica){
+
+    practiceLink.href =
+    "dettaglio-pratica.html?id=" +
+    encodeURIComponent(
+      p.numero_pratica
+    );
+
+    practiceLink.style.display =
+    "inline-flex";
+
+  }
+
+  else{
+
+    practiceLink.href =
+    "#";
+
+    practiceLink.style.display =
+    "none";
+
+  }
+
 }
+
+
+/* APERTURA EDITOR */
 
 function openEditor(){
 
@@ -1199,49 +1647,87 @@ function openEditor(){
   ).style.display =
   "none";
 
+
   document.getElementById(
     "editMode"
   ).style.display =
   "block";
 
-  document.getElementById("eVettore").value =
+
+  document.getElementById(
+    "eVettore"
+  ).value =
   viaggio.vettore || "";
 
-  document.getElementById("eAutista").value =
+
+  document.getElementById(
+    "eAutista"
+  ).value =
   viaggio.autista || "";
 
-  document.getElementById("eTelefono").value =
+
+  document.getElementById(
+    "eTelefono"
+  ).value =
   viaggio.telefono_autista || "";
 
-  document.getElementById("eStato").value =
-  viaggio.stato || "DA PROGRAMMARE";
 
-  document.getElementById("eTrattore").value =
+  document.getElementById(
+    "eStato"
+  ).value =
+  viaggio.stato ||
+  "DA PROGRAMMARE";
+
+
+  document.getElementById(
+    "eTrattore"
+  ).value =
   viaggio.targa_trattore || "";
 
-  document.getElementById("eRimorchio").value =
+
+  document.getElementById(
+    "eRimorchio"
+  ).value =
   viaggio.targa_rimorchio || "";
 
-  document.getElementById("ePartenza").value =
+
+  document.getElementById(
+    "ePartenza"
+  ).value =
   inputDate(
     viaggio.data_partenza
   );
 
-  document.getElementById("eArrivo").value =
+
+  document.getElementById(
+    "eArrivo"
+  ).value =
   inputDate(
     viaggio.data_arrivo
   );
 
-  document.getElementById("eKm").value =
+
+  document.getElementById(
+    "eKm"
+  ).value =
   viaggio.km_previsti ?? "";
 
-  document.getElementById("eCosto").value =
+
+  document.getElementById(
+    "eCosto"
+  ).value =
   viaggio.costo_previsto ?? "";
 
-  document.getElementById("eNote").value =
+
+  document.getElementById(
+    "eNote"
+  ).value =
   viaggio.note || "";
 
 }
+
+
+/* CHIUSURA EDITOR */
 
 function closeEditor(){
 
@@ -1250,6 +1736,7 @@ function closeEditor(){
   ).style.display =
   "none";
 
+
   document.getElementById(
     "viewMode"
   ).style.display =
@@ -1257,18 +1744,25 @@ function closeEditor(){
 
 }
 
+
+/* PULSANTI */
+
 document.getElementById(
-"editButton"
+  "editButton"
 ).onclick =
 openEditor;
 
+
 document.getElementById(
-"cancelButton"
+  "cancelButton"
 ).onclick =
 closeEditor;
 
+
+/* SALVATAGGIO */
+
 document.getElementById(
-"saveButton"
+  "saveButton"
 ).onclick =
 async ()=>{
 
@@ -1279,12 +1773,14 @@ async ()=>{
     ).value
   );
 
+
   const arrival =
   emptyToNull(
     document.getElementById(
       "eArrivo"
     ).value
   );
+
 
   if(
     departure &&
@@ -1300,6 +1796,7 @@ async ()=>{
     return;
 
   }
+
 
   const payload = {
 
@@ -1375,6 +1872,7 @@ async ()=>{
 
   };
 
+
   const {
     data,
     error
@@ -1382,7 +1880,10 @@ async ()=>{
   await supabase
   .from("viaggi")
   .update(payload)
-  .eq("id",id)
+  .eq(
+    "id",
+    id
+  )
   .select(`
     *,
     pratiche (
@@ -1395,6 +1896,7 @@ async ()=>{
   `)
   .single();
 
+
   if(error){
 
     showError(
@@ -1406,11 +1908,14 @@ async ()=>{
 
   }
 
+
   viaggio =
   data;
 
+
   messageBox.style.display =
   "none";
+
 
   closeEditor();
 
@@ -1418,8 +1923,11 @@ async ()=>{
 
 };
 
+
+/* ELIMINAZIONE */
+
 document.getElementById(
-"deleteButton"
+  "deleteButton"
 ).onclick =
 async ()=>{
 
@@ -1428,9 +1936,11 @@ async ()=>{
     "Vuoi eliminare definitivamente questo viaggio?"
   );
 
+
   if(!confirmed){
     return;
   }
+
 
   const {
     error
@@ -1438,7 +1948,11 @@ async ()=>{
   await supabase
   .from("viaggi")
   .delete()
-  .eq("id",id);
+  .eq(
+    "id",
+    id
+  );
+
 
   if(error){
 
@@ -1451,27 +1965,35 @@ async ()=>{
 
   }
 
+
   window.location.href =
   "viaggi.html";
 
 };
+
+
+/* AVVIO */
 
 async function start(){
 
   const ok =
   await protect();
 
+
   if(!ok){
     return;
   }
 
+
   await load();
 
 }
+
 
 start();
 
 </script>
 
 </body>
+
 </html>
