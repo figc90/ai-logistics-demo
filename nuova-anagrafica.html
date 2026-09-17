@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nuova anagrafica | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+a{
+  text-decoration:none;
+}
+
+input,
+textarea,
+select,
+button{
+  font:inherit;
+}
+
+/* ============================
+   APP
+============================ */
+
+.app-shell{
+  min-height:100vh;
+  display:flex;
+}
+
+.app-sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+}
+
+.app-sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.app-sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border-radius:14px;
+}
+
+.app-sidebar-logo-link img{
+  width:175px;
+  max-width:90%;
+}
+
+.app-sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+}
+
+.app-nav-section{
+  margin-bottom:28px;
+}
+
+.app-nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.app-nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
+}
+
+.app-nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.app-nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.app-nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:16px;
+}
+
+.app-sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.app-logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.app-logout-btn:hover{
+  background:rgba(255,255,255,.09);
+}
+
+.app-main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+  min-height:100vh;
+}
+
+.app-topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.app-topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+  font-weight:700;
+}
+
+.topbar-button{
+  min-height:40px;
+  padding:0 16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:#eef3f8;
+  color:#173459;
+  font-size:13px;
+  font-weight:900;
+}
+
+/* ============================
+   PAGE
+============================ */
+
+.page{
+  max-width:1180px;
+  margin:0 auto;
+  padding:32px 30px 55px;
+}
+
+.back{
+  display:inline-block;
+  color:#2ca9d2;
+  font-size:14px;
+  font-weight:800;
+  margin-bottom:22px;
+}
+
+.heading{
+  margin-bottom:26px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+
+h1{
+  color:#10284a;
+  font-size:44px;
+  line-height:1.05;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:#758399;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.user-info{
+  margin-top:8px;
+  color:#8795a8;
+  font-size:12px;
+}
+
+.user-info strong{
+  color:#173459;
+}
+
+/* ============================
+   CARDS
+============================ */
+
+.card{
+  background:#fff;
+  border:1px solid #e1e7ee;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 12px 32px rgba(19,40,74,.06);
+  margin-bottom:20px;
+}
+
+.card-header{
+  padding:20px 22px;
+  border-bottom:1px solid #edf0f4;
+}
+
+.card-header h2{
+  color:#173459;
+  font-size:20px;
+}
+
+.card-header p{
+  margin-top:5px;
+  color:#8795a8;
+  font-size:13px;
+}
+
+.card-body{
+  padding:22px;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.wide{
+  grid-column:1 / -1;
+}
+
+label{
+  color:#65758b;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+
+.required{
+  color:#e25336;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  border:1px solid #dce3eb;
+  background:#f9fbfd;
+  color:#24384f;
+  border-radius:11px;
+  padding:12px 13px;
+  outline:none;
+  transition:.2s ease;
+}
+
+select{
+  min-height:45px;
+  cursor:pointer;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#4ec5e6;
+  box-shadow:0 0 0 3px rgba(78,197,230,.10);
+  background:#fff;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+/* ============================
+   TYPE SELECTOR
+============================ */
+
+.type-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.type-option{
+  position:relative;
+}
+
+.type-option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.type-label{
+  min-height:92px;
+  border:2px solid #e1e7ee;
+  border-radius:14px;
+  padding:15px;
+  cursor:pointer;
+  background:#f9fbfd;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  transition:.2s ease;
+}
+
+.type-label:hover{
+  border-color:#a9dcec;
+  background:#fff;
+}
+
+.type-option input:checked + .type-label{
+  border-color:#2ca9d2;
+  background:#eefaff;
+  box-shadow:0 0 0 3px rgba(44,169,210,.08);
+}
+
+.type-title{
+  color:#173459;
+  font-size:15px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.type-description{
+  color:#7c899a;
+  font-size:12px;
+  line-height:1.4;
+}
+
+/* ============================
+   ACTIONS
+============================ */
+
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:24px;
+}
+
+.btn{
+  min-height:50px;
+  padding:0 22px;
+  border:none;
+  border-radius:11px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.btn-secondary{
+  background:#eaf0f6;
+  color:#173459;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#163d67,#1d6f9d);
+  color:#fff;
+  min-width:180px;
+}
+
+.btn-primary:hover{
+  filter:brightness(1.04);
+}
+
+.btn-primary:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* ============================
+   MESSAGE
+============================ */
+
+.message{
+  display:none;
+  margin-bottom:20px;
+  padding:14px 16px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.message-success{
+  display:block;
+  background:#ecf9f2;
+  border:1px solid #ccebd9;
+  color:#1d704c;
+}
+
+.message-error{
+  display:block;
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+  color:#b42318;
+}
+
+footer{
+  text-align:center;
+  padding:25px 20px 0;
+  color:#8894a5;
+  font-size:13px;
+}
+
+footer strong{
+  color:#173459;
+}
+
+/* ============================
+   MOBILE
+============================ */
+
+@media(max-width:760px){
+
+  .app-sidebar{
+    width:72px;
+  }
+
+  .app-main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .app-sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .app-sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+  }
+
+  .app-sidebar-logo-link img{
+    width:50px;
+  }
+
+  .app-nav-title,
+  .app-nav-item span:not(.app-nav-icon){
+    display:none;
+  }
+
+  .app-nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .page{
+    padding:24px 13px 45px;
+  }
+
+  .fields{
+    grid-template-columns:1fr;
+  }
+
+  .field.wide{
+    grid-column:auto;
+  }
+
+  .type-grid{
+    grid-template-columns:1fr;
+  }
+
+  h1{
+    font-size:35px;
+  }
+
+  .actions{
+    flex-direction:column-reverse;
+  }
+
+  .actions .btn{
+    width:100%;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<!-- ============================
+     SIDEBAR
+============================= -->
+
+<aside class="app-sidebar">
+
+<div class="app-sidebar-logo">
+
+<a
+  href="dashboard.html"
+  class="app-sidebar-logo-link">
+
+<img
+  src="matrimia-logo-web.png"
+  alt="MatRi-mIA Logistics">
+
+</a>
+
+</div>
+
+
+<nav class="app-sidebar-nav">
+
+<!-- OPERATIVITÀ -->
+
+<div class="app-nav-section">
+
+<div class="app-nav-title">
+OPERATIVITÀ
+</div>
+
+<a
+  href="dashboard.html"
+  class="app-nav-item">
+
+<span class="app-nav-icon">▦</span>
+<span>Dashboard</span>
+
+</a>
+
+
+<a
+  href="pratiche.html"
+  class="app-nav-item">
+
+<span class="app-nav-icon">▤</span>
+<span>Pratiche</span>
+
+</a>
+
+
+<a
+  href="nuova-pratica.html"
+  class="app-nav-item">
+
+<span class="app-nav-icon">＋</span>
+<span>Nuova pratica</span>
+
+</a>
+
+</div>
+
+
+<!-- AUTOMAZIONI -->
+
+<div class="app-nav-section">
+
+<div class="app-nav-title">
+AUTOMAZIONI
+</div>
+
+<a
+  href="email-ai.html"
+  class="app-nav-item">
+
+<span class="app-nav-icon">✉</span>
+<span>Email AI</span>
+
+</a>
+
+
+<a
+  href="viaggi.html"
+  class="app-nav-item">
+
+<span class="app-nav-icon">↗</span>
+<span>Viaggi</span>
+
+</a>
+
+</div>
+
+
+<!-- GESTIONE -->
+
+<div class="app-nav-section">
+
+<div class="app-nav-title">
+GESTIONE
+</div>
+
+<a
+  href="anagrafiche.html"
+  class="app-nav-item active">
+
+<span class="app-nav-icon">▣</span>
+<span>Anagrafiche</span>
+
+</a>
+
+</div>
+
+</nav>
+
+
+<div class="app-sidebar-bottom">
+
+<button
+  id="logoutButton"
+  class="app-logout-btn"
+  type="button">
+
+Esci
+
+</button>
+
+</div>
+
+</aside>
+
+
+<!-- ============================
+     MAIN
+============================= -->
+
+<div class="app-main">
+
+
+<header class="app-topbar">
+
+<div class="app-topbar-brand">
+MatRi-mIA Logistics
+</div>
+
+<a
+  href="anagrafiche.html"
+  class="topbar-button">
+
+Anagrafiche
+
+</a>
+
+</header>
+
+
+<main class="page">
+
+
+<a
+  href="anagrafiche.html"
+  class="back">
+
+← Torna alle anagrafiche
+
+</a>
+
+
+<div class="heading">
+
+<div class="eyebrow">
+MATRI-MIA · GESTIONE
+</div>
+
+<h1>
+Nuova anagrafica
+</h1>
+
+<div class="subtitle">
+Inserisci i dati del cliente o del vettore.
+Le informazioni saranno disponibili nelle attività operative di MatRi-mIA.
+</div>
+
+<div
+  id="userInfo"
+  class="user-info">
+</div>
+
+</div>
+
+
+<div
+  id="messageBox"
+  class="message">
+</div>
+
+
+<form id="anagraficaForm">
+
+
+<!-- ============================
+     TIPO
+============================= -->
+
+<section class="card">
+
+<div class="card-header">
+
+<h2>Tipo anagrafica</h2>
+
+<p>
+Indica il rapporto dell'azienda con la tua attività.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="type-grid">
+
+
+<div class="type-option">
+
+<input
+  type="radio"
+  name="tipo"
+  id="tipoCliente"
+  value="CLIENTE"
+  checked>
+
+<label
+  class="type-label"
+  for="tipoCliente">
+
+<span class="type-title">
+Cliente
+</span>
+
+<span class="type-description">
+Azienda per cui gestisci richieste e trasporti.
+</span>
+
+</label>
+
+</div>
+
+
+<div class="type-option">
+
+<input
+  type="radio"
+  name="tipo"
+  id="tipoVettore"
+  value="VETTORE">
+
+<label
+  class="type-label"
+  for="tipoVettore">
+
+<span class="type-title">
+Vettore
+</span>
+
+<span class="type-description">
+Azienda incaricata di effettuare i trasporti.
+</span>
+
+</label>
+
+</div>
+
+
+<div class="type-option">
+
+<input
+  type="radio"
+  name="tipo"
+  id="tipoEntrambi"
+  value="CLIENTE_VETTORE">
+
+<label
+  class="type-label"
+  for="tipoEntrambi">
+
+<span class="type-title">
+Cliente + Vettore
+</span>
+
+<span class="type-description">
+L'azienda può operare in entrambi i ruoli.
+</span>
+
+</label>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ============================
+     DATI AZIENDA
+============================= -->
+
+<section class="card">
+
+<div class="card-header">
+
+<h2>Dati azienda</h2>
+
+<p>
+Informazioni identificative e fiscali.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="fields">
+
+
+<div class="field wide">
+
+<label for="ragioneSociale">
+Ragione sociale
+<span class="required">*</span>
+</label>
+
+<input
+  id="ragioneSociale"
+  type="text"
+  maxlength="200"
+  autocomplete="organization"
+  required>
+
+</div>
+
+
+<div class="field">
+
+<label for="partitaIva">
+Partita IVA
+</label>
+
+<input
+  id="partitaIva"
+  type="text"
+  maxlength="20"
+  autocomplete="off">
+
+</div>
+
+
+<div class="field">
+
+<label for="codiceFiscale">
+Codice fiscale
+</label>
+
+<input
+  id="codiceFiscale"
+  type="text"
+  maxlength="30"
+  autocomplete="off">
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ============================
+     CONTATTI
+============================= -->
+
+<section class="card">
+
+<div class="card-header">
+
+<h2>Contatti</h2>
+
+<p>
+Recapiti principali dell'azienda e del referente.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="fields">
+
+
+<div class="field">
+
+<label for="email">
+Email
+</label>
+
+<input
+  id="email"
+  type="email"
+  maxlength="200"
+  autocomplete="email">
+
+</div>
+
+
+<div class="field">
+
+<label for="telefono">
+Telefono
+</label>
+
+<input
+  id="telefono"
+  type="tel"
+  maxlength="50"
+  autocomplete="tel">
+
+</div>
+
+
+<div class="field">
+
+<label for="pec">
+PEC
+</label>
+
+<input
+  id="pec"
+  type="email"
+  maxlength="200">
+
+</div>
+
+
+<div class="field">
+
+<label for="referente">
+Referente
+</label>
+
+<input
+  id="referente"
+  type="text"
+  maxlength="150"
+  autocomplete="name">
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ============================
+     SEDE
+============================= -->
+
+<section class="card">
+
+<div class="card-header">
+
+<h2>Sede</h2>
+
+<p>
+Indirizzo principale dell'azienda.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="fields">
+
+
+<div class="field wide">
+
+<label for="indirizzo">
+Indirizzo
+</label>
+
+<input
+  id="indirizzo"
+  type="text"
+  maxlength="250"
+  autocomplete="street-address">
+
+</div>
+
+
+<div class="field">
+
+<label for="cap">
+CAP
+</label>
+
+<input
+  id="cap"
+  type="text"
+  inputmode="numeric"
+  maxlength="10"
+  autocomplete="postal-code">
+
+</div>
+
+
+<div class="field">
+
+<label for="citta">
+Città
+</label>
+
+<input
+  id="citta"
+  type="text"
+  maxlength="120"
+  autocomplete="address-level2">
+
+</div>
+
+
+<div class="field">
+
+<label for="provincia">
+Provincia
+</label>
+
+<input
+  id="provincia"
+  type="text"
+  maxlength="50"
+  autocomplete="address-level1">
+
+</div>
+
+
+<div class="field">
+
+<label for="nazione">
+Nazione
+</label>
+
+<input
+  id="nazione"
+  type="text"
+  maxlength="100"
+  value="Italia"
+  autocomplete="country-name">
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ============================
+     NOTE
+============================= -->
+
+<section class="card">
+
+<div class="card-header">
+
+<h2>Note</h2>
+
+<p>
+Informazioni aggiuntive utili per la gestione operativa.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="field wide">
+
+<label for="note">
+Note
+</label>
+
+<textarea
+  id="note"
+  maxlength="3000"
+  placeholder="Inserisci eventuali informazioni aggiuntive..."></textarea>
+
+</div>
+
+</div>
+
+</section>
+
+
+<div class="actions">
+
+<a
+  href="anagrafiche.html"
+  class="btn btn-secondary">
+
+Annulla
+
+</a>
+
+
+<button
+  id="saveButton"
+  type="submit"
+  class="btn btn-primary">
+
+Salva anagrafica
+
+</button>
+
+</div>
+
+
+</form>
+
+
+<footer>
+
+<strong>
+MatRi-mIA Logistics
+</strong>
+
+· AI per trasporti e logistica
+
+</footer>
+
+
+</main>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* ============================
+   SUPABASE
+============================ */
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ============================
+   ELEMENTI
+============================ */
+
+const form =
+  document.getElementById(
+    "anagraficaForm"
+  );
+
+const saveButton =
+  document.getElementById(
+    "saveButton"
+  );
+
+const messageBox =
+  document.getElementById(
+    "messageBox"
+  );
+
+const logoutButton =
+  document.getElementById(
+    "logoutButton"
+  );
+
+const userInfo =
+  document.getElementById(
+    "userInfo"
+  );
+
+
+let currentUser = null;
+let currentProfile = null;
+
+
+/* ============================
+   UTILITY
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function emptyToNull(value){
+
+  const cleaned =
+    String(value ?? "").trim();
+
+  return cleaned === ""
+    ? null
+    : cleaned;
+
+}
+
+
+function showMessage(type,text){
+
+  messageBox.className =
+    "message " +
+    (
+      type === "success"
+        ? "message-success"
+        : "message-error"
+    );
+
+  messageBox.textContent =
+    text;
+
+  messageBox.style.display =
+    "block";
+
+  messageBox.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+function getSelectedType(){
+
+  const selected =
+    document.querySelector(
+      'input[name="tipo"]:checked'
+    );
+
+  return selected
+    ? selected.value
+    : "CLIENTE";
+
+}
+
+
+/* ============================
+   AUTENTICAZIONE
+============================ */
+
+async function protectPage(){
+
+  try{
+
+    const {
+      data:{session},
+      error
+    } =
+      await supabase.auth
+        .getSession();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(
+      !session ||
+      !session.user
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    currentUser =
+      session.user;
+
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .single();
+
+
+    if(
+      profileError ||
+      !profile
+    ){
+
+      await supabase.auth
+        .signOut();
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    if(!profile.azienda_id){
+
+      throw new Error(
+        "Il profilo non è associato a un'azienda."
+      );
+
+    }
+
+
+    currentProfile =
+      profile;
+
+
+    userInfo.innerHTML =
+      `Accesso: <strong>${
+        escapeHtml(
+          profile.email ||
+          currentUser.email ||
+          ""
+        )
+      }</strong> · ${
+        escapeHtml(
+          profile.ruolo ||
+          ""
+        )
+      }`;
+
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+    showMessage(
+      "error",
+      error.message ||
+      "Errore durante l'autenticazione."
+    );
+
+    return false;
+
+  }
+
+}
+
+
+/* ============================
+   LOGOUT
+============================ */
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled =
+      true;
+
+    logoutButton.textContent =
+      "Uscita...";
+
+    try{
+
+      await supabase.auth
+        .signOut();
+
+    }
+    finally{
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
+  }
+);
+
+
+/* ============================
+   SALVATAGGIO
+============================ */
+
+form.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+
+    if(
+      !currentUser ||
+      !currentProfile
+    ){
+
+      showMessage(
+        "error",
+        "Sessione non valida."
+      );
+
+      return;
+
+    }
+
+
+    if(!form.checkValidity()){
+
+      form.reportValidity();
+
+      return;
+
+    }
+
+
+    const ragioneSociale =
+      document
+        .getElementById(
+          "ragioneSociale"
+        )
+        .value
+        .trim();
+
+
+    if(!ragioneSociale){
+
+      showMessage(
+        "error",
+        "Inserisci la ragione sociale."
+      );
+
+      return;
+
+    }
+
+
+    saveButton.disabled =
+      true;
+
+    saveButton.textContent =
+      "Salvataggio...";
+
+    messageBox.style.display =
+      "none";
+
+
+    try{
+
+
+      const anagrafica = {
+
+        azienda_id:
+          currentProfile.azienda_id,
+
+        tipo:
+          getSelectedType(),
+
+        ragione_sociale:
+          ragioneSociale,
+
+        partita_iva:
+          emptyToNull(
+            document
+              .getElementById(
+                "partitaIva"
+              )
+              .value
+          ),
+
+        codice_fiscale:
+          emptyToNull(
+            document
+              .getElementById(
+                "codiceFiscale"
+              )
+              .value
+          ),
+
+        email:
+          emptyToNull(
+            document
+              .getElementById(
+                "email"
+              )
+              .value
+          ),
+
+        telefono:
+          emptyToNull(
+            document
+              .getElementById(
+                "telefono"
+              )
+              .value
+          ),
+
+        pec:
+          emptyToNull(
+            document
+              .getElementById(
+                "pec"
+              )
+              .value
+          ),
+
+        indirizzo:
+          emptyToNull(
+            document
+              .getElementById(
+                "indirizzo"
+              )
+              .value
+          ),
+
+        cap:
+          emptyToNull(
+            document
+              .getElementById(
+                "cap"
+              )
+              .value
+          ),
+
+        citta:
+          emptyToNull(
+            document
+              .getElementById(
+                "citta"
+              )
+              .value
+          ),
+
+        provincia:
+          emptyToNull(
+            document
+              .getElementById(
+                "provincia"
+              )
+              .value
+          ),
+
+        nazione:
+          emptyToNull(
+            document
+              .getElementById(
+                "nazione"
+              )
+              .value
+          ) || "Italia",
+
+        referente:
+          emptyToNull(
+            document
+              .getElementById(
+                "referente"
+              )
+              .value
+          ),
+
+        note:
+          emptyToNull(
+            document
+              .getElementById(
+                "note"
+              )
+              .value
+          ),
+
+        attiva:true,
+
+        updated_at:
+          new Date()
+            .toISOString()
+
+      };
+
+
+      const {
+        data,
+        error
+      } =
+        await supabase
+          .from("anagrafiche")
+          .insert(
+            anagrafica
+          )
+          .select(
+            "id,ragione_sociale,tipo"
+          )
+          .single();
+
+
+      if(error){
+
+        console.error(
+          "Errore Supabase:",
+          error
+        );
+
+        throw new Error(
+          error.message
+        );
+
+      }
+
+
+      if(
+        !data ||
+        !data.id
+      ){
+
+        throw new Error(
+          "Anagrafica inserita ma dati di conferma non ricevuti."
+        );
+
+      }
+
+
+      showMessage(
+        "success",
+        "Anagrafica \"" +
+        data.ragione_sociale +
+        "\" salvata correttamente."
+      );
+
+
+      /*
+       * Per ora torniamo all'elenco.
+       * Quando creeremo dettaglio-anagrafica.html
+       * potremo mandare direttamente lì l'utente.
+       */
+
+      setTimeout(
+        function(){
+
+          window.location.href =
+            "anagrafiche.html";
+
+        },
+        900
+      );
+
+
+    }
+    catch(error){
+
+      console.error(
+        "Errore salvataggio anagrafica:",
+        error
+      );
+
+      showMessage(
+        "error",
+        "Errore durante il salvataggio: " +
+        (
+          error.message ||
+          "errore sconosciuto"
+        )
+      );
+
+
+      saveButton.disabled =
+        false;
+
+      saveButton.textContent =
+        "Salva anagrafica";
+
+    }
+
+  }
+);
+
+
+/* ============================
+   AVVIO
+============================ */
+
+async function startPage(){
+
+  await protectPage();
+
+}
+
+
+startPage();
+
+</script>
+
+</body>
+
+</html>
