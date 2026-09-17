@@ -41,69 +41,9 @@ select{
   font:inherit;
 }
 
-.top-header{
-  background:#fff;
-  border-bottom:1px solid #e5eaf0;
-  position:sticky;
-  top:0;
-  z-index:50;
-}
-
-.top-header-inner{
-  max-width:1280px;
-  margin:0 auto;
-  padding:8px 22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-}
-
-.logo{
-  width:175px;
-  height:auto;
-  display:block;
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.header-btn{
-  min-height:42px;
-  padding:0 16px;
-  border-radius:10px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  font-weight:800;
-  transition:.2s ease;
-  border:none;
-  cursor:pointer;
-}
-
-.header-btn-secondary{
-  background:#eef3f8;
-  color:#173459;
-}
-
-.header-btn-primary{
-  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
-  color:#fff;
-}
-
-.logout-btn{
-  background:#fff1f0;
-  color:#b42318;
-  border:1px solid #ffd4d1;
-}
-
-.header-btn:hover{
-  transform:translateY(-1px);
-}
+/* =========================================================
+   CONTENUTO PRATICHE
+========================================================= */
 
 .page{
   max-width:1280px;
@@ -387,66 +327,9 @@ footer strong{
   color:#173459;
 }
 
-@media(max-width:760px){
-
-  .top-header-inner{
-    padding:7px 14px;
-  }
-
-  .logo{
-    width:150px;
-  }
-
-  .header-btn-secondary{
-    display:none;
-  }
-
-  .header-btn-primary,
-  .logout-btn{
-    padding:0 12px;
-    font-size:13px;
-  }
-
-  .page{
-    padding:25px 13px 45px;
-  }
-
-  .page-heading{
-    align-items:stretch;
-  }
-
-  .counter{
-    width:100%;
-  }
-
-  .toolbar{
-    padding:11px;
-  }
-
-  .search-wrap{
-    min-width:100%;
-  }
-
-  .filter-wrap{
-    width:100%;
-  }
-
-  .filter-select,
-  .reload-btn{
-    flex:1;
-    min-width:140px;
-  }
-
-  .table-card{
-    border-radius:14px;
-  }
-
-}
-
-
 /* =========================================================
-   AREA RISERVATA MATRI-MIA - LAYOUT UNIFICATO CON DASHBOARD
-   ========================================================= */
+   LAYOUT APP
+========================================================= */
 
 .app-shell{
   min-height:100vh;
@@ -552,26 +435,6 @@ footer strong{
   opacity:.9;
 }
 
-.app-nav-disabled{
-  opacity:.42;
-  cursor:default;
-}
-
-.app-nav-disabled:hover{
-  background:transparent;
-  color:#c7d3e1;
-}
-
-.app-soon{
-  margin-left:auto;
-  padding:4px 7px;
-  background:rgba(255,255,255,.08);
-  border-radius:999px;
-  color:#8fa5bb;
-  font-size:8px;
-  font-weight:900;
-}
-
 .app-sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
@@ -637,11 +500,6 @@ footer strong{
   font-weight:900;
 }
 
-.app-topbar-secondary{
-  background:#eef3f8;
-  color:#173459;
-}
-
 .app-topbar-primary{
   background:linear-gradient(135deg,#ec4f32,#ff7b1f);
   color:#fff;
@@ -654,7 +512,12 @@ footer strong{
   padding:32px 30px 55px;
 }
 
+/* =========================================================
+   MOBILE
+========================================================= */
+
 @media(max-width:760px){
+
   .app-sidebar{
     width:72px;
   }
@@ -680,8 +543,7 @@ footer strong{
   }
 
   .app-nav-title,
-  .app-nav-item span:not(.app-nav-icon),
-  .app-soon{
+  .app-nav-item span:not(.app-nav-icon){
     display:none;
   }
 
@@ -723,6 +585,37 @@ footer strong{
   .app-main > .page{
     padding:24px 13px 45px;
   }
+
+  .page-heading{
+    align-items:stretch;
+  }
+
+  .counter{
+    width:100%;
+  }
+
+  .toolbar{
+    padding:11px;
+  }
+
+  .search-wrap{
+    min-width:100%;
+  }
+
+  .filter-wrap{
+    width:100%;
+  }
+
+  .filter-select,
+  .reload-btn{
+    flex:1;
+    min-width:140px;
+  }
+
+  .table-card{
+    border-radius:14px;
+  }
+
 }
 
 </style>
@@ -730,83 +623,191 @@ footer strong{
 
 <body>
 
-
 <div class="app-shell">
+
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <aside class="app-sidebar">
 
   <div class="app-sidebar-logo">
-    <a href="dashboard.html" class="app-sidebar-logo-link" aria-label="Vai alla Dashboard">
-      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+
+    <a
+      href="dashboard.html"
+      class="app-sidebar-logo-link"
+      aria-label="Vai alla Dashboard">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+
     </a>
+
   </div>
+
 
   <nav class="app-sidebar-nav">
 
+    <!-- OPERATIVITÀ -->
+
     <div class="app-nav-section">
-      <div class="app-nav-title">OPERATIVITÀ</div>
 
-      <a href="dashboard.html" class="app-nav-item">
-        <span class="app-nav-icon">▦</span>
-        <span>Dashboard</span>
+      <div class="app-nav-title">
+        OPERATIVITÀ
+      </div>
+
+      <a
+        href="dashboard.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ▦
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
       </a>
 
-      <a href="pratiche.html" class="app-nav-item active">
-        <span class="app-nav-icon">▤</span>
-        <span>Pratiche</span>
+
+      <a
+        href="pratiche.html"
+        class="app-nav-item active">
+
+        <span class="app-nav-icon">
+          ▤
+        </span>
+
+        <span>
+          Pratiche
+        </span>
+
       </a>
 
-      <a href="nuova-pratica.html" class="app-nav-item">
-        <span class="app-nav-icon">＋</span>
-        <span>Nuova pratica</span>
+
+      <a
+        href="nuova-pratica.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ＋
+        </span>
+
+        <span>
+          Nuova pratica
+        </span>
+
       </a>
+
     </div>
 
-    <div class="app-nav-section">
 
-  <div class="app-nav-title">
-    AUTOMAZIONI
-  </div>
-
-  <a href="email-ai.html" class="app-nav-item">
-    <span class="app-nav-icon">✉</span>
-    <span>Email AI</span>
-  </a>
-
-  <a href="viaggi.html" class="app-nav-item">
-    <span class="app-nav-icon">↗</span>
-    <span>Viaggi</span>
-  </a>
-
-</div>
+    <!-- AUTOMAZIONI -->
 
     <div class="app-nav-section">
-      <div class="app-nav-title">GESTIONE</div>
 
-      <a href="anagrafiche.html" class="nav-item">
-  <span class="nav-icon">▣</span>
-  <span>Anagrafiche</span>
-</a>
+      <div class="app-nav-title">
+        AUTOMAZIONI
+      </div>
+
+      <a
+        href="email-ai.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ✉
+        </span>
+
+        <span>
+          Email AI
+        </span>
+
+      </a>
+
+
+      <a
+        href="viaggi.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ↗
+        </span>
+
+        <span>
+          Viaggi
+        </span>
+
+      </a>
+
+    </div>
+
+
+    <!-- GESTIONE -->
+
+    <div class="app-nav-section">
+
+      <div class="app-nav-title">
+        GESTIONE
+      </div>
+
+      <a
+        href="anagrafiche.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ▣
+        </span>
+
+        <span>
+          Anagrafiche
+        </span>
+
+      </a>
+
     </div>
 
   </nav>
 
+
   <div class="app-sidebar-bottom">
-    <button id="logoutButton" class="app-logout-btn" type="button">Esci</button>
+
+    <button
+      id="logoutButton"
+      class="app-logout-btn"
+      type="button">
+      Esci
+    </button>
+
   </div>
 
 </aside>
 
+
+<!-- =========================
+     MAIN
+========================= -->
+
 <div class="app-main">
 
 <header class="app-topbar">
-  <div class="app-topbar-brand">MatRi-mIA Logistics</div>
-  <div class="app-topbar-actions">
-    
-      <a href="nuova-pratica.html" class="app-topbar-link app-topbar-primary">+ Nuova pratica</a>
-  </div>
-</header>
 
+  <div class="app-topbar-brand">
+    MatRi-mIA Logistics
+  </div>
+
+  <div class="app-topbar-actions">
+
+    <a
+      href="nuova-pratica.html"
+      class="app-topbar-link app-topbar-primary">
+      + Nuova pratica
+    </a>
+
+  </div>
+
+</header>
 
 
 <main class="page">
@@ -819,7 +820,9 @@ footer strong{
         MATRI-MIA · OPERATIVITÀ
       </div>
 
-      <h1>Pratiche</h1>
+      <h1>
+        Pratiche
+      </h1>
 
       <p>
         Gestisci, filtra e controlla le pratiche di trasporto elaborate da MatRi-mIA.
@@ -831,6 +834,7 @@ footer strong{
       </div>
 
     </div>
+
 
     <div class="counter">
 
@@ -855,10 +859,10 @@ footer strong{
         id="searchInput"
         class="search-input"
         type="search"
-        placeholder="Cerca per ID, cliente, partenza o destinazione..."
-      >
+        placeholder="Cerca per ID, cliente, partenza o destinazione...">
 
     </div>
+
 
     <div class="filter-wrap">
 
@@ -884,6 +888,7 @@ footer strong{
 
       </select>
 
+
       <select
         id="sortOrder"
         class="filter-select">
@@ -905,6 +910,7 @@ footer strong{
         </option>
 
       </select>
+
 
       <button
         id="reloadBtn"
@@ -951,6 +957,7 @@ footer strong{
 
     </div>
 
+
     <div
       id="emptyState"
       class="empty-state">
@@ -979,7 +986,9 @@ footer strong{
 </main>
 
 </div>
+
 </div>
+
 
 <script type="module">
 
@@ -994,16 +1003,17 @@ from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 ============================ */
 
 const SUPABASE_URL =
-  "https://sctzockiurjsxzdkctmy.supabase.co";
+"https://sctzockiurjsxzdkctmy.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+"sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
 
 const supabase =
-  createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 
 /* ============================
@@ -1011,34 +1021,54 @@ const supabase =
 ============================ */
 
 const praticheBody =
-  document.getElementById("praticheBody");
+document.getElementById(
+  "praticheBody"
+);
 
 const statusBox =
-  document.getElementById("statusBox");
+document.getElementById(
+  "statusBox"
+);
 
 const emptyState =
-  document.getElementById("emptyState");
+document.getElementById(
+  "emptyState"
+);
 
 const searchInput =
-  document.getElementById("searchInput");
+document.getElementById(
+  "searchInput"
+);
 
 const practiceCount =
-  document.getElementById("practiceCount");
+document.getElementById(
+  "practiceCount"
+);
 
 const reloadBtn =
-  document.getElementById("reloadBtn");
+document.getElementById(
+  "reloadBtn"
+);
 
 const statusFilter =
-  document.getElementById("statusFilter");
+document.getElementById(
+  "statusFilter"
+);
 
 const sortOrder =
-  document.getElementById("sortOrder");
+document.getElementById(
+  "sortOrder"
+);
 
 const logoutButton =
-  document.getElementById("logoutButton");
+document.getElementById(
+  "logoutButton"
+);
 
 const userInfo =
-  document.getElementById("userInfo");
+document.getElementById(
+  "userInfo"
+);
 
 
 let allPratiche = [];
@@ -1053,11 +1083,11 @@ let currentProfile = null;
 function escapeHtml(value){
 
   return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
 
 }
 
@@ -1076,8 +1106,8 @@ async function protectPage(){
       },
       error
     } =
-      await supabase.auth
-        .getSession();
+    await supabase.auth
+    .getSession();
 
 
     if(error){
@@ -1100,23 +1130,23 @@ async function protectPage(){
 
 
     currentUser =
-      session.user;
+    session.user;
 
 
     const {
       data:profile,
       error:profileError
     } =
-      await supabase
-        .from("profiles")
-        .select(
-          "id,email,ruolo,azienda_id"
-        )
-        .eq(
-          "id",
-          currentUser.id
-        )
-        .single();
+    await supabase
+    .from("profiles")
+    .select(
+      "id,email,ruolo,azienda_id"
+    )
+    .eq(
+      "id",
+      currentUser.id
+    )
+    .single();
 
 
     if(
@@ -1129,12 +1159,15 @@ async function protectPage(){
         profileError
       );
 
+
       await supabase.auth
-        .signOut();
+      .signOut();
+
 
       window.location.replace(
         "login.html"
       );
+
 
       return false;
 
@@ -1142,18 +1175,18 @@ async function protectPage(){
 
 
     currentProfile =
-      profile;
+    profile;
 
 
     userInfo.innerHTML =
-      `Accesso: <strong>${escapeHtml(
-        profile.email ||
-        currentUser.email ||
-        ""
-      )}</strong> · ${escapeHtml(
-        profile.ruolo ||
-        ""
-      )}`;
+    `Accesso: <strong>${escapeHtml(
+      profile.email ||
+      currentUser.email ||
+      ""
+    )}</strong> · ${escapeHtml(
+      profile.ruolo ||
+      ""
+    )}`;
 
 
     document.body.classList.add(
@@ -1164,6 +1197,7 @@ async function protectPage(){
     return true;
 
   }
+
   catch(error){
 
     console.error(
@@ -1171,9 +1205,11 @@ async function protectPage(){
       error
     );
 
+
     window.location.replace(
       "login.html"
     );
+
 
     return false;
 
@@ -1191,17 +1227,20 @@ logoutButton.addEventListener(
   async function(){
 
     logoutButton.disabled =
-      true;
+    true;
+
 
     logoutButton.textContent =
-      "Uscita...";
+    "Uscita...";
+
 
     try{
 
       await supabase.auth
-        .signOut();
+      .signOut();
 
     }
+
     finally{
 
       window.location.replace(
@@ -1224,12 +1263,11 @@ function formatDate(value){
     return "-";
   }
 
-  /*
-   * Per una colonna PostgreSQL DATE (YYYY-MM-DD)
-   * evitiamo problemi di fuso orario.
-   */
+
   const parts =
-    String(value).split("-");
+  String(value)
+  .split("-");
+
 
   if(parts.length === 3){
 
@@ -1243,12 +1281,15 @@ function formatDate(value){
 
   }
 
+
   const date =
-    new Date(value);
+  new Date(value);
+
 
   if(isNaN(date.getTime())){
     return value;
   }
+
 
   return date.toLocaleDateString(
     "it-IT"
@@ -1260,22 +1301,43 @@ function formatDate(value){
 function normalizeStatus(value){
 
   const text =
-    String(value || "")
-      .trim()
-      .toUpperCase();
+  String(value || "")
+  .trim()
+  .toUpperCase();
 
 
-  if(text.includes("REGOLARE")){
+  if(
+    text.includes(
+      "REGOLARE"
+    )
+  ){
+
     return "REGOLARE";
+
   }
 
-  if(text.includes("ATTENZIONE")){
+
+  if(
+    text.includes(
+      "ATTENZIONE"
+    )
+  ){
+
     return "ATTENZIONE";
+
   }
 
-  if(text.includes("PROBLEMA")){
+
+  if(
+    text.includes(
+      "PROBLEMA"
+    )
+  ){
+
     return "PROBLEMA";
+
   }
+
 
   return text || "-";
 
@@ -1285,32 +1347,42 @@ function normalizeStatus(value){
 function createStatusBadge(status){
 
   const normalized =
-    normalizeStatus(status);
+  normalizeStatus(
+    status
+  );
+
 
   let className =
-    "badge badge-default";
+  "badge badge-default";
 
 
-  if(normalized === "REGOLARE"){
-
-    className =
-      "badge badge-ok";
-
-  }
-  else if(
-    normalized === "ATTENZIONE"
+  if(
+    normalized ===
+    "REGOLARE"
   ){
 
     className =
-      "badge badge-warning";
+    "badge badge-ok";
 
   }
+
   else if(
-    normalized === "PROBLEMA"
+    normalized ===
+    "ATTENZIONE"
   ){
 
     className =
-      "badge badge-error";
+    "badge badge-warning";
+
+  }
+
+  else if(
+    normalized ===
+    "PROBLEMA"
+  ){
+
+    className =
+    "badge badge-error";
 
   }
 
@@ -1329,28 +1401,28 @@ function normalizePratica(pratica){
   return {
 
     id:
-      pratica.numero_pratica || "",
+    pratica.numero_pratica || "",
 
     uuid:
-      pratica.id || "",
+    pratica.id || "",
 
     azienda_id:
-      pratica.azienda_id || "",
+    pratica.azienda_id || "",
 
     data:
-      pratica.data || "",
+    pratica.data || "",
 
     partenza:
-      pratica.partenza || "",
+    pratica.partenza || "",
 
     destinazione:
-      pratica.destinazione || "",
+    pratica.destinazione || "",
 
     cliente:
-      pratica.cliente || "",
+    pratica.cliente || "",
 
     stato:
-      pratica.stato_ai || ""
+    pratica.stato_ai || ""
 
   };
 
@@ -1360,12 +1432,15 @@ function normalizePratica(pratica){
 function extractNumericId(id){
 
   const match =
-    String(id || "")
-      .match(/(\d+)\s*$/);
+  String(id || "")
+  .match(/(\d+)\s*$/);
+
 
   return match
-    ? Number(match[1])
-    : 0;
+  ? Number(
+      match[1]
+    )
+  : 0;
 
 }
 
@@ -1373,83 +1448,137 @@ function extractNumericId(id){
 function sortPratiche(pratiche){
 
   const sorted =
-    [...pratiche];
+  [...pratiche];
+
 
   const mode =
-    sortOrder.value;
+  sortOrder.value;
 
 
-  if(mode === "newest"){
+  if(
+    mode ===
+    "newest"
+  ){
 
     sorted.sort(
       (a,b)=>{
 
         const dateA =
-          new Date(a.data)
-            .getTime() || 0;
+        new Date(
+          a.data
+        ).getTime() || 0;
+
 
         const dateB =
-          new Date(b.data)
-            .getTime() || 0;
+        new Date(
+          b.data
+        ).getTime() || 0;
 
-        if(dateB !== dateA){
 
-          return dateB - dateA;
+        if(
+          dateB !==
+          dateA
+        ){
+
+          return (
+            dateB -
+            dateA
+          );
 
         }
 
+
         return (
-          extractNumericId(b.id) -
-          extractNumericId(a.id)
+          extractNumericId(
+            b.id
+          ) -
+          extractNumericId(
+            a.id
+          )
         );
 
       }
     );
 
   }
-  else if(mode === "oldest"){
+
+  else if(
+    mode ===
+    "oldest"
+  ){
 
     sorted.sort(
       (a,b)=>{
 
         const dateA =
-          new Date(a.data)
-            .getTime() || 0;
+        new Date(
+          a.data
+        ).getTime() || 0;
+
 
         const dateB =
-          new Date(b.data)
-            .getTime() || 0;
+        new Date(
+          b.data
+        ).getTime() || 0;
 
-        if(dateA !== dateB){
 
-          return dateA - dateB;
+        if(
+          dateA !==
+          dateB
+        ){
+
+          return (
+            dateA -
+            dateB
+          );
 
         }
 
+
         return (
-          extractNumericId(a.id) -
-          extractNumericId(b.id)
+          extractNumericId(
+            a.id
+          ) -
+          extractNumericId(
+            b.id
+          )
         );
 
       }
     );
 
   }
-  else if(mode === "id-desc"){
+
+  else if(
+    mode ===
+    "id-desc"
+  ){
 
     sorted.sort(
       (a,b)=>
-        extractNumericId(b.id) -
-        extractNumericId(a.id)
+      extractNumericId(
+        b.id
+      ) -
+      extractNumericId(
+        a.id
+      )
     );
 
   }
-  else if(mode === "id-asc"){
+
+  else if(
+    mode ===
+    "id-asc"
+  ){
 
     sorted.sort(
       (a,b)=>
-        extractNumericId(a.id) -
-        extractNumericId(b.id)
+      extractNumericId(
+        a.id
+      ) -
+      extractNumericId(
+        b.id
+      )
     );
 
   }
@@ -1463,16 +1592,20 @@ function sortPratiche(pratiche){
 function renderPratiche(pratiche){
 
   praticheBody.innerHTML =
-    "";
+  "";
+
 
   practiceCount.textContent =
-    pratiche.length;
+  pratiche.length;
 
 
-  if(!pratiche.length){
+  if(
+    !pratiche.length
+  ){
 
     emptyState.style.display =
-      "block";
+    "block";
+
 
     return;
 
@@ -1480,16 +1613,16 @@ function renderPratiche(pratiche){
 
 
   emptyState.style.display =
-    "none";
+  "none";
 
 
   pratiche.forEach(
     pratica=>{
 
       const row =
-        document.createElement(
-          "tr"
-        );
+      document.createElement(
+        "tr"
+      );
 
 
       row.innerHTML = `
@@ -1539,24 +1672,29 @@ function renderPratiche(pratiche){
         "click",
         function(){
 
-          if(!pratica.id){
+          if(
+            !pratica.id
+          ){
+
             return;
+
           }
 
+
           window.location.href =
-            "dettaglio-pratica.html?id=" +
-            encodeURIComponent(
-              pratica.id
-            );
+          "dettaglio-pratica.html?id=" +
+          encodeURIComponent(
+            pratica.id
+          );
 
         }
       );
 
 
       praticheBody
-        .appendChild(
-          row
-        );
+      .appendChild(
+        row
+      );
 
     }
   );
@@ -1571,63 +1709,65 @@ function renderPratiche(pratiche){
 function applyFilters(){
 
   const query =
-    searchInput.value
-      .trim()
-      .toLowerCase();
+  searchInput.value
+  .trim()
+  .toLowerCase();
+
 
   const selectedStatus =
-    statusFilter.value;
+  statusFilter.value;
 
 
   let filtered =
-    allPratiche.filter(
-      pratica=>{
+  allPratiche.filter(
+    pratica=>{
 
-        const searchable =
-          [
-            pratica.id,
-            pratica.data,
-            pratica.partenza,
-            pratica.destinazione,
-            pratica.cliente,
-            pratica.stato
-          ]
-          .join(" ")
-          .toLowerCase();
-
-
-        const matchesSearch =
-          !query ||
-          searchable.includes(
-            query
-          );
+      const searchable =
+      [
+        pratica.id,
+        pratica.data,
+        pratica.partenza,
+        pratica.destinazione,
+        pratica.cliente,
+        pratica.stato
+      ]
+      .join(" ")
+      .toLowerCase();
 
 
-        const normalizedStatus =
-          normalizeStatus(
-            pratica.stato
-          );
+      const matchesSearch =
+      !query ||
+      searchable.includes(
+        query
+      );
 
 
-        const matchesStatus =
-          selectedStatus === "tutti" ||
-          normalizedStatus ===
-            selectedStatus;
+      const normalizedStatus =
+      normalizeStatus(
+        pratica.stato
+      );
 
 
-        return (
-          matchesSearch &&
-          matchesStatus
-        );
+      const matchesStatus =
+      selectedStatus ===
+      "tutti" ||
+      normalizedStatus ===
+      selectedStatus;
 
-      }
-    );
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+
+    }
+  );
 
 
   filtered =
-    sortPratiche(
-      filtered
-    );
+  sortPratiche(
+    filtered
+  );
 
 
   renderPratiche(
@@ -1644,21 +1784,26 @@ function applyFilters(){
 async function loadPratiche(){
 
   statusBox.className =
-    "status-box status-loading";
+  "status-box status-loading";
+
 
   statusBox.textContent =
-    "Caricamento pratiche...";
+  "Caricamento pratiche...";
+
 
   statusBox.style.display =
-    "block";
+  "block";
+
 
   emptyState.style.display =
-    "none";
+  "none";
 
 
   try{
 
-    if(!currentProfile){
+    if(
+      !currentProfile
+    ){
 
       throw new Error(
         "Profilo utente non disponibile"
@@ -1667,7 +1812,9 @@ async function loadPratiche(){
     }
 
 
-    if(!currentProfile.azienda_id){
+    if(
+      !currentProfile.azienda_id
+    ){
 
       throw new Error(
         "Nessuna azienda associata all'utente"
@@ -1677,77 +1824,76 @@ async function loadPratiche(){
 
 
     /*
-     * IMPORTANTE:
-     * non filtriamo azienda_id nel browser.
-     *
-     * È la RLS di Supabase che deve decidere
-     * quali righe può leggere l'utente.
-     */
+      La RLS Supabase determina
+      quali pratiche può leggere
+      l'utente autenticato.
+    */
 
     const {
       data,
       error
     } =
-      await supabase
-        .from("pratiche")
-        .select(`
-          id,
-          created_at,
-          azienda_id,
-          numero_pratica,
-          data,
-          cliente,
-          partenza,
-          destinazione,
-          stato_ai
-        `)
-        .order(
-          "created_at",
-          {
-            ascending:false
-          }
-        );
+    await supabase
+    .from("pratiche")
+    .select(`
+      id,
+      created_at,
+      azienda_id,
+      numero_pratica,
+      data,
+      cliente,
+      partenza,
+      destinazione,
+      stato_ai
+    `)
+    .order(
+      "created_at",
+      {
+        ascending:false
+      }
+    );
 
 
     if(error){
-
       throw error;
-
     }
 
 
     allPratiche =
-      (data || []).map(
-        normalizePratica
-      );
+    (data || [])
+    .map(
+      normalizePratica
+    );
 
 
     applyFilters();
 
 
     statusBox.className =
-      "status-box status-success";
+    "status-box status-success";
+
 
     statusBox.textContent =
-      allPratiche.length +
-      (
-        allPratiche.length === 1
-          ? " pratica caricata da Supabase."
-          : " pratiche caricate da Supabase."
-      );
+    allPratiche.length +
+    (
+      allPratiche.length === 1
+      ? " pratica caricata da Supabase."
+      : " pratiche caricate da Supabase."
+    );
 
 
     setTimeout(
       function(){
 
         statusBox.style.display =
-          "none";
+        "none";
 
       },
       1800
     );
 
   }
+
   catch(error){
 
     console.error(
@@ -1757,7 +1903,8 @@ async function loadPratiche(){
 
 
     allPratiche =
-      [];
+    [];
+
 
     renderPratiche(
       []
@@ -1765,11 +1912,12 @@ async function loadPratiche(){
 
 
     statusBox.className =
-      "status-box status-error";
+    "status-box status-error";
+
 
     statusBox.textContent =
-      "Errore nel caricamento delle pratiche: " +
-      error.message;
+    "Errore nel caricamento delle pratiche: " +
+    error.message;
 
   }
 
@@ -1805,17 +1953,21 @@ reloadBtn.addEventListener(
 
 
 /* ============================
-   AVVIO PAGINA
+   AVVIO
 ============================ */
 
 async function startPage(){
 
   const authenticated =
-    await protectPage();
+  await protectPage();
 
 
-  if(!authenticated){
+  if(
+    !authenticated
+  ){
+
     return;
+
   }
 
 
