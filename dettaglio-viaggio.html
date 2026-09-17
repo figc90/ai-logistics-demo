@@ -129,18 +129,6 @@ button,input,select,textarea{
   text-align:center;
 }
 
-.nav-disabled{
-  opacity:.42;
-}
-
-.soon{
-  margin-left:auto;
-  font-size:8px;
-  background:rgba(255,255,255,.08);
-  padding:4px 7px;
-  border-radius:999px;
-}
-
 .sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
@@ -194,6 +182,7 @@ button,input,select,textarea{
   padding:0 28px;
   position:sticky;
   top:0;
+  z-index:50;
 }
 
 .topbar-brand{
@@ -338,6 +327,20 @@ h1{
   overflow-wrap:anywhere;
 }
 
+/* LINK ANAGRAFICA */
+
+.registry-link{
+  display:none;
+  margin-top:8px;
+  color:#1596c2;
+  font-size:11px;
+  font-weight:900;
+}
+
+.registry-link:hover{
+  text-decoration:underline;
+}
+
 /* PRATICA COLLEGATA */
 
 .practice-card{
@@ -409,6 +412,11 @@ h1{
   border:1px solid #ffd4d1;
 }
 
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
 /* EDITOR */
 
 .editor{
@@ -443,6 +451,8 @@ input,select,textarea{
   border-radius:9px;
   padding:0 12px;
   color:#30465f;
+  background:#fff;
+  outline:none;
 }
 
 input,select{
@@ -452,6 +462,19 @@ input,select{
 textarea{
   min-height:90px;
   padding-top:10px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#2ca9d2;
+  box-shadow:0 0 0 3px rgba(44,169,210,.08);
+}
+
+.field-hint{
+  color:#8795a8;
+  font-size:10px;
+  line-height:1.4;
 }
 
 .message{
@@ -503,7 +526,6 @@ textarea{
 
   .nav-title,
   .nav-item span:not(.nav-icon),
-  .soon,
   .user-card{
     display:none;
   }
@@ -541,8 +563,6 @@ textarea{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="sidebar-logo">
@@ -557,10 +577,7 @@ alt="MatRi-mIA Logistics">
 
 </div>
 
-
 <nav class="sidebar-nav">
-
-<!-- OPERATIVITÀ -->
 
 <div class="nav-section">
 
@@ -585,9 +602,6 @@ OPERATIVITÀ
 
 </div>
 
-
-<!-- AUTOMAZIONI -->
-
 <div class="nav-section">
 
 <div class="nav-title">
@@ -606,9 +620,6 @@ AUTOMAZIONI
 
 </div>
 
-
-<!-- GESTIONE -->
-
 <div class="nav-section">
 
 <div class="nav-title">
@@ -623,7 +634,6 @@ GESTIONE
 </div>
 
 </nav>
-
 
 <div class="sidebar-bottom">
 
@@ -643,7 +653,8 @@ class="user-email">
 
 <button
 id="logoutButton"
-class="logout-btn">
+class="logout-btn"
+type="button">
 Esci
 </button>
 
@@ -651,8 +662,6 @@ Esci
 
 </aside>
 
-
-<!-- MAIN -->
 
 <div class="main">
 
@@ -708,8 +717,6 @@ class="badge badge-plan">
 
 <div class="grid">
 
-<!-- COLONNA SINISTRA -->
-
 <div>
 
 <section class="card">
@@ -724,13 +731,15 @@ Dati viaggio
 
 <button
 id="editButton"
-class="btn btn-secondary">
+class="btn btn-secondary"
+type="button">
 Modifica
 </button>
 
 <button
 id="deleteButton"
-class="btn btn-danger">
+class="btn btn-danger"
+type="button">
 Elimina
 </button>
 
@@ -738,8 +747,6 @@ Elimina
 
 </div>
 
-
-<!-- VISUALIZZAZIONE -->
 
 <div
 id="viewMode"
@@ -758,6 +765,13 @@ id="vVettore"
 class="value">
 -
 </div>
+
+<a
+id="vettoreLink"
+href="#"
+class="registry-link">
+Apri anagrafica →
+</a>
 
 </div>
 
@@ -916,8 +930,6 @@ class="value">
 </div>
 
 
-<!-- MODIFICA -->
-
 <div
 id="editMode"
 class="card-body editor">
@@ -926,18 +938,28 @@ class="card-body editor">
 
 <div class="form-group">
 
-<label>
+<label for="eVettore">
 Vettore
 </label>
 
-<input id="eVettore">
+<input
+id="eVettore"
+type="text"
+list="vettoriList"
+autocomplete="off">
+
+<datalist id="vettoriList"></datalist>
+
+<div class="field-hint">
+Seleziona un vettore dalle Anagrafiche oppure inseriscilo manualmente.
+</div>
 
 </div>
 
 
 <div class="form-group">
 
-<label>
+<label for="eAutista">
 Autista
 </label>
 
@@ -948,7 +970,7 @@ Autista
 
 <div class="form-group">
 
-<label>
+<label for="eTelefono">
 Telefono autista
 </label>
 
@@ -959,7 +981,7 @@ Telefono autista
 
 <div class="form-group">
 
-<label>
+<label for="eStato">
 Stato
 </label>
 
@@ -992,7 +1014,7 @@ ANNULLATO
 
 <div class="form-group">
 
-<label>
+<label for="eTrattore">
 Targa trattore
 </label>
 
@@ -1003,7 +1025,7 @@ Targa trattore
 
 <div class="form-group">
 
-<label>
+<label for="eRimorchio">
 Targa rimorchio
 </label>
 
@@ -1014,7 +1036,7 @@ Targa rimorchio
 
 <div class="form-group">
 
-<label>
+<label for="ePartenza">
 Partenza prevista
 </label>
 
@@ -1027,7 +1049,7 @@ type="datetime-local">
 
 <div class="form-group">
 
-<label>
+<label for="eArrivo">
 Arrivo previsto
 </label>
 
@@ -1040,7 +1062,7 @@ type="datetime-local">
 
 <div class="form-group">
 
-<label>
+<label for="eKm">
 Km previsti
 </label>
 
@@ -1054,7 +1076,7 @@ min="0">
 
 <div class="form-group">
 
-<label>
+<label for="eCosto">
 Costo previsto €
 </label>
 
@@ -1069,7 +1091,7 @@ step="0.01">
 
 <div class="form-group full">
 
-<label>
+<label for="eNote">
 Note operative
 </label>
 
@@ -1086,13 +1108,15 @@ style="margin-top:18px">
 
 <button
 id="cancelButton"
-class="btn btn-secondary">
+class="btn btn-secondary"
+type="button">
 Annulla
 </button>
 
 <button
 id="saveButton"
-class="btn btn-primary">
+class="btn btn-primary"
+type="button">
 Salva modifiche
 </button>
 
@@ -1104,8 +1128,6 @@ Salva modifiche
 
 </div>
 
-
-<!-- COLONNA DESTRA -->
 
 <div>
 
@@ -1180,7 +1202,10 @@ new URLSearchParams(
 
 
 let currentUser = null;
+let currentProfile = null;
 let viaggio = null;
+let vettori = [];
+let selectedVettoreId = null;
 
 
 const userEmail =
@@ -1193,16 +1218,47 @@ document.getElementById(
   "messageBox"
 );
 
+const eVettore =
+document.getElementById(
+  "eVettore"
+);
 
-/* UTILITY */
+const vettoriList =
+document.getElementById(
+  "vettoriList"
+);
+
+const vettoreLink =
+document.getElementById(
+  "vettoreLink"
+);
+
+const saveButton =
+document.getElementById(
+  "saveButton"
+);
+
+
+/* =========================================================
+   UTILITY
+   ========================================================= */
 
 function emptyToNull(value){
 
   const v =
-  String(value || "")
+  String(value ?? "")
   .trim();
 
   return v || null;
+
+}
+
+
+function normalizeName(value){
+
+  return String(value || "")
+  .trim()
+  .toLocaleLowerCase("it-IT");
 
 }
 
@@ -1278,7 +1334,28 @@ function inputDate(value){
 }
 
 
-/* BADGE STATO */
+function showError(message){
+
+  messageBox.style.display =
+  "block";
+
+  messageBox.textContent =
+  message;
+
+}
+
+
+function hideMessage(){
+
+  messageBox.style.display =
+  "none";
+
+}
+
+
+/* =========================================================
+   BADGE STATO
+   ========================================================= */
 
 function badge(status){
 
@@ -1329,30 +1406,23 @@ function badge(status){
 }
 
 
-/* ERRORI */
-
-function showError(message){
-
-  messageBox.style.display =
-  "block";
-
-  messageBox.textContent =
-  message;
-
-}
-
-
-/* AUTENTICAZIONE */
+/* =========================================================
+   AUTENTICAZIONE
+   ========================================================= */
 
 async function protect(){
 
   const {
-    data:{session}
+    data:{session},
+    error:sessionError
   } =
   await supabase.auth.getSession();
 
 
-  if(!session?.user){
+  if(
+    sessionError ||
+    !session?.user
+  ){
 
     window.location.replace(
       "login.html"
@@ -1373,7 +1443,9 @@ async function protect(){
   } =
   await supabase
   .from("profiles")
-  .select("email")
+  .select(
+    "id,email,ruolo,azienda_id"
+  )
   .eq(
     "id",
     currentUser.id
@@ -1381,7 +1453,13 @@ async function protect(){
   .single();
 
 
-  if(error){
+  if(
+    error ||
+    !profile ||
+    !profile.azienda_id
+  ){
+
+    await supabase.auth.signOut();
 
     window.location.replace(
       "login.html"
@@ -1390,6 +1468,10 @@ async function protect(){
     return false;
 
   }
+
+
+  currentProfile =
+  profile;
 
 
   userEmail.textContent =
@@ -1408,7 +1490,9 @@ async function protect(){
 }
 
 
-/* LOGOUT */
+/* =========================================================
+   LOGOUT
+   ========================================================= */
 
 document
 .getElementById(
@@ -1426,7 +1510,142 @@ async ()=>{
 };
 
 
-/* CARICAMENTO VIAGGIO */
+/* =========================================================
+   ANAGRAFICHE VETTORI
+   ========================================================= */
+
+async function loadVettori(){
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("anagrafiche")
+  .select(`
+    id,
+    tipo,
+    ragione_sociale,
+    email,
+    telefono,
+    attiva
+  `)
+  .eq(
+    "attiva",
+    true
+  )
+  .in(
+    "tipo",
+    [
+      "VETTORE",
+      "CLIENTE_VETTORE"
+    ]
+  )
+  .order(
+    "ragione_sociale",
+    {ascending:true}
+  );
+
+
+  if(error){
+
+    console.error(
+      "Errore caricamento vettori:",
+      error
+    );
+
+    throw error;
+
+  }
+
+
+  vettori =
+  data || [];
+
+
+  vettoriList.innerHTML =
+  "";
+
+
+  vettori.forEach(
+  vettore=>{
+
+    const option =
+    document.createElement(
+      "option"
+    );
+
+    option.value =
+    vettore.ragione_sociale;
+
+    vettoriList.appendChild(
+      option
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   RICONOSCIMENTO VETTORE
+   ========================================================= */
+
+function findVettoreByName(name){
+
+  const normalized =
+  normalizeName(name);
+
+
+  if(!normalized){
+    return null;
+  }
+
+
+  return (
+    vettori.find(
+      item =>
+      normalizeName(
+        item.ragione_sociale
+      ) === normalized
+    ) ||
+    null
+  );
+
+}
+
+
+function syncSelectedVettore(){
+
+  const found =
+  findVettoreByName(
+    eVettore.value
+  );
+
+
+  selectedVettoreId =
+  found
+    ? found.id
+    : null;
+
+}
+
+
+eVettore.addEventListener(
+  "input",
+  syncSelectedVettore
+);
+
+
+eVettore.addEventListener(
+  "change",
+  syncSelectedVettore
+);
+
+
+/* =========================================================
+   CARICAMENTO VIAGGIO
+   ========================================================= */
 
 async function load(){
 
@@ -1485,7 +1704,9 @@ async function load(){
 }
 
 
-/* VISUALIZZAZIONE */
+/* =========================================================
+   VISUALIZZAZIONE
+   ========================================================= */
 
 function render(){
 
@@ -1516,6 +1737,30 @@ function render(){
     "vVettore",
     viaggio.vettore
   );
+
+
+  if(viaggio.vettore_id){
+
+    vettoreLink.href =
+    "dettaglio-anagrafica.html?id=" +
+    encodeURIComponent(
+      viaggio.vettore_id
+    );
+
+    vettoreLink.style.display =
+    "inline-flex";
+
+  }
+  else{
+
+    vettoreLink.href =
+    "#";
+
+    vettoreLink.style.display =
+    "none";
+
+  }
+
 
   text(
     "vAutista",
@@ -1624,7 +1869,6 @@ function render(){
     "inline-flex";
 
   }
-
   else{
 
     practiceLink.href =
@@ -1638,9 +1882,14 @@ function render(){
 }
 
 
-/* APERTURA EDITOR */
+/* =========================================================
+   APERTURA EDITOR
+   ========================================================= */
 
 function openEditor(){
+
+  hideMessage();
+
 
   document.getElementById(
     "viewMode"
@@ -1654,10 +1903,40 @@ function openEditor(){
   "block";
 
 
-  document.getElementById(
-    "eVettore"
-  ).value =
+  eVettore.value =
   viaggio.vettore || "";
+
+
+  selectedVettoreId =
+  viaggio.vettore_id || null;
+
+
+  /*
+   * Compatibilità con vecchi viaggi:
+   * se non esiste vettore_id ma il nome
+   * corrisponde a una anagrafica, prepariamo
+   * automaticamente il collegamento.
+   */
+
+  if(
+    !selectedVettoreId &&
+    viaggio.vettore
+  ){
+
+    const matched =
+    findVettoreByName(
+      viaggio.vettore
+    );
+
+
+    if(matched){
+
+      selectedVettoreId =
+      matched.id;
+
+    }
+
+  }
 
 
   document.getElementById(
@@ -1727,7 +2006,9 @@ function openEditor(){
 }
 
 
-/* CHIUSURA EDITOR */
+/* =========================================================
+   CHIUSURA EDITOR
+   ========================================================= */
 
 function closeEditor(){
 
@@ -1745,7 +2026,9 @@ function closeEditor(){
 }
 
 
-/* PULSANTI */
+/* =========================================================
+   PULSANTI
+   ========================================================= */
 
 document.getElementById(
   "editButton"
@@ -1756,15 +2039,24 @@ openEditor;
 document.getElementById(
   "cancelButton"
 ).onclick =
-closeEditor;
+()=>{
+
+  hideMessage();
+
+  closeEditor();
+
+};
 
 
-/* SALVATAGGIO */
+/* =========================================================
+   SALVATAGGIO
+   ========================================================= */
 
-document.getElementById(
-  "saveButton"
-).onclick =
+saveButton.onclick =
 async ()=>{
+
+  hideMessage();
+
 
   const departure =
   emptyToNull(
@@ -1798,14 +2090,42 @@ async ()=>{
   }
 
 
+  /*
+   * Ricalcoliamo sempre l'ID al momento
+   * del salvataggio.
+   *
+   * Se il testo coincide con un'anagrafica:
+   * vettore_id = UUID.
+   *
+   * Se è testo libero:
+   * vettore_id = null.
+   */
+
+  const vettoreText =
+  emptyToNull(
+    eVettore.value
+  );
+
+
+  const matchedVettore =
+  findVettoreByName(
+    vettoreText
+  );
+
+
+  selectedVettoreId =
+  matchedVettore
+    ? matchedVettore.id
+    : null;
+
+
   const payload = {
 
     vettore:
-    emptyToNull(
-      document.getElementById(
-        "eVettore"
-      ).value
-    ),
+    vettoreText,
+
+    vettore_id:
+    selectedVettoreId,
 
     autista:
     emptyToNull(
@@ -1873,6 +2193,13 @@ async ()=>{
   };
 
 
+  saveButton.disabled =
+  true;
+
+  saveButton.textContent =
+  "Salvataggio...";
+
+
   const {
     data,
     error
@@ -1897,6 +2224,13 @@ async ()=>{
   .single();
 
 
+  saveButton.disabled =
+  false;
+
+  saveButton.textContent =
+  "Salva modifiche";
+
+
   if(error){
 
     showError(
@@ -1913,9 +2247,7 @@ async ()=>{
   data;
 
 
-  messageBox.style.display =
-  "none";
-
+  hideMessage();
 
   closeEditor();
 
@@ -1924,7 +2256,9 @@ async ()=>{
 };
 
 
-/* ELIMINAZIONE */
+/* =========================================================
+   ELIMINAZIONE
+   ========================================================= */
 
 document.getElementById(
   "deleteButton"
@@ -1972,20 +2306,43 @@ async ()=>{
 };
 
 
-/* AVVIO */
+/* =========================================================
+   AVVIO
+   ========================================================= */
 
 async function start(){
 
-  const ok =
-  await protect();
+  try{
+
+    const ok =
+    await protect();
 
 
-  if(!ok){
-    return;
+    if(!ok){
+      return;
+    }
+
+
+    /*
+     * Prima carichiamo le anagrafiche vettori,
+     * poi il viaggio.
+     */
+
+    await loadVettori();
+
+    await load();
+
   }
+  catch(error){
 
+    console.error(error);
 
-  await load();
+    showError(
+      "Errore durante il caricamento: " +
+      error.message
+    );
+
+  }
 
 }
 
