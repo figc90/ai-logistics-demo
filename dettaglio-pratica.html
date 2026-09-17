@@ -38,69 +38,9 @@ textarea{
   font:inherit;
 }
 
-.top-header{
-  background:#fff;
-  border-bottom:1px solid #e5eaf0;
-  position:sticky;
-  top:0;
-  z-index:50;
-}
-
-.top-header-inner{
-  max-width:1280px;
-  margin:auto;
-  padding:8px 22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-}
-
-.logo{
-  width:175px;
-  height:auto;
-  display:block;
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.btn{
-  min-height:42px;
-  padding:0 16px;
-  border-radius:10px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  font-weight:800;
-  border:none;
-  cursor:pointer;
-  transition:.2s ease;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-}
-
-.btn-secondary{
-  background:#eef3f8;
-  color:#173459;
-}
-
-.btn-primary{
-  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
-  color:#fff;
-}
-
-.logout-btn{
-  background:#fff1f0;
-  color:#b42318;
-  border:1px solid #ffd4d1;
-}
+/* =========================================================
+   CONTENUTO PAGINA
+   ========================================================= */
 
 .page{
   max-width:1280px;
@@ -384,6 +324,10 @@ textarea.edit-input{
   cursor:not-allowed;
 }
 
+/* =========================================================
+   ANALISI AI
+   ========================================================= */
+
 .ai-card{
   position:sticky;
   top:78px;
@@ -483,77 +427,8 @@ footer strong{
   color:#173459;
 }
 
-@media(max-width:900px){
-
-  .layout{
-    grid-template-columns:1fr;
-  }
-
-  .ai-card{
-    position:static;
-  }
-
-}
-
-@media(max-width:700px){
-
-  .top-header-inner{
-    padding:7px 13px;
-  }
-
-  .logo{
-    width:145px;
-  }
-
-  .btn{
-    padding:0 12px;
-    font-size:13px;
-  }
-
-  .page{
-    padding:24px 13px 45px;
-  }
-
-  .heading{
-    flex-direction:column;
-    gap:15px;
-  }
-
-  .status-area{
-    align-items:flex-start;
-    padding-top:0;
-  }
-
-  .practice-actions{
-    justify-content:flex-start;
-  }
-
-  h1{
-    font-size:36px;
-  }
-
-  .fields{
-    grid-template-columns:1fr;
-  }
-
-  .field.wide{
-    grid-column:auto;
-  }
-
-  .edit-actions{
-    flex-direction:column-reverse;
-  }
-
-  .cancel-edit,
-  .save-edit{
-    width:100%;
-  }
-
-}
-
-
 /* =========================================================
-   AREA RISERVATA MATRI-MIA - LAYOUT UNIFICATO CON DASHBOARD
+   SIDEBAR
    ========================================================= */
 
 .app-shell{
@@ -595,13 +470,14 @@ footer strong{
   background:linear-gradient(145deg,#fff,#f4f8fc);
   border:1px solid rgba(255,255,255,.85);
   border-radius:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);
-  transition:transform .2s ease,box-shadow .2s ease;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.18),
+    0 0 18px rgba(73,193,229,.14);
+  transition:.2s ease;
 }
 
 .app-sidebar-logo-link:hover{
   transform:translateY(-1px);
-  box-shadow:0 10px 28px rgba(0,0,0,.22),0 0 22px rgba(73,193,229,.20);
 }
 
 .app-sidebar-logo-link img{
@@ -660,26 +536,6 @@ footer strong{
   opacity:.9;
 }
 
-.app-nav-disabled{
-  opacity:.42;
-  cursor:default;
-}
-
-.app-nav-disabled:hover{
-  background:transparent;
-  color:#c7d3e1;
-}
-
-.app-soon{
-  margin-left:auto;
-  padding:4px 7px;
-  background:rgba(255,255,255,.08);
-  border-radius:999px;
-  color:#8fa5bb;
-  font-size:8px;
-  font-weight:900;
-}
-
 .app-sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
@@ -694,7 +550,6 @@ footer strong{
   color:#dbe5ef;
   font-weight:800;
   cursor:pointer;
-  transition:.18s ease;
 }
 
 .app-logout-btn:hover{
@@ -762,7 +617,24 @@ footer strong{
   padding:32px 30px 55px;
 }
 
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:900px){
+
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .ai-card{
+    position:static;
+  }
+
+}
+
 @media(max-width:760px){
+
   .app-sidebar{
     width:72px;
   }
@@ -788,8 +660,7 @@ footer strong{
   }
 
   .app-nav-title,
-  .app-nav-item span:not(.app-nav-icon),
-  .app-soon{
+  .app-nav-item span:not(.app-nav-icon){
     display:none;
   }
 
@@ -831,6 +702,42 @@ footer strong{
   .app-main > .page{
     padding:24px 13px 45px;
   }
+
+  .heading{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  .status-area{
+    align-items:flex-start;
+    padding-top:0;
+  }
+
+  .practice-actions{
+    justify-content:flex-start;
+  }
+
+  h1{
+    font-size:36px;
+  }
+
+  .fields{
+    grid-template-columns:1fr;
+  }
+
+  .field.wide{
+    grid-column:auto;
+  }
+
+  .edit-actions{
+    flex-direction:column-reverse;
+  }
+
+  .cancel-edit,
+  .save-edit{
+    width:100%;
+  }
+
 }
 
 </style>
@@ -839,86 +746,163 @@ footer strong{
 
 <body>
 
-
-
 <div class="app-shell">
 
 <aside class="app-sidebar">
 
   <div class="app-sidebar-logo">
-    <a href="dashboard.html" class="app-sidebar-logo-link" aria-label="Vai alla Dashboard">
-      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+
+    <a
+      href="dashboard.html"
+      class="app-sidebar-logo-link"
+      aria-label="Vai alla Dashboard">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+
     </a>
+
   </div>
+
 
   <nav class="app-sidebar-nav">
 
-    <div class="app-nav-section">
-      <div class="app-nav-title">OPERATIVITÀ</div>
+    <!-- OPERATIVITÀ -->
 
-      <a href="dashboard.html" class="app-nav-item">
+    <div class="app-nav-section">
+
+      <div class="app-nav-title">
+        OPERATIVITÀ
+      </div>
+
+      <a
+        href="dashboard.html"
+        class="app-nav-item">
+
         <span class="app-nav-icon">▦</span>
         <span>Dashboard</span>
+
       </a>
 
-      <a href="pratiche.html" class="app-nav-item">
+      <a
+        href="pratiche.html"
+        class="app-nav-item">
+
         <span class="app-nav-icon">▤</span>
         <span>Pratiche</span>
+
       </a>
 
-      <a href="nuova-pratica.html" class="app-nav-item">
+      <a
+        href="nuova-pratica.html"
+        class="app-nav-item">
+
         <span class="app-nav-icon">＋</span>
         <span>Nuova pratica</span>
+
       </a>
+
     </div>
 
-    <div class="app-nav-section">
-      <div class="app-nav-title">AUTOMAZIONI</div>
 
-      <a href="email-ai.html" class="app-nav-item">
+    <!-- AUTOMAZIONI -->
+
+    <div class="app-nav-section">
+
+      <div class="app-nav-title">
+        AUTOMAZIONI
+      </div>
+
+      <a
+        href="email-ai.html"
+        class="app-nav-item">
+
         <span class="app-nav-icon">✉</span>
         <span>Email AI</span>
+
       </a>
 
-      <a href="viaggi.html" class="app-nav-item">
-  <span class="app-nav-icon">↗</span>
-  <span>Viaggi</span>
-</a>
+      <a
+        href="viaggi.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">↗</span>
+        <span>Viaggi</span>
+
+      </a>
+
     </div>
 
-    <div class="app-nav-section">
-      <div class="app-nav-title">GESTIONE</div>
 
-      <a href="anagrafiche.html" class="nav-item">
-  <span class="nav-icon">▣</span>
-  <span>Anagrafiche</span>
-</a>
+    <!-- GESTIONE -->
+
+    <div class="app-nav-section">
+
+      <div class="app-nav-title">
+        GESTIONE
+      </div>
+
+      <a
+        href="anagrafiche.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">▣</span>
+        <span>Anagrafiche</span>
+
+      </a>
+
     </div>
 
   </nav>
 
+
   <div class="app-sidebar-bottom">
-    <button id="logoutButton" class="app-logout-btn" type="button">Esci</button>
+
+    <button
+      id="logoutButton"
+      class="app-logout-btn"
+      type="button">
+      Esci
+    </button>
+
   </div>
 
 </aside>
 
+
 <div class="app-main">
 
 <header class="app-topbar">
-  <div class="app-topbar-brand">MatRi-mIA Logistics</div>
-  <div class="app-topbar-actions">
-    
-      <a href="pratiche.html" class="app-topbar-link app-topbar-secondary">Pratiche</a>
-      <a href="nuova-pratica.html" class="app-topbar-link app-topbar-primary">+ Nuova pratica</a>
-  </div>
-</header>
 
+  <div class="app-topbar-brand">
+    MatRi-mIA Logistics · Dettaglio pratica
+  </div>
+
+  <div class="app-topbar-actions">
+
+    <a
+      href="pratiche.html"
+      class="app-topbar-link app-topbar-secondary">
+      Pratiche
+    </a>
+
+    <a
+      href="nuova-pratica.html"
+      class="app-topbar-link app-topbar-primary">
+      + Nuova pratica
+    </a>
+
+  </div>
+
+</header>
 
 
 <main class="page">
 
-<a href="pratiche.html" class="back">
+<a
+  href="pratiche.html"
+  class="back">
   ← Torna alle pratiche
 </a>
 
@@ -951,7 +935,10 @@ footer strong{
 
       <h1 id="practiceId">-</h1>
 
-      <div id="route" class="route"></div>
+      <div
+        id="route"
+        class="route">
+      </div>
 
       <div
         id="userInfo"
@@ -971,19 +958,19 @@ footer strong{
 
       <div class="practice-actions">
 
-  <button
-    id="tripButton"
-    type="button"
-    class="edit-button">
-    Programma viaggio
-  </button>
+        <button
+          id="tripButton"
+          type="button"
+          class="edit-button">
+          Programma viaggio
+        </button>
 
-  <button
-    id="editButton"
-    type="button"
-    class="edit-button">
-    Modifica pratica
-  </button>
+        <button
+          id="editButton"
+          type="button"
+          class="edit-button">
+          Modifica pratica
+        </button>
 
         <button
           id="reanalyzeButton"
@@ -1013,6 +1000,7 @@ footer strong{
 
     <div>
 
+      <!-- DATI TRASPORTO -->
 
       <section
         id="transportCard"
@@ -1029,9 +1017,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Data</span>
+              <span class="label">
+                Data
+              </span>
 
-              <div id="dataValue" class="value">-</div>
+              <div
+                id="dataValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="dataInput"
@@ -1044,9 +1038,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Cliente</span>
+              <span class="label">
+                Cliente
+              </span>
 
-              <div id="clienteValue" class="value">-</div>
+              <div
+                id="clienteValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="clienteInput"
@@ -1059,9 +1059,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Data/Ora Ritiro</span>
+              <span class="label">
+                Data/Ora Ritiro
+              </span>
 
-              <div id="ritiroValue" class="value">-</div>
+              <div
+                id="ritiroValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="ritiroInput"
@@ -1073,9 +1079,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Data/Ora Consegna</span>
+              <span class="label">
+                Data/Ora Consegna
+              </span>
 
-              <div id="consegnaValue" class="value">-</div>
+              <div
+                id="consegnaValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="consegnaInput"
@@ -1087,9 +1099,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Partenza</span>
+              <span class="label">
+                Partenza
+              </span>
 
-              <div id="partenzaValue" class="value">-</div>
+              <div
+                id="partenzaValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="partenzaInput"
@@ -1102,9 +1120,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Destinazione</span>
+              <span class="label">
+                Destinazione
+              </span>
 
-              <div id="destinazioneValue" class="value">-</div>
+              <div
+                id="destinazioneValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="destinazioneInput"
@@ -1117,9 +1141,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Indirizzo Ritiro</span>
+              <span class="label">
+                Indirizzo Ritiro
+              </span>
 
-              <div id="indirizzoRitiroValue" class="value">-</div>
+              <div
+                id="indirizzoRitiroValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="indirizzoRitiroInput"
@@ -1131,9 +1161,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">CAP Ritiro</span>
+              <span class="label">
+                CAP Ritiro
+              </span>
 
-              <div id="capRitiroValue" class="value">-</div>
+              <div
+                id="capRitiroValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="capRitiroInput"
@@ -1148,9 +1184,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Indirizzo Consegna</span>
+              <span class="label">
+                Indirizzo Consegna
+              </span>
 
-              <div id="indirizzoConsegnaValue" class="value">-</div>
+              <div
+                id="indirizzoConsegnaValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="indirizzoConsegnaInput"
@@ -1162,9 +1204,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">CAP Consegna</span>
+              <span class="label">
+                CAP Consegna
+              </span>
 
-              <div id="capConsegnaValue" class="value">-</div>
+              <div
+                id="capConsegnaValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="capConsegnaInput"
@@ -1183,6 +1231,8 @@ footer strong{
       </section>
 
 
+      <!-- MERCE E VETTORE -->
+
       <section
         id="goodsCard"
         class="card">
@@ -1198,9 +1248,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Vettore</span>
+              <span class="label">
+                Vettore
+              </span>
 
-              <div id="vettoreValue" class="value">-</div>
+              <div
+                id="vettoreValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="vettoreInput"
@@ -1212,9 +1268,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Tipo merce</span>
+              <span class="label">
+                Tipo merce
+              </span>
 
-              <div id="merceValue" class="value">-</div>
+              <div
+                id="merceValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="merceInput"
@@ -1227,9 +1289,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Colli</span>
+              <span class="label">
+                Colli
+              </span>
 
-              <div id="colliValue" class="value">-</div>
+              <div
+                id="colliValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="colliInput"
@@ -1243,9 +1311,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Peso</span>
+              <span class="label">
+                Peso
+              </span>
 
-              <div id="pesoValue" class="value">-</div>
+              <div
+                id="pesoValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="pesoInput"
@@ -1259,9 +1333,15 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Volume</span>
+              <span class="label">
+                Volume
+              </span>
 
-              <div id="volumeValue" class="value">-</div>
+              <div
+                id="volumeValue"
+                class="value">
+                -
+              </div>
 
               <input
                 id="volumeInput"
@@ -1275,13 +1355,20 @@ footer strong{
 
             <div class="field wide">
 
-              <span class="label">Note operative</span>
+              <span class="label">
+                Note operative
+              </span>
 
-              <div id="noteValue" class="value">-</div>
+              <div
+                id="noteValue"
+                class="value">
+                -
+              </div>
 
               <textarea
                 id="noteInput"
-                class="edit-input"></textarea>
+                class="edit-input">
+              </textarea>
 
             </div>
 
@@ -1315,6 +1402,8 @@ footer strong{
     </div>
 
 
+    <!-- AI -->
+
     <aside class="card ai-card">
 
       <div class="ai-header">
@@ -1342,14 +1431,21 @@ footer strong{
 
 
 <footer>
-  <strong>MatRi-mIA Logistics</strong>
+
+  <strong>
+    MatRi-mIA Logistics
+  </strong>
+
   · AI per trasporti e logistica
+
 </footer>
 
 </main>
 
 </div>
+
 </div>
+
 
 <script type="module">
 
@@ -1359,9 +1455,9 @@ import {
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* ============================
+/* =========================================================
    SUPABASE
-============================ */
+   ========================================================= */
 
 const SUPABASE_URL =
   "https://sctzockiurjsxzdkctmy.supabase.co";
@@ -1376,17 +1472,17 @@ const supabase =
   );
 
 
-/* ============================
-   MAKE - ANALISI AI
-============================ */
+/* =========================================================
+   MAKE
+   ========================================================= */
 
 const AI_WEBHOOK_URL =
   "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
 
 
-/* ============================
+/* =========================================================
    PARAMETRI
-============================ */
+   ========================================================= */
 
 const params =
   new URLSearchParams(
@@ -1397,9 +1493,9 @@ const requestedId =
   params.get("id");
 
 
-/* ============================
+/* =========================================================
    ELEMENTI
-============================ */
+   ========================================================= */
 
 const logoutButton =
   document.getElementById("logoutButton");
@@ -1452,9 +1548,9 @@ let currentProfile = null;
 let currentPractice = null;
 
 
-/* ============================
+/* =========================================================
    UTILITY
-============================ */
+   ========================================================= */
 
 function escapeHtml(value){
 
@@ -1467,6 +1563,7 @@ function escapeHtml(value){
 
 }
 
+
 function emptyToNull(value){
 
   const cleaned =
@@ -1477,6 +1574,7 @@ function emptyToNull(value){
     : cleaned;
 
 }
+
 
 function setText(id,value){
 
@@ -1490,6 +1588,7 @@ function setText(id,value){
         : value;
 
 }
+
 
 function formatDate(value){
 
@@ -1518,6 +1617,7 @@ function formatDate(value){
 
 }
 
+
 function formatDateTime(value){
 
   if(!value){
@@ -1544,6 +1644,7 @@ function formatDateTime(value){
   );
 
 }
+
 
 function toDateTimeLocal(value){
 
@@ -1576,6 +1677,7 @@ function toDateTimeLocal(value){
 
 }
 
+
 function showMessage(type,text){
 
   messageBox.className =
@@ -1591,6 +1693,7 @@ function showMessage(type,text){
 
 }
 
+
 function hideMessage(){
 
   messageBox.style.display =
@@ -1599,9 +1702,9 @@ function hideMessage(){
 }
 
 
-/* ============================
+/* =========================================================
    AUTENTICAZIONE
-============================ */
+   ========================================================= */
 
 async function protectPage(){
 
@@ -1633,6 +1736,7 @@ async function protectPage(){
     currentUser =
       session.user;
 
+
     const {
       data:profile,
       error:profileError
@@ -1647,6 +1751,7 @@ async function protectPage(){
           currentUser.id
         )
         .single();
+
 
     if(
       profileError ||
@@ -1663,8 +1768,10 @@ async function protectPage(){
 
     }
 
+
     currentProfile =
       profile;
+
 
     userInfo.innerHTML =
       `Accesso: <strong>${
@@ -1679,9 +1786,11 @@ async function protectPage(){
         )
       }`;
 
+
     document.body.classList.add(
       "auth-ready"
     );
+
 
     return true;
 
@@ -1701,9 +1810,9 @@ async function protectPage(){
 }
 
 
-/* ============================
+/* =========================================================
    LOGOUT
-============================ */
+   ========================================================= */
 
 logoutButton.addEventListener(
   "click",
@@ -1732,9 +1841,9 @@ logoutButton.addEventListener(
 );
 
 
-/* ============================
+/* =========================================================
    STATO AI
-============================ */
+   ========================================================= */
 
 function cleanStatus(value){
 
@@ -1758,6 +1867,7 @@ function cleanStatus(value){
 
 }
 
+
 function setStatus(value){
 
   const badge =
@@ -1770,6 +1880,7 @@ function setStatus(value){
 
   badge.textContent =
     status || "-";
+
 
   if(status === "REGOLARE"){
 
@@ -1799,9 +1910,9 @@ function setStatus(value){
 }
 
 
-/* ============================
+/* =========================================================
    PARSING RISPOSTA AI
-============================ */
+   ========================================================= */
 
 function parseAIResponse(text){
 
@@ -1830,9 +1941,9 @@ function parseAIResponse(text){
 }
 
 
-/* ============================
-   MOSTRA ANALISI
-============================ */
+/* =========================================================
+   MOSTRA ANALISI AI
+   ========================================================= */
 
 function parseAIAnalysis(text){
 
@@ -1851,10 +1962,12 @@ function parseAIAnalysis(text){
 
   }
 
+
   const normalized =
     String(text)
       .replace(/\r/g,"")
       .trim();
+
 
   const headings = [
     "STATO:",
@@ -1863,7 +1976,9 @@ function parseAIAnalysis(text){
     "DATI DELLA PRATICA:"
   ];
 
+
   const sections = [];
+
 
   headings.forEach(
     (heading,index)=>{
@@ -1899,6 +2014,7 @@ function parseAIAnalysis(text){
 
       }
 
+
       sections.push({
 
         title:
@@ -1917,6 +2033,7 @@ function parseAIAnalysis(text){
     }
   );
 
+
   if(!sections.length){
 
     const section =
@@ -1924,6 +2041,7 @@ function parseAIAnalysis(text){
 
     section.className =
       "ai-section";
+
 
     const textElement =
       document.createElement("div");
@@ -1933,6 +2051,7 @@ function parseAIAnalysis(text){
 
     textElement.textContent =
       normalized;
+
 
     section.appendChild(
       textElement
@@ -1946,6 +2065,7 @@ function parseAIAnalysis(text){
 
   }
 
+
   sections.forEach(
     item=>{
 
@@ -1954,6 +2074,7 @@ function parseAIAnalysis(text){
 
       section.className =
         "ai-section";
+
 
       const title =
         document.createElement("div");
@@ -1964,6 +2085,7 @@ function parseAIAnalysis(text){
       title.textContent =
         item.title;
 
+
       const textElement =
         document.createElement("div");
 
@@ -1972,6 +2094,7 @@ function parseAIAnalysis(text){
 
       textElement.textContent =
         item.content || "-";
+
 
       section.appendChild(title);
       section.appendChild(textElement);
@@ -1984,9 +2107,9 @@ function parseAIAnalysis(text){
 }
 
 
-/* ============================
+/* =========================================================
    MOSTRA PRATICA
-============================ */
+   ========================================================= */
 
 function renderPractice(pratica){
 
@@ -1995,6 +2118,7 @@ function renderPractice(pratica){
     .textContent =
       pratica.numero_pratica || "-";
 
+
   document
     .getElementById("route")
     .textContent =
@@ -2002,9 +2126,11 @@ function renderPractice(pratica){
       " → " +
       (pratica.destinazione || "-");
 
+
   setStatus(
     pratica.stato_ai
   );
+
 
   setText(
     "dataValue",
@@ -2092,6 +2218,7 @@ function renderPractice(pratica){
     pratica.note
   );
 
+
   parseAIAnalysis(
     pratica.analisi_ai
   );
@@ -2099,70 +2226,117 @@ function renderPractice(pratica){
 }
 
 
-/* ============================
+/* =========================================================
    CAMPI MODIFICA
-============================ */
+   ========================================================= */
 
 function populateEditFields(){
 
-  document.getElementById("dataInput").value =
+  document.getElementById(
+    "dataInput"
+  ).value =
     currentPractice.data || "";
 
-  document.getElementById("clienteInput").value =
+
+  document.getElementById(
+    "clienteInput"
+  ).value =
     currentPractice.cliente || "";
 
-  document.getElementById("ritiroInput").value =
+
+  document.getElementById(
+    "ritiroInput"
+  ).value =
     toDateTimeLocal(
       currentPractice.ritiro
     );
 
-  document.getElementById("consegnaInput").value =
+
+  document.getElementById(
+    "consegnaInput"
+  ).value =
     toDateTimeLocal(
       currentPractice.consegna
     );
 
-  document.getElementById("partenzaInput").value =
+
+  document.getElementById(
+    "partenzaInput"
+  ).value =
     currentPractice.partenza || "";
 
-  document.getElementById("destinazioneInput").value =
+
+  document.getElementById(
+    "destinazioneInput"
+  ).value =
     currentPractice.destinazione || "";
 
-  document.getElementById("indirizzoRitiroInput").value =
+
+  document.getElementById(
+    "indirizzoRitiroInput"
+  ).value =
     currentPractice.indirizzo_ritiro || "";
 
-  document.getElementById("capRitiroInput").value =
+
+  document.getElementById(
+    "capRitiroInput"
+  ).value =
     currentPractice.cap_ritiro || "";
 
-  document.getElementById("indirizzoConsegnaInput").value =
+
+  document.getElementById(
+    "indirizzoConsegnaInput"
+  ).value =
     currentPractice.indirizzo_consegna || "";
 
-  document.getElementById("capConsegnaInput").value =
+
+  document.getElementById(
+    "capConsegnaInput"
+  ).value =
     currentPractice.cap_consegna || "";
 
-  document.getElementById("vettoreInput").value =
+
+  document.getElementById(
+    "vettoreInput"
+  ).value =
     currentPractice.vettore || "";
 
-  document.getElementById("merceInput").value =
+
+  document.getElementById(
+    "merceInput"
+  ).value =
     currentPractice.tipo_merce || "";
 
-  document.getElementById("colliInput").value =
+
+  document.getElementById(
+    "colliInput"
+  ).value =
     currentPractice.colli ?? "";
 
-  document.getElementById("pesoInput").value =
+
+  document.getElementById(
+    "pesoInput"
+  ).value =
     currentPractice.peso_kg ?? "";
 
-  document.getElementById("volumeInput").value =
+
+  document.getElementById(
+    "volumeInput"
+  ).value =
     currentPractice.volume_m3 ?? "";
 
-  document.getElementById("noteInput").value =
+
+  document.getElementById(
+    "noteInput"
+  ).value =
     currentPractice.note || "";
 
 }
 
 
-/* ============================
+/* =========================================================
    MODIFICA
-============================ */
+   ========================================================= */
 
 function startEditing(){
 
@@ -2170,9 +2344,11 @@ function startEditing(){
     return;
   }
 
+
   hideMessage();
 
   populateEditFields();
+
 
   transportCard.classList.add(
     "editing"
@@ -2186,8 +2362,12 @@ function startEditing(){
     "editing-page"
   );
 
+
   editButton.style.display =
     "none";
+
+  tripButton.disabled =
+    true;
 
   reanalyzeButton.disabled =
     true;
@@ -2196,6 +2376,7 @@ function startEditing(){
     true;
 
 }
+
 
 function stopEditing(){
 
@@ -2211,8 +2392,12 @@ function stopEditing(){
     "editing-page"
   );
 
+
   editButton.style.display =
     "inline-block";
+
+  tripButton.disabled =
+    false;
 
   reanalyzeButton.disabled =
     false;
@@ -2223,9 +2408,9 @@ function stopEditing(){
 }
 
 
-/* ============================
+/* =========================================================
    DATI UPDATE
-============================ */
+   ========================================================= */
 
 function getUpdatedData(){
 
@@ -2344,9 +2529,9 @@ function getUpdatedData(){
 }
 
 
-/* ============================
+/* =========================================================
    VALIDAZIONE
-============================ */
+   ========================================================= */
 
 function validateEdit(){
 
@@ -2357,6 +2542,7 @@ function validateEdit(){
     "destinazioneInput",
     "merceInput"
   ];
+
 
   for(const id of required){
 
@@ -2374,6 +2560,7 @@ function validateEdit(){
 
   }
 
+
   const capRitiro =
     document.getElementById(
       "capRitiroInput"
@@ -2384,28 +2571,33 @@ function validateEdit(){
       "capConsegnaInput"
     );
 
+
   if(!capRitiro.checkValidity()){
 
     capRitiro.reportValidity();
+
     return false;
 
   }
+
 
   if(!capConsegna.checkValidity()){
 
     capConsegna.reportValidity();
+
     return false;
 
   }
+
 
   return true;
 
 }
 
 
-/* ============================
-   SALVA
-============================ */
+/* =========================================================
+   SALVA MODIFICHE
+   ========================================================= */
 
 async function saveChanges(){
 
@@ -2413,7 +2605,9 @@ async function saveChanges(){
     return;
   }
 
+
   hideMessage();
+
 
   saveButton.disabled =
     true;
@@ -2421,10 +2615,12 @@ async function saveChanges(){
   saveButton.textContent =
     "Salvataggio...";
 
+
   try{
 
     const updates =
       getUpdatedData();
+
 
     const {
       data,
@@ -2440,18 +2636,23 @@ async function saveChanges(){
         .select()
         .single();
 
+
     if(error){
       throw error;
     }
 
+
     currentPractice =
       data;
+
 
     renderPractice(
       currentPractice
     );
 
+
     stopEditing();
+
 
     showMessage(
       "success",
@@ -2462,6 +2663,7 @@ async function saveChanges(){
   catch(error){
 
     console.error(error);
+
 
     showMessage(
       "error",
@@ -2483,9 +2685,9 @@ async function saveChanges(){
 }
 
 
-/* ============================
+/* =========================================================
    DATI PER MAKE
-============================ */
+   ========================================================= */
 
 function getAIData(){
 
@@ -2541,10 +2743,6 @@ function getAIData(){
     note:
       currentPractice.note || "",
 
-    /*
-     * Informazioni aggiuntive.
-     * Make può ignorarle.
-     */
     numeroPratica:
       currentPractice.numero_pratica,
 
@@ -2556,9 +2754,9 @@ function getAIData(){
 }
 
 
-/* ============================
+/* =========================================================
    RIANALIZZA AI
-============================ */
+   ========================================================= */
 
 async function reanalyzePractice(){
 
@@ -2566,10 +2764,13 @@ async function reanalyzePractice(){
     return;
   }
 
+
   hideMessage();
+
 
   const oldButtonText =
     reanalyzeButton.textContent;
+
 
   reanalyzeButton.disabled =
     true;
@@ -2577,25 +2778,24 @@ async function reanalyzePractice(){
   editButton.disabled =
     true;
 
+  tripButton.disabled =
+    true;
+
   deleteButton.disabled =
     true;
 
+
   reanalyzeButton.textContent =
     "Analisi in corso...";
+
 
   aiContent.innerHTML =
     `<div class="ai-loading">
       MatRi-mIA sta rianalizzando la pratica...
     </div>`;
 
-  try{
 
-    /*
-     * IMPORTANTE:
-     * viene inviata solo azione = analizza.
-     * Quindi non deve essere creata
-     * una nuova pratica.
-     */
+  try{
 
     const response =
       await fetch(
@@ -2617,6 +2817,7 @@ async function reanalyzePractice(){
         }
       );
 
+
     if(!response.ok){
 
       throw new Error(
@@ -2626,13 +2827,16 @@ async function reanalyzePractice(){
 
     }
 
+
     const responseText =
       await response.text();
+
 
     const result =
       parseAIResponse(
         responseText
       );
+
 
     if(!result.analysis){
 
@@ -2642,6 +2846,7 @@ async function reanalyzePractice(){
 
     }
 
+
     if(!result.status){
 
       throw new Error(
@@ -2650,9 +2855,6 @@ async function reanalyzePractice(){
 
     }
 
-    /*
-     * Aggiorniamo la STESSA pratica.
-     */
 
     const {
       data,
@@ -2682,16 +2884,20 @@ async function reanalyzePractice(){
         .select()
         .single();
 
+
     if(error){
       throw error;
     }
 
+
     currentPractice =
       data;
+
 
     renderPractice(
       currentPractice
     );
+
 
     showMessage(
       "success",
@@ -2706,14 +2912,11 @@ async function reanalyzePractice(){
       error
     );
 
-    /*
-     * Ripristiniamo l'analisi precedente
-     * se qualcosa non funziona.
-     */
 
     parseAIAnalysis(
       currentPractice.analisi_ai
     );
+
 
     showMessage(
       "error",
@@ -2730,6 +2933,9 @@ async function reanalyzePractice(){
     editButton.disabled =
       false;
 
+    tripButton.disabled =
+      false;
+
     deleteButton.disabled =
       false;
 
@@ -2741,9 +2947,9 @@ async function reanalyzePractice(){
 }
 
 
-/* ============================
+/* =========================================================
    ELIMINA PRATICA
-============================ */
+   ========================================================= */
 
 async function deletePractice(){
 
@@ -2751,9 +2957,11 @@ async function deletePractice(){
     return;
   }
 
+
   const numero =
     currentPractice.numero_pratica ||
     "";
+
 
   const confirmed =
     window.confirm(
@@ -2762,20 +2970,25 @@ async function deletePractice(){
       "?\n\nQuesta operazione non può essere annullata."
     );
 
+
   if(!confirmed){
     return;
   }
+
 
   const secondConfirmation =
     window.confirm(
       "Confermi l'eliminazione definitiva?"
     );
 
+
   if(!secondConfirmation){
     return;
   }
 
+
   hideMessage();
+
 
   deleteButton.disabled =
     true;
@@ -2783,11 +2996,15 @@ async function deletePractice(){
   editButton.disabled =
     true;
 
+  tripButton.disabled =
+    true;
+
   reanalyzeButton.disabled =
     true;
 
   deleteButton.textContent =
     "Eliminazione...";
+
 
   try{
 
@@ -2802,15 +3019,11 @@ async function deletePractice(){
           currentPractice.id
         );
 
+
     if(error){
       throw error;
     }
 
-    /*
-     * RLS garantisce che l'utente
-     * possa eliminare solamente
-     * una pratica autorizzata.
-     */
 
     window.location.replace(
       "pratiche.html"
@@ -2824,16 +3037,21 @@ async function deletePractice(){
       error
     );
 
+
     showMessage(
       "error",
       "Errore durante l'eliminazione: " +
       error.message
     );
 
+
     deleteButton.disabled =
       false;
 
     editButton.disabled =
+      false;
+
+    tripButton.disabled =
       false;
 
     reanalyzeButton.disabled =
@@ -2846,9 +3064,10 @@ async function deletePractice(){
 
 }
 
-  /* ============================
+
+/* =========================================================
    VIAGGIO COLLEGATO
-============================ */
+   ========================================================= */
 
 async function configureTripButton(){
 
@@ -2856,8 +3075,13 @@ async function configureTripButton(){
     return;
   }
 
-  tripButton.disabled = true;
-  tripButton.textContent = "Controllo viaggio...";
+
+  tripButton.disabled =
+    true;
+
+  tripButton.textContent =
+    "Controllo viaggio...";
+
 
   try{
 
@@ -2876,14 +3100,17 @@ async function configureTripButton(){
         )
         .maybeSingle();
 
+
     if(error){
       throw error;
     }
+
 
     if(existingTrip){
 
       tripButton.textContent =
         "Apri viaggio";
+
 
       tripButton.onclick =
         function(){
@@ -2902,6 +3129,7 @@ async function configureTripButton(){
       tripButton.textContent =
         "Programma viaggio";
 
+
       tripButton.onclick =
         function(){
 
@@ -2915,7 +3143,9 @@ async function configureTripButton(){
 
     }
 
-    tripButton.disabled = false;
+
+    tripButton.disabled =
+      false;
 
   }
   catch(error){
@@ -2925,10 +3155,13 @@ async function configureTripButton(){
       error
     );
 
+
     tripButton.textContent =
       "Programma viaggio";
 
-    tripButton.disabled = false;
+    tripButton.disabled =
+      false;
+
 
     tripButton.onclick =
       function(){
@@ -2945,14 +3178,16 @@ async function configureTripButton(){
 
 }
 
-/* ============================
+
+/* =========================================================
    EVENTI
-============================ */
+   ========================================================= */
 
 editButton.addEventListener(
   "click",
   startEditing
 );
+
 
 cancelEditButton.addEventListener(
   "click",
@@ -2964,15 +3199,18 @@ cancelEditButton.addEventListener(
   }
 );
 
+
 saveButton.addEventListener(
   "click",
   saveChanges
 );
 
+
 reanalyzeButton.addEventListener(
   "click",
   reanalyzePractice
 );
+
 
 deleteButton.addEventListener(
   "click",
@@ -2980,9 +3218,9 @@ deleteButton.addEventListener(
 );
 
 
-/* ============================
+/* =========================================================
    CARICAMENTO PRATICA
-============================ */
+   ========================================================= */
 
 async function loadPractice(){
 
@@ -2991,14 +3229,17 @@ async function loadPractice(){
     loadingBox.style.display =
       "none";
 
+
     showMessage(
       "error",
       "ID pratica non specificato."
     );
 
+
     return;
 
   }
+
 
   try{
 
@@ -3015,9 +3256,11 @@ async function loadPractice(){
         )
         .single();
 
+
     if(error){
       throw error;
     }
+
 
     if(!pratica){
 
@@ -3027,28 +3270,35 @@ async function loadPractice(){
 
     }
 
-   currentPractice =
-  pratica;
 
-renderPractice(
-  currentPractice
-);
+    currentPractice =
+      pratica;
 
-loadingBox.style.display =
-  "none";
 
-content.style.display =
-  "block";
+    renderPractice(
+      currentPractice
+    );
 
-await configureTripButton();
+
+    loadingBox.style.display =
+      "none";
+
+
+    content.style.display =
+      "block";
+
+
+    await configureTripButton();
 
   }
   catch(error){
 
     console.error(error);
 
+
     loadingBox.style.display =
       "none";
+
 
     showMessage(
       "error",
@@ -3062,26 +3312,30 @@ await configureTripButton();
 }
 
 
-/* ============================
+/* =========================================================
    AVVIO
-============================ */
+   ========================================================= */
 
 async function startPage(){
 
   const authenticated =
     await protectPage();
 
+
   if(!authenticated){
     return;
   }
 
+
   await loadPractice();
 
 }
+
 
 startPage();
 
 </script>
 
 </body>
+
 </html>
