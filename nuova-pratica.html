@@ -413,7 +413,10 @@ footer strong{
   color:#173459;
 }
 
-/* SIDEBAR */
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
 
 .app-shell{
   min-height:100vh;
@@ -487,6 +490,7 @@ footer strong{
   font-size:14px;
   font-weight:700;
   margin-bottom:5px;
+  transition:.18s ease;
 }
 
 .app-nav-item:hover{
@@ -503,18 +507,7 @@ footer strong{
 .app-nav-icon{
   width:18px;
   text-align:center;
-}
-
-.app-nav-disabled{
-  opacity:.42;
-}
-
-.app-soon{
-  margin-left:auto;
-  padding:4px 7px;
-  background:rgba(255,255,255,.08);
-  border-radius:999px;
-  font-size:8px;
+  font-size:16px;
 }
 
 .app-sidebar-bottom{
@@ -531,6 +524,11 @@ footer strong{
   color:#dbe5ef;
   font-weight:800;
   cursor:pointer;
+}
+
+.app-logout-btn:hover{
+  background:rgba(255,255,255,.09);
+  color:#fff;
 }
 
 .app-main{
@@ -617,8 +615,7 @@ footer strong{
   }
 
   .app-nav-title,
-  .app-nav-item span:not(.app-nav-icon),
-  .app-soon{
+  .app-nav-item span:not(.app-nav-icon){
     display:none;
   }
 
@@ -651,336 +648,611 @@ footer strong{
 
 <aside class="app-sidebar">
 
-<div class="app-sidebar-logo">
-<a href="dashboard.html" class="app-sidebar-logo-link">
-<img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
-</a>
-</div>
+  <div class="app-sidebar-logo">
 
-<nav class="app-sidebar-nav">
+    <a href="dashboard.html" class="app-sidebar-logo-link">
 
-<div class="app-nav-section">
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
 
-<div class="app-nav-title">OPERATIVITÀ</div>
+    </a>
 
-<a href="dashboard.html" class="app-nav-item">
-<span class="app-nav-icon">▦</span>
-<span>Dashboard</span>
-</a>
+  </div>
 
-<a href="pratiche.html" class="app-nav-item">
-<span class="app-nav-icon">▤</span>
-<span>Pratiche</span>
-</a>
 
-<a href="nuova-pratica.html" class="app-nav-item active">
-<span class="app-nav-icon">＋</span>
-<span>Nuova pratica</span>
-</a>
+  <nav class="app-sidebar-nav">
 
-</div>
 
-<div class="app-nav-section">
+    <!-- OPERATIVITÀ -->
 
-<div class="app-nav-title">AUTOMAZIONI</div>
+    <div class="app-nav-section">
 
-<a href="email-ai.html" class="app-nav-item">
-<span class="app-nav-icon">✉</span>
-<span>Email AI</span>
-</a>
+      <div class="app-nav-title">
+        OPERATIVITÀ
+      </div>
 
-<a href="viaggi.html" class="app-nav-item">
-<span class="app-nav-icon">↗</span>
-<span>Viaggi</span>
-</a>
+      <a href="dashboard.html" class="app-nav-item">
+        <span class="app-nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
 
-</div>
+      <a href="pratiche.html" class="app-nav-item">
+        <span class="app-nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
 
-<div class="app-nav-section">
+      <a href="nuova-pratica.html" class="app-nav-item active">
+        <span class="app-nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
 
-<div class="app-nav-title">GESTIONE</div>
+    </div>
 
-<a href="anagrafiche.html" class="nav-item">
-  <span class="nav-icon">▣</span>
-  <span>Anagrafiche</span>
-</a>
 
-</div>
+    <!-- AUTOMAZIONI -->
 
-</nav>
+    <div class="app-nav-section">
 
-<div class="app-sidebar-bottom">
-<button id="logoutButton" class="app-logout-btn" type="button">Esci</button>
-</div>
+      <div class="app-nav-title">
+        AUTOMAZIONI
+      </div>
+
+      <a href="email-ai.html" class="app-nav-item">
+        <span class="app-nav-icon">✉</span>
+        <span>Email AI</span>
+      </a>
+
+      <a href="viaggi.html" class="app-nav-item">
+        <span class="app-nav-icon">↗</span>
+        <span>Viaggi</span>
+      </a>
+
+    </div>
+
+
+    <!-- GESTIONE -->
+
+    <div class="app-nav-section">
+
+      <div class="app-nav-title">
+        GESTIONE
+      </div>
+
+      <a href="anagrafiche.html" class="app-nav-item">
+        <span class="app-nav-icon">▣</span>
+        <span>Anagrafiche</span>
+      </a>
+
+    </div>
+
+  </nav>
+
+
+  <div class="app-sidebar-bottom">
+
+    <button
+      id="logoutButton"
+      class="app-logout-btn"
+      type="button">
+      Esci
+    </button>
+
+  </div>
 
 </aside>
+
 
 <div class="app-main">
 
+
 <header class="app-topbar">
 
-<div class="app-topbar-brand">
-MatRi-mIA Logistics
-</div>
+  <div class="app-topbar-brand">
+    MatRi-mIA Logistics
+  </div>
 
-<div>
-<a href="pratiche.html" class="app-topbar-link app-topbar-secondary">
-Pratiche
-</a>
-</div>
+  <div>
+
+    <a
+      href="pratiche.html"
+      class="app-topbar-link app-topbar-secondary">
+      Pratiche
+    </a>
+
+  </div>
 
 </header>
 
+
 <main class="page">
 
+
 <a href="pratiche.html" class="back">
-← Torna alle pratiche
+  ← Torna alle pratiche
 </a>
+
 
 <div class="heading">
 
-<div class="eyebrow">
-MATRI-MIA · NUOVA PRATICA
+  <div class="eyebrow">
+    MATRI-MIA · NUOVA PRATICA
+  </div>
+
+  <h1>
+    Nuova pratica
+  </h1>
+
+  <div class="subtitle">
+    Inserisci i dati, analizza la pratica e confermala
+    solo dopo aver verificato il risultato dell’AI.
+  </div>
+
+  <div
+    id="userInfo"
+    class="user-info">
+  </div>
+
 </div>
 
-<h1>Nuova pratica</h1>
-
-<div class="subtitle">
-Inserisci i dati, analizza la pratica e confermala
-solo dopo aver verificato il risultato dell’AI.
-</div>
-
-<div id="userInfo" class="user-info"></div>
-
-</div>
 
 <form id="practiceForm">
 
+
 <div class="layout">
+
 
 <div>
 
-<section class="card">
-
-<div class="card-header">
-<h2>Dati trasporto</h2>
-<p>Informazioni principali relative a ritiro e consegna.</p>
-</div>
-
-<div class="card-body">
-
-<div class="fields">
-
-<div class="field">
-<label for="data">Data</label>
-<input id="data" type="date" required>
-</div>
-
-<div class="field">
-<label for="cliente">Cliente</label>
-<input id="cliente" type="text" required>
-</div>
-
-<div class="field">
-<label for="ritiro">Data/Ora Ritiro</label>
-<input id="ritiro" type="datetime-local">
-</div>
-
-<div class="field">
-<label for="consegna">Data/Ora Consegna</label>
-<input id="consegna" type="datetime-local">
-</div>
-
-<div class="field">
-<label for="partenza">Partenza</label>
-<input id="partenza" type="text" required>
-</div>
-
-<div class="field">
-<label for="destinazione">Destinazione</label>
-<input id="destinazione" type="text" required>
-</div>
-
-<div class="field">
-<label for="indirizzoRitiro">Indirizzo Ritiro</label>
-<input id="indirizzoRitiro" type="text">
-</div>
-
-<div class="field">
-<label for="capRitiro">CAP Ritiro</label>
-<input id="capRitiro" type="text" inputmode="numeric" maxlength="5" pattern="[0-9]{5}">
-</div>
-
-<div class="field">
-<label for="indirizzoConsegna">Indirizzo Consegna</label>
-<input id="indirizzoConsegna" type="text">
-</div>
-
-<div class="field">
-<label for="capConsegna">CAP Consegna</label>
-<input id="capConsegna" type="text" inputmode="numeric" maxlength="5" pattern="[0-9]{5}">
-</div>
-
-</div>
-
-</div>
-
-</section>
 
 <section class="card">
 
-<div class="card-header">
-<h2>Merce e vettore</h2>
-<p>Dati operativi della spedizione.</p>
-</div>
+  <div class="card-header">
 
-<div class="card-body">
+    <h2>
+      Dati trasporto
+    </h2>
 
-<div class="fields">
+    <p>
+      Informazioni principali relative a ritiro e consegna.
+    </p>
 
-<div class="field">
-<label for="vettore">Vettore</label>
-<input id="vettore" type="text">
-</div>
+  </div>
 
-<div class="field">
-<label for="tipoMerce">Tipo Merce</label>
-<input id="tipoMerce" type="text" required>
-</div>
 
-<div class="field">
-<label for="colli">Colli</label>
-<input id="colli" type="number" min="0" step="1">
-</div>
+  <div class="card-body">
 
-<div class="field">
-<label for="peso">Peso kg</label>
-<input id="peso" type="number" min="0" step="0.01">
-</div>
+    <div class="fields">
 
-<div class="field">
-<label for="volume">Volume m³</label>
-<input id="volume" type="number" min="0" step="0.01">
-</div>
 
-<div class="field wide">
-<label for="note">Note Operative</label>
-<textarea id="note"></textarea>
-</div>
+      <div class="field">
 
-</div>
+        <label for="data">
+          Data
+        </label>
 
-</div>
+        <input
+          id="data"
+          type="date"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cliente">
+          Cliente
+        </label>
+
+        <input
+          id="cliente"
+          type="text"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="ritiro">
+          Data/Ora Ritiro
+        </label>
+
+        <input
+          id="ritiro"
+          type="datetime-local">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="consegna">
+          Data/Ora Consegna
+        </label>
+
+        <input
+          id="consegna"
+          type="datetime-local">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="partenza">
+          Partenza
+        </label>
+
+        <input
+          id="partenza"
+          type="text"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="destinazione">
+          Destinazione
+        </label>
+
+        <input
+          id="destinazione"
+          type="text"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="indirizzoRitiro">
+          Indirizzo Ritiro
+        </label>
+
+        <input
+          id="indirizzoRitiro"
+          type="text">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="capRitiro">
+          CAP Ritiro
+        </label>
+
+        <input
+          id="capRitiro"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          pattern="[0-9]{5}">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="indirizzoConsegna">
+          Indirizzo Consegna
+        </label>
+
+        <input
+          id="indirizzoConsegna"
+          type="text">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="capConsegna">
+          CAP Consegna
+        </label>
+
+        <input
+          id="capConsegna"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          pattern="[0-9]{5}">
+
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
-<div id="messageBox" class="message"></div>
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+      Merce e vettore
+    </h2>
+
+    <p>
+      Dati operativi della spedizione.
+    </p>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="fields">
+
+
+      <div class="field">
+
+        <label for="vettore">
+          Vettore
+        </label>
+
+        <input
+          id="vettore"
+          type="text">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="tipoMerce">
+          Tipo Merce
+        </label>
+
+        <input
+          id="tipoMerce"
+          type="text"
+          required>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="colli">
+          Colli
+        </label>
+
+        <input
+          id="colli"
+          type="number"
+          min="0"
+          step="1">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="peso">
+          Peso kg
+        </label>
+
+        <input
+          id="peso"
+          type="number"
+          min="0"
+          step="0.01">
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="volume">
+          Volume m³
+        </label>
+
+        <input
+          id="volume"
+          type="number"
+          min="0"
+          step="0.01">
+
+      </div>
+
+
+      <div class="field wide">
+
+        <label for="note">
+          Note Operative
+        </label>
+
+        <textarea id="note"></textarea>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<div
+  id="messageBox"
+  class="message">
+</div>
+
 
 <div class="actions-bar">
 
-<a href="pratiche.html" class="btn cancel-btn">
-Annulla
-</a>
+  <a
+    href="pratiche.html"
+    class="btn cancel-btn">
+    Annulla
+  </a>
 
-<button id="submitButton" type="submit" class="btn analyze-btn">
-Analizza pratica
-</button>
+  <button
+    id="submitButton"
+    type="submit"
+    class="btn analyze-btn">
+    Analizza pratica
+  </button>
 
 </div>
 
+
 </div>
+
 
 <aside class="card ai-card">
 
+
 <div class="ai-header">
 
-<div class="ai-label">
-MATRI-MIA AI
+  <div class="ai-label">
+    MATRI-MIA AI
+  </div>
+
+  <h2>
+    Controllo pratica
+  </h2>
+
 </div>
 
-<h2>Controllo pratica</h2>
-
-</div>
 
 <div class="ai-content">
 
+
 <div class="ai-state">
 
-<div class="ai-dot"></div>
+  <div class="ai-dot"></div>
 
-<strong id="aiStateText">
-AI pronta
-</strong>
+  <strong id="aiStateText">
+    AI pronta
+  </strong>
 
 </div>
+
 
 <div class="ai-text">
-L’AI analizzerà i dati senza registrare la pratica.
-Potrai correggere i dati prima della conferma.
+  L’AI analizzerà i dati senza registrare la pratica.
+  Potrai correggere i dati prima della conferma.
 </div>
 
-<div id="aiResult" class="ai-result">
 
-<div class="ai-result-title">
-RISULTATO ANALISI
-</div>
+<div
+  id="aiResult"
+  class="ai-result">
 
-<div id="aiStatus" class="ai-status ai-status-default">
--
-</div>
 
-<div id="confirmBox" class="confirm-box">
+  <div class="ai-result-title">
+    RISULTATO ANALISI
+  </div>
 
-<div id="confirmNote" class="confirm-note"></div>
 
-<div class="ai-buttons">
+  <div
+    id="aiStatus"
+    class="ai-status ai-status-default">
+    -
+  </div>
 
-<button id="correctButton" type="button" class="correct-btn">
-Correggi dati
-</button>
 
-<button id="confirmButton" type="button" class="confirm-btn">
-Conferma pratica
-</button>
+  <div
+    id="confirmBox"
+    class="confirm-box">
 
-</div>
 
-</div>
+    <div
+      id="confirmNote"
+      class="confirm-note">
+    </div>
 
-<div class="ai-section">
-<h3>MOTIVO</h3>
-<p id="aiReason">-</p>
-</div>
 
-<div class="ai-section">
-<h3>AZIONE RICHIESTA</h3>
-<p id="aiAction">-</p>
-</div>
+    <div class="ai-buttons">
+
+      <button
+        id="correctButton"
+        type="button"
+        class="correct-btn">
+        Correggi dati
+      </button>
+
+      <button
+        id="confirmButton"
+        type="button"
+        class="confirm-btn">
+        Conferma pratica
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="ai-section">
+
+    <h3>
+      MOTIVO
+    </h3>
+
+    <p id="aiReason">
+      -
+    </p>
+
+  </div>
+
+
+  <div class="ai-section">
+
+    <h3>
+      AZIONE RICHIESTA
+    </h3>
+
+    <p id="aiAction">
+      -
+    </p>
+
+  </div>
+
 
 </div>
 
 </div>
 
 </aside>
+
 
 </div>
 
 </form>
 
+
 <footer>
-<strong>MatRi-mIA Logistics</strong>
-· AI per trasporti e logistica
+
+  <strong>
+    MatRi-mIA Logistics
+  </strong>
+
+  · AI per trasporti e logistica
+
 </footer>
+
 
 </main>
 
 </div>
+
 </div>
+
 
 <script type="module">
 
 import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
 
 /* ============================
    SUPABASE
@@ -998,6 +1270,7 @@ const supabase =
     SUPABASE_KEY
   );
 
+
 /* ============================
    MAKE - ANALISI AI
 ============================ */
@@ -1005,14 +1278,10 @@ const supabase =
 const WEBHOOK_URL =
   "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
 
+
 /* ============================
    PARAMETRI URL
 ============================ */
-
-/*
- * Manteniamo ?email= perché è il parametro
- * già utilizzato dalla pagina Email AI.
- */
 
 const urlParams =
   new URLSearchParams(
@@ -1025,51 +1294,81 @@ const emailId =
 const sourceEmailId =
   emailId || null;
 
+
 /* ============================
    ELEMENTI
 ============================ */
 
 const form =
-  document.getElementById("practiceForm");
+  document.getElementById(
+    "practiceForm"
+  );
 
 const submitButton =
-  document.getElementById("submitButton");
+  document.getElementById(
+    "submitButton"
+  );
 
 const confirmButton =
-  document.getElementById("confirmButton");
+  document.getElementById(
+    "confirmButton"
+  );
 
 const correctButton =
-  document.getElementById("correctButton");
+  document.getElementById(
+    "correctButton"
+  );
 
 const confirmBox =
-  document.getElementById("confirmBox");
+  document.getElementById(
+    "confirmBox"
+  );
 
 const confirmNote =
-  document.getElementById("confirmNote");
+  document.getElementById(
+    "confirmNote"
+  );
 
 const messageBox =
-  document.getElementById("messageBox");
+  document.getElementById(
+    "messageBox"
+  );
 
 const aiStateText =
-  document.getElementById("aiStateText");
+  document.getElementById(
+    "aiStateText"
+  );
 
 const aiResult =
-  document.getElementById("aiResult");
+  document.getElementById(
+    "aiResult"
+  );
 
 const aiStatus =
-  document.getElementById("aiStatus");
+  document.getElementById(
+    "aiStatus"
+  );
 
 const aiReason =
-  document.getElementById("aiReason");
+  document.getElementById(
+    "aiReason"
+  );
 
 const aiAction =
-  document.getElementById("aiAction");
+  document.getElementById(
+    "aiAction"
+  );
 
 const logoutButton =
-  document.getElementById("logoutButton");
+  document.getElementById(
+    "logoutButton"
+  );
 
 const userInfo =
-  document.getElementById("userInfo");
+  document.getElementById(
+    "userInfo"
+  );
+
 
 let ultimaAnalisi = "";
 let ultimoStato = "";
@@ -1077,6 +1376,7 @@ let analisiValida = false;
 
 let currentUser = null;
 let currentProfile = null;
+
 
 /* ============================
    UTILITY
@@ -1092,6 +1392,7 @@ function escapeHtml(value){
     .replaceAll("'","&#039;");
 
 }
+
 
 function showMessage(type,text){
 
@@ -1111,6 +1412,7 @@ function showMessage(type,text){
 
 }
 
+
 function emptyToNull(value){
 
   if(
@@ -1124,6 +1426,7 @@ function emptyToNull(value){
   return value;
 
 }
+
 
 function numberOrNull(value){
 
@@ -1143,6 +1446,7 @@ function numberOrNull(value){
     : number;
 
 }
+
 
 function setFieldValue(id,value){
 
@@ -1165,6 +1469,7 @@ function setFieldValue(id,value){
 
 }
 
+
 function toDateTimeLocal(value){
 
   if(!value){
@@ -1180,7 +1485,8 @@ function toDateTimeLocal(value){
 
   const pad =
     number =>
-      String(number).padStart(2,"0");
+      String(number)
+        .padStart(2,"0");
 
   return (
     date.getFullYear() +
@@ -1196,6 +1502,7 @@ function toDateTimeLocal(value){
 
 }
 
+
 function extractSection(
   text,
   startLabel,
@@ -1203,14 +1510,17 @@ function extractSection(
 ){
 
   const start =
-    text.indexOf(startLabel);
+    text.indexOf(
+      startLabel
+    );
 
   if(start === -1){
     return "";
   }
 
   const contentStart =
-    start + startLabel.length;
+    start +
+    startLabel.length;
 
   let end =
     text.length;
@@ -1230,10 +1540,14 @@ function extractSection(
   }
 
   return text
-    .slice(contentStart,end)
+    .slice(
+      contentStart,
+      end
+    )
     .trim();
 
 }
+
 
 /* ============================
    AUTENTICAZIONE
@@ -1247,7 +1561,8 @@ async function protectPage(){
       data:{session},
       error
     } =
-      await supabase.auth.getSession();
+      await supabase.auth
+        .getSession();
 
     if(error){
       throw error;
@@ -1289,7 +1604,8 @@ async function protectPage(){
       !profile
     ){
 
-      await supabase.auth.signOut();
+      await supabase.auth
+        .signOut();
 
       window.location.replace(
         "login.html"
@@ -1319,7 +1635,8 @@ async function protectPage(){
         )
       }</strong> · ${
         escapeHtml(
-          profile.ruolo || ""
+          profile.ruolo ||
+          ""
         )
       }`;
 
@@ -1353,6 +1670,7 @@ async function protectPage(){
 
 }
 
+
 /* ============================
    LOGOUT
 ============================ */
@@ -1369,7 +1687,8 @@ logoutButton.addEventListener(
 
     try{
 
-      await supabase.auth.signOut();
+      await supabase.auth
+        .signOut();
 
     }
     finally{
@@ -1382,6 +1701,7 @@ logoutButton.addEventListener(
 
   }
 );
+
 
 /* ============================
    CARICA EMAIL AI
@@ -1423,11 +1743,6 @@ async function loadEmailData(){
 
     }
 
-    /*
-     * Se la mail è già collegata a una pratica,
-     * impediamo la creazione accidentale
-     * di una seconda pratica.
-     */
 
     if(email.pratica_id){
 
@@ -1445,6 +1760,7 @@ async function loadEmailData(){
       return;
 
     }
+
 
     setFieldValue(
       "cliente",
@@ -1498,19 +1814,24 @@ async function loadEmailData(){
 
     setFieldValue(
       "peso",
-      email.peso_kg ?? email.peso
+      email.peso_kg ??
+      email.peso
     );
 
     setFieldValue(
       "volume",
-      email.volume_m3 ?? email.volume
+      email.volume_m3 ??
+      email.volume
     );
+
 
     if(email.data){
 
       setFieldValue(
         "data",
-        String(email.data).slice(0,10)
+        String(
+          email.data
+        ).slice(0,10)
       );
 
     }
@@ -1525,6 +1846,7 @@ async function loadEmailData(){
 
     }
 
+
     if(email.ritiro){
 
       setFieldValue(
@@ -1535,6 +1857,7 @@ async function loadEmailData(){
       );
 
     }
+
 
     if(email.consegna){
 
@@ -1547,14 +1870,17 @@ async function loadEmailData(){
 
     }
 
+
     let noteEmail =
       email.note ||
       email.note_operative ||
       "";
 
+
     if(!noteEmail){
 
       const parts = [];
+
 
       if(email.oggetto){
 
@@ -1565,6 +1891,7 @@ async function loadEmailData(){
 
       }
 
+
       if(email.mittente){
 
         parts.push(
@@ -1574,18 +1901,22 @@ async function loadEmailData(){
 
       }
 
+
       noteEmail =
         parts.join("\n");
 
     }
+
 
     setFieldValue(
       "note",
       noteEmail
     );
 
+
     aiStateText.textContent =
       "Dati importati dalla email";
+
 
     showMessage(
       "success",
@@ -1613,6 +1944,7 @@ async function loadEmailData(){
 
 }
 
+
 /* ============================
    ANALISI AI
 ============================ */
@@ -1628,7 +1960,8 @@ function parseAnalysis(text){
 
     status:
       statusMatch
-        ? statusMatch[1].toUpperCase()
+        ? statusMatch[1]
+            .toUpperCase()
         : "",
 
     reason:
@@ -1649,6 +1982,7 @@ function parseAnalysis(text){
 
 }
 
+
 /* ============================
    DATI MAKE
 ============================ */
@@ -1657,59 +1991,93 @@ function getAnalysisData(){
 
   return {
 
-    azione:"analizza",
+    azione:
+      "analizza",
 
     data:
-      document.getElementById("data").value,
+      document.getElementById(
+        "data"
+      ).value,
 
     cliente:
-      document.getElementById("cliente").value,
+      document.getElementById(
+        "cliente"
+      ).value,
 
     ritiro:
-      document.getElementById("ritiro").value,
+      document.getElementById(
+        "ritiro"
+      ).value,
 
     consegna:
-      document.getElementById("consegna").value,
+      document.getElementById(
+        "consegna"
+      ).value,
 
     partenza:
-      document.getElementById("partenza").value,
+      document.getElementById(
+        "partenza"
+      ).value,
 
     indirizzoRitiro:
-      document.getElementById("indirizzoRitiro").value,
+      document.getElementById(
+        "indirizzoRitiro"
+      ).value,
 
     capRitiro:
-      document.getElementById("capRitiro").value,
+      document.getElementById(
+        "capRitiro"
+      ).value,
 
     destinazione:
-      document.getElementById("destinazione").value,
+      document.getElementById(
+        "destinazione"
+      ).value,
 
     indirizzoConsegna:
-      document.getElementById("indirizzoConsegna").value,
+      document.getElementById(
+        "indirizzoConsegna"
+      ).value,
 
     capConsegna:
-      document.getElementById("capConsegna").value,
+      document.getElementById(
+        "capConsegna"
+      ).value,
 
     vettore:
-      document.getElementById("vettore").value,
+      document.getElementById(
+        "vettore"
+      ).value,
 
     tipoMerce:
-      document.getElementById("tipoMerce").value,
+      document.getElementById(
+        "tipoMerce"
+      ).value,
 
     colli:
-      document.getElementById("colli").value,
+      document.getElementById(
+        "colli"
+      ).value,
 
     peso:
-      document.getElementById("peso").value,
+      document.getElementById(
+        "peso"
+      ).value,
 
     volume:
-      document.getElementById("volume").value,
+      document.getElementById(
+        "volume"
+      ).value,
 
     note:
-      document.getElementById("note").value
+      document.getElementById(
+        "note"
+      ).value
 
   };
 
 }
+
 
 /* ============================
    DATI SUPABASE
@@ -1723,80 +2091,114 @@ function getSupabaseData(){
       currentProfile.azienda_id,
 
     data:
-      document.getElementById("data").value,
+      document.getElementById(
+        "data"
+      ).value,
 
     cliente:
-      document.getElementById("cliente").value.trim(),
+      document.getElementById(
+        "cliente"
+      ).value.trim(),
 
     ritiro:
       emptyToNull(
-        document.getElementById("ritiro").value
+        document.getElementById(
+          "ritiro"
+        ).value
       ),
 
     consegna:
       emptyToNull(
-        document.getElementById("consegna").value
+        document.getElementById(
+          "consegna"
+        ).value
       ),
 
     partenza:
-      document.getElementById("partenza").value.trim(),
+      document.getElementById(
+        "partenza"
+      ).value.trim(),
 
     indirizzo_ritiro:
       emptyToNull(
-        document.getElementById("indirizzoRitiro").value.trim()
+        document.getElementById(
+          "indirizzoRitiro"
+        ).value.trim()
       ),
 
     cap_ritiro:
       emptyToNull(
-        document.getElementById("capRitiro").value.trim()
+        document.getElementById(
+          "capRitiro"
+        ).value.trim()
       ),
 
     destinazione:
-      document.getElementById("destinazione").value.trim(),
+      document.getElementById(
+        "destinazione"
+      ).value.trim(),
 
     indirizzo_consegna:
       emptyToNull(
-        document.getElementById("indirizzoConsegna").value.trim()
+        document.getElementById(
+          "indirizzoConsegna"
+        ).value.trim()
       ),
 
     cap_consegna:
       emptyToNull(
-        document.getElementById("capConsegna").value.trim()
+        document.getElementById(
+          "capConsegna"
+        ).value.trim()
       ),
 
     vettore:
       emptyToNull(
-        document.getElementById("vettore").value.trim()
+        document.getElementById(
+          "vettore"
+        ).value.trim()
       ),
 
     tipo_merce:
-      document.getElementById("tipoMerce").value.trim(),
+      document.getElementById(
+        "tipoMerce"
+      ).value.trim(),
 
     colli:
       numberOrNull(
-        document.getElementById("colli").value
+        document.getElementById(
+          "colli"
+        ).value
       ),
 
     peso_kg:
       numberOrNull(
-        document.getElementById("peso").value
+        document.getElementById(
+          "peso"
+        ).value
       ),
 
     volume_m3:
       numberOrNull(
-        document.getElementById("volume").value
+        document.getElementById(
+          "volume"
+        ).value
       ),
 
     note:
       emptyToNull(
-        document.getElementById("note").value.trim()
+        document.getElementById(
+          "note"
+        ).value.trim()
       ),
 
     stato_ai:
-      ultimoStato || null,
+      ultimoStato ||
+      null,
 
     analisi_ai:
-      ultimaAnalisi || null,
+      ultimaAnalisi ||
+      null,
 
     created_by:
       currentUser.id,
@@ -1807,6 +2209,7 @@ function getSupabaseData(){
   };
 
 }
+
 
 /* ============================
    INVALIDA ANALISI
@@ -1834,6 +2237,7 @@ function invalidateAnalysis(){
 
 }
 
+
 form
   .querySelectorAll(
     "input, textarea"
@@ -1848,6 +2252,7 @@ form
 
     }
   );
+
 
 /* ============================
    RISULTATO AI
@@ -1865,6 +2270,7 @@ function showAIResult(result){
     result.status ||
     "ANALISI COMPLETATA";
 
+
   if(result.status === "REGOLARE"){
 
     aiStatus.className =
@@ -1880,7 +2286,11 @@ function showAIResult(result){
       "none";
 
   }
-  else if(result.status === "ATTENZIONE"){
+
+  else if(
+    result.status ===
+    "ATTENZIONE"
+  ){
 
     aiStatus.className =
       "ai-status ai-status-warning";
@@ -1895,7 +2305,11 @@ function showAIResult(result){
       "block";
 
   }
-  else if(result.status === "PROBLEMA"){
+
+  else if(
+    result.status ===
+    "PROBLEMA"
+  ){
 
     aiStatus.className =
       "ai-status ai-status-error";
@@ -1910,6 +2324,7 @@ function showAIResult(result){
       "block";
 
   }
+
   else{
 
     aiStatus.className =
@@ -1926,6 +2341,7 @@ function showAIResult(result){
 
   }
 
+
   aiReason.textContent =
     result.reason ||
     "Nessun motivo disponibile.";
@@ -1939,6 +2355,7 @@ function showAIResult(result){
 
 }
 
+
 /* ============================
    CORREGGI
 ============================ */
@@ -1948,18 +2365,23 @@ correctButton.addEventListener(
   function(){
 
     document
-      .getElementById("data")
+      .getElementById(
+        "data"
+      )
       .scrollIntoView({
         behavior:"smooth",
         block:"center"
       });
 
     document
-      .getElementById("data")
+      .getElementById(
+        "data"
+      )
       .focus();
 
   }
 );
+
 
 /* ============================
    ANALIZZA
@@ -1970,6 +2392,7 @@ form.addEventListener(
   async function(event){
 
     event.preventDefault();
+
 
     if(
       !currentUser ||
@@ -1985,12 +2408,14 @@ form.addEventListener(
 
     }
 
+
     if(!form.checkValidity()){
 
       form.reportValidity();
       return;
 
     }
+
 
     messageBox.style.display =
       "none";
@@ -2006,6 +2431,7 @@ form.addEventListener(
 
     aiStateText.textContent =
       "Analisi in corso...";
+
 
     try{
 
@@ -2029,6 +2455,7 @@ form.addEventListener(
           }
         );
 
+
       if(!response.ok){
 
         throw new Error(
@@ -2038,26 +2465,33 @@ form.addEventListener(
 
       }
 
+
       const responseText =
         await response.text();
 
+
       ultimaAnalisi =
         responseText;
+
 
       const result =
         parseAnalysis(
           responseText
         );
 
+
       ultimoStato =
         result.status;
+
 
       analisiValida =
         true;
 
+
       showAIResult(
         result
       );
+
 
       showMessage(
         "success",
@@ -2098,6 +2532,7 @@ form.addEventListener(
   }
 );
 
+
 /* ============================
    CONFERMA PRATICA
 ============================ */
@@ -2105,6 +2540,7 @@ form.addEventListener(
 confirmButton.addEventListener(
   "click",
   async function(){
+
 
     if(
       !currentUser ||
@@ -2120,6 +2556,7 @@ confirmButton.addEventListener(
 
     }
 
+
     if(!analisiValida){
 
       showMessage(
@@ -2131,6 +2568,7 @@ confirmButton.addEventListener(
 
     }
 
+
     if(!form.checkValidity()){
 
       form.reportValidity();
@@ -2138,22 +2576,25 @@ confirmButton.addEventListener(
 
     }
 
+
     confirmButton.disabled =
       true;
+
 
     const oldButtonText =
       confirmButton.textContent;
 
+
     confirmButton.textContent =
       "Registrazione in corso...";
 
+
     try{
 
+
       /*
-       * CONTROLLO FINALE EMAIL.
-       * Serve a evitare un doppio inserimento
-       * se la stessa mail è stata aperta
-       * in due schede del browser.
+       * CONTROLLO EMAIL PRIMA
+       * DELLA CREAZIONE.
        */
 
       if(sourceEmailId){
@@ -2164,16 +2605,20 @@ confirmButton.addEventListener(
         } =
           await supabase
             .from("email_ai")
-            .select("id,pratica_id")
+            .select(
+              "id,pratica_id"
+            )
             .eq(
               "id",
               sourceEmailId
             )
             .single();
 
+
         if(emailCheckError){
           throw emailCheckError;
         }
+
 
         if(emailCheck.pratica_id){
 
@@ -2185,8 +2630,10 @@ confirmButton.addEventListener(
 
       }
 
+
       const praticaDaSalvare =
         getSupabaseData();
+
 
       const {
         data:praticaCreata,
@@ -2202,6 +2649,7 @@ confirmButton.addEventListener(
           )
           .single();
 
+
       if(error){
 
         console.error(
@@ -2215,6 +2663,7 @@ confirmButton.addEventListener(
 
       }
 
+
       if(
         !praticaCreata ||
         !praticaCreata.id ||
@@ -2227,10 +2676,10 @@ confirmButton.addEventListener(
 
       }
 
+
       /*
-       * SE ARRIVIAMO DA EMAIL AI,
-       * COLLEGHIAMO LA MAIL ALLA
-       * PRATICA APPENA CREATA.
+       * COLLEGAMENTO EMAIL AI
+       * ALLA PRATICA.
        */
 
       if(sourceEmailId){
@@ -2246,7 +2695,8 @@ confirmButton.addEventListener(
                 praticaCreata.id,
 
               updated_at:
-                new Date().toISOString()
+                new Date()
+                  .toISOString()
 
             })
             .eq(
@@ -2258,19 +2708,13 @@ confirmButton.addEventListener(
               null
             );
 
+
         if(emailUpdateError){
 
           console.error(
             "Errore collegamento email-pratica:",
             emailUpdateError
           );
-
-          /*
-           * La pratica ormai esiste.
-           * Non diciamo che la creazione
-           * è fallita: segnaliamo soltanto
-           * il problema di collegamento.
-           */
 
           showMessage(
             "error",
@@ -2283,20 +2727,18 @@ confirmButton.addEventListener(
 
       }
 
+
       const numeroPratica =
         praticaCreata.numero_pratica;
+
 
       analisiValida =
         false;
 
+
       aiStateText.textContent =
         "Pratica registrata";
 
-      /*
-       * Se non c'è stato un messaggio
-       * di errore sul collegamento email,
-       * mostriamo il successo normale.
-       */
 
       if(
         !messageBox.classList.contains(
@@ -2316,6 +2758,7 @@ confirmButton.addEventListener(
         );
 
       }
+
 
       setTimeout(
         function(){
@@ -2355,6 +2798,7 @@ confirmButton.addEventListener(
   }
 );
 
+
 /* ============================
    AVVIO
 ============================ */
@@ -2364,9 +2808,11 @@ async function startPage(){
   const authenticated =
     await protectPage();
 
+
   if(!authenticated){
     return;
   }
+
 
   if(sourceEmailId){
 
@@ -2376,7 +2822,10 @@ async function startPage(){
   else{
 
     const dataField =
-      document.getElementById("data");
+      document.getElementById(
+        "data"
+      );
+
 
     if(
       dataField &&
@@ -2393,6 +2842,7 @@ async function startPage(){
   }
 
 }
+
 
 startPage();
 
