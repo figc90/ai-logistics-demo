@@ -41,10 +41,6 @@ button{
   font:inherit;
 }
 
-/* ============================
-   LAYOUT
-============================ */
-
 .app{
   min-height:100vh;
   display:flex;
@@ -69,25 +65,14 @@ button{
   border-right:1px solid rgba(255,255,255,.05);
 }
 
-/* ============================
-   LOGO
-============================ */
-
 .sidebar-logo{
   min-height:152px;
-  padding:14px 14px;
+  padding:14px;
   display:flex;
   align-items:center;
   justify-content:center;
   border-bottom:1px solid rgba(255,255,255,.08);
 }
-
-/*
-  Il logo mantiene sostanzialmente
-  la stessa dimensione, ma adesso
-  ha uno sfondo chiaro per aumentare
-  il contrasto.
-*/
 
 .sidebar-logo-link{
   width:100%;
@@ -96,32 +81,17 @@ button{
   display:flex;
   align-items:center;
   justify-content:center;
-
-  background:linear-gradient(
-    145deg,
-    #ffffff,
-    #f4f8fc
-  );
-
+  background:linear-gradient(145deg,#ffffff,#f4f8fc);
   border:1px solid rgba(255,255,255,.85);
-
   border-radius:14px;
-
   box-shadow:
     0 8px 24px rgba(0,0,0,.18),
     0 0 18px rgba(73,193,229,.14);
-
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
+  transition:.2s ease;
 }
 
 .sidebar-logo-link:hover{
   transform:translateY(-1px);
-
-  box-shadow:
-    0 10px 28px rgba(0,0,0,.22),
-    0 0 22px rgba(73,193,229,.20);
 }
 
 .sidebar-logo img{
@@ -130,10 +100,6 @@ button{
   height:auto;
   display:block;
 }
-
-/* ============================
-   NAVIGAZIONE
-============================ */
 
 .sidebar-nav{
   padding:24px 12px;
@@ -204,10 +170,6 @@ button{
   font-weight:900;
 }
 
-/* ============================
-   SIDEBAR USER
-============================ */
-
 .sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
@@ -244,7 +206,6 @@ button{
   color:#dbe5ef;
   font-weight:800;
   cursor:pointer;
-  transition:.18s ease;
 }
 
 .logout-btn:hover{
@@ -261,10 +222,6 @@ button{
   width:calc(100% - 225px);
   min-height:100vh;
 }
-
-/* ============================
-   TOP BAR
-============================ */
 
 .topbar{
   height:70px;
@@ -296,16 +253,7 @@ button{
   font-size:13px;
   font-weight:900;
   box-shadow:0 7px 18px rgba(236,79,50,.18);
-  transition:.18s ease;
 }
-
-.new-practice-btn:hover{
-  transform:translateY(-1px);
-}
-
-/* ============================
-   CONTENT
-============================ */
 
 .content{
   max-width:1360px;
@@ -342,6 +290,28 @@ h1{
 }
 
 .updated{
+  color:#9aa6b6;
+  font-size:10px;
+}
+
+/* ============================
+   SEZIONI
+============================ */
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin:28px 0 12px;
+}
+
+.section-title h2{
+  color:#173459;
+  font-size:17px;
+}
+
+.section-title span{
   color:#9aa6b6;
   font-size:10px;
 }
@@ -393,6 +363,14 @@ h1{
   background:#ef4e4e;
 }
 
+.kpi-running::before{
+  background:#f1a51b;
+}
+
+.kpi-done::before{
+  background:#2fb878;
+}
+
 .kpi-icon{
   position:absolute;
   top:18px;
@@ -412,12 +390,14 @@ h1{
   color:#167fa5;
 }
 
-.kpi-ok .kpi-icon{
+.kpi-ok .kpi-icon,
+.kpi-done .kpi-icon{
   background:#e9f8f1;
   color:#23784f;
 }
 
-.kpi-warning .kpi-icon{
+.kpi-warning .kpi-icon,
+.kpi-running .kpi-icon{
   background:#fff4dd;
   color:#a46700;
 }
@@ -449,7 +429,7 @@ h1{
 }
 
 /* ============================
-   DASHBOARD GRID
+   GRID
 ============================ */
 
 .dashboard-grid{
@@ -552,6 +532,10 @@ tbody tr:hover{
   font-weight:700;
 }
 
+/* ============================
+   BADGE
+============================ */
+
 .badge{
   display:inline-flex;
   align-items:center;
@@ -582,6 +566,26 @@ tbody tr:hover{
   color:#687689;
 }
 
+.badge-programmed{
+  background:#e8f4fb;
+  color:#167fa5;
+}
+
+.badge-running{
+  background:#fff0ce;
+  color:#a46700;
+}
+
+.badge-done{
+  background:#e5f7ee;
+  color:#23784f;
+}
+
+.badge-cancelled{
+  background:#ffe8e5;
+  color:#b42318;
+}
+
 /* ============================
    ATTENZIONE
 ============================ */
@@ -602,6 +606,10 @@ tbody tr:hover{
 
 .attention-item:last-child{
   border-bottom:none;
+}
+
+.attention-item:hover{
+  background:#fafcff;
 }
 
 .attention-left{
@@ -827,15 +835,10 @@ tbody tr:hover{
 
 <div class="app">
 
-<!-- ============================
-     SIDEBAR
-============================ -->
-
 <aside class="sidebar">
 
   <div class="sidebar-logo">
 
-    <!-- CLIC SUL LOGO = DASHBOARD -->
     <a
       href="dashboard.html"
       class="sidebar-logo-link"
@@ -849,106 +852,64 @@ tbody tr:hover{
 
   </div>
 
-
   <nav class="sidebar-nav">
 
     <div class="nav-section">
 
-      <div class="nav-title">
-        OPERATIVITÀ
-      </div>
+      <div class="nav-title">OPERATIVITÀ</div>
 
-      <a
-        href="dashboard.html"
-        class="nav-item active">
-
+      <a href="dashboard.html" class="nav-item active">
         <span class="nav-icon">▦</span>
         <span>Dashboard</span>
-
       </a>
 
-      <a
-        href="pratiche.html"
-        class="nav-item">
-
+      <a href="pratiche.html" class="nav-item">
         <span class="nav-icon">▤</span>
         <span>Pratiche</span>
-
       </a>
 
-      <a
-        href="nuova-pratica.html"
-        class="nav-item">
-
+      <a href="nuova-pratica.html" class="nav-item">
         <span class="nav-icon">＋</span>
         <span>Nuova pratica</span>
-
       </a>
 
     </div>
 
-
     <div class="nav-section">
 
-      <div class="nav-title">
-        AUTOMAZIONI
-      </div>
+      <div class="nav-title">AUTOMAZIONI</div>
 
-     <a href="email-ai.html" class="nav-item">
+      <a href="email-ai.html" class="nav-item">
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+      </a>
 
-  <span class="nav-icon">✉</span>
-  <span>Email AI</span>
-
-</a>
-
-      <a
-  href="viaggi.html"
-  class="nav-item">
-
-  <span class="nav-icon">↗</span>
-  <span>Viaggi</span>
-
-</a>
+      <a href="viaggi.html" class="nav-item">
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+      </a>
 
     </div>
 
-
     <div class="nav-section">
 
-      <div class="nav-title">
-        GESTIONE
-      </div>
+      <div class="nav-title">GESTIONE</div>
 
       <div class="nav-item nav-disabled">
-
         <span class="nav-icon">▣</span>
         <span>Aziende</span>
-
-        <span class="soon">
-          PRESTO
-        </span>
-
+        <span class="soon">PRESTO</span>
       </div>
 
     </div>
 
   </nav>
 
-
   <div class="sidebar-bottom">
 
     <div class="user-card">
-
-      <div class="user-label">
-        UTENTE
-      </div>
-
-      <div
-        id="userEmail"
-        class="user-email">
-        -
-      </div>
-
+      <div class="user-label">UTENTE</div>
+      <div id="userEmail" class="user-email">-</div>
     </div>
 
     <button
@@ -961,11 +922,6 @@ tbody tr:hover{
   </div>
 
 </aside>
-
-
-<!-- ============================
-     MAIN
-============================ -->
 
 <div class="main">
 
@@ -983,9 +939,7 @@ tbody tr:hover{
 
 </header>
 
-
 <main class="content">
-
 
 <div class="dashboard-heading">
 
@@ -995,9 +949,7 @@ tbody tr:hover{
       MATRI-MIA · CONTROL CENTER
     </div>
 
-    <h1>
-      Dashboard
-    </h1>
+    <h1>Dashboard</h1>
 
     <div class="subtitle">
       Una panoramica dell'operatività della tua azienda.
@@ -1012,24 +964,26 @@ tbody tr:hover{
 
 </div>
 
+<!-- ============================
+     KPI PRATICHE
+============================ -->
 
-<!-- KPI -->
+<div class="section-title">
+  <h2>Pratiche</h2>
+  <span>Situazione delle pratiche</span>
+</div>
 
 <div class="kpi-grid">
 
   <div class="kpi-card kpi-total">
 
-    <div class="kpi-icon">
-      ▤
-    </div>
+    <div class="kpi-icon">▤</div>
 
     <div class="kpi-label">
       PRATICHE TOTALI
     </div>
 
-    <div
-      id="totalCount"
-      class="kpi-number">
+    <div id="totalCount" class="kpi-number">
       0
     </div>
 
@@ -1039,20 +993,15 @@ tbody tr:hover{
 
   </div>
 
-
   <div class="kpi-card kpi-ok">
 
-    <div class="kpi-icon">
-      ✓
-    </div>
+    <div class="kpi-icon">✓</div>
 
     <div class="kpi-label">
       REGOLARI
     </div>
 
-    <div
-      id="regularCount"
-      class="kpi-number">
+    <div id="regularCount" class="kpi-number">
       0
     </div>
 
@@ -1062,20 +1011,15 @@ tbody tr:hover{
 
   </div>
 
-
   <div class="kpi-card kpi-warning">
 
-    <div class="kpi-icon">
-      !
-    </div>
+    <div class="kpi-icon">!</div>
 
     <div class="kpi-label">
       ATTENZIONE
     </div>
 
-    <div
-      id="warningCount"
-      class="kpi-number">
+    <div id="warningCount" class="kpi-number">
       0
     </div>
 
@@ -1085,20 +1029,15 @@ tbody tr:hover{
 
   </div>
 
-
   <div class="kpi-card kpi-error">
 
-    <div class="kpi-icon">
-      ×
-    </div>
+    <div class="kpi-icon">×</div>
 
     <div class="kpi-label">
       PROBLEMI
     </div>
 
-    <div
-      id="problemCount"
-      class="kpi-number">
+    <div id="problemCount" class="kpi-number">
       0
     </div>
 
@@ -1110,11 +1049,101 @@ tbody tr:hover{
 
 </div>
 
+<!-- ============================
+     KPI VIAGGI
+============================ -->
+
+<div class="section-title">
+  <h2>Viaggi</h2>
+
+  <a href="viaggi.html" class="view-all">
+    Gestisci viaggi →
+  </a>
+</div>
+
+<div class="kpi-grid">
+
+  <div class="kpi-card kpi-total">
+
+    <div class="kpi-icon">↗</div>
+
+    <div class="kpi-label">
+      VIAGGI TOTALI
+    </div>
+
+    <div id="tripTotalCount" class="kpi-number">
+      0
+    </div>
+
+    <div class="kpi-description">
+      Totale viaggi registrati
+    </div>
+
+  </div>
+
+  <div class="kpi-card kpi-warning">
+
+    <div class="kpi-icon">◷</div>
+
+    <div class="kpi-label">
+      DA PROGRAMMARE
+    </div>
+
+    <div id="tripPlanCount" class="kpi-number">
+      0
+    </div>
+
+    <div class="kpi-description">
+      Viaggi ancora da organizzare
+    </div>
+
+  </div>
+
+  <div class="kpi-card kpi-running">
+
+    <div class="kpi-icon">→</div>
+
+    <div class="kpi-label">
+      IN CORSO
+    </div>
+
+    <div id="tripRunningCount" class="kpi-number">
+      0
+    </div>
+
+    <div class="kpi-description">
+      Trasporti attualmente in corso
+    </div>
+
+  </div>
+
+  <div class="kpi-card kpi-done">
+
+    <div class="kpi-icon">✓</div>
+
+    <div class="kpi-label">
+      CONSEGNATI
+    </div>
+
+    <div id="tripDoneCount" class="kpi-number">
+      0
+    </div>
+
+    <div class="kpi-description">
+      Viaggi completati
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ============================
+     CONTENUTO PRINCIPALE
+============================ -->
 
 <div class="dashboard-grid">
 
 <div>
-
 
 <!-- ULTIME PRATICHE -->
 
@@ -1123,32 +1152,21 @@ tbody tr:hover{
   <div class="card-header">
 
     <div>
-
-      <h2>
-        Ultime pratiche
-      </h2>
-
-      <p>
-        Le pratiche registrate più recentemente
-      </p>
-
+      <h2>Ultime pratiche</h2>
+      <p>Le pratiche registrate più recentemente</p>
     </div>
 
-    <a
-      href="pratiche.html"
-      class="view-all">
+    <a href="pratiche.html" class="view-all">
       Vedi tutte →
     </a>
 
   </div>
-
 
   <div class="table-wrap">
 
     <table>
 
       <thead>
-
         <tr>
           <th>Pratica</th>
           <th>Data</th>
@@ -1156,7 +1174,6 @@ tbody tr:hover{
           <th>Cliente</th>
           <th>Stato</th>
         </tr>
-
       </thead>
 
       <tbody id="recentPractices">
@@ -1168,6 +1185,45 @@ tbody tr:hover{
 
 </section>
 
+<!-- ULTIMI VIAGGI -->
+
+<section class="card">
+
+  <div class="card-header">
+
+    <div>
+      <h2>Ultimi viaggi</h2>
+      <p>Gli ultimi viaggi registrati</p>
+    </div>
+
+    <a href="viaggi.html" class="view-all">
+      Vedi tutti →
+    </a>
+
+  </div>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Viaggio</th>
+          <th>Pratica</th>
+          <th>Tratta</th>
+          <th>Vettore</th>
+          <th>Stato</th>
+        </tr>
+      </thead>
+
+      <tbody id="recentTrips">
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
 
 <!-- ATTENZIONE -->
 
@@ -1176,15 +1232,8 @@ tbody tr:hover{
   <div class="card-header">
 
     <div>
-
-      <h2>
-        Richiedono attenzione
-      </h2>
-
-      <p>
-        Anomalie rilevate da MatRi-mIA AI
-      </p>
-
+      <h2>Richiedono attenzione</h2>
+      <p>Anomalie rilevate da MatRi-mIA AI</p>
     </div>
 
   </div>
@@ -1197,7 +1246,6 @@ tbody tr:hover{
 </section>
 
 </div>
-
 
 <!-- COLONNA DESTRA -->
 
@@ -1216,7 +1264,7 @@ tbody tr:hover{
   <div
     id="aiSummary"
     class="ai-text">
-    Analisi delle pratiche in corso...
+    Analisi dell'operatività in corso...
   </div>
 
   <div
@@ -1226,20 +1274,17 @@ tbody tr:hover{
   </div>
 
   <div class="ai-number-label">
-    DA VERIFICARE
+    PRATICHE DA VERIFICARE
   </div>
 
 </section>
 
-
 <section class="card">
 
   <div class="card-header">
-
     <div>
       <h2>Azioni rapide</h2>
     </div>
-
   </div>
 
   <div class="quick-actions">
@@ -1248,9 +1293,7 @@ tbody tr:hover{
       href="nuova-pratica.html"
       class="quick-action">
 
-      <span class="quick-icon">
-        +
-      </span>
+      <span class="quick-icon">+</span>
 
       Crea nuova pratica
 
@@ -1260,23 +1303,29 @@ tbody tr:hover{
       href="pratiche.html"
       class="quick-action">
 
-      <span class="quick-icon">
-        ▤
-      </span>
+      <span class="quick-icon">▤</span>
 
       Visualizza tutte le pratiche
 
-      <a
-  href="viaggi.html"
-  class="quick-action">
+    </a>
 
-  <span class="quick-icon">
-    ↗
-  </span>
+    <a
+      href="viaggi.html"
+      class="quick-action">
 
-  Gestisci viaggi
+      <span class="quick-icon">↗</span>
 
-</a>
+      Gestisci viaggi
+
+    </a>
+
+    <a
+      href="email-ai.html"
+      class="quick-action">
+
+      <span class="quick-icon">✉</span>
+
+      Apri Email AI
 
     </a>
 
@@ -1294,18 +1343,10 @@ tbody tr:hover{
 
 </div>
 
-
 <script type="module">
 
-import {
-  createClient
-}
+import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-
-/* ============================
-   SUPABASE
-============================ */
 
 const SUPABASE_URL =
   "https://sctzockiurjsxzdkctmy.supabase.co";
@@ -1318,7 +1359,6 @@ const supabase =
     SUPABASE_URL,
     SUPABASE_KEY
   );
-
 
 /* ============================
    ELEMENTI
@@ -1342,8 +1382,23 @@ const warningCount =
 const problemCount =
   document.getElementById("problemCount");
 
+const tripTotalCount =
+  document.getElementById("tripTotalCount");
+
+const tripPlanCount =
+  document.getElementById("tripPlanCount");
+
+const tripRunningCount =
+  document.getElementById("tripRunningCount");
+
+const tripDoneCount =
+  document.getElementById("tripDoneCount");
+
 const recentPractices =
   document.getElementById("recentPractices");
+
+const recentTrips =
+  document.getElementById("recentTrips");
 
 const attentionList =
   document.getElementById("attentionList");
@@ -1357,10 +1412,8 @@ const aiAttentionNumber =
 const updatedTime =
   document.getElementById("updatedTime");
 
-
 let currentUser = null;
 let currentProfile = null;
-
 
 /* ============================
    UTILITY
@@ -1376,7 +1429,6 @@ function escapeHtml(value){
     .replaceAll("'","&#039;");
 
 }
-
 
 function normalizeStatus(value){
 
@@ -1401,6 +1453,13 @@ function normalizeStatus(value){
 
 }
 
+function normalizeTripStatus(value){
+
+  return String(value || "")
+    .trim()
+    .toUpperCase();
+
+}
 
 function formatDate(value){
 
@@ -1415,12 +1474,9 @@ function formatDate(value){
     return value;
   }
 
-  return date.toLocaleDateString(
-    "it-IT"
-  );
+  return date.toLocaleDateString("it-IT");
 
 }
-
 
 function createBadge(status){
 
@@ -1428,43 +1484,49 @@ function createBadge(status){
     normalizeStatus(status);
 
   if(normalized === "REGOLARE"){
-
-    return `
-      <span class="badge badge-ok">
-        REGOLARE
-      </span>
-    `;
-
+    return `<span class="badge badge-ok">REGOLARE</span>`;
   }
 
   if(normalized === "ATTENZIONE"){
-
-    return `
-      <span class="badge badge-warning">
-        ATTENZIONE
-      </span>
-    `;
-
+    return `<span class="badge badge-warning">ATTENZIONE</span>`;
   }
 
   if(normalized === "PROBLEMA"){
-
-    return `
-      <span class="badge badge-error">
-        PROBLEMA
-      </span>
-    `;
-
+    return `<span class="badge badge-error">PROBLEMA</span>`;
   }
 
-  return `
-    <span class="badge badge-default">
-      -
-    </span>
-  `;
+  return `<span class="badge badge-default">-</span>`;
 
 }
 
+function createTripBadge(status){
+
+  const normalized =
+    normalizeTripStatus(status);
+
+  if(normalized === "CONSEGNATO"){
+    return `<span class="badge badge-done">CONSEGNATO</span>`;
+  }
+
+  if(normalized === "IN CORSO"){
+    return `<span class="badge badge-running">IN CORSO</span>`;
+  }
+
+  if(normalized === "PROGRAMMATO"){
+    return `<span class="badge badge-programmed">PROGRAMMATO</span>`;
+  }
+
+  if(normalized === "ANNULLATO"){
+    return `<span class="badge badge-cancelled">ANNULLATO</span>`;
+  }
+
+  if(normalized === "DA PROGRAMMARE"){
+    return `<span class="badge badge-default">DA PROGRAMMARE</span>`;
+  }
+
+  return `<span class="badge badge-default">-</span>`;
+
+}
 
 /* ============================
    AUTENTICAZIONE
@@ -1475,22 +1537,16 @@ async function protectPage(){
   try{
 
     const {
-      data:{
-        session
-      },
+      data:{session},
       error
     } =
-      await supabase.auth
-        .getSession();
+      await supabase.auth.getSession();
 
     if(error){
       throw error;
     }
 
-    if(
-      !session ||
-      !session.user
-    ){
+    if(!session?.user){
 
       window.location.replace(
         "login.html"
@@ -1502,7 +1558,6 @@ async function protectPage(){
 
     currentUser =
       session.user;
-
 
     const {
       data:profile,
@@ -1519,19 +1574,14 @@ async function protectPage(){
         )
         .single();
 
-
-    if(
-      profileError ||
-      !profile
-    ){
+    if(profileError || !profile){
 
       console.error(
         "Profilo non trovato:",
         profileError
       );
 
-      await supabase.auth
-        .signOut();
+      await supabase.auth.signOut();
 
       window.location.replace(
         "login.html"
@@ -1541,21 +1591,17 @@ async function protectPage(){
 
     }
 
-
     currentProfile =
       profile;
-
 
     userEmail.textContent =
       profile.email ||
       currentUser.email ||
       "-";
 
-
     document.body.classList.add(
       "auth-ready"
     );
-
 
     return true;
 
@@ -1577,7 +1623,6 @@ async function protectPage(){
 
 }
 
-
 /* ============================
    LOGOUT
 ============================ */
@@ -1586,16 +1631,12 @@ logoutButton.addEventListener(
   "click",
   async function(){
 
-    logoutButton.disabled =
-      true;
-
-    logoutButton.textContent =
-      "Uscita...";
+    logoutButton.disabled = true;
+    logoutButton.textContent = "Uscita...";
 
     try{
 
-      await supabase.auth
-        .signOut();
+      await supabase.auth.signOut();
 
     }
     finally{
@@ -1609,60 +1650,76 @@ logoutButton.addEventListener(
   }
 );
 
-
 /* ============================
-   CARICA PRATICHE
+   CARICA DASHBOARD
 ============================ */
 
 async function loadDashboard(){
 
   try{
 
-    /*
-     * Non serve filtrare manualmente
-     * azienda_id.
-     *
-     * La RLS di Supabase permette
-     * all'utente autenticato di vedere
-     * solo le pratiche della propria
-     * azienda.
-     */
+    const [
+      praticheResult,
+      viaggiResult
+    ] =
+      await Promise.all([
 
-    const {
-      data:pratiche,
-      error
-    } =
-      await supabase
-        .from("pratiche")
-        .select(`
-          id,
-          numero_pratica,
-          data,
-          cliente,
-          partenza,
-          destinazione,
-          stato_ai,
-          created_at
-        `)
-        .order(
-          "created_at",
-          {
-            ascending:false
-          }
-        );
+        supabase
+          .from("pratiche")
+          .select(`
+            id,
+            numero_pratica,
+            data,
+            cliente,
+            partenza,
+            destinazione,
+            stato_ai,
+            created_at
+          `)
+          .order(
+            "created_at",
+            {
+              ascending:false
+            }
+          ),
 
+        supabase
+          .from("viaggi")
+          .select(`
+            id,
+            numero_viaggio,
+            stato,
+            vettore,
+            data_partenza,
+            created_at,
+            pratiche (
+              id,
+              numero_pratica,
+              cliente,
+              partenza,
+              destinazione
+            )
+          `)
+          .order(
+            "created_at",
+            {
+              ascending:false
+            }
+          )
 
-    if(error){
-      throw error;
+      ]);
+
+    if(praticheResult.error){
+      throw praticheResult.error;
     }
 
-
-    const rows =
-      pratiche || [];
-
+    if(viaggiResult.error){
+      throw viaggiResult.error;
+    }
 
     renderDashboard(
-      rows
+      praticheResult.data || [],
+      viaggiResult.data || []
     );
 
   }
@@ -1680,16 +1737,19 @@ async function loadDashboard(){
 
 }
 
-
 /* ============================
    RENDER DASHBOARD
 ============================ */
 
-function renderDashboard(pratiche){
+function renderDashboard(
+  pratiche,
+  viaggi
+){
+
+  /* PRATICHE */
 
   const total =
     pratiche.length;
-
 
   const regular =
     pratiche.filter(
@@ -1699,7 +1759,6 @@ function renderDashboard(pratiche){
         ) === "REGOLARE"
     );
 
-
   const warning =
     pratiche.filter(
       p =>
@@ -1708,7 +1767,6 @@ function renderDashboard(pratiche){
         ) === "ATTENZIONE"
     );
 
-
   const problems =
     pratiche.filter(
       p =>
@@ -1716,7 +1774,6 @@ function renderDashboard(pratiche){
           p.stato_ai
         ) === "PROBLEMA"
     );
-
 
   totalCount.textContent =
     total;
@@ -1730,41 +1787,112 @@ function renderDashboard(pratiche){
   problemCount.textContent =
     problems.length;
 
-
   const daVerificare =
     warning.length +
     problems.length;
 
-
   aiAttentionNumber.textContent =
     daVerificare;
 
+  /* VIAGGI */
+
+  const tripTotal =
+    viaggi.length;
+
+  const tripPlan =
+    viaggi.filter(
+      v =>
+        normalizeTripStatus(
+          v.stato
+        ) === "DA PROGRAMMARE"
+    ).length;
+
+  const tripRunning =
+    viaggi.filter(
+      v =>
+        normalizeTripStatus(
+          v.stato
+        ) === "IN CORSO"
+    ).length;
+
+  const tripDone =
+    viaggi.filter(
+      v =>
+        normalizeTripStatus(
+          v.stato
+        ) === "CONSEGNATO"
+    ).length;
+
+  tripTotalCount.textContent =
+    tripTotal;
+
+  tripPlanCount.textContent =
+    tripPlan;
+
+  tripRunningCount.textContent =
+    tripRunning;
+
+  tripDoneCount.textContent =
+    tripDone;
+
+  /* RIEPILOGO */
+
+  let summary = "";
 
   if(problems.length > 0){
 
-    aiSummary.textContent =
+    summary =
       "Sono presenti " +
       problems.length +
-      " pratiche con problemi e " +
-      warning.length +
-      " pratiche che richiedono verifica.";
+      " pratiche con problemi";
+
+    if(warning.length > 0){
+
+      summary +=
+        " e " +
+        warning.length +
+        " pratiche che richiedono verifica";
+
+    }
+
+    summary += ".";
 
   }
   else if(warning.length > 0){
 
-    aiSummary.textContent =
-      "Non risultano problemi critici. Ci sono però " +
+    summary =
+      "Non risultano problemi critici. Ci sono " +
       warning.length +
       " pratiche che richiedono verifica.";
 
   }
   else{
 
-    aiSummary.textContent =
-      "La situazione è regolare. Non risultano pratiche che richiedono intervento.";
+    summary =
+      "Le pratiche non presentano anomalie da verificare.";
 
   }
 
+  if(tripPlan > 0){
+
+    summary +=
+      " Hai inoltre " +
+      tripPlan +
+      " viaggi da programmare.";
+
+  }
+
+  if(tripRunning > 0){
+
+    summary +=
+      " " +
+      tripRunning +
+      " viaggi risultano attualmente in corso.";
+
+  }
+
+  aiSummary.textContent =
+    summary;
 
   renderRecent(
     pratiche.slice(
@@ -1773,29 +1901,35 @@ function renderDashboard(pratiche){
     )
   );
 
-
-  renderAttention(
-    pratiche.filter(
-      pratica=>{
-
-        const status =
-          normalizeStatus(
-            pratica.stato_ai
-          );
-
-        return (
-          status === "ATTENZIONE" ||
-          status === "PROBLEMA"
-        );
-
-      }
-    )
-    .slice(
+  renderRecentTrips(
+    viaggi.slice(
       0,
       5
     )
   );
 
+  renderAttention(
+    pratiche
+      .filter(
+        pratica=>{
+
+          const status =
+            normalizeStatus(
+              pratica.stato_ai
+            );
+
+          return (
+            status === "ATTENZIONE" ||
+            status === "PROBLEMA"
+          );
+
+        }
+      )
+      .slice(
+        0,
+        5
+      )
+  );
 
   const now =
     new Date();
@@ -1812,16 +1946,13 @@ function renderDashboard(pratiche){
 
 }
 
-
 /* ============================
    ULTIME PRATICHE
 ============================ */
 
 function renderRecent(pratiche){
 
-  recentPractices.innerHTML =
-    "";
-
+  recentPractices.innerHTML = "";
 
   if(!pratiche.length){
 
@@ -1837,15 +1968,11 @@ function renderRecent(pratiche){
 
   }
 
-
   pratiche.forEach(
     pratica=>{
 
       const row =
-        document.createElement(
-          "tr"
-        );
-
+        document.createElement("tr");
 
       row.innerHTML = `
 
@@ -1891,14 +2018,11 @@ function renderRecent(pratiche){
 
       `;
 
-
       row.addEventListener(
         "click",
         function(){
 
-          if(
-            !pratica.numero_pratica
-          ){
+          if(!pratica.numero_pratica){
             return;
           }
 
@@ -1911,17 +2035,114 @@ function renderRecent(pratiche){
         }
       );
 
-
-      recentPractices
-        .appendChild(
-          row
-        );
+      recentPractices.appendChild(
+        row
+      );
 
     }
   );
 
 }
 
+/* ============================
+   ULTIMI VIAGGI
+============================ */
+
+function renderRecentTrips(viaggi){
+
+  recentTrips.innerHTML = "";
+
+  if(!viaggi.length){
+
+    recentTrips.innerHTML = `
+      <tr>
+        <td colspan="5">
+          Nessun viaggio registrato.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+  viaggi.forEach(
+    viaggio=>{
+
+      const pratica =
+        viaggio.pratiche || {};
+
+      const row =
+        document.createElement("tr");
+
+      row.innerHTML = `
+
+        <td class="practice-id">
+          ${escapeHtml(
+            viaggio.numero_viaggio ||
+            "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            pratica.numero_pratica ||
+            "-"
+          )}
+        </td>
+
+        <td class="route">
+          ${escapeHtml(
+            pratica.partenza ||
+            "-"
+          )}
+          →
+          ${escapeHtml(
+            pratica.destinazione ||
+            "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHtml(
+            viaggio.vettore ||
+            "-"
+          )}
+        </td>
+
+        <td>
+          ${createTripBadge(
+            viaggio.stato
+          )}
+        </td>
+
+      `;
+
+      row.addEventListener(
+        "click",
+        function(){
+
+          if(!viaggio.id){
+            return;
+          }
+
+          window.location.href =
+            "dettaglio-viaggio.html?id=" +
+            encodeURIComponent(
+              viaggio.id
+            );
+
+        }
+      );
+
+      recentTrips.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
 
 /* ============================
    PRATICHE DA VERIFICARE
@@ -1929,9 +2150,7 @@ function renderRecent(pratiche){
 
 function renderAttention(pratiche){
 
-  attentionList.innerHTML =
-    "";
-
+  attentionList.innerHTML = "";
 
   if(!pratiche.length){
 
@@ -1945,7 +2164,6 @@ function renderAttention(pratiche){
 
   }
 
-
   pratiche.forEach(
     pratica=>{
 
@@ -1954,16 +2172,11 @@ function renderAttention(pratiche){
           pratica.stato_ai
         );
 
-
       const item =
-        document.createElement(
-          "div"
-        );
-
+        document.createElement("div");
 
       item.className =
         "attention-item";
-
 
       item.innerHTML = `
 
@@ -2005,21 +2218,16 @@ function renderAttention(pratiche){
         </div>
 
         <div class="attention-status">
-          ${escapeHtml(
-            status
-          )}
+          ${escapeHtml(status)}
         </div>
 
       `;
-
 
       item.addEventListener(
         "click",
         function(){
 
-          if(
-            !pratica.numero_pratica
-          ){
+          if(!pratica.numero_pratica){
             return;
           }
 
@@ -2032,17 +2240,14 @@ function renderAttention(pratiche){
         }
       );
 
-
-      attentionList
-        .appendChild(
-          item
-        );
+      attentionList.appendChild(
+        item
+      );
 
     }
   );
 
 }
-
 
 /* ============================
    AVVIO
@@ -2060,7 +2265,6 @@ async function startDashboard(){
   await loadDashboard();
 
 }
-
 
 startDashboard();
 
