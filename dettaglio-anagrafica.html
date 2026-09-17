@@ -1,1 +1,2674 @@
-a
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dettaglio anagrafica | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+a{
+  text-decoration:none;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+/* ============================
+   APP
+============================ */
+
+.app-shell{
+  min-height:100vh;
+  display:flex;
+}
+
+.app-sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+}
+
+.app-sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.app-sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border-radius:14px;
+}
+
+.app-sidebar-logo-link img{
+  width:175px;
+  max-width:90%;
+  height:auto;
+  display:block;
+}
+
+.app-sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+}
+
+.app-nav-section{
+  margin-bottom:28px;
+}
+
+.app-nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.app-nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
+}
+
+.app-nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.app-nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.app-nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:16px;
+}
+
+.app-sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.app-logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.app-logout-btn:hover{
+  background:rgba(255,255,255,.09);
+}
+
+.app-main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+  min-height:100vh;
+}
+
+.app-topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.app-topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+  font-weight:700;
+}
+
+.app-topbar-actions{
+  display:flex;
+  gap:10px;
+}
+
+.app-topbar-link{
+  min-height:40px;
+  padding:0 16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:900;
+}
+
+.app-topbar-secondary{
+  background:#eef3f8;
+  color:#173459;
+}
+
+.app-topbar-primary{
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+}
+
+/* ============================
+   PAGE
+============================ */
+
+.page{
+  max-width:1180px;
+  margin:0 auto;
+  padding:32px 30px 55px;
+}
+
+.back{
+  display:inline-block;
+  color:#2ca9d2;
+  font-size:14px;
+  font-weight:800;
+  margin-bottom:22px;
+}
+
+.loading,
+.message{
+  padding:15px 16px;
+  border-radius:12px;
+  margin-bottom:20px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.loading{
+  background:#edf8fd;
+  border:1px solid #ccebf7;
+  color:#176b9c;
+}
+
+.message{
+  display:none;
+}
+
+.message-success{
+  display:block;
+  background:#ecf9f2;
+  border:1px solid #ccebd9;
+  color:#1d704c;
+}
+
+.message-error{
+  display:block;
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+  color:#b42318;
+}
+
+/* ============================
+   HEADING
+============================ */
+
+.heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:25px;
+  margin-bottom:26px;
+}
+
+.heading-main{
+  min-width:0;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+
+h1{
+  color:#10284a;
+  font-size:44px;
+  line-height:1.05;
+  margin-bottom:10px;
+  overflow-wrap:anywhere;
+}
+
+.subtitle{
+  color:#758399;
+  font-size:15px;
+}
+
+.user-info{
+  margin-top:8px;
+  color:#8795a8;
+  font-size:12px;
+}
+
+.user-info strong{
+  color:#173459;
+}
+
+.heading-actions{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:10px;
+  flex-shrink:0;
+}
+
+.status-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:9px 13px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+}
+
+.status-active{
+  background:#e8f7ef;
+  color:#23784f;
+}
+
+.status-inactive{
+  background:#edf1f5;
+  color:#667386;
+}
+
+.action-buttons{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.button{
+  min-height:42px;
+  padding:0 15px;
+  border-radius:10px;
+  border:none;
+  font-size:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.edit-button{
+  background:#173f69;
+  color:#fff;
+}
+
+.toggle-button{
+  background:#eef3f8;
+  color:#173459;
+  border:1px solid #dce4ec;
+}
+
+.delete-button{
+  background:#fff1f0;
+  color:#b42318;
+  border:1px solid #ffd0cc;
+}
+
+.button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* ============================
+   CARDS
+============================ */
+
+.card{
+  background:#fff;
+  border:1px solid #e1e7ee;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 12px 32px rgba(19,40,74,.06);
+  margin-bottom:20px;
+}
+
+.card-header{
+  padding:20px 22px;
+  border-bottom:1px solid #edf0f4;
+}
+
+.card-header h2{
+  color:#173459;
+  font-size:20px;
+}
+
+.card-header p{
+  margin-top:5px;
+  color:#8795a8;
+  font-size:13px;
+}
+
+.card-body{
+  padding:22px;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  background:#f8fafc;
+  border:1px solid #e1e7ee;
+  border-radius:13px;
+  padding:15px;
+  min-height:82px;
+}
+
+.field.wide{
+  grid-column:1 / -1;
+}
+
+.label{
+  display:block;
+  color:#8795a8;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.7px;
+  text-transform:uppercase;
+  margin-bottom:7px;
+}
+
+.value{
+  color:#25384f;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+}
+
+.type-badge{
+  display:inline-flex;
+  padding:7px 10px;
+  border-radius:999px;
+  background:#eaf6fb;
+  color:#176b9c;
+  font-size:12px;
+  font-weight:900;
+}
+
+/* ============================
+   EDIT
+============================ */
+
+.edit-input{
+  display:none;
+  width:100%;
+  border:1px solid #d7e0e9;
+  background:#fff;
+  color:#25384f;
+  border-radius:9px;
+  padding:10px 11px;
+  outline:none;
+}
+
+.edit-input:focus{
+  border-color:#4ec5e6;
+  box-shadow:0 0 0 3px rgba(78,197,230,.10);
+}
+
+textarea.edit-input{
+  min-height:110px;
+  resize:vertical;
+}
+
+.editing .value{
+  display:none;
+}
+
+.editing .edit-input{
+  display:block;
+}
+
+.edit-actions{
+  display:none;
+  padding:18px 22px;
+  background:#f8fafc;
+  border-top:1px solid #edf0f4;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+.editing-page .edit-actions{
+  display:flex;
+}
+
+.cancel-edit{
+  min-height:46px;
+  padding:0 19px;
+  border:1px solid #d8e0e8;
+  background:#fff;
+  color:#173459;
+  border-radius:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.save-edit{
+  min-height:46px;
+  padding:0 20px;
+  border:none;
+  background:linear-gradient(135deg,#173f69,#1f729d);
+  color:#fff;
+  border-radius:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.save-edit:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+footer{
+  text-align:center;
+  padding:25px 20px 0;
+  color:#8894a5;
+  font-size:13px;
+}
+
+footer strong{
+  color:#173459;
+}
+
+/* ============================
+   MOBILE
+============================ */
+
+@media(max-width:760px){
+
+  .app-sidebar{
+    width:72px;
+  }
+
+  .app-main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .app-sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .app-sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+  }
+
+  .app-sidebar-logo-link img{
+    width:50px;
+  }
+
+  .app-nav-title,
+  .app-nav-item span:not(.app-nav-icon){
+    display:none;
+  }
+
+  .app-nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .app-topbar{
+    padding:0 14px;
+  }
+
+  .app-topbar-brand{
+    display:none;
+  }
+
+  .app-topbar-actions{
+    margin-left:auto;
+  }
+
+  .app-topbar-link{
+    padding:0 12px;
+    font-size:12px;
+  }
+
+  .page{
+    padding:24px 13px 45px;
+  }
+
+  .heading{
+    flex-direction:column;
+  }
+
+  .heading-actions{
+    align-items:flex-start;
+  }
+
+  .action-buttons{
+    justify-content:flex-start;
+  }
+
+  h1{
+    font-size:35px;
+  }
+
+  .fields{
+    grid-template-columns:1fr;
+  }
+
+  .field.wide{
+    grid-column:auto;
+  }
+
+  .edit-actions{
+    flex-direction:column-reverse;
+  }
+
+  .cancel-edit,
+  .save-edit{
+    width:100%;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+<!-- SIDEBAR -->
+
+<aside class="app-sidebar">
+
+<div class="app-sidebar-logo">
+
+<a href="dashboard.html" class="app-sidebar-logo-link">
+
+<img
+  src="matrimia-logo-web.png"
+  alt="MatRi-mIA Logistics">
+
+</a>
+
+</div>
+
+<nav class="app-sidebar-nav">
+
+<div class="app-nav-section">
+
+<div class="app-nav-title">
+OPERATIVITÀ
+</div>
+
+<a href="dashboard.html" class="app-nav-item">
+<span class="app-nav-icon">▦</span>
+<span>Dashboard</span>
+</a>
+
+<a href="pratiche.html" class="app-nav-item">
+<span class="app-nav-icon">▤</span>
+<span>Pratiche</span>
+</a>
+
+<a href="nuova-pratica.html" class="app-nav-item">
+<span class="app-nav-icon">＋</span>
+<span>Nuova pratica</span>
+</a>
+
+</div>
+
+
+<div class="app-nav-section">
+
+<div class="app-nav-title">
+AUTOMAZIONI
+</div>
+
+<a href="email-ai.html" class="app-nav-item">
+<span class="app-nav-icon">✉</span>
+<span>Email AI</span>
+</a>
+
+<a href="viaggi.html" class="app-nav-item">
+<span class="app-nav-icon">↗</span>
+<span>Viaggi</span>
+</a>
+
+</div>
+
+
+<div class="app-nav-section">
+
+<div class="app-nav-title">
+GESTIONE
+</div>
+
+<a href="anagrafiche.html" class="app-nav-item active">
+<span class="app-nav-icon">▣</span>
+<span>Anagrafiche</span>
+</a>
+
+</div>
+
+</nav>
+
+
+<div class="app-sidebar-bottom">
+
+<button
+  id="logoutButton"
+  class="app-logout-btn"
+  type="button">
+Esci
+</button>
+
+</div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<div class="app-main">
+
+<header class="app-topbar">
+
+<div class="app-topbar-brand">
+MatRi-mIA Logistics · Dettaglio anagrafica
+</div>
+
+<div class="app-topbar-actions">
+
+<a
+  href="anagrafiche.html"
+  class="app-topbar-link app-topbar-secondary">
+Anagrafiche
+</a>
+
+<a
+  href="nuova-anagrafica.html"
+  class="app-topbar-link app-topbar-primary">
++ Nuova anagrafica
+</a>
+
+</div>
+
+</header>
+
+
+<main class="page">
+
+<a href="anagrafiche.html" class="back">
+← Torna alle anagrafiche
+</a>
+
+
+<div
+  id="loadingBox"
+  class="loading">
+Caricamento anagrafica...
+</div>
+
+
+<div
+  id="messageBox"
+  class="message">
+</div>
+
+
+<div
+  id="content"
+  style="display:none">
+
+
+<!-- HEADING -->
+
+<div class="heading">
+
+<div class="heading-main">
+
+<div class="eyebrow">
+MATRI-MIA · ANAGRAFICA
+</div>
+
+<h1 id="companyName">
+-
+</h1>
+
+<div
+  id="companySubtitle"
+  class="subtitle">
+-
+</div>
+
+<div
+  id="userInfo"
+  class="user-info">
+</div>
+
+</div>
+
+
+<div class="heading-actions">
+
+<div
+  id="statusBadge"
+  class="status-badge status-active">
+ATTIVA
+</div>
+
+
+<div class="action-buttons">
+
+<button
+  id="editButton"
+  type="button"
+  class="button edit-button">
+Modifica
+</button>
+
+<button
+  id="toggleButton"
+  type="button"
+  class="button toggle-button">
+Disattiva
+</button>
+
+<button
+  id="deleteButton"
+  type="button"
+  class="button delete-button">
+Elimina
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- DATI AZIENDA -->
+
+<section
+  id="companyCard"
+  class="card">
+
+<div class="card-header">
+
+<h2>Dati azienda</h2>
+
+<p>
+Informazioni identificative e fiscali.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="fields">
+
+
+<div class="field">
+
+<span class="label">
+Tipo
+</span>
+
+<div class="value">
+<span
+  id="tipoValue"
+  class="type-badge">
+-
+</span>
+</div>
+
+<select
+  id="tipoInput"
+  class="edit-input">
+
+<option value="CLIENTE">
+Cliente
+</option>
+
+<option value="VETTORE">
+Vettore
+</option>
+
+<option value="CLIENTE_VETTORE">
+Cliente + Vettore
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+Ragione sociale
+</span>
+
+<div
+  id="ragioneSocialeValue"
+  class="value">
+-
+</div>
+
+<input
+  id="ragioneSocialeInput"
+  class="edit-input"
+  type="text"
+  required>
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+Partita IVA
+</span>
+
+<div
+  id="partitaIvaValue"
+  class="value">
+-
+</div>
+
+<input
+  id="partitaIvaInput"
+  class="edit-input"
+  type="text">
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+Codice fiscale
+</span>
+
+<div
+  id="codiceFiscaleValue"
+  class="value">
+-
+</div>
+
+<input
+  id="codiceFiscaleInput"
+  class="edit-input"
+  type="text">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CONTATTI -->
+
+<section
+  id="contactsCard"
+  class="card">
+
+<div class="card-header">
+
+<h2>Contatti</h2>
+
+<p>
+Recapiti dell'azienda e referente principale.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="fields">
+
+
+<div class="field">
+
+<span class="label">
+Email
+</span>
+
+<div
+  id="emailValue"
+  class="value">
+-
+</div>
+
+<input
+  id="emailInput"
+  class="edit-input"
+  type="email">
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+Telefono
+</span>
+
+<div
+  id="telefonoValue"
+  class="value">
+-
+</div>
+
+<input
+  id="telefonoInput"
+  class="edit-input"
+  type="tel">
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+PEC
+</span>
+
+<div
+  id="pecValue"
+  class="value">
+-
+</div>
+
+<input
+  id="pecInput"
+  class="edit-input"
+  type="email">
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+Referente
+</span>
+
+<div
+  id="referenteValue"
+  class="value">
+-
+</div>
+
+<input
+  id="referenteInput"
+  class="edit-input"
+  type="text">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SEDE -->
+
+<section
+  id="addressCard"
+  class="card">
+
+<div class="card-header">
+
+<h2>Sede</h2>
+
+<p>
+Indirizzo principale dell'azienda.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="fields">
+
+
+<div class="field wide">
+
+<span class="label">
+Indirizzo
+</span>
+
+<div
+  id="indirizzoValue"
+  class="value">
+-
+</div>
+
+<input
+  id="indirizzoInput"
+  class="edit-input"
+  type="text">
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+CAP
+</span>
+
+<div
+  id="capValue"
+  class="value">
+-
+</div>
+
+<input
+  id="capInput"
+  class="edit-input"
+  type="text">
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+Città
+</span>
+
+<div
+  id="cittaValue"
+  class="value">
+-
+</div>
+
+<input
+  id="cittaInput"
+  class="edit-input"
+  type="text">
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+Provincia
+</span>
+
+<div
+  id="provinciaValue"
+  class="value">
+-
+</div>
+
+<input
+  id="provinciaInput"
+  class="edit-input"
+  type="text">
+
+</div>
+
+
+<div class="field">
+
+<span class="label">
+Nazione
+</span>
+
+<div
+  id="nazioneValue"
+  class="value">
+-
+</div>
+
+<input
+  id="nazioneInput"
+  class="edit-input"
+  type="text">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- NOTE -->
+
+<section
+  id="notesCard"
+  class="card">
+
+<div class="card-header">
+
+<h2>Note</h2>
+
+<p>
+Informazioni operative aggiuntive.
+</p>
+
+</div>
+
+
+<div class="card-body">
+
+<div class="field wide">
+
+<span class="label">
+Note
+</span>
+
+<div
+  id="noteValue"
+  class="value">
+-
+</div>
+
+<textarea
+  id="noteInput"
+  class="edit-input">
+</textarea>
+
+</div>
+
+</div>
+
+
+<div
+  id="editActions"
+  class="edit-actions">
+
+<button
+  id="cancelEditButton"
+  type="button"
+  class="cancel-edit">
+Annulla modifiche
+</button>
+
+<button
+  id="saveButton"
+  type="button"
+  class="save-edit">
+Salva modifiche
+</button>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<footer>
+
+<strong>
+MatRi-mIA Logistics
+</strong>
+
+· AI per trasporti e logistica
+
+</footer>
+
+</main>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+/* ============================
+   SUPABASE
+============================ */
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* ============================
+   URL
+============================ */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const anagraficaId =
+  params.get("id");
+
+
+/* ============================
+   ELEMENTI
+============================ */
+
+const loadingBox =
+  document.getElementById(
+    "loadingBox"
+  );
+
+const messageBox =
+  document.getElementById(
+    "messageBox"
+  );
+
+const content =
+  document.getElementById(
+    "content"
+  );
+
+const userInfo =
+  document.getElementById(
+    "userInfo"
+  );
+
+const logoutButton =
+  document.getElementById(
+    "logoutButton"
+  );
+
+const editButton =
+  document.getElementById(
+    "editButton"
+  );
+
+const toggleButton =
+  document.getElementById(
+    "toggleButton"
+  );
+
+const deleteButton =
+  document.getElementById(
+    "deleteButton"
+  );
+
+const cancelEditButton =
+  document.getElementById(
+    "cancelEditButton"
+  );
+
+const saveButton =
+  document.getElementById(
+    "saveButton"
+  );
+
+const companyCard =
+  document.getElementById(
+    "companyCard"
+  );
+
+const contactsCard =
+  document.getElementById(
+    "contactsCard"
+  );
+
+const addressCard =
+  document.getElementById(
+    "addressCard"
+  );
+
+const notesCard =
+  document.getElementById(
+    "notesCard"
+  );
+
+
+let currentUser = null;
+let currentProfile = null;
+let currentAnagrafica = null;
+
+
+/* ============================
+   UTILITY
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function emptyToNull(value){
+
+  const cleaned =
+    String(value ?? "").trim();
+
+  return cleaned === ""
+    ? null
+    : cleaned;
+
+}
+
+
+function setText(id,value){
+
+  document
+    .getElementById(id)
+    .textContent =
+      value === null ||
+      value === undefined ||
+      value === ""
+        ? "-"
+        : value;
+
+}
+
+
+function showMessage(type,text){
+
+  messageBox.className =
+    "message " +
+    (
+      type === "success"
+        ? "message-success"
+        : "message-error"
+    );
+
+  messageBox.textContent =
+    text;
+
+  messageBox.style.display =
+    "block";
+
+}
+
+
+function hideMessage(){
+
+  messageBox.style.display =
+    "none";
+
+}
+
+
+function formatType(tipo){
+
+  if(tipo === "CLIENTE"){
+    return "CLIENTE";
+  }
+
+  if(tipo === "VETTORE"){
+    return "VETTORE";
+  }
+
+  if(tipo === "CLIENTE_VETTORE"){
+    return "CLIENTE + VETTORE";
+  }
+
+  return tipo || "-";
+
+}
+
+
+/* ============================
+   AUTENTICAZIONE
+============================ */
+
+async function protectPage(){
+
+  try{
+
+    const {
+      data:{session},
+      error
+    } =
+      await supabase.auth
+        .getSession();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(
+      !session ||
+      !session.user
+    ){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    currentUser =
+      session.user;
+
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .single();
+
+
+    if(
+      profileError ||
+      !profile
+    ){
+
+      await supabase.auth
+        .signOut();
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+
+    if(!profile.azienda_id){
+
+      throw new Error(
+        "Il profilo non è associato a un'azienda."
+      );
+
+    }
+
+
+    currentProfile =
+      profile;
+
+
+    userInfo.innerHTML =
+      `Accesso: <strong>${
+        escapeHtml(
+          profile.email ||
+          currentUser.email ||
+          ""
+        )
+      }</strong> · ${
+        escapeHtml(
+          profile.ruolo ||
+          ""
+        )
+      }`;
+
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
+
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+
+    showMessage(
+      "error",
+      error.message ||
+      "Errore durante l'autenticazione."
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+/* ============================
+   LOGOUT
+============================ */
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled =
+      true;
+
+    logoutButton.textContent =
+      "Uscita...";
+
+    try{
+
+      await supabase.auth
+        .signOut();
+
+    }
+    finally{
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
+  }
+);
+
+
+/* ============================
+   STATO
+============================ */
+
+function renderStatus(){
+
+  const badge =
+    document.getElementById(
+      "statusBadge"
+    );
+
+
+  if(currentAnagrafica.attiva){
+
+    badge.textContent =
+      "ATTIVA";
+
+    badge.className =
+      "status-badge status-active";
+
+    toggleButton.textContent =
+      "Disattiva";
+
+  }
+  else{
+
+    badge.textContent =
+      "DISATTIVATA";
+
+    badge.className =
+      "status-badge status-inactive";
+
+    toggleButton.textContent =
+      "Riattiva";
+
+  }
+
+}
+
+
+/* ============================
+   MOSTRA DATI
+============================ */
+
+function renderAnagrafica(){
+
+  if(!currentAnagrafica){
+    return;
+  }
+
+
+  document
+    .getElementById(
+      "companyName"
+    )
+    .textContent =
+      currentAnagrafica.ragione_sociale ||
+      "-";
+
+
+  const subtitleParts = [];
+
+
+  if(currentAnagrafica.citta){
+
+    subtitleParts.push(
+      currentAnagrafica.citta
+    );
+
+  }
+
+
+  if(currentAnagrafica.provincia){
+
+    subtitleParts.push(
+      currentAnagrafica.provincia
+    );
+
+  }
+
+
+  document
+    .getElementById(
+      "companySubtitle"
+    )
+    .textContent =
+      formatType(
+        currentAnagrafica.tipo
+      ) +
+      (
+        subtitleParts.length
+          ? " · " +
+            subtitleParts.join(" · ")
+          : ""
+      );
+
+
+  setText(
+    "tipoValue",
+    formatType(
+      currentAnagrafica.tipo
+    )
+  );
+
+
+  setText(
+    "ragioneSocialeValue",
+    currentAnagrafica.ragione_sociale
+  );
+
+
+  setText(
+    "partitaIvaValue",
+    currentAnagrafica.partita_iva
+  );
+
+
+  setText(
+    "codiceFiscaleValue",
+    currentAnagrafica.codice_fiscale
+  );
+
+
+  setText(
+    "emailValue",
+    currentAnagrafica.email
+  );
+
+
+  setText(
+    "telefonoValue",
+    currentAnagrafica.telefono
+  );
+
+
+  setText(
+    "pecValue",
+    currentAnagrafica.pec
+  );
+
+
+  setText(
+    "referenteValue",
+    currentAnagrafica.referente
+  );
+
+
+  setText(
+    "indirizzoValue",
+    currentAnagrafica.indirizzo
+  );
+
+
+  setText(
+    "capValue",
+    currentAnagrafica.cap
+  );
+
+
+  setText(
+    "cittaValue",
+    currentAnagrafica.citta
+  );
+
+
+  setText(
+    "provinciaValue",
+    currentAnagrafica.provincia
+  );
+
+
+  setText(
+    "nazioneValue",
+    currentAnagrafica.nazione
+  );
+
+
+  setText(
+    "noteValue",
+    currentAnagrafica.note
+  );
+
+
+  renderStatus();
+
+}
+
+
+/* ============================
+   POPOLA MODIFICA
+============================ */
+
+function populateEditFields(){
+
+  document.getElementById(
+    "tipoInput"
+  ).value =
+    currentAnagrafica.tipo ||
+    "CLIENTE";
+
+
+  document.getElementById(
+    "ragioneSocialeInput"
+  ).value =
+    currentAnagrafica.ragione_sociale ||
+    "";
+
+
+  document.getElementById(
+    "partitaIvaInput"
+  ).value =
+    currentAnagrafica.partita_iva ||
+    "";
+
+
+  document.getElementById(
+    "codiceFiscaleInput"
+  ).value =
+    currentAnagrafica.codice_fiscale ||
+    "";
+
+
+  document.getElementById(
+    "emailInput"
+  ).value =
+    currentAnagrafica.email ||
+    "";
+
+
+  document.getElementById(
+    "telefonoInput"
+  ).value =
+    currentAnagrafica.telefono ||
+    "";
+
+
+  document.getElementById(
+    "pecInput"
+  ).value =
+    currentAnagrafica.pec ||
+    "";
+
+
+  document.getElementById(
+    "referenteInput"
+  ).value =
+    currentAnagrafica.referente ||
+    "";
+
+
+  document.getElementById(
+    "indirizzoInput"
+  ).value =
+    currentAnagrafica.indirizzo ||
+    "";
+
+
+  document.getElementById(
+    "capInput"
+  ).value =
+    currentAnagrafica.cap ||
+    "";
+
+
+  document.getElementById(
+    "cittaInput"
+  ).value =
+    currentAnagrafica.citta ||
+    "";
+
+
+  document.getElementById(
+    "provinciaInput"
+  ).value =
+    currentAnagrafica.provincia ||
+    "";
+
+
+  document.getElementById(
+    "nazioneInput"
+  ).value =
+    currentAnagrafica.nazione ||
+    "Italia";
+
+
+  document.getElementById(
+    "noteInput"
+  ).value =
+    currentAnagrafica.note ||
+    "";
+
+}
+
+
+/* ============================
+   MODIFICA
+============================ */
+
+function startEditing(){
+
+  if(!currentAnagrafica){
+    return;
+  }
+
+
+  hideMessage();
+
+  populateEditFields();
+
+
+  companyCard.classList.add(
+    "editing"
+  );
+
+  contactsCard.classList.add(
+    "editing"
+  );
+
+  addressCard.classList.add(
+    "editing"
+  );
+
+  notesCard.classList.add(
+    "editing",
+    "editing-page"
+  );
+
+
+  editButton.style.display =
+    "none";
+
+  toggleButton.disabled =
+    true;
+
+  deleteButton.disabled =
+    true;
+
+}
+
+
+function stopEditing(){
+
+  companyCard.classList.remove(
+    "editing"
+  );
+
+  contactsCard.classList.remove(
+    "editing"
+  );
+
+  addressCard.classList.remove(
+    "editing"
+  );
+
+  notesCard.classList.remove(
+    "editing",
+    "editing-page"
+  );
+
+
+  editButton.style.display =
+    "inline-block";
+
+  toggleButton.disabled =
+    false;
+
+  deleteButton.disabled =
+    false;
+
+}
+
+
+/* ============================
+   SALVA MODIFICHE
+============================ */
+
+async function saveChanges(){
+
+  const ragioneSociale =
+    document
+      .getElementById(
+        "ragioneSocialeInput"
+      )
+      .value
+      .trim();
+
+
+  if(!ragioneSociale){
+
+    showMessage(
+      "error",
+      "La ragione sociale è obbligatoria."
+    );
+
+    return;
+
+  }
+
+
+  const emailInput =
+    document.getElementById(
+      "emailInput"
+    );
+
+  const pecInput =
+    document.getElementById(
+      "pecInput"
+    );
+
+
+  if(!emailInput.checkValidity()){
+
+    emailInput.reportValidity();
+
+    return;
+
+  }
+
+
+  if(!pecInput.checkValidity()){
+
+    pecInput.reportValidity();
+
+    return;
+
+  }
+
+
+  saveButton.disabled =
+    true;
+
+  saveButton.textContent =
+    "Salvataggio...";
+
+  hideMessage();
+
+
+  try{
+
+
+    const updates = {
+
+      tipo:
+        document.getElementById(
+          "tipoInput"
+        ).value,
+
+      ragione_sociale:
+        ragioneSociale,
+
+      partita_iva:
+        emptyToNull(
+          document.getElementById(
+            "partitaIvaInput"
+          ).value
+        ),
+
+      codice_fiscale:
+        emptyToNull(
+          document.getElementById(
+            "codiceFiscaleInput"
+          ).value
+        ),
+
+      email:
+        emptyToNull(
+          emailInput.value
+        ),
+
+      telefono:
+        emptyToNull(
+          document.getElementById(
+            "telefonoInput"
+          ).value
+        ),
+
+      pec:
+        emptyToNull(
+          pecInput.value
+        ),
+
+      referente:
+        emptyToNull(
+          document.getElementById(
+            "referenteInput"
+          ).value
+        ),
+
+      indirizzo:
+        emptyToNull(
+          document.getElementById(
+            "indirizzoInput"
+          ).value
+        ),
+
+      cap:
+        emptyToNull(
+          document.getElementById(
+            "capInput"
+          ).value
+        ),
+
+      citta:
+        emptyToNull(
+          document.getElementById(
+            "cittaInput"
+          ).value
+        ),
+
+      provincia:
+        emptyToNull(
+          document.getElementById(
+            "provinciaInput"
+          ).value
+        ),
+
+      nazione:
+        emptyToNull(
+          document.getElementById(
+            "nazioneInput"
+          ).value
+        ) || "Italia",
+
+      note:
+        emptyToNull(
+          document.getElementById(
+            "noteInput"
+          ).value
+        ),
+
+      updated_at:
+        new Date()
+          .toISOString()
+
+    };
+
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("anagrafiche")
+        .update(updates)
+        .eq(
+          "id",
+          currentAnagrafica.id
+        )
+        .select()
+        .single();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    currentAnagrafica =
+      data;
+
+
+    renderAnagrafica();
+
+    stopEditing();
+
+
+    showMessage(
+      "success",
+      "Anagrafica aggiornata correttamente."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore aggiornamento:",
+      error
+    );
+
+
+    showMessage(
+      "error",
+      "Errore durante il salvataggio: " +
+      error.message
+    );
+
+  }
+  finally{
+
+    saveButton.disabled =
+      false;
+
+    saveButton.textContent =
+      "Salva modifiche";
+
+  }
+
+}
+
+
+/* ============================
+   ATTIVA / DISATTIVA
+============================ */
+
+async function toggleStatus(){
+
+  if(!currentAnagrafica){
+    return;
+  }
+
+
+  const nuovoStato =
+    !currentAnagrafica.attiva;
+
+
+  const testo =
+    nuovoStato
+      ? "riattivare"
+      : "disattivare";
+
+
+  const confirmed =
+    window.confirm(
+      "Vuoi " +
+      testo +
+      " l'anagrafica \"" +
+      currentAnagrafica.ragione_sociale +
+      "\"?"
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  toggleButton.disabled =
+    true;
+
+  editButton.disabled =
+    true;
+
+  deleteButton.disabled =
+    true;
+
+
+  try{
+
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("anagrafiche")
+        .update({
+
+          attiva:
+            nuovoStato,
+
+          updated_at:
+            new Date()
+              .toISOString()
+
+        })
+        .eq(
+          "id",
+          currentAnagrafica.id
+        )
+        .select()
+        .single();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    currentAnagrafica =
+      data;
+
+
+    renderAnagrafica();
+
+
+    showMessage(
+      "success",
+      nuovoStato
+        ? "Anagrafica riattivata correttamente."
+        : "Anagrafica disattivata correttamente."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore cambio stato:",
+      error
+    );
+
+
+    showMessage(
+      "error",
+      "Errore durante l'aggiornamento dello stato: " +
+      error.message
+    );
+
+  }
+  finally{
+
+    toggleButton.disabled =
+      false;
+
+    editButton.disabled =
+      false;
+
+    deleteButton.disabled =
+      false;
+
+  }
+
+}
+
+
+/* ============================
+   ELIMINA
+============================ */
+
+async function deleteAnagrafica(){
+
+  if(!currentAnagrafica){
+    return;
+  }
+
+
+  const confirmed =
+    window.confirm(
+      "Vuoi eliminare definitivamente l'anagrafica \"" +
+      currentAnagrafica.ragione_sociale +
+      "\"?\n\nQuesta operazione non può essere annullata."
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  const secondConfirmation =
+    window.confirm(
+      "Confermi l'eliminazione definitiva?"
+    );
+
+
+  if(!secondConfirmation){
+    return;
+  }
+
+
+  deleteButton.disabled =
+    true;
+
+  editButton.disabled =
+    true;
+
+  toggleButton.disabled =
+    true;
+
+  deleteButton.textContent =
+    "Eliminazione...";
+
+
+  try{
+
+
+    const {
+      error
+    } =
+      await supabase
+        .from("anagrafiche")
+        .delete()
+        .eq(
+          "id",
+          currentAnagrafica.id
+        );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    window.location.replace(
+      "anagrafiche.html"
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore eliminazione:",
+      error
+    );
+
+
+    showMessage(
+      "error",
+      "Errore durante l'eliminazione: " +
+      error.message
+    );
+
+
+    deleteButton.disabled =
+      false;
+
+    editButton.disabled =
+      false;
+
+    toggleButton.disabled =
+      false;
+
+    deleteButton.textContent =
+      "Elimina";
+
+  }
+
+}
+
+
+/* ============================
+   EVENTI
+============================ */
+
+editButton.addEventListener(
+  "click",
+  startEditing
+);
+
+
+cancelEditButton.addEventListener(
+  "click",
+  function(){
+
+    stopEditing();
+    hideMessage();
+
+  }
+);
+
+
+saveButton.addEventListener(
+  "click",
+  saveChanges
+);
+
+
+toggleButton.addEventListener(
+  "click",
+  toggleStatus
+);
+
+
+deleteButton.addEventListener(
+  "click",
+  deleteAnagrafica
+);
+
+
+/* ============================
+   CARICAMENTO
+============================ */
+
+async function loadAnagrafica(){
+
+  if(!anagraficaId){
+
+    loadingBox.style.display =
+      "none";
+
+
+    showMessage(
+      "error",
+      "ID anagrafica non specificato."
+    );
+
+
+    return;
+
+  }
+
+
+  try{
+
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("anagrafiche")
+        .select(`
+          id,
+          azienda_id,
+          tipo,
+          ragione_sociale,
+          partita_iva,
+          codice_fiscale,
+          email,
+          telefono,
+          pec,
+          indirizzo,
+          cap,
+          citta,
+          provincia,
+          nazione,
+          referente,
+          note,
+          attiva,
+          created_at,
+          updated_at
+        `)
+        .eq(
+          "id",
+          anagraficaId
+        )
+        .single();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(!data){
+
+      throw new Error(
+        "Anagrafica non trovata."
+      );
+
+    }
+
+
+    currentAnagrafica =
+      data;
+
+
+    renderAnagrafica();
+
+
+    loadingBox.style.display =
+      "none";
+
+    content.style.display =
+      "block";
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore caricamento anagrafica:",
+      error
+    );
+
+
+    loadingBox.style.display =
+      "none";
+
+
+    showMessage(
+      "error",
+      "Anagrafica non trovata oppure non autorizzata."
+    );
+
+  }
+
+}
+
+
+/* ============================
+   AVVIO
+============================ */
+
+async function startPage(){
+
+  const authenticated =
+    await protectPage();
+
+
+  if(!authenticated){
+    return;
+  }
+
+
+  await loadAnagrafica();
+
+}
+
+
+startPage();
+
+</script>
+
+</body>
+
+</html>
