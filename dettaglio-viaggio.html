@@ -489,6 +489,158 @@ textarea:focus{
   font-weight:700;
 }
 
+.message.success{
+  background:#ecf9f2;
+  border-color:#ccebd9;
+  color:#1d704c;
+}
+
+/* =========================================================
+   DOCUMENTI
+   ========================================================= */
+
+.documents-upload{
+  background:#f8fafc;
+  border:1px solid #e1e7ee;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:18px;
+}
+
+.documents-upload-grid{
+  display:grid;
+  grid-template-columns:170px 1fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.document-field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.document-field label{
+  color:#526177;
+  font-size:9px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.document-note{
+  width:100%;
+  min-height:70px;
+}
+
+.document-upload-button{
+  margin-top:12px;
+}
+
+.documents-info{
+  color:#8795a8;
+  font-size:10px;
+  line-height:1.5;
+  margin-top:9px;
+}
+
+.documents-empty{
+  padding:18px 8px;
+  color:#8795a8;
+  text-align:center;
+  font-size:12px;
+}
+
+.documents-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.document-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border:1px solid #e1e7ee;
+  border-radius:11px;
+  padding:12px;
+  background:#fff;
+}
+
+.document-icon{
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#edf8fd;
+  color:#176b9c;
+  font-size:10px;
+  font-weight:900;
+}
+
+.document-main{
+  flex:1;
+  min-width:0;
+}
+
+.document-name{
+  color:#30465f;
+  font-size:12px;
+  font-weight:900;
+  overflow-wrap:anywhere;
+}
+
+.document-meta{
+  margin-top:4px;
+  color:#8795a8;
+  font-size:9px;
+}
+
+.document-note-text{
+  margin-top:5px;
+  color:#607087;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.document-type{
+  display:inline-flex;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#eef3f8;
+  color:#173459;
+  font-size:9px;
+  font-weight:900;
+}
+
+.document-actions{
+  display:flex;
+  gap:6px;
+}
+
+.document-btn{
+  min-height:33px;
+  border-radius:8px;
+  padding:0 10px;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.document-open{
+  border:0;
+  background:#eaf6fb;
+  color:#176b9c;
+}
+
+.document-delete{
+  border:1px solid #ffd4d1;
+  background:#fff1f0;
+  color:#b42318;
+}
+
 /* RESPONSIVE */
 
 @media(max-width:900px){
@@ -544,13 +696,24 @@ textarea:focus{
   }
 
   .fields,
-  .form-grid{
+  .form-grid,
+  .documents-upload-grid{
     grid-template-columns:1fr;
   }
 
   .field.full,
   .form-group.full{
     grid-column:auto;
+  }
+
+  .document-item{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .document-actions{
+    width:100%;
+    padding-left:56px;
   }
 
 }
@@ -643,9 +806,7 @@ GESTIONE
 UTENTE
 </div>
 
-<div
-id="userEmail"
-class="user-email">
+<div id="userEmail" class="user-email">
 -
 </div>
 
@@ -680,10 +841,7 @@ MatRi-mIA Logistics · Viaggi
 
 <main class="content">
 
-<div
-id="messageBox"
-class="message">
-</div>
+<div id="messageBox" class="message"></div>
 
 
 <div class="heading">
@@ -698,17 +856,13 @@ MATRI-MIA · DETTAGLIO VIAGGIO
 -
 </h1>
 
-<div
-id="route"
-class="route">
+<div id="route" class="route">
 -
 </div>
 
 </div>
 
-<div
-id="statusBadge"
-class="badge badge-plan">
+<div id="statusBadge" class="badge badge-plan">
 -
 </div>
 
@@ -719,13 +873,13 @@ class="badge badge-plan">
 
 <div>
 
+<!-- DATI VIAGGIO -->
+
 <section class="card">
 
 <div class="card-header">
 
-<h2>
-Dati viaggio
-</h2>
+<h2>Dati viaggio</h2>
 
 <div class="actions">
 
@@ -748,9 +902,7 @@ Elimina
 </div>
 
 
-<div
-id="viewMode"
-class="card-body">
+<div id="viewMode" class="card-body">
 
 <div class="fields">
 
@@ -760,9 +912,7 @@ class="card-body">
 Vettore
 </div>
 
-<div
-id="vVettore"
-class="value">
+<div id="vVettore" class="value">
 -
 </div>
 
@@ -782,9 +932,7 @@ Apri anagrafica →
 Autista
 </div>
 
-<div
-id="vAutista"
-class="value">
+<div id="vAutista" class="value">
 -
 </div>
 
@@ -797,9 +945,7 @@ class="value">
 Telefono autista
 </div>
 
-<div
-id="vTelefono"
-class="value">
+<div id="vTelefono" class="value">
 -
 </div>
 
@@ -812,9 +958,7 @@ class="value">
 Stato
 </div>
 
-<div
-id="vStato"
-class="value">
+<div id="vStato" class="value">
 -
 </div>
 
@@ -827,9 +971,7 @@ class="value">
 Targa trattore
 </div>
 
-<div
-id="vTrattore"
-class="value">
+<div id="vTrattore" class="value">
 -
 </div>
 
@@ -842,9 +984,7 @@ class="value">
 Targa rimorchio
 </div>
 
-<div
-id="vRimorchio"
-class="value">
+<div id="vRimorchio" class="value">
 -
 </div>
 
@@ -857,9 +997,7 @@ class="value">
 Partenza prevista
 </div>
 
-<div
-id="vPartenza"
-class="value">
+<div id="vPartenza" class="value">
 -
 </div>
 
@@ -872,9 +1010,7 @@ class="value">
 Arrivo previsto
 </div>
 
-<div
-id="vArrivo"
-class="value">
+<div id="vArrivo" class="value">
 -
 </div>
 
@@ -887,9 +1023,7 @@ class="value">
 Km previsti
 </div>
 
-<div
-id="vKm"
-class="value">
+<div id="vKm" class="value">
 -
 </div>
 
@@ -902,9 +1036,7 @@ class="value">
 Costo previsto
 </div>
 
-<div
-id="vCosto"
-class="value">
+<div id="vCosto" class="value">
 -
 </div>
 
@@ -917,9 +1049,7 @@ class="value">
 Note operative
 </div>
 
-<div
-id="vNote"
-class="value">
+<div id="vNote" class="value">
 -
 </div>
 
@@ -930,9 +1060,7 @@ class="value">
 </div>
 
 
-<div
-id="editMode"
-class="card-body editor">
+<div id="editMode" class="card-body editor">
 
 <div class="form-grid">
 
@@ -987,25 +1115,11 @@ Stato
 
 <select id="eStato">
 
-<option>
-DA PROGRAMMARE
-</option>
-
-<option>
-PROGRAMMATO
-</option>
-
-<option>
-IN CORSO
-</option>
-
-<option>
-CONSEGNATO
-</option>
-
-<option>
-ANNULLATO
-</option>
+<option>DA PROGRAMMARE</option>
+<option>PROGRAMMATO</option>
+<option>IN CORSO</option>
+<option>CONSEGNATO</option>
+<option>ANNULLATO</option>
 
 </select>
 
@@ -1102,9 +1216,7 @@ Note operative
 </div>
 
 
-<div
-class="actions"
-style="margin-top:18px">
+<div class="actions" style="margin-top:18px">
 
 <button
 id="cancelButton"
@@ -1126,6 +1238,125 @@ Salva modifiche
 
 </section>
 
+
+<!-- DOCUMENTI -->
+
+<section class="card">
+
+<div class="card-header">
+
+<h2>Documenti viaggio</h2>
+
+</div>
+
+<div class="card-body">
+
+<div class="documents-upload">
+
+<div class="documents-upload-grid">
+
+<div class="document-field">
+
+<label for="documentType">
+Tipo documento
+</label>
+
+<select id="documentType">
+
+<option value="CMR">
+CMR
+</option>
+
+<option value="POD">
+POD
+</option>
+
+<option value="DDT">
+DDT
+</option>
+
+<option value="FATTURA">
+Fattura
+</option>
+
+<option value="ALTRO">
+Altro
+</option>
+
+</select>
+
+</div>
+
+
+<div class="document-field">
+
+<label for="documentFile">
+File
+</label>
+
+<input
+id="documentFile"
+type="file"
+accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx">
+
+</div>
+
+</div>
+
+
+<div class="document-field">
+
+<label for="documentNote">
+Nota
+</label>
+
+<textarea
+id="documentNote"
+class="document-note"
+placeholder="Nota facoltativa sul documento"></textarea>
+
+</div>
+
+
+<button
+id="uploadDocumentButton"
+class="btn btn-primary document-upload-button"
+type="button">
+Carica documento
+</button>
+
+
+<div class="documents-info">
+Il documento viene collegato automaticamente sia al viaggio sia alla pratica.
+</div>
+
+</div>
+
+
+<div
+id="documentsLoading"
+class="documents-empty">
+Caricamento documenti...
+</div>
+
+
+<div
+id="documentsEmpty"
+class="documents-empty"
+style="display:none">
+Nessun documento collegato a questo viaggio.
+</div>
+
+
+<div
+id="documentsList"
+class="documents-list">
+</div>
+
+</div>
+
+</section>
+
 </div>
 
 
@@ -1137,28 +1368,19 @@ Salva modifiche
 PRATICA COLLEGATA
 </div>
 
-<div
-id="practiceNumber"
-class="practice-number">
+<div id="practiceNumber" class="practice-number">
 -
 </div>
 
-<div
-id="practiceRoute"
-class="practice-route">
+<div id="practiceRoute" class="practice-route">
 -
 </div>
 
-<div
-id="practiceClient"
-class="practice-client">
+<div id="practiceClient" class="practice-client">
 -
 </div>
 
-<a
-id="practiceLink"
-href="#"
-class="practice-link">
+<a id="practiceLink" href="#" class="practice-link">
 Apri pratica →
 </a>
 
@@ -1206,6 +1428,7 @@ let currentProfile = null;
 let viaggio = null;
 let vettori = [];
 let selectedVettoreId = null;
+let currentDocuments = [];
 
 
 const userEmail =
@@ -1236,6 +1459,42 @@ document.getElementById(
 const saveButton =
 document.getElementById(
   "saveButton"
+);
+
+
+const documentType =
+document.getElementById(
+  "documentType"
+);
+
+const documentFile =
+document.getElementById(
+  "documentFile"
+);
+
+const documentNote =
+document.getElementById(
+  "documentNote"
+);
+
+const uploadDocumentButton =
+document.getElementById(
+  "uploadDocumentButton"
+);
+
+const documentsLoading =
+document.getElementById(
+  "documentsLoading"
+);
+
+const documentsEmpty =
+document.getElementById(
+  "documentsEmpty"
+);
+
+const documentsList =
+document.getElementById(
+  "documentsList"
 );
 
 
@@ -1335,6 +1594,23 @@ function inputDate(value){
 
 
 function showError(message){
+
+  messageBox.className =
+  "message";
+
+  messageBox.style.display =
+  "block";
+
+  messageBox.textContent =
+  message;
+
+}
+
+
+function showSuccess(message){
+
+  messageBox.className =
+  "message success";
 
   messageBox.style.display =
   "block";
@@ -1701,6 +1977,8 @@ async function load(){
 
   render();
 
+  await loadDocuments();
+
 }
 
 
@@ -1883,7 +2161,7 @@ function render(){
 
 
 /* =========================================================
-   APERTURA EDITOR
+   EDITOR
    ========================================================= */
 
 function openEditor(){
@@ -1910,13 +2188,6 @@ function openEditor(){
   selectedVettoreId =
   viaggio.vettore_id || null;
 
-
-  /*
-   * Compatibilità con vecchi viaggi:
-   * se non esiste vettore_id ma il nome
-   * corrisponde a una anagrafica, prepariamo
-   * automaticamente il collegamento.
-   */
 
   if(
     !selectedVettoreId &&
@@ -2006,10 +2277,6 @@ function openEditor(){
 }
 
 
-/* =========================================================
-   CHIUSURA EDITOR
-   ========================================================= */
-
 function closeEditor(){
 
   document.getElementById(
@@ -2025,10 +2292,6 @@ function closeEditor(){
 
 }
 
-
-/* =========================================================
-   PULSANTI
-   ========================================================= */
 
 document.getElementById(
   "editButton"
@@ -2049,7 +2312,7 @@ document.getElementById(
 
 
 /* =========================================================
-   SALVATAGGIO
+   SALVATAGGIO VIAGGIO
    ========================================================= */
 
 saveButton.onclick =
@@ -2089,17 +2352,6 @@ async ()=>{
 
   }
 
-
-  /*
-   * Ricalcoliamo sempre l'ID al momento
-   * del salvataggio.
-   *
-   * Se il testo coincide con un'anagrafica:
-   * vettore_id = UUID.
-   *
-   * Se è testo libero:
-   * vettore_id = null.
-   */
 
   const vettoreText =
   emptyToNull(
@@ -2257,7 +2509,930 @@ async ()=>{
 
 
 /* =========================================================
-   ELIMINAZIONE
+   DOCUMENTI
+   ========================================================= */
+
+function sanitizeFileName(name){
+
+  return String(name || "file")
+  .normalize("NFD")
+  .replace(
+    /[\u0300-\u036f]/g,
+    ""
+  )
+  .replace(
+    /[^a-zA-Z0-9._-]/g,
+    "_"
+  )
+  .replace(
+    /_+/g,
+    "_"
+  );
+
+}
+
+
+function formatBytes(bytes){
+
+  const value =
+  Number(bytes);
+
+
+  if(!Number.isFinite(value)){
+    return "";
+  }
+
+
+  if(value < 1024){
+
+    return value +
+    " B";
+
+  }
+
+
+  if(
+    value <
+    1024 * 1024
+  ){
+
+    return (
+      value / 1024
+    ).toFixed(1) +
+    " KB";
+
+  }
+
+
+  return (
+    value /
+    (1024 * 1024)
+  ).toFixed(1) +
+  " MB";
+
+}
+
+
+function formatDocumentDate(value){
+
+  if(!value){
+    return "";
+  }
+
+
+  const date =
+  new Date(value);
+
+
+  if(isNaN(date.getTime())){
+    return "";
+  }
+
+
+  return date.toLocaleString(
+    "it-IT",
+    {
+      dateStyle:"short",
+      timeStyle:"short"
+    }
+  );
+
+}
+
+
+function getDocumentIcon(mimeType){
+
+  const mime =
+  String(
+    mimeType || ""
+  ).toLowerCase();
+
+
+  if(
+    mime.includes("pdf")
+  ){
+
+    return "PDF";
+
+  }
+
+
+  if(
+    mime.startsWith(
+      "image/"
+    )
+  ){
+
+    return "IMG";
+
+  }
+
+
+  if(
+    mime.includes("word") ||
+    mime.includes("document")
+  ){
+
+    return "DOC";
+
+  }
+
+
+  if(
+    mime.includes("excel") ||
+    mime.includes("spreadsheet")
+  ){
+
+    return "XLS";
+
+  }
+
+
+  return "FILE";
+
+}
+
+
+/* CARICA DOCUMENTI DEL VIAGGIO */
+
+async function loadDocuments(){
+
+  if(!viaggio?.id){
+    return;
+  }
+
+
+  documentsLoading.style.display =
+  "block";
+
+  documentsEmpty.style.display =
+  "none";
+
+  documentsList.innerHTML =
+  "";
+
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("documenti")
+  .select(`
+    id,
+    azienda_id,
+    pratica_id,
+    viaggio_id,
+    tipo,
+    nome_file,
+    storage_path,
+    mime_type,
+    dimensione_bytes,
+    note,
+    created_by,
+    created_at,
+    updated_at
+  `)
+  .eq(
+    "viaggio_id",
+    viaggio.id
+  )
+  .order(
+    "created_at",
+    {
+      ascending:false
+    }
+  );
+
+
+  documentsLoading.style.display =
+  "none";
+
+
+  if(error){
+
+    console.error(
+      "Errore caricamento documenti:",
+      error
+    );
+
+
+    documentsEmpty.textContent =
+    "Impossibile caricare i documenti.";
+
+
+    documentsEmpty.style.display =
+    "block";
+
+    return;
+
+  }
+
+
+  currentDocuments =
+  data || [];
+
+
+  renderDocuments();
+
+}
+
+
+/* RENDER DOCUMENTI */
+
+function renderDocuments(){
+
+  documentsList.innerHTML =
+  "";
+
+
+  if(
+    !currentDocuments.length
+  ){
+
+    documentsEmpty.textContent =
+    "Nessun documento collegato a questo viaggio.";
+
+
+    documentsEmpty.style.display =
+    "block";
+
+    return;
+
+  }
+
+
+  documentsEmpty.style.display =
+  "none";
+
+
+  currentDocuments.forEach(
+  documento=>{
+
+    const item =
+    document.createElement(
+      "div"
+    );
+
+    item.className =
+    "document-item";
+
+
+    const icon =
+    document.createElement(
+      "div"
+    );
+
+    icon.className =
+    "document-icon";
+
+    icon.textContent =
+    getDocumentIcon(
+      documento.mime_type
+    );
+
+
+    const main =
+    document.createElement(
+      "div"
+    );
+
+    main.className =
+    "document-main";
+
+
+    const name =
+    document.createElement(
+      "div"
+    );
+
+    name.className =
+    "document-name";
+
+    name.textContent =
+    documento.nome_file ||
+    "Documento";
+
+
+    const meta =
+    document.createElement(
+      "div"
+    );
+
+    meta.className =
+    "document-meta";
+
+    meta.textContent =
+    [
+      documento.tipo,
+      formatBytes(
+        documento.dimensione_bytes
+      ),
+      formatDocumentDate(
+        documento.created_at
+      )
+    ]
+    .filter(Boolean)
+    .join(" · ");
+
+
+    main.appendChild(
+      name
+    );
+
+    main.appendChild(
+      meta
+    );
+
+
+    if(
+      documento.note
+    ){
+
+      const note =
+      document.createElement(
+        "div"
+      );
+
+      note.className =
+      "document-note-text";
+
+      note.textContent =
+      documento.note;
+
+      main.appendChild(
+        note
+      );
+
+    }
+
+
+    const type =
+    document.createElement(
+      "span"
+    );
+
+    type.className =
+    "document-type";
+
+    type.textContent =
+    documento.tipo ||
+    "ALTRO";
+
+
+    const actions =
+    document.createElement(
+      "div"
+    );
+
+    actions.className =
+    "document-actions";
+
+
+    const openButton =
+    document.createElement(
+      "button"
+    );
+
+    openButton.type =
+    "button";
+
+    openButton.className =
+    "document-btn document-open";
+
+    openButton.textContent =
+    "Apri";
+
+    openButton.onclick =
+    ()=>openDocument(
+      documento
+    );
+
+
+    const removeButton =
+    document.createElement(
+      "button"
+    );
+
+    removeButton.type =
+    "button";
+
+    removeButton.className =
+    "document-btn document-delete";
+
+    removeButton.textContent =
+    "Elimina";
+
+    removeButton.onclick =
+    ()=>deleteDocument(
+      documento
+    );
+
+
+    actions.appendChild(
+      openButton
+    );
+
+    actions.appendChild(
+      removeButton
+    );
+
+
+    item.appendChild(
+      icon
+    );
+
+    item.appendChild(
+      main
+    );
+
+    item.appendChild(
+      type
+    );
+
+    item.appendChild(
+      actions
+    );
+
+
+    documentsList.appendChild(
+      item
+    );
+
+  });
+
+}
+
+
+/* APERTURA FILE PRIVATO */
+
+async function openDocument(
+  documento
+){
+
+  hideMessage();
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabase.storage
+    .from("documenti")
+    .createSignedUrl(
+      documento.storage_path,
+      600
+    );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(
+      !data?.signedUrl
+    ){
+
+      throw new Error(
+        "URL documento non disponibile."
+      );
+
+    }
+
+
+    window.open(
+      data.signedUrl,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore apertura documento:",
+      error
+    );
+
+
+    showError(
+      "Impossibile aprire il documento: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* UPLOAD DOCUMENTO */
+
+async function uploadDocument(){
+
+  if(
+    !viaggio?.id ||
+    !currentProfile?.azienda_id
+  ){
+
+    showError(
+      "Viaggio o azienda non disponibile."
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Il viaggio deve essere collegato
+   * a una pratica.
+   */
+
+  const praticaId =
+  viaggio.pratiche?.id ||
+  viaggio.pratica_id ||
+  null;
+
+
+  if(!praticaId){
+
+    showError(
+      "Il viaggio non risulta collegato a una pratica. Impossibile caricare il documento."
+    );
+
+    return;
+
+  }
+
+
+  const file =
+  documentFile.files?.[0];
+
+
+  if(!file){
+
+    showError(
+      "Seleziona prima un file."
+    );
+
+    return;
+
+  }
+
+
+  const MAX_FILE_SIZE =
+  20 * 1024 * 1024;
+
+
+  if(
+    file.size >
+    MAX_FILE_SIZE
+  ){
+
+    showError(
+      "Il file supera il limite di 20 MB."
+    );
+
+    return;
+
+  }
+
+
+  hideMessage();
+
+
+  uploadDocumentButton.disabled =
+  true;
+
+  uploadDocumentButton.textContent =
+  "Caricamento...";
+
+
+  let uploadedPath =
+  null;
+
+
+  try{
+
+    const safeName =
+    sanitizeFileName(
+      file.name
+    );
+
+
+    const uniqueName =
+    Date.now() +
+    "_" +
+    crypto.randomUUID() +
+    "_" +
+    safeName;
+
+
+    /*
+     * IMPORTANTE:
+     *
+     * il primo segmento deve essere
+     * azienda_id perché le policy Storage
+     * verificano proprio questa cartella.
+     */
+
+    const storagePath =
+    currentProfile.azienda_id +
+    "/viaggi/" +
+    viaggio.id +
+    "/" +
+    uniqueName;
+
+
+    const {
+      error:uploadError
+    } =
+    await supabase.storage
+    .from("documenti")
+    .upload(
+      storagePath,
+      file,
+      {
+        cacheControl:"3600",
+        upsert:false,
+        contentType:
+        file.type ||
+        undefined
+      }
+    );
+
+
+    if(uploadError){
+      throw uploadError;
+    }
+
+
+    uploadedPath =
+    storagePath;
+
+
+    /*
+     * COLLEGAMENTO DOPPIO
+     *
+     * Lo stesso record viene collegato
+     * sia alla pratica sia al viaggio.
+     *
+     * In questo modo il file comparirà:
+     *
+     * - nel dettaglio viaggio
+     * - nel dettaglio pratica
+     *
+     * senza duplicare il file.
+     */
+
+    const {
+      data:documentRow,
+      error:insertError
+    } =
+    await supabase
+    .from("documenti")
+    .insert({
+
+      azienda_id:
+      currentProfile.azienda_id,
+
+      pratica_id:
+      praticaId,
+
+      viaggio_id:
+      viaggio.id,
+
+      tipo:
+      documentType.value,
+
+      nome_file:
+      file.name,
+
+      storage_path:
+      storagePath,
+
+      mime_type:
+      file.type ||
+      null,
+
+      dimensione_bytes:
+      file.size,
+
+      note:
+      emptyToNull(
+        documentNote.value
+      ),
+
+      created_by:
+      currentUser.id,
+
+      updated_at:
+      new Date().toISOString()
+
+    })
+    .select()
+    .single();
+
+
+    if(insertError){
+
+      /*
+       * Rollback del file se fallisce
+       * la registrazione DB.
+       */
+
+      await supabase.storage
+      .from("documenti")
+      .remove([
+        storagePath
+      ]);
+
+
+      uploadedPath =
+      null;
+
+
+      throw insertError;
+
+    }
+
+
+    currentDocuments.unshift(
+      documentRow
+    );
+
+
+    renderDocuments();
+
+
+    documentFile.value =
+    "";
+
+    documentNote.value =
+    "";
+
+    documentType.value =
+    "CMR";
+
+
+    showSuccess(
+      "Documento caricato e collegato al viaggio e alla pratica."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore upload documento:",
+      error
+    );
+
+
+    if(uploadedPath){
+
+      try{
+
+        await supabase.storage
+        .from("documenti")
+        .remove([
+          uploadedPath
+        ]);
+
+      }
+      catch(cleanupError){
+
+        console.error(
+          "Errore pulizia file:",
+          cleanupError
+        );
+
+      }
+
+    }
+
+
+    showError(
+      "Errore durante il caricamento del documento: " +
+      error.message
+    );
+
+  }
+  finally{
+
+    uploadDocumentButton.disabled =
+    false;
+
+    uploadDocumentButton.textContent =
+    "Carica documento";
+
+  }
+
+}
+
+
+uploadDocumentButton.addEventListener(
+  "click",
+  uploadDocument
+);
+
+
+/* ELIMINAZIONE DOCUMENTO */
+
+async function deleteDocument(
+  documento
+){
+
+  const confirmed =
+  window.confirm(
+    "Vuoi eliminare definitivamente il documento \"" +
+    (
+      documento.nome_file ||
+      "Documento"
+    ) +
+    "\"?\n\nIl documento verrà rimosso sia dal viaggio sia dalla pratica."
+  );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  hideMessage();
+
+
+  try{
+
+    const {
+      error:storageError
+    } =
+    await supabase.storage
+    .from("documenti")
+    .remove([
+      documento.storage_path
+    ]);
+
+
+    if(storageError){
+      throw storageError;
+    }
+
+
+    const {
+      error:databaseError
+    } =
+    await supabase
+    .from("documenti")
+    .delete()
+    .eq(
+      "id",
+      documento.id
+    );
+
+
+    if(databaseError){
+      throw databaseError;
+    }
+
+
+    currentDocuments =
+    currentDocuments.filter(
+      item =>
+      item.id !== documento.id
+    );
+
+
+    renderDocuments();
+
+
+    showSuccess(
+      "Documento eliminato correttamente."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore eliminazione documento:",
+      error
+    );
+
+
+    showError(
+      "Errore durante l'eliminazione del documento: " +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ELIMINAZIONE VIAGGIO
    ========================================================= */
 
 document.getElementById(
@@ -2323,11 +3498,6 @@ async function start(){
     }
 
 
-    /*
-     * Prima carichiamo le anagrafiche vettori,
-     * poi il viaggio.
-     */
-
     await loadVettori();
 
     await load();
@@ -2336,6 +3506,7 @@ async function start(){
   catch(error){
 
     console.error(error);
+
 
     showError(
       "Errore durante il caricamento: " +
