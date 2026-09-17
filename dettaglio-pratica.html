@@ -251,7 +251,7 @@ h1{
 }
 
 /* =========================================================
-   ANAGRAFICHE COLLEGATE
+   ANAGRAFICHE
    ========================================================= */
 
 .registry-link{
@@ -282,11 +282,6 @@ h1{
   padding:10px 11px;
   outline:none;
   margin-bottom:8px;
-}
-
-.registry-select:focus{
-  border-color:#4ec5e6;
-  box-shadow:0 0 0 3px rgba(78,197,230,.10);
 }
 
 .registry-helper{
@@ -321,11 +316,6 @@ h1{
   outline:none;
 }
 
-.edit-input:focus{
-  border-color:#4ec5e6;
-  box-shadow:0 0 0 3px rgba(78,197,230,.10);
-}
-
 textarea.edit-input{
   min-height:100px;
   resize:vertical;
@@ -353,34 +343,199 @@ textarea.edit-input{
   display:flex;
 }
 
-.cancel-edit{
+.cancel-edit,
+.save-edit{
   min-height:46px;
   padding:0 19px;
+  border-radius:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.cancel-edit{
   border:1px solid #d8e0e8;
   background:#fff;
   color:#173459;
-  border-radius:10px;
-  font-weight:900;
-  cursor:pointer;
 }
 
 .save-edit{
-  min-height:46px;
-  padding:0 20px;
   border:none;
   background:linear-gradient(135deg,#173f69,#1f729d);
   color:#fff;
+}
+
+/* =========================================================
+   DOCUMENTI
+   ========================================================= */
+
+.documents-card{
+  margin-top:20px;
+}
+
+.document-upload{
+  background:#f8fafc;
+  border:1px solid #e1e7ee;
+  border-radius:13px;
+  padding:16px;
+  margin-bottom:18px;
+}
+
+.document-upload-grid{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.document-field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.document-field label{
+  color:#8795a8;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+}
+
+.document-field select,
+.document-field input{
+  width:100%;
+  min-height:42px;
+  border:1px solid #d7e0e9;
+  border-radius:9px;
+  background:#fff;
+  padding:0 11px;
+  color:#25384f;
+}
+
+.document-note{
+  width:100%;
+  min-height:70px;
+  border:1px solid #d7e0e9;
+  border-radius:9px;
+  padding:10px 11px;
+  resize:vertical;
+}
+
+.upload-button{
+  margin-top:12px;
+  min-height:42px;
+  padding:0 16px;
+  border:0;
   border-radius:10px;
+  background:linear-gradient(135deg,#173f69,#1f729d);
+  color:#fff;
   font-weight:900;
   cursor:pointer;
 }
 
-.save-edit:disabled{
-  opacity:.6;
+.upload-button:disabled{
+  opacity:.55;
   cursor:not-allowed;
 }
 
-/* AI */
+.documents-empty{
+  padding:22px;
+  text-align:center;
+  color:#8795a8;
+  font-size:13px;
+}
+
+.document-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.document-item{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:13px;
+  border:1px solid #e1e7ee;
+  border-radius:12px;
+}
+
+.document-icon{
+  width:44px;
+  height:44px;
+  flex:0 0 44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:#edf8fd;
+  color:#176b9c;
+  font-size:11px;
+  font-weight:900;
+}
+
+.document-info{
+  flex:1;
+  min-width:0;
+}
+
+.document-name{
+  color:#25384f;
+  font-size:13px;
+  font-weight:900;
+  overflow-wrap:anywhere;
+}
+
+.document-meta{
+  color:#8795a8;
+  font-size:10px;
+  margin-top:4px;
+}
+
+.document-note-text{
+  color:#607087;
+  font-size:11px;
+  margin-top:5px;
+}
+
+.document-type{
+  padding:5px 8px;
+  border-radius:999px;
+  background:#eef3f8;
+  color:#173459;
+  font-size:9px;
+  font-weight:900;
+}
+
+.document-actions{
+  display:flex;
+  gap:7px;
+}
+
+.document-action{
+  border:0;
+  border-radius:8px;
+  min-height:34px;
+  padding:0 10px;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.document-open{
+  background:#eaf6fb;
+  color:#176b9c;
+}
+
+.document-delete{
+  background:#fff1f0;
+  color:#b42318;
+  border:1px solid #ffd4d1;
+}
+
+/* =========================================================
+   AI
+   ========================================================= */
 
 .ai-card{
   position:sticky;
@@ -413,10 +568,6 @@ textarea.edit-input{
   margin-bottom:23px;
 }
 
-.ai-section:last-child{
-  margin-bottom:0;
-}
-
 .ai-section-title{
   color:#2ca9d2;
   font-size:11px;
@@ -430,7 +581,6 @@ textarea.edit-input{
   font-size:14px;
   line-height:1.65;
   white-space:pre-wrap;
-  overflow-wrap:anywhere;
 }
 
 .ai-loading{
@@ -439,8 +589,6 @@ textarea.edit-input{
   border:1px solid #ccebf7;
   padding:14px;
   border-radius:11px;
-  font-size:14px;
-  font-weight:700;
 }
 
 .loading,
@@ -481,7 +629,9 @@ footer strong{
   color:#173459;
 }
 
-/* SIDEBAR */
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
 
 .app-shell{
   min-height:100vh;
@@ -491,7 +641,7 @@ footer strong{
 .app-sidebar{
   width:225px;
   min-height:100vh;
-  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  background:linear-gradient(180deg,#071b35,#0d2d50);
   color:#fff;
   position:fixed;
   left:0;
@@ -518,14 +668,13 @@ footer strong{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(145deg,#fff,#f4f8fc);
+  background:#fff;
   border-radius:14px;
 }
 
 .app-sidebar-logo-link img{
   width:175px;
   max-width:90%;
-  height:auto;
 }
 
 .app-sidebar-nav{
@@ -587,7 +736,6 @@ footer strong{
 .app-main{
   margin-left:225px;
   width:calc(100% - 225px);
-  min-height:100vh;
 }
 
 .app-topbar{
@@ -597,7 +745,6 @@ footer strong{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
   padding:0 28px;
   position:sticky;
   top:0;
@@ -643,7 +790,6 @@ footer strong{
 }
 
 @media(max-width:900px){
-
   .layout{
     grid-template-columns:1fr;
   }
@@ -651,7 +797,6 @@ footer strong{
   .ai-card{
     position:static;
   }
-
 }
 
 @media(max-width:760px){
@@ -701,11 +846,6 @@ footer strong{
     margin-left:auto;
   }
 
-  .app-topbar-link{
-    padding:0 12px;
-    font-size:12px;
-  }
-
   .app-main > .page{
     padding:24px 13px 45px;
   }
@@ -730,10 +870,19 @@ footer strong{
     grid-template-columns:1fr;
   }
 
-  .field.wide{
-    grid-column:auto;
+  .document-upload-grid{
+    grid-template-columns:1fr;
   }
 
+  .document-item{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .document-actions{
+    width:100%;
+    padding-left:57px;
+  }
 }
 
 </style>
@@ -806,10 +955,7 @@ footer strong{
 
 <div class="app-sidebar-bottom">
 
-<button
-id="logoutButton"
-class="app-logout-btn"
-type="button">
+<button id="logoutButton" class="app-logout-btn" type="button">
 Esci
 </button>
 
@@ -828,14 +974,12 @@ MatRi-mIA Logistics · Dettaglio pratica
 
 <div class="app-topbar-actions">
 
-<a
-href="pratiche.html"
+<a href="pratiche.html"
 class="app-topbar-link app-topbar-secondary">
 Pratiche
 </a>
 
-<a
-href="nuova-pratica.html"
+<a href="nuova-pratica.html"
 class="app-topbar-link app-topbar-primary">
 + Nuova pratica
 </a>
@@ -859,7 +1003,6 @@ Caricamento pratica...
 
 <div id="content" style="display:none">
 
-
 <div class="heading">
 
 <div class="heading-main">
@@ -876,42 +1019,28 @@ MATRI-MIA · DETTAGLIO PRATICA
 
 </div>
 
-
 <div class="status-area">
 
-<div
-id="statusBadge"
+<div id="statusBadge"
 class="status-badge status-default">
 -
 </div>
 
 <div class="practice-actions">
 
-<button
-id="tripButton"
-type="button"
-class="edit-button">
+<button id="tripButton" type="button" class="edit-button">
 Programma viaggio
 </button>
 
-<button
-id="editButton"
-type="button"
-class="edit-button">
+<button id="editButton" type="button" class="edit-button">
 Modifica pratica
 </button>
 
-<button
-id="reanalyzeButton"
-type="button"
-class="ai-button">
+<button id="reanalyzeButton" type="button" class="ai-button">
 Rianalizza con AI
 </button>
 
-<button
-id="deleteButton"
-type="button"
-class="delete-button">
+<button id="deleteButton" type="button" class="delete-button">
 Elimina
 </button>
 
@@ -926,7 +1055,6 @@ Elimina
 
 <div>
 
-
 <!-- DATI TRASPORTO -->
 
 <section id="transportCard" class="card">
@@ -939,23 +1067,11 @@ Elimina
 
 <div class="fields">
 
-
 <div class="field">
-
 <span class="label">Data</span>
-
 <div id="dataValue" class="value">-</div>
-
-<input
-id="dataInput"
-class="edit-input"
-type="date"
-required>
-
+<input id="dataInput" class="edit-input" type="date" required>
 </div>
-
-
-<!-- CLIENTE -->
 
 <div class="field">
 
@@ -963,27 +1079,15 @@ required>
 
 <div id="clienteValue" class="value">-</div>
 
-<a
-id="clienteRegistryLink"
-class="registry-link">
+<a id="clienteRegistryLink" class="registry-link">
 Apri anagrafica →
 </a>
 
-<select
-id="clienteSelect"
-class="registry-select">
-
-<option value="">
-Nessuna anagrafica collegata
-</option>
-
+<select id="clienteSelect" class="registry-select">
+<option value="">Nessuna anagrafica collegata</option>
 </select>
 
-<input
-id="clienteInput"
-class="edit-input"
-type="text"
-required>
+<input id="clienteInput" class="edit-input" type="text" required>
 
 <div class="registry-helper">
 Seleziona un cliente registrato oppure modifica manualmente il nome.
@@ -991,138 +1095,57 @@ Seleziona un cliente registrato oppure modifica manualmente il nome.
 
 </div>
 
-
 <div class="field">
-
-<span class="label">
-Data/Ora Ritiro
-</span>
-
+<span class="label">Data/Ora Ritiro</span>
 <div id="ritiroValue" class="value">-</div>
-
-<input
-id="ritiroInput"
-class="edit-input"
-type="datetime-local">
-
+<input id="ritiroInput" class="edit-input" type="datetime-local">
 </div>
 
-
 <div class="field">
-
-<span class="label">
-Data/Ora Consegna
-</span>
-
+<span class="label">Data/Ora Consegna</span>
 <div id="consegnaValue" class="value">-</div>
-
-<input
-id="consegnaInput"
-class="edit-input"
-type="datetime-local">
-
+<input id="consegnaInput" class="edit-input" type="datetime-local">
 </div>
 
-
 <div class="field">
-
 <span class="label">Partenza</span>
-
 <div id="partenzaValue" class="value">-</div>
-
-<input
-id="partenzaInput"
-class="edit-input"
-type="text"
-required>
-
+<input id="partenzaInput" class="edit-input" type="text" required>
 </div>
 
-
 <div class="field">
-
 <span class="label">Destinazione</span>
-
 <div id="destinazioneValue" class="value">-</div>
-
-<input
-id="destinazioneInput"
-class="edit-input"
-type="text"
-required>
-
+<input id="destinazioneInput" class="edit-input" type="text" required>
 </div>
 
-
 <div class="field">
-
-<span class="label">
-Indirizzo Ritiro
-</span>
-
+<span class="label">Indirizzo Ritiro</span>
 <div id="indirizzoRitiroValue" class="value">-</div>
-
-<input
-id="indirizzoRitiroInput"
-class="edit-input"
-type="text">
-
+<input id="indirizzoRitiroInput" class="edit-input" type="text">
 </div>
 
-
 <div class="field">
-
 <span class="label">CAP Ritiro</span>
-
 <div id="capRitiroValue" class="value">-</div>
-
-<input
-id="capRitiroInput"
-class="edit-input"
-type="text"
-inputmode="numeric"
-maxlength="5"
-pattern="[0-9]{5}">
-
+<input id="capRitiroInput" class="edit-input"
+type="text" inputmode="numeric" maxlength="5" pattern="[0-9]{5}">
 </div>
 
-
 <div class="field">
-
-<span class="label">
-Indirizzo Consegna
-</span>
-
+<span class="label">Indirizzo Consegna</span>
 <div id="indirizzoConsegnaValue" class="value">-</div>
-
-<input
-id="indirizzoConsegnaInput"
-class="edit-input"
-type="text">
-
+<input id="indirizzoConsegnaInput" class="edit-input" type="text">
 </div>
-
 
 <div class="field">
-
-<span class="label">
-CAP Consegna
-</span>
-
+<span class="label">CAP Consegna</span>
 <div id="capConsegnaValue" class="value">-</div>
-
-<input
-id="capConsegnaInput"
-class="edit-input"
-type="text"
-inputmode="numeric"
-maxlength="5"
-pattern="[0-9]{5}">
-
+<input id="capConsegnaInput" class="edit-input"
+type="text" inputmode="numeric" maxlength="5" pattern="[0-9]{5}">
 </div>
 
 </div>
-
 </div>
 
 </section>
@@ -1140,35 +1163,21 @@ pattern="[0-9]{5}">
 
 <div class="fields">
 
-
-<!-- VETTORE -->
-
 <div class="field">
 
 <span class="label">Vettore</span>
 
 <div id="vettoreValue" class="value">-</div>
 
-<a
-id="vettoreRegistryLink"
-class="registry-link">
+<a id="vettoreRegistryLink" class="registry-link">
 Apri anagrafica →
 </a>
 
-<select
-id="vettoreSelect"
-class="registry-select">
-
-<option value="">
-Nessuna anagrafica collegata
-</option>
-
+<select id="vettoreSelect" class="registry-select">
+<option value="">Nessuna anagrafica collegata</option>
 </select>
 
-<input
-id="vettoreInput"
-class="edit-input"
-type="text">
+<input id="vettoreInput" class="edit-input" type="text">
 
 <div class="registry-helper">
 Seleziona un vettore registrato oppure inserisci il nome manualmente.
@@ -1176,105 +1185,133 @@ Seleziona un vettore registrato oppure inserisci il nome manualmente.
 
 </div>
 
-
 <div class="field">
-
 <span class="label">Tipo merce</span>
-
 <div id="merceValue" class="value">-</div>
-
-<input
-id="merceInput"
-class="edit-input"
-type="text"
-required>
-
+<input id="merceInput" class="edit-input" type="text" required>
 </div>
 
-
 <div class="field">
-
 <span class="label">Colli</span>
-
 <div id="colliValue" class="value">-</div>
-
-<input
-id="colliInput"
-class="edit-input"
-type="number"
-min="0"
-step="1">
-
+<input id="colliInput" class="edit-input" type="number" min="0" step="1">
 </div>
 
-
 <div class="field">
-
 <span class="label">Peso</span>
-
 <div id="pesoValue" class="value">-</div>
-
-<input
-id="pesoInput"
-class="edit-input"
-type="number"
-min="0"
-step="0.01">
-
+<input id="pesoInput" class="edit-input" type="number" min="0" step="0.01">
 </div>
-
 
 <div class="field">
-
 <span class="label">Volume</span>
-
 <div id="volumeValue" class="value">-</div>
-
-<input
-id="volumeInput"
-class="edit-input"
-type="number"
-min="0"
-step="0.01">
-
+<input id="volumeInput" class="edit-input" type="number" min="0" step="0.01">
 </div>
-
 
 <div class="field wide">
-
-<span class="label">
-Note operative
-</span>
-
+<span class="label">Note operative</span>
 <div id="noteValue" class="value">-</div>
-
-<textarea
-id="noteInput"
-class="edit-input">
-</textarea>
-
+<textarea id="noteInput" class="edit-input"></textarea>
 </div>
 
 </div>
 
 </div>
-
 
 <div id="editActions" class="edit-actions">
 
-<button
-id="cancelEditButton"
-type="button"
-class="cancel-edit">
+<button id="cancelEditButton" type="button" class="cancel-edit">
 Annulla modifiche
 </button>
 
-<button
-id="saveButton"
-type="button"
-class="save-edit">
+<button id="saveButton" type="button" class="save-edit">
 Salva modifiche
 </button>
+
+</div>
+
+</section>
+
+
+<!-- DOCUMENTI -->
+
+<section class="card documents-card">
+
+<div class="card-header">
+<h2>Documenti</h2>
+</div>
+
+<div class="card-body">
+
+<div class="document-upload">
+
+<div class="document-upload-grid">
+
+<div class="document-field">
+
+<label for="documentType">
+Tipo documento
+</label>
+
+<select id="documentType">
+<option value="DDT">DDT</option>
+<option value="CMR">CMR</option>
+<option value="POD">POD</option>
+<option value="FATTURA">Fattura</option>
+<option value="ALTRO">Altro</option>
+</select>
+
+</div>
+
+<div class="document-field">
+
+<label for="documentFile">
+File
+</label>
+
+<input
+id="documentFile"
+type="file"
+accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx">
+
+</div>
+
+</div>
+
+<div class="document-field">
+
+<label for="documentNote">
+Nota
+</label>
+
+<textarea
+id="documentNote"
+class="document-note"
+placeholder="Nota facoltativa sul documento"></textarea>
+
+</div>
+
+<button
+id="uploadDocumentButton"
+type="button"
+class="upload-button">
+Carica documento
+</button>
+
+</div>
+
+<div id="documentsLoading" class="documents-empty">
+Caricamento documenti...
+</div>
+
+<div id="documentsEmpty"
+class="documents-empty"
+style="display:none">
+Nessun documento caricato per questa pratica.
+</div>
+
+<div id="documentsList" class="document-list"></div>
 
 </div>
 
@@ -1293,9 +1330,7 @@ Salva modifiche
 MATRI-MIA AI
 </div>
 
-<h2>
-Analisi della pratica
-</h2>
+<h2>Analisi della pratica</h2>
 
 </div>
 
@@ -1306,7 +1341,6 @@ Analisi della pratica
 </div>
 
 </div>
-
 
 <footer>
 
@@ -1328,8 +1362,6 @@ import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* SUPABASE */
-
 const SUPABASE_URL =
 "https://sctzockiurjsxzdkctmy.supabase.co";
 
@@ -1338,29 +1370,23 @@ const SUPABASE_KEY =
 
 const supabase =
 createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
-
-/* MAKE */
 
 const AI_WEBHOOK_URL =
 "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
 
 
-/* PARAMETRI */
-
 const params =
 new URLSearchParams(
-  window.location.search
+window.location.search
 );
 
 const requestedId =
 params.get("id");
 
-
-/* ELEMENTI */
 
 const logoutButton =
 document.getElementById("logoutButton");
@@ -1426,17 +1452,42 @@ const vettoreRegistryLink =
 document.getElementById("vettoreRegistryLink");
 
 
+const documentType =
+document.getElementById("documentType");
+
+const documentFile =
+document.getElementById("documentFile");
+
+const documentNote =
+document.getElementById("documentNote");
+
+const uploadDocumentButton =
+document.getElementById("uploadDocumentButton");
+
+const documentsLoading =
+document.getElementById("documentsLoading");
+
+const documentsEmpty =
+document.getElementById("documentsEmpty");
+
+const documentsList =
+document.getElementById("documentsList");
+
+
 let currentUser = null;
 let currentProfile = null;
 let currentPractice = null;
 
 let anagrafiche = [];
+let currentDocuments = [];
 
 let selectedClienteId = null;
 let selectedVettoreId = null;
 
 
-/* UTILITY */
+/* =========================================================
+   UTILITY
+   ========================================================= */
 
 function escapeHtml(value){
 
@@ -1598,7 +1649,9 @@ messageBox.style.display =
 }
 
 
-/* AUTENTICAZIONE */
+/* =========================================================
+   AUTENTICAZIONE
+   ========================================================= */
 
 async function protectPage(){
 
@@ -1643,7 +1696,11 @@ currentUser.id
 .single();
 
 
-if(profileError || !profile){
+if(
+profileError ||
+!profile ||
+!profile.azienda_id
+){
 
 await supabase.auth.signOut();
 
@@ -1694,7 +1751,9 @@ return false;
 }
 
 
-/* LOGOUT */
+/* =========================================================
+   LOGOUT
+   ========================================================= */
 
 logoutButton.addEventListener(
 "click",
@@ -1723,7 +1782,9 @@ window.location.replace(
 );
 
 
-/* ANAGRAFICHE */
+/* =========================================================
+   ANAGRAFICHE
+   ========================================================= */
 
 async function loadAnagrafiche(){
 
@@ -1794,9 +1855,7 @@ item.id;
 option.textContent =
 item.ragione_sociale;
 
-clienteSelect.appendChild(
-option
-);
+clienteSelect.appendChild(option);
 
 }
 
@@ -1815,9 +1874,7 @@ item.id;
 option.textContent =
 item.ragione_sociale;
 
-vettoreSelect.appendChild(
-option
-);
+vettoreSelect.appendChild(option);
 
 }
 
@@ -1844,11 +1901,8 @@ clienteInput.value
 
 if(!name){
 
-selectedClienteId =
-null;
-
-clienteSelect.value =
-"";
+selectedClienteId = null;
+clienteSelect.value = "";
 
 return;
 }
@@ -1876,11 +1930,8 @@ match.id;
 }
 else{
 
-selectedClienteId =
-null;
-
-clienteSelect.value =
-"";
+selectedClienteId = null;
+clienteSelect.value = "";
 
 }
 
@@ -1896,11 +1947,8 @@ vettoreInput.value
 
 if(!name){
 
-selectedVettoreId =
-null;
-
-vettoreSelect.value =
-"";
+selectedVettoreId = null;
+vettoreSelect.value = "";
 
 return;
 }
@@ -1928,18 +1976,13 @@ match.id;
 }
 else{
 
-selectedVettoreId =
-null;
-
-vettoreSelect.value =
-"";
+selectedVettoreId = null;
+vettoreSelect.value = "";
 
 }
 
 }
 
-
-/* SELECT CLIENTE */
 
 clienteSelect.addEventListener(
 "change",
@@ -1952,9 +1995,7 @@ clienteSelect.value
 
 if(!item){
 
-selectedClienteId =
-null;
-
+selectedClienteId = null;
 return;
 }
 
@@ -1968,8 +2009,6 @@ item.ragione_sociale;
 );
 
 
-/* SELECT VETTORE */
-
 vettoreSelect.addEventListener(
 "change",
 function(){
@@ -1981,9 +2020,7 @@ vettoreSelect.value
 
 if(!item){
 
-selectedVettoreId =
-null;
-
+selectedVettoreId = null;
 return;
 }
 
@@ -1996,8 +2033,6 @@ item.ragione_sociale;
 }
 );
 
-
-/* MODIFICA MANUALE CLIENTE */
 
 clienteInput.addEventListener(
 "input",
@@ -2014,27 +2049,18 @@ selectedClienteId
 
 if(
 !item ||
-normalizeText(
-clienteInput.value
-) !==
-normalizeText(
-item.ragione_sociale
-)
+normalizeText(clienteInput.value) !==
+normalizeText(item.ragione_sociale)
 ){
 
-selectedClienteId =
-null;
-
-clienteSelect.value =
-"";
+selectedClienteId = null;
+clienteSelect.value = "";
 
 }
 
 }
 );
 
-
-/* MODIFICA MANUALE VETTORE */
 
 vettoreInput.addEventListener(
 "input",
@@ -2051,19 +2077,12 @@ selectedVettoreId
 
 if(
 !item ||
-normalizeText(
-vettoreInput.value
-) !==
-normalizeText(
-item.ragione_sociale
-)
+normalizeText(vettoreInput.value) !==
+normalizeText(item.ragione_sociale)
 ){
 
-selectedVettoreId =
-null;
-
-vettoreSelect.value =
-"";
+selectedVettoreId = null;
+vettoreSelect.value = "";
 
 }
 
@@ -2071,7 +2090,9 @@ vettoreSelect.value =
 );
 
 
-/* STATO AI */
+/* =========================================================
+   STATO AI
+   ========================================================= */
 
 function cleanStatus(value){
 
@@ -2137,7 +2158,9 @@ badge.className =
 }
 
 
-/* PARSING AI */
+/* =========================================================
+   AI
+   ========================================================= */
 
 function parseAIResponse(text){
 
@@ -2152,15 +2175,11 @@ normalized.match(
 );
 
 return {
-
 status:
 statusMatch
 ? statusMatch[1].toUpperCase()
 : "",
-
-analysis:
-normalized
-
+analysis:normalized
 };
 
 }
@@ -2180,7 +2199,6 @@ Nessuna analisi AI disponibile.
 </div>`;
 
 return;
-
 }
 
 const normalized =
@@ -2232,10 +2250,7 @@ break;
 }
 
 sections.push({
-
-title:
-heading.replace(":",""),
-
+title:heading.replace(":",""),
 content:
 normalized
 .slice(
@@ -2243,7 +2258,6 @@ start + heading.length,
 end
 )
 .trim()
-
 });
 
 }
@@ -2267,16 +2281,11 @@ textElement.className =
 textElement.textContent =
 normalized;
 
-section.appendChild(
-textElement
-);
+section.appendChild(textElement);
 
-aiContent.appendChild(
-section
-);
+aiContent.appendChild(section);
 
 return;
-
 }
 
 
@@ -2318,7 +2327,9 @@ aiContent.appendChild(section);
 }
 
 
-/* LINK ANAGRAFICHE */
+/* =========================================================
+   LINK ANAGRAFICHE
+   ========================================================= */
 
 function renderRegistryLinks(){
 
@@ -2372,7 +2383,9 @@ vettoreRegistryLink.removeAttribute(
 }
 
 
-/* MOSTRA PRATICA */
+/* =========================================================
+   RENDER PRATICA
+   ========================================================= */
 
 function renderPractice(pratica){
 
@@ -2381,7 +2394,6 @@ document
 .textContent =
 pratica.numero_pratica || "-";
 
-
 document
 .getElementById("route")
 .textContent =
@@ -2389,11 +2401,7 @@ document
 " → " +
 (pratica.destinazione || "-");
 
-
-setStatus(
-pratica.stato_ai
-);
-
+setStatus(pratica.stato_ai);
 
 setText(
 "dataValue",
@@ -2462,16 +2470,14 @@ pratica.colli
 
 setText(
 "pesoValue",
-pratica.peso_kg !== null &&
-pratica.peso_kg !== undefined
+pratica.peso_kg != null
 ? pratica.peso_kg + " kg"
 : "-"
 );
 
 setText(
 "volumeValue",
-pratica.volume_m3 !== null &&
-pratica.volume_m3 !== undefined
+pratica.volume_m3 != null
 ? pratica.volume_m3 + " m³"
 : "-"
 );
@@ -2480,7 +2486,6 @@ setText(
 "noteValue",
 pratica.note
 );
-
 
 renderRegistryLinks();
 
@@ -2491,129 +2496,74 @@ pratica.analisi_ai
 }
 
 
-/* CAMPI MODIFICA */
+/* =========================================================
+   MODIFICA
+   ========================================================= */
 
 function populateEditFields(){
 
-document.getElementById(
-"dataInput"
-).value =
+document.getElementById("dataInput").value =
 currentPractice.data || "";
 
-
-document.getElementById(
-"clienteInput"
-).value =
+clienteInput.value =
 currentPractice.cliente || "";
 
-
 selectedClienteId =
-currentPractice.cliente_id ||
-null;
+currentPractice.cliente_id || null;
 
 clienteSelect.value =
 selectedClienteId || "";
 
+document.getElementById("ritiroInput").value =
+toDateTimeLocal(currentPractice.ritiro);
 
-document.getElementById(
-"ritiroInput"
-).value =
-toDateTimeLocal(
-currentPractice.ritiro
-);
+document.getElementById("consegnaInput").value =
+toDateTimeLocal(currentPractice.consegna);
 
-
-document.getElementById(
-"consegnaInput"
-).value =
-toDateTimeLocal(
-currentPractice.consegna
-);
-
-
-document.getElementById(
-"partenzaInput"
-).value =
+document.getElementById("partenzaInput").value =
 currentPractice.partenza || "";
 
-
-document.getElementById(
-"destinazioneInput"
-).value =
+document.getElementById("destinazioneInput").value =
 currentPractice.destinazione || "";
 
-
-document.getElementById(
-"indirizzoRitiroInput"
-).value =
+document.getElementById("indirizzoRitiroInput").value =
 currentPractice.indirizzo_ritiro || "";
 
-
-document.getElementById(
-"capRitiroInput"
-).value =
+document.getElementById("capRitiroInput").value =
 currentPractice.cap_ritiro || "";
 
-
-document.getElementById(
-"indirizzoConsegnaInput"
-).value =
+document.getElementById("indirizzoConsegnaInput").value =
 currentPractice.indirizzo_consegna || "";
 
-
-document.getElementById(
-"capConsegnaInput"
-).value =
+document.getElementById("capConsegnaInput").value =
 currentPractice.cap_consegna || "";
 
-
-document.getElementById(
-"vettoreInput"
-).value =
+vettoreInput.value =
 currentPractice.vettore || "";
 
-
 selectedVettoreId =
-currentPractice.vettore_id ||
-null;
+currentPractice.vettore_id || null;
 
 vettoreSelect.value =
 selectedVettoreId || "";
 
-
-document.getElementById(
-"merceInput"
-).value =
+document.getElementById("merceInput").value =
 currentPractice.tipo_merce || "";
 
-
-document.getElementById(
-"colliInput"
-).value =
+document.getElementById("colliInput").value =
 currentPractice.colli ?? "";
 
-
-document.getElementById(
-"pesoInput"
-).value =
+document.getElementById("pesoInput").value =
 currentPractice.peso_kg ?? "";
 
-
-document.getElementById(
-"volumeInput"
-).value =
+document.getElementById("volumeInput").value =
 currentPractice.volume_m3 ?? "";
 
-
-document.getElementById(
-"noteInput"
-).value =
+document.getElementById("noteInput").value =
 currentPractice.note || "";
 
 }
 
-
-/* MODIFICA */
 
 function startEditing(){
 
@@ -2625,63 +2575,35 @@ hideMessage();
 
 populateEditFields();
 
-transportCard.classList.add(
-"editing"
-);
-
-goodsCard.classList.add(
-"editing"
-);
-
-practiceLayout.classList.add(
-"editing-page"
-);
+transportCard.classList.add("editing");
+goodsCard.classList.add("editing");
+practiceLayout.classList.add("editing-page");
 
 editButton.style.display =
 "none";
 
-tripButton.disabled =
-true;
-
-reanalyzeButton.disabled =
-true;
-
-deleteButton.disabled =
-true;
+tripButton.disabled = true;
+reanalyzeButton.disabled = true;
+deleteButton.disabled = true;
 
 }
 
 
 function stopEditing(){
 
-transportCard.classList.remove(
-"editing"
-);
-
-goodsCard.classList.remove(
-"editing"
-);
-
-practiceLayout.classList.remove(
-"editing-page"
-);
+transportCard.classList.remove("editing");
+goodsCard.classList.remove("editing");
+practiceLayout.classList.remove("editing-page");
 
 editButton.style.display =
 "inline-block";
 
-tripButton.disabled =
-false;
-
-reanalyzeButton.disabled =
-false;
-
-deleteButton.disabled =
-false;
+tripButton.disabled = false;
+reanalyzeButton.disabled = false;
+deleteButton.disabled = false;
 
 }
 
-
-/* DATI UPDATE */
 
 function getUpdatedData(){
 
@@ -2691,111 +2613,79 @@ autoMatchVettore();
 return {
 
 data:
-document.getElementById(
-"dataInput"
-).value,
+document.getElementById("dataInput").value,
 
 cliente:
-document.getElementById(
-"clienteInput"
-).value.trim(),
+clienteInput.value.trim(),
 
 cliente_id:
 selectedClienteId,
 
 ritiro:
 emptyToNull(
-document.getElementById(
-"ritiroInput"
-).value
+document.getElementById("ritiroInput").value
 ),
 
 consegna:
 emptyToNull(
-document.getElementById(
-"consegnaInput"
-).value
+document.getElementById("consegnaInput").value
 ),
 
 partenza:
-document.getElementById(
-"partenzaInput"
-).value.trim(),
+document.getElementById("partenzaInput").value.trim(),
 
 destinazione:
-document.getElementById(
-"destinazioneInput"
-).value.trim(),
+document.getElementById("destinazioneInput").value.trim(),
 
 indirizzo_ritiro:
 emptyToNull(
-document.getElementById(
-"indirizzoRitiroInput"
-).value
+document.getElementById("indirizzoRitiroInput").value
 ),
 
 cap_ritiro:
 emptyToNull(
-document.getElementById(
-"capRitiroInput"
-).value
+document.getElementById("capRitiroInput").value
 ),
 
 indirizzo_consegna:
 emptyToNull(
-document.getElementById(
-"indirizzoConsegnaInput"
-).value
+document.getElementById("indirizzoConsegnaInput").value
 ),
 
 cap_consegna:
 emptyToNull(
-document.getElementById(
-"capConsegnaInput"
-).value
+document.getElementById("capConsegnaInput").value
 ),
 
 vettore:
 emptyToNull(
-document.getElementById(
-"vettoreInput"
-).value
+vettoreInput.value
 ),
 
 vettore_id:
 selectedVettoreId,
 
 tipo_merce:
-document.getElementById(
-"merceInput"
-).value.trim(),
+document.getElementById("merceInput").value.trim(),
 
 colli:
 emptyToNull(
-document.getElementById(
-"colliInput"
-).value
+document.getElementById("colliInput").value
 ),
 
 peso_kg:
 emptyToNull(
-document.getElementById(
-"pesoInput"
-).value
+document.getElementById("pesoInput").value
 ),
 
 volume_m3:
 emptyToNull(
-document.getElementById(
-"volumeInput"
-).value
+document.getElementById("volumeInput").value
 ),
 
 note:
 emptyToNull(
-document.getElementById(
-"noteInput"
-).value
+document.getElementById("noteInput").value
 ),
 
 updated_at:
@@ -2808,8 +2698,6 @@ currentUser.id
 
 }
 
-
-/* VALIDAZIONE */
 
 function validateEdit(){
 
@@ -2832,41 +2720,32 @@ field.reportValidity();
 field.focus();
 
 return false;
-
 }
 
 }
 
 const capRitiro =
-document.getElementById(
-"capRitiroInput"
-);
+document.getElementById("capRitiroInput");
 
 const capConsegna =
-document.getElementById(
-"capConsegnaInput"
-);
+document.getElementById("capConsegnaInput");
 
 if(!capRitiro.checkValidity()){
 
 capRitiro.reportValidity();
 return false;
-
 }
 
 if(!capConsegna.checkValidity()){
 
 capConsegna.reportValidity();
 return false;
-
 }
 
 return true;
 
 }
 
-
-/* SALVA */
 
 async function saveChanges(){
 
@@ -2876,11 +2755,8 @@ return;
 
 hideMessage();
 
-saveButton.disabled =
-true;
-
-saveButton.textContent =
-"Salvataggio...";
+saveButton.disabled = true;
+saveButton.textContent = "Salvataggio...";
 
 try{
 
@@ -2916,7 +2792,7 @@ stopEditing();
 
 showMessage(
 "success",
-"Modifiche salvate correttamente. Cliente e vettore collegati alle anagrafiche quando disponibili."
+"Modifiche salvate correttamente."
 );
 
 }
@@ -2933,18 +2809,17 @@ error.message
 }
 finally{
 
-saveButton.disabled =
-false;
-
-saveButton.textContent =
-"Salva modifiche";
+saveButton.disabled = false;
+saveButton.textContent = "Salva modifiche";
 
 }
 
 }
 
 
-/* DATI MAKE */
+/* =========================================================
+   DATI MAKE
+   ========================================================= */
 
 function getAIData(){
 
@@ -2952,20 +2827,15 @@ return {
 
 azione:"analizza",
 
-data:
-currentPractice.data || "",
+data:currentPractice.data || "",
 
-cliente:
-currentPractice.cliente || "",
+cliente:currentPractice.cliente || "",
 
-ritiro:
-currentPractice.ritiro || "",
+ritiro:currentPractice.ritiro || "",
 
-consegna:
-currentPractice.consegna || "",
+consegna:currentPractice.consegna || "",
 
-partenza:
-currentPractice.partenza || "",
+partenza:currentPractice.partenza || "",
 
 indirizzoRitiro:
 currentPractice.indirizzo_ritiro || "",
@@ -3011,7 +2881,9 @@ currentPractice.id
 }
 
 
-/* RIANALIZZA */
+/* =========================================================
+   RIANALIZZA
+   ========================================================= */
 
 async function reanalyzePractice(){
 
@@ -3024,17 +2896,10 @@ hideMessage();
 const oldButtonText =
 reanalyzeButton.textContent;
 
-reanalyzeButton.disabled =
-true;
-
-editButton.disabled =
-true;
-
-tripButton.disabled =
-true;
-
-deleteButton.disabled =
-true;
+reanalyzeButton.disabled = true;
+editButton.disabled = true;
+tripButton.disabled = true;
+deleteButton.disabled = true;
 
 reanalyzeButton.textContent =
 "Analisi in corso...";
@@ -3050,19 +2915,14 @@ const response =
 await fetch(
 AI_WEBHOOK_URL,
 {
-
 method:"POST",
-
 headers:{
-"Content-Type":
-"application/json"
+"Content-Type":"application/json"
 },
-
 body:
 JSON.stringify(
 getAIData()
 )
-
 }
 );
 
@@ -3140,16 +3000,13 @@ currentPractice
 
 showMessage(
 "success",
-"Pratica rianalizzata. Stato AI e analisi aggiornati correttamente."
+"Pratica rianalizzata correttamente."
 );
 
 }
 catch(error){
 
-console.error(
-"Errore rianalisi:",
-error
-);
+console.error(error);
 
 parseAIAnalysis(
 currentPractice.analisi_ai
@@ -3164,17 +3021,10 @@ error.message
 }
 finally{
 
-reanalyzeButton.disabled =
-false;
-
-editButton.disabled =
-false;
-
-tripButton.disabled =
-false;
-
-deleteButton.disabled =
-false;
+reanalyzeButton.disabled = false;
+editButton.disabled = false;
+tripButton.disabled = false;
+deleteButton.disabled = false;
 
 reanalyzeButton.textContent =
 oldButtonText;
@@ -3184,7 +3034,708 @@ oldButtonText;
 }
 
 
-/* ELIMINA */
+/* =========================================================
+   DOCUMENTI
+   ========================================================= */
+
+function sanitizeFileName(name){
+
+return String(name || "file")
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.replace(/[^a-zA-Z0-9._-]/g,"_")
+.replace(/_+/g,"_");
+
+}
+
+
+function formatBytes(bytes){
+
+const value =
+Number(bytes);
+
+if(!Number.isFinite(value)){
+return "";
+}
+
+if(value < 1024){
+return value + " B";
+}
+
+if(value < 1024 * 1024){
+
+return (
+value / 1024
+).toFixed(1) + " KB";
+
+}
+
+return (
+value /
+(1024 * 1024)
+).toFixed(1) + " MB";
+
+}
+
+
+function formatDocumentDate(value){
+
+if(!value){
+return "";
+}
+
+const date =
+new Date(value);
+
+if(isNaN(date.getTime())){
+return "";
+}
+
+return date.toLocaleString(
+"it-IT",
+{
+dateStyle:"short",
+timeStyle:"short"
+}
+);
+
+}
+
+
+function getDocumentIcon(mimeType){
+
+const mime =
+String(mimeType || "")
+.toLowerCase();
+
+if(mime.includes("pdf")){
+return "PDF";
+}
+
+if(mime.startsWith("image/")){
+return "IMG";
+}
+
+if(
+mime.includes("word") ||
+mime.includes("document")
+){
+return "DOC";
+}
+
+if(
+mime.includes("excel") ||
+mime.includes("spreadsheet")
+){
+return "XLS";
+}
+
+return "FILE";
+
+}
+
+
+async function loadDocuments(){
+
+if(!currentPractice){
+return;
+}
+
+documentsLoading.style.display =
+"block";
+
+documentsEmpty.style.display =
+"none";
+
+documentsList.innerHTML = "";
+
+
+const {
+data,
+error
+} =
+await supabase
+.from("documenti")
+.select(`
+id,
+azienda_id,
+pratica_id,
+viaggio_id,
+tipo,
+nome_file,
+storage_path,
+mime_type,
+dimensione_bytes,
+note,
+created_by,
+created_at,
+updated_at
+`)
+.eq(
+"pratica_id",
+currentPractice.id
+)
+.order(
+"created_at",
+{ascending:false}
+);
+
+
+documentsLoading.style.display =
+"none";
+
+
+if(error){
+
+console.error(error);
+
+documentsEmpty.textContent =
+"Impossibile caricare i documenti.";
+
+documentsEmpty.style.display =
+"block";
+
+return;
+}
+
+
+currentDocuments =
+data || [];
+
+renderDocuments();
+
+}
+
+
+function renderDocuments(){
+
+documentsList.innerHTML = "";
+
+if(!currentDocuments.length){
+
+documentsEmpty.textContent =
+"Nessun documento caricato per questa pratica.";
+
+documentsEmpty.style.display =
+"block";
+
+return;
+}
+
+documentsEmpty.style.display =
+"none";
+
+
+currentDocuments.forEach(
+documento=>{
+
+const item =
+document.createElement("div");
+
+item.className =
+"document-item";
+
+
+const icon =
+document.createElement("div");
+
+icon.className =
+"document-icon";
+
+icon.textContent =
+getDocumentIcon(
+documento.mime_type
+);
+
+
+const info =
+document.createElement("div");
+
+info.className =
+"document-info";
+
+
+const name =
+document.createElement("div");
+
+name.className =
+"document-name";
+
+name.textContent =
+documento.nome_file ||
+"Documento";
+
+
+const meta =
+document.createElement("div");
+
+meta.className =
+"document-meta";
+
+meta.textContent =
+[
+documento.tipo,
+formatBytes(
+documento.dimensione_bytes
+),
+formatDocumentDate(
+documento.created_at
+)
+]
+.filter(Boolean)
+.join(" · ");
+
+
+info.appendChild(name);
+info.appendChild(meta);
+
+
+if(documento.note){
+
+const note =
+document.createElement("div");
+
+note.className =
+"document-note-text";
+
+note.textContent =
+documento.note;
+
+info.appendChild(note);
+
+}
+
+
+const type =
+document.createElement("span");
+
+type.className =
+"document-type";
+
+type.textContent =
+documento.tipo ||
+"ALTRO";
+
+
+const actions =
+document.createElement("div");
+
+actions.className =
+"document-actions";
+
+
+const openButton =
+document.createElement("button");
+
+openButton.type = "button";
+
+openButton.className =
+"document-action document-open";
+
+openButton.textContent =
+"Apri";
+
+openButton.addEventListener(
+"click",
+()=>openDocument(documento)
+);
+
+
+const removeButton =
+document.createElement("button");
+
+removeButton.type = "button";
+
+removeButton.className =
+"document-action document-delete";
+
+removeButton.textContent =
+"Elimina";
+
+removeButton.addEventListener(
+"click",
+()=>deleteDocument(documento)
+);
+
+
+actions.appendChild(openButton);
+actions.appendChild(removeButton);
+
+item.appendChild(icon);
+item.appendChild(info);
+item.appendChild(type);
+item.appendChild(actions);
+
+documentsList.appendChild(item);
+
+});
+
+}
+
+
+async function openDocument(documento){
+
+hideMessage();
+
+try{
+
+const {
+data,
+error
+} =
+await supabase.storage
+.from("documenti")
+.createSignedUrl(
+documento.storage_path,
+600
+);
+
+if(error){
+throw error;
+}
+
+if(!data?.signedUrl){
+
+throw new Error(
+"URL documento non disponibile."
+);
+
+}
+
+window.open(
+data.signedUrl,
+"_blank",
+"noopener,noreferrer"
+);
+
+}
+catch(error){
+
+console.error(error);
+
+showMessage(
+"error",
+"Impossibile aprire il documento: " +
+error.message
+);
+
+}
+
+}
+
+
+async function uploadDocument(){
+
+if(
+!currentPractice ||
+!currentProfile?.azienda_id
+){
+
+showMessage(
+"error",
+"Pratica o azienda non disponibile."
+);
+
+return;
+}
+
+
+const file =
+documentFile.files?.[0];
+
+if(!file){
+
+showMessage(
+"error",
+"Seleziona prima un file."
+);
+
+return;
+}
+
+
+const MAX_FILE_SIZE =
+20 * 1024 * 1024;
+
+if(file.size > MAX_FILE_SIZE){
+
+showMessage(
+"error",
+"Il file supera il limite di 20 MB."
+);
+
+return;
+}
+
+
+hideMessage();
+
+uploadDocumentButton.disabled =
+true;
+
+uploadDocumentButton.textContent =
+"Caricamento...";
+
+let uploadedPath = null;
+
+
+try{
+
+const safeName =
+sanitizeFileName(
+file.name
+);
+
+const uniqueName =
+Date.now() +
+"_" +
+crypto.randomUUID() +
+"_" +
+safeName;
+
+
+const storagePath =
+currentProfile.azienda_id +
+"/pratiche/" +
+currentPractice.id +
+"/" +
+uniqueName;
+
+
+const {
+error:uploadError
+} =
+await supabase.storage
+.from("documenti")
+.upload(
+storagePath,
+file,
+{
+cacheControl:"3600",
+upsert:false,
+contentType:
+file.type || undefined
+}
+);
+
+
+if(uploadError){
+throw uploadError;
+}
+
+
+uploadedPath =
+storagePath;
+
+
+const {
+data:documentRow,
+error:insertError
+} =
+await supabase
+.from("documenti")
+.insert({
+
+azienda_id:
+currentProfile.azienda_id,
+
+pratica_id:
+currentPractice.id,
+
+viaggio_id:null,
+
+tipo:
+documentType.value,
+
+nome_file:
+file.name,
+
+storage_path:
+storagePath,
+
+mime_type:
+file.type || null,
+
+dimensione_bytes:
+file.size,
+
+note:
+emptyToNull(
+documentNote.value
+),
+
+created_by:
+currentUser.id,
+
+updated_at:
+new Date().toISOString()
+
+})
+.select()
+.single();
+
+
+if(insertError){
+
+await supabase.storage
+.from("documenti")
+.remove([
+storagePath
+]);
+
+uploadedPath = null;
+
+throw insertError;
+}
+
+
+currentDocuments.unshift(
+documentRow
+);
+
+renderDocuments();
+
+documentFile.value = "";
+documentNote.value = "";
+documentType.value = "DDT";
+
+showMessage(
+"success",
+"Documento caricato correttamente."
+);
+
+}
+catch(error){
+
+console.error(error);
+
+if(uploadedPath){
+
+try{
+
+await supabase.storage
+.from("documenti")
+.remove([
+uploadedPath
+]);
+
+}
+catch(cleanupError){
+
+console.error(
+cleanupError
+);
+
+}
+
+}
+
+
+showMessage(
+"error",
+"Errore durante il caricamento del documento: " +
+error.message
+);
+
+}
+finally{
+
+uploadDocumentButton.disabled =
+false;
+
+uploadDocumentButton.textContent =
+"Carica documento";
+
+}
+
+}
+
+
+async function deleteDocument(documento){
+
+const confirmed =
+window.confirm(
+"Vuoi eliminare definitivamente il documento \"" +
+(documento.nome_file || "Documento") +
+"\"?"
+);
+
+if(!confirmed){
+return;
+}
+
+hideMessage();
+
+try{
+
+const {
+error:storageError
+} =
+await supabase.storage
+.from("documenti")
+.remove([
+documento.storage_path
+]);
+
+if(storageError){
+throw storageError;
+}
+
+
+const {
+error:databaseError
+} =
+await supabase
+.from("documenti")
+.delete()
+.eq(
+"id",
+documento.id
+);
+
+if(databaseError){
+throw databaseError;
+}
+
+
+currentDocuments =
+currentDocuments.filter(
+item =>
+item.id !== documento.id
+);
+
+renderDocuments();
+
+showMessage(
+"success",
+"Documento eliminato correttamente."
+);
+
+}
+catch(error){
+
+console.error(error);
+
+showMessage(
+"error",
+"Errore durante l'eliminazione del documento: " +
+error.message
+);
+
+}
+
+}
+
+
+uploadDocumentButton.addEventListener(
+"click",
+uploadDocument
+);
+
+
+/* =========================================================
+   ELIMINA PRATICA
+   ========================================================= */
 
 async function deletePractice(){
 
@@ -3193,8 +3744,7 @@ return;
 }
 
 const numero =
-currentPractice.numero_pratica ||
-"";
+currentPractice.numero_pratica || "";
 
 const confirmed =
 window.confirm(
@@ -3218,17 +3768,10 @@ return;
 
 hideMessage();
 
-deleteButton.disabled =
-true;
-
-editButton.disabled =
-true;
-
-tripButton.disabled =
-true;
-
-reanalyzeButton.disabled =
-true;
+deleteButton.disabled = true;
+editButton.disabled = true;
+tripButton.disabled = true;
+reanalyzeButton.disabled = true;
 
 deleteButton.textContent =
 "Eliminazione...";
@@ -3257,10 +3800,7 @@ window.location.replace(
 }
 catch(error){
 
-console.error(
-"Errore eliminazione:",
-error
-);
+console.error(error);
 
 showMessage(
 "error",
@@ -3268,17 +3808,10 @@ showMessage(
 error.message
 );
 
-deleteButton.disabled =
-false;
-
-editButton.disabled =
-false;
-
-tripButton.disabled =
-false;
-
-reanalyzeButton.disabled =
-false;
+deleteButton.disabled = false;
+editButton.disabled = false;
+tripButton.disabled = false;
+reanalyzeButton.disabled = false;
 
 deleteButton.textContent =
 "Elimina";
@@ -3288,7 +3821,9 @@ deleteButton.textContent =
 }
 
 
-/* VIAGGIO */
+/* =========================================================
+   VIAGGIO
+   ========================================================= */
 
 async function configureTripButton(){
 
@@ -3296,9 +3831,7 @@ if(!currentPractice){
 return;
 }
 
-tripButton.disabled =
-true;
-
+tripButton.disabled = true;
 tripButton.textContent =
 "Controllo viaggio...";
 
@@ -3358,22 +3891,17 @@ currentPractice.id
 
 }
 
-tripButton.disabled =
-false;
+tripButton.disabled = false;
 
 }
 catch(error){
 
-console.error(
-"Errore controllo viaggio:",
-error
-);
+console.error(error);
 
 tripButton.textContent =
 "Programma viaggio";
 
-tripButton.disabled =
-false;
+tripButton.disabled = false;
 
 tripButton.onclick =
 function(){
@@ -3391,7 +3919,9 @@ currentPractice.id
 }
 
 
-/* EVENTI */
+/* =========================================================
+   EVENTI
+   ========================================================= */
 
 editButton.addEventListener(
 "click",
@@ -3424,7 +3954,9 @@ deletePractice
 );
 
 
-/* CARICA PRATICA */
+/* =========================================================
+   CARICA PRATICA
+   ========================================================= */
 
 async function loadPractice(){
 
@@ -3439,7 +3971,6 @@ showMessage(
 );
 
 return;
-
 }
 
 try{
@@ -3482,7 +4013,10 @@ loadingBox.style.display =
 content.style.display =
 "block";
 
+
 await configureTripButton();
+
+await loadDocuments();
 
 }
 catch(error){
@@ -3504,7 +4038,9 @@ requestedId +
 }
 
 
-/* AVVIO */
+/* =========================================================
+   AVVIO
+   ========================================================= */
 
 async function startPage(){
 
@@ -3514,11 +4050,6 @@ await protectPage();
 if(!authenticated){
 return;
 }
-
-/*
-  Prima carichiamo le anagrafiche,
-  poi la pratica.
-*/
 
 await loadAnagrafiche();
 
