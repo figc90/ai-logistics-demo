@@ -265,8 +265,7 @@ select{
   border-radius:10px;
   font-size:13px;
   font-weight:900;
-  opacity:.55;
-  cursor:not-allowed;
+  cursor:pointer;
 }
 
 /* ============================
@@ -757,10 +756,14 @@ tbody tr:hover{
         AUTOMAZIONI
       </div>
 
-     <a href="email-ai.html" class="app-nav-item">
-  <span class="app-nav-icon">✉</span>
-  <span>Email AI</span>
-</a>
+      <a
+        href="email-ai.html"
+        class="nav-item">
+
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+
+      </a>
 
       <a
         href="viaggi.html"
@@ -833,12 +836,11 @@ tbody tr:hover{
     MatRi-mIA Logistics · Viaggi
   </div>
 
- <a
-  href="nuovo-viaggio.html"
-  class="new-trip-btn"
-  style="opacity:1;cursor:pointer;">
-  + Nuovo viaggio
-</a>
+  <a
+    href="nuovo-viaggio.html"
+    class="new-trip-btn">
+    + Nuovo viaggio
+  </a>
 
 </header>
 
@@ -1746,11 +1748,6 @@ function renderViaggi(viaggi){
       row.addEventListener(
         "click",
         function(){
-
-          /*
-           * La pagina verrà creata
-           * nel prossimo passaggio.
-           */
 
           if(!viaggio.id){
             return;
