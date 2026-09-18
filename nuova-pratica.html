@@ -596,7 +596,6 @@ Esci
 
 </aside>
 
-
 <div class="app-main">
 
 <header class="app-topbar">
@@ -611,7 +610,6 @@ Pratiche
 
 </header>
 
-
 <main class="page">
 
 <div class="eyebrow">MATRI-MIA · OPERATIVITÀ</div>
@@ -623,7 +621,6 @@ Inserisci i dati del trasporto e fai eseguire il controllo preliminare all'AI.
 </div>
 
 <div id="messageBox" class="message"></div>
-
 
 <section class="card">
 
@@ -637,15 +634,11 @@ Inserisci i dati del trasporto e fai eseguire il controllo preliminare all'AI.
 <div class="form-grid">
 
 <div class="form-group">
-
 <label for="data">
 Data pratica <span class="required">*</span>
 </label>
-
 <input id="data" type="date" required>
-
 </div>
-
 
 <div class="form-group">
 
@@ -686,68 +679,37 @@ Puoi selezionare un cliente registrato oppure mantenere un nome ricevuto dall'Em
 
 </div>
 
-
 <div class="form-group">
-
-<label for="ritiro">
-Data e ora ritiro
-</label>
-
+<label for="ritiro">Data e ora ritiro</label>
 <input id="ritiro" type="datetime-local">
-
 </div>
 
-
 <div class="form-group">
-
-<label for="consegna">
-Data e ora consegna
-</label>
-
+<label for="consegna">Data e ora consegna</label>
 <input id="consegna" type="datetime-local">
-
 </div>
 
-
 <div class="form-group">
-
 <label for="partenza">
 Partenza <span class="required">*</span>
 </label>
-
 <input id="partenza" type="text" required>
-
 </div>
 
-
 <div class="form-group">
-
 <label for="destinazione">
 Destinazione <span class="required">*</span>
 </label>
-
 <input id="destinazione" type="text" required>
-
 </div>
 
-
 <div class="form-group">
-
-<label for="indirizzoRitiro">
-Indirizzo ritiro
-</label>
-
+<label for="indirizzoRitiro">Indirizzo ritiro</label>
 <input id="indirizzoRitiro" type="text">
-
 </div>
 
-
 <div class="form-group">
-
-<label for="capRitiro">
-CAP ritiro
-</label>
-
+<label for="capRitiro">CAP ritiro</label>
 <input
   id="capRitiro"
   type="text"
@@ -755,27 +717,15 @@ CAP ritiro
   maxlength="5"
   pattern="[0-9]{5}"
   placeholder="00000">
-
 </div>
 
-
 <div class="form-group">
-
-<label for="indirizzoConsegna">
-Indirizzo consegna
-</label>
-
+<label for="indirizzoConsegna">Indirizzo consegna</label>
 <input id="indirizzoConsegna" type="text">
-
 </div>
 
-
 <div class="form-group">
-
-<label for="capConsegna">
-CAP consegna
-</label>
-
+<label for="capConsegna">CAP consegna</label>
 <input
   id="capConsegna"
   type="text"
@@ -783,9 +733,7 @@ CAP consegna
   maxlength="5"
   pattern="[0-9]{5}"
   placeholder="00000">
-
 </div>
-
 
 <div class="form-group">
 
@@ -811,81 +759,39 @@ Vettore
 <div id="vettoreInfo" class="anagrafica-info"></div>
 
 <div class="manual-field">
-
 <input
   id="vettore"
   type="text"
   placeholder="Oppure inserisci il vettore manualmente">
-
 </div>
 
 </div>
-
 
 <div class="form-group">
-
 <label for="tipoMerce">
 Tipo merce <span class="required">*</span>
 </label>
-
 <input id="tipoMerce" type="text" required>
-
 </div>
-
 
 <div class="form-group">
-
-<label for="colli">
-Colli
-</label>
-
-<input
-  id="colli"
-  type="number"
-  min="0"
-  step="1">
-
+<label for="colli">Colli</label>
+<input id="colli" type="number" min="0" step="1">
 </div>
-
 
 <div class="form-group">
-
-<label for="peso">
-Peso kg
-</label>
-
-<input
-  id="peso"
-  type="number"
-  min="0"
-  step="0.01">
-
+<label for="peso">Peso kg</label>
+<input id="peso" type="number" min="0" step="0.01">
 </div>
-
 
 <div class="form-group">
-
-<label for="volume">
-Volume m³
-</label>
-
-<input
-  id="volume"
-  type="number"
-  min="0"
-  step="0.01">
-
+<label for="volume">Volume m³</label>
+<input id="volume" type="number" min="0" step="0.01">
 </div>
-
 
 <div class="form-group full">
-
-<label for="note">
-Note
-</label>
-
+<label for="note">Note</label>
 <textarea id="note"></textarea>
-
 </div>
 
 </div>
@@ -894,24 +800,19 @@ Note
 
 </section>
 
-
 <section class="card ai-card">
 
 <div class="card-header">
 <h2>Analisi AI</h2>
-<p>
-Controllo preliminare dei dati prima della conferma della pratica.
-</p>
+<p>Controllo preliminare dei dati prima della conferma della pratica.</p>
 </div>
 
 <div class="card-body">
 
 <div class="ai-status">
-
 <span id="aiBadge" class="ai-badge">
 NON ANALIZZATA
 </span>
-
 </div>
 
 <div id="aiResult" class="ai-result">
@@ -949,7 +850,6 @@ Correggi dati
 
 </section>
 
-
 <footer>
 <strong>MatRi-mIA Logistics</strong>
 · AI per trasporti e logistica
@@ -960,7 +860,6 @@ Correggi dati
 </div>
 
 </div>
-
 
 <script type="module">
 
@@ -1143,6 +1042,70 @@ function getNumber(id){
   return Number.isFinite(number)
     ? number
     : null;
+
+}
+
+
+/*
+  Estrae lo stato dalla risposta testuale AI.
+
+  Riconosce ad esempio:
+  STATO: REGOLARE
+  STATO: 🟢 REGOLARE
+  STATO: ATTENZIONE
+  STATO: 🟠 ATTENZIONE
+  STATO: PROBLEMA
+  STATO: 🔴 PROBLEMA
+*/
+
+function extractAIStatus(text){
+
+  const content =
+    String(text ?? "");
+
+  const match =
+    content.match(
+      /STATO\s*:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
+    );
+
+  if(match){
+    return match[1].toUpperCase();
+  }
+
+  return null;
+
+}
+
+
+/*
+  Normalizza un eventuale stato restituito
+  separatamente da Make/OpenAI.
+*/
+
+function normalizeAIStatus(value){
+
+  if(!value){
+    return null;
+  }
+
+  const text =
+    String(value)
+      .toUpperCase()
+      .trim();
+
+  if(text.includes("REGOLARE")){
+    return "REGOLARE";
+  }
+
+  if(text.includes("ATTENZIONE")){
+    return "ATTENZIONE";
+  }
+
+  if(text.includes("PROBLEMA")){
+    return "PROBLEMA";
+  }
+
+  return null;
 
 }
 
@@ -1467,6 +1430,8 @@ clienteSelect.addEventListener(
         null
       );
 
+      invalidateAnalysis();
+
       return;
     }
 
@@ -1487,6 +1452,8 @@ clienteSelect.addEventListener(
       clienteInfo,
       item
     );
+
+    invalidateAnalysis();
 
   }
 );
@@ -1511,6 +1478,8 @@ vettoreSelect.addEventListener(
         null
       );
 
+      invalidateAnalysis();
+
       return;
     }
 
@@ -1531,6 +1500,8 @@ vettoreSelect.addEventListener(
       vettoreInfo,
       item
     );
+
+    invalidateAnalysis();
 
   }
 );
@@ -1764,12 +1735,6 @@ async function loadEmailData(){
       return;
     }
 
-    /*
-      Manteniamo volutamente una lettura flessibile:
-      i nomi dei campi possono provenire
-      dall'estrazione AI già esistente.
-    */
-
     if(email.data_email){
       document.getElementById("data").value =
         String(email.data_email).slice(0,10);
@@ -1838,42 +1803,42 @@ async function loadEmailData(){
         email.tipo_merce;
     }
 
-    if(email.colli !== null &&
-       email.colli !== undefined){
-
+    if(
+      email.colli !== null &&
+      email.colli !== undefined
+    ){
       document.getElementById("colli").value =
         email.colli;
-
     }
 
-    if(email.peso_kg !== null &&
-       email.peso_kg !== undefined){
-
+    if(
+      email.peso_kg !== null &&
+      email.peso_kg !== undefined
+    ){
       document.getElementById("peso").value =
         email.peso_kg;
-
     }
-    else if(email.peso !== null &&
-            email.peso !== undefined){
-
+    else if(
+      email.peso !== null &&
+      email.peso !== undefined
+    ){
       document.getElementById("peso").value =
         email.peso;
-
     }
 
-    if(email.volume_m3 !== null &&
-       email.volume_m3 !== undefined){
-
+    if(
+      email.volume_m3 !== null &&
+      email.volume_m3 !== undefined
+    ){
       document.getElementById("volume").value =
         email.volume_m3;
-
     }
-    else if(email.volume !== null &&
-            email.volume !== undefined){
-
+    else if(
+      email.volume !== null &&
+      email.volume !== undefined
+    ){
       document.getElementById("volume").value =
         email.volume;
-
     }
 
     if(email.note){
@@ -1910,9 +1875,7 @@ function formatDateTimeLocal(value){
     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/
       .test(text)
   ){
-
     return text.slice(0,16);
-
   }
 
   return "";
@@ -2068,15 +2031,9 @@ function validateForm(){
     return false;
   }
 
-  const capRitiro =
-    data.cap_ritiro;
-
-  const capConsegna =
-    data.cap_consegna;
-
   if(
-    capRitiro &&
-    !/^\d{5}$/.test(capRitiro)
+    data.cap_ritiro &&
+    !/^\d{5}$/.test(data.cap_ritiro)
   ){
 
     showMessage(
@@ -2088,8 +2045,8 @@ function validateForm(){
   }
 
   if(
-    capConsegna &&
-    !/^\d{5}$/.test(capConsegna)
+    data.cap_consegna &&
+    !/^\d{5}$/.test(data.cap_consegna)
   ){
 
     showMessage(
@@ -2256,26 +2213,11 @@ async function analyzePractice(){
 
     }
 
-    statoAI =
-      String(
-        result.stato_ai ||
-        result.stato ||
-        result.status ||
-        "ATTENZIONE"
-      ).toUpperCase();
 
-    if(
-      ![
-        "REGOLARE",
-        "ATTENZIONE",
-        "PROBLEMA"
-      ].includes(statoAI)
-    ){
-
-      statoAI =
-        "ATTENZIONE";
-
-    }
+    /*
+      PRIMA ricaviamo il testo completo
+      dell'analisi.
+    */
 
     analisiAI =
       result.analisi_ai ||
@@ -2284,6 +2226,57 @@ async function analyzePractice(){
       result.message ||
       responseText ||
       "Analisi completata.";
+
+
+    /*
+      CORREZIONE IMPORTANTE:
+
+      1. Se Make restituisce uno stato separato,
+         utilizziamo quello.
+
+      2. Se Make NON restituisce stato_ai/stato/status,
+         leggiamo direttamente:
+
+         STATO: REGOLARE
+         STATO: ATTENZIONE
+         STATO: PROBLEMA
+
+         dal testo prodotto dall'AI.
+    */
+
+    const statoSeparato =
+      normalizeAIStatus(
+        result.stato_ai ||
+        result.stato ||
+        result.status
+      );
+
+    const statoDalTesto =
+      extractAIStatus(
+        analisiAI
+      );
+
+    statoAI =
+      statoSeparato ||
+      statoDalTesto ||
+      "ATTENZIONE";
+
+
+    console.log(
+      "Stato separato:",
+      statoSeparato
+    );
+
+    console.log(
+      "Stato estratto dal testo:",
+      statoDalTesto
+    );
+
+    console.log(
+      "Stato AI finale:",
+      statoAI
+    );
+
 
     analisiEseguita =
       true;
@@ -2429,10 +2422,8 @@ async function generatePracticeNumber(){
         Number.isFinite(number) &&
         number > maxNumber
       ){
-
         maxNumber =
           number;
-
       }
 
     }
@@ -2674,13 +2665,6 @@ async function startPage(){
   }
 
   setToday();
-
-  /*
-    Prima carichiamo le anagrafiche.
-    Poi l'eventuale Email AI:
-    in questo modo possiamo fare subito
-    il matching automatico del cliente/vettore.
-  */
 
   await loadAnagrafiche();
 
