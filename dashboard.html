@@ -741,6 +741,265 @@ tbody tr:hover{
   font-size:15px;
 }
 
+
+/* ============================
+   AZIONI RAPIDE PERSONALIZZABILI
+============================ */
+
+.quick-card-header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.customize-quick-btn{
+  min-height:34px;
+  padding:0 12px;
+  border:1px solid #dce3eb;
+  border-radius:9px;
+  background:#fff;
+  color:#53647a;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.customize-quick-btn:hover{
+  background:#f7fafc;
+}
+
+.quick-actions-empty{
+  padding:16px 5px;
+  color:#8d9aad;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.quick-action.disabled-action{
+  opacity:.55;
+  cursor:default;
+}
+
+.quick-action.disabled-action:hover{
+  background:transparent;
+}
+
+.quick-action-soon{
+  margin-left:auto;
+  padding:4px 7px;
+  border-radius:999px;
+  background:#edf1f5;
+  color:#7c8999;
+  font-size:8px;
+  font-weight:900;
+}
+
+.quick-modal-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:500;
+  background:rgba(7,27,53,.55);
+  padding:24px;
+  align-items:center;
+  justify-content:center;
+}
+
+.quick-modal-backdrop.open{
+  display:flex;
+}
+
+.quick-modal{
+  width:min(620px,100%);
+  max-height:88vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 25px 70px rgba(7,27,53,.25);
+}
+
+.quick-modal-header{
+  padding:20px 22px 16px;
+  border-bottom:1px solid #e8edf2;
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  align-items:flex-start;
+}
+
+.quick-modal-header h2{
+  color:#173459;
+  font-size:18px;
+  margin-bottom:5px;
+}
+
+.quick-modal-header p{
+  color:#8a98aa;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.quick-modal-close{
+  width:34px;
+  height:34px;
+  border:1px solid #dce3eb;
+  border-radius:9px;
+  background:#fff;
+  color:#53647a;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.quick-modal-body{
+  padding:18px 22px;
+}
+
+.quick-option{
+  display:grid;
+  grid-template-columns:auto 40px minmax(0,1fr) auto;
+  align-items:center;
+  gap:12px;
+  padding:11px 0;
+  border-bottom:1px solid #edf0f4;
+}
+
+.quick-option:last-child{
+  border-bottom:none;
+}
+
+.quick-option input{
+  width:17px;
+  height:17px;
+  accent-color:#1596c2;
+}
+
+.quick-option-icon{
+  width:36px;
+  height:36px;
+  border-radius:9px;
+  background:#edf5f9;
+  color:#173459;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+}
+
+.quick-option-name{
+  color:#30465f;
+  font-size:11px;
+  font-weight:900;
+}
+
+.quick-option-note{
+  color:#9aa6b6;
+  font-size:9px;
+  margin-top:3px;
+}
+
+.quick-order{
+  display:flex;
+  gap:5px;
+}
+
+.quick-order button{
+  width:30px;
+  height:30px;
+  border:1px solid #dce3eb;
+  border-radius:8px;
+  background:#fff;
+  color:#53647a;
+  cursor:pointer;
+  font-weight:900;
+}
+
+.quick-order button:hover{
+  background:#f7fafc;
+}
+
+.quick-superadmin-separator{
+  display:none;
+  margin:18px 0 5px;
+  padding-top:15px;
+  border-top:1px solid #dce3eb;
+  color:#ec4f32;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.3px;
+}
+
+.quick-modal-footer{
+  padding:16px 22px 20px;
+  border-top:1px solid #e8edf2;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.quick-modal-footer-right{
+  display:flex;
+  gap:9px;
+}
+
+.quick-btn{
+  min-height:39px;
+  padding:0 14px;
+  border-radius:9px;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.quick-btn-secondary{
+  border:1px solid #dce3eb;
+  background:#fff;
+  color:#53647a;
+}
+
+.quick-btn-primary{
+  border:0;
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+}
+
+.quick-save-message{
+  display:none;
+  margin:0 22px 16px;
+  padding:10px 12px;
+  border-radius:9px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.quick-save-message.error{
+  display:block;
+  background:#ffe8e5;
+  color:#b42318;
+}
+
+@media(max-width:600px){
+  .quick-option{
+    grid-template-columns:auto 36px minmax(0,1fr);
+  }
+
+  .quick-order{
+    grid-column:2 / -1;
+    justify-content:flex-end;
+  }
+
+  .quick-modal-footer{
+    flex-direction:column;
+  }
+
+  .quick-modal-footer-right{
+    width:100%;
+  }
+
+  .quick-modal-footer-right button{
+    flex:1;
+  }
+}
+
 /* ============================
    SUPERADMIN
 ============================ */
@@ -1291,48 +1550,17 @@ tbody tr:hover{
   <div class="card-header">
     <div>
       <h2>Azioni rapide</h2>
+      <p>Scegli i collegamenti che usi più spesso</p>
+    </div>
+
+    <div class="quick-card-header-actions">
+      <button id="customizeQuickButton" class="customize-quick-btn" type="button">
+        ⚙ Personalizza
+      </button>
     </div>
   </div>
 
-  <div class="quick-actions">
-
-    <a
-      href="nuova-pratica.html"
-      class="quick-action">
-
-      <span class="quick-icon">+</span>
-      Crea nuova pratica
-
-    </a>
-
-    <a
-      href="pratiche.html"
-      class="quick-action">
-
-      <span class="quick-icon">▤</span>
-      Visualizza tutte le pratiche
-
-    </a>
-
-    <a
-      href="viaggi.html"
-      class="quick-action">
-
-      <span class="quick-icon">↗</span>
-      Gestisci viaggi
-
-    </a>
-
-    <a
-      href="email-ai.html"
-      class="quick-action">
-
-      <span class="quick-icon">✉</span>
-      Apri Email AI
-
-    </a>
-
-  </div>
+  <div id="quickActions" class="quick-actions"></div>
 
 </section>
 
@@ -1395,6 +1623,60 @@ tbody tr:hover{
 </section>
 
 </main>
+
+<!-- ============================
+     MODALE AZIONI RAPIDE
+============================ -->
+
+<div id="quickModalBackdrop" class="quick-modal-backdrop" aria-hidden="true">
+
+  <div class="quick-modal" role="dialog" aria-modal="true" aria-labelledby="quickModalTitle">
+
+    <div class="quick-modal-header">
+      <div>
+        <h2 id="quickModalTitle">Personalizza azioni rapide</h2>
+        <p>Attiva le funzioni che vuoi vedere in Dashboard e usa le frecce per scegliere l'ordine.</p>
+      </div>
+
+      <button id="quickModalClose" class="quick-modal-close" type="button" aria-label="Chiudi">
+        ×
+      </button>
+    </div>
+
+    <div class="quick-modal-body">
+      <div id="quickOptions"></div>
+
+      <div id="quickSuperadminSeparator" class="quick-superadmin-separator">
+        FUNZIONI SUPERADMIN
+      </div>
+
+      <div id="quickSuperadminOptions"></div>
+    </div>
+
+    <div id="quickSaveMessage" class="quick-save-message"></div>
+
+    <div class="quick-modal-footer">
+
+      <button id="resetQuickButton" class="quick-btn quick-btn-secondary" type="button">
+        Ripristina predefinite
+      </button>
+
+      <div class="quick-modal-footer-right">
+        <button id="cancelQuickButton" class="quick-btn quick-btn-secondary" type="button">
+          Annulla
+        </button>
+
+        <button id="saveQuickButton" class="quick-btn quick-btn-primary" type="button">
+          Salva
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 
 </div>
 
@@ -1472,8 +1754,124 @@ const updatedTime =
 const superadminArea =
   document.getElementById("superadminArea");
 
+const quickActions =
+  document.getElementById("quickActions");
+
+const customizeQuickButton =
+  document.getElementById("customizeQuickButton");
+
+const quickModalBackdrop =
+  document.getElementById("quickModalBackdrop");
+
+const quickModalClose =
+  document.getElementById("quickModalClose");
+
+const quickOptions =
+  document.getElementById("quickOptions");
+
+const quickSuperadminOptions =
+  document.getElementById("quickSuperadminOptions");
+
+const quickSuperadminSeparator =
+  document.getElementById("quickSuperadminSeparator");
+
+const resetQuickButton =
+  document.getElementById("resetQuickButton");
+
+const cancelQuickButton =
+  document.getElementById("cancelQuickButton");
+
+const saveQuickButton =
+  document.getElementById("saveQuickButton");
+
+const quickSaveMessage =
+  document.getElementById("quickSaveMessage");
+
 let currentUser = null;
 let currentProfile = null;
+
+let currentQuickActions = [];
+let editingQuickActions = [];
+let isSuperadmin = false;
+
+const DEFAULT_QUICK_ACTIONS = [
+  "nuova_pratica",
+  "email_ai",
+  "nuovo_viaggio",
+  "anagrafiche"
+];
+
+const QUICK_ACTION_CATALOG = [
+  {
+    id:"nuova_pratica",
+    label:"Nuova pratica",
+    icon:"+",
+    href:"nuova-pratica.html"
+  },
+  {
+    id:"pratiche",
+    label:"Pratiche",
+    icon:"▤",
+    href:"pratiche.html"
+  },
+  {
+    id:"email_ai",
+    label:"Email AI",
+    icon:"✉",
+    href:"email-ai.html"
+  },
+  {
+    id:"whatsapp_ai",
+    label:"WhatsApp AI",
+    icon:"◉",
+    href:null,
+    soon:true
+  },
+  {
+    id:"nuovo_viaggio",
+    label:"Nuovo viaggio",
+    icon:"+",
+    href:"nuovo-viaggio.html"
+  },
+  {
+    id:"viaggi",
+    label:"Viaggi",
+    icon:"↗",
+    href:"viaggi.html"
+  },
+  {
+    id:"nuova_anagrafica",
+    label:"Nuova anagrafica",
+    icon:"+",
+    href:"nuova-anagrafica.html"
+  },
+  {
+    id:"anagrafiche",
+    label:"Anagrafiche",
+    icon:"▣",
+    href:"anagrafiche.html"
+  },
+  {
+    id:"impostazioni",
+    label:"Impostazioni",
+    icon:"⚙",
+    href:"impostazioni.html"
+  },
+  {
+    id:"aziende",
+    label:"Aziende",
+    icon:"◆",
+    href:"aziende.html",
+    superadmin:true
+  },
+  {
+    id:"nuova_azienda",
+    label:"Nuova azienda",
+    icon:"+",
+    href:"nuova-azienda.html",
+    superadmin:true
+  }
+];
 
 /* ============================
    UTILITY
@@ -1671,6 +2069,9 @@ async function protectPage(){
       .trim()
       .toLowerCase();
 
+    isSuperadmin =
+      ruolo === "superadmin";
+
     if(
       ruolo === "superadmin" &&
       superadminArea
@@ -1731,6 +2132,540 @@ logoutButton.addEventListener(
 
   }
 );
+
+
+/* ============================
+   AZIONI RAPIDE PERSONALIZZABILI
+============================ */
+
+function availableQuickActions(){
+
+  return QUICK_ACTION_CATALOG.filter(
+    action =>
+      !action.superadmin ||
+      isSuperadmin
+  );
+
+}
+
+function sanitizeQuickActions(value){
+
+  if(!Array.isArray(value)){
+    return [...DEFAULT_QUICK_ACTIONS];
+  }
+
+  const allowed =
+    new Set(
+      availableQuickActions()
+        .map(action=>action.id)
+    );
+
+  const result = [];
+
+  value.forEach(id=>{
+
+    if(
+      allowed.has(id) &&
+      !result.includes(id)
+    ){
+      result.push(id);
+    }
+
+  });
+
+  return result;
+
+}
+
+function renderQuickActions(){
+
+  quickActions.innerHTML = "";
+
+  const actions =
+    currentQuickActions
+      .map(
+        id =>
+          QUICK_ACTION_CATALOG.find(
+            action=>action.id === id
+          )
+      )
+      .filter(
+        action =>
+          action &&
+          (
+            !action.superadmin ||
+            isSuperadmin
+          )
+      );
+
+  if(!actions.length){
+
+    quickActions.innerHTML = `
+      <div class="quick-actions-empty">
+        Nessuna azione rapida selezionata.
+        Usa <strong>Personalizza</strong> per aggiungerne una.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  actions.forEach(action=>{
+
+    const element =
+      document.createElement(
+        action.href ? "a" : "div"
+      );
+
+    element.className =
+      "quick-action" +
+      (
+        action.href
+          ? ""
+          : " disabled-action"
+      );
+
+    if(action.href){
+      element.href = action.href;
+    }
+
+    element.innerHTML = `
+      <span class="quick-icon">
+        ${escapeHtml(action.icon)}
+      </span>
+
+      <span>
+        ${escapeHtml(action.label)}
+      </span>
+
+      ${
+        action.soon
+          ? `<span class="quick-action-soon">PROSSIMAMENTE</span>`
+          : ""
+      }
+    `;
+
+    quickActions.appendChild(
+      element
+    );
+
+  });
+
+}
+
+function renderQuickOptions(){
+
+  quickOptions.innerHTML = "";
+  quickSuperadminOptions.innerHTML = "";
+
+  const catalog =
+    availableQuickActions();
+
+  catalog.forEach(action=>{
+
+    const selected =
+      editingQuickActions.includes(
+        action.id
+      );
+
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "quick-option";
+
+    row.dataset.actionId =
+      action.id;
+
+    row.innerHTML = `
+      <input
+        type="checkbox"
+        ${selected ? "checked" : ""}
+        aria-label="${escapeHtml(action.label)}">
+
+      <div class="quick-option-icon">
+        ${escapeHtml(action.icon)}
+      </div>
+
+      <div>
+        <div class="quick-option-name">
+          ${escapeHtml(action.label)}
+        </div>
+
+        <div class="quick-option-note">
+          ${
+            action.soon
+              ? "Funzione già predisposta · collegamento disponibile prossimamente"
+              : (
+                  action.superadmin
+                    ? "Disponibile solo al Superadmin"
+                    : "Collegamento disponibile"
+                )
+          }
+        </div>
+      </div>
+
+      <div class="quick-order">
+        <button type="button" data-direction="up" aria-label="Sposta su">↑</button>
+        <button type="button" data-direction="down" aria-label="Sposta giù">↓</button>
+      </div>
+    `;
+
+    const checkbox =
+      row.querySelector(
+        'input[type="checkbox"]'
+      );
+
+    checkbox.addEventListener(
+      "change",
+      function(){
+
+        if(checkbox.checked){
+
+          if(
+            !editingQuickActions.includes(
+              action.id
+            )
+          ){
+            editingQuickActions.push(
+              action.id
+            );
+          }
+
+        }
+        else{
+
+          editingQuickActions =
+            editingQuickActions.filter(
+              id=>id !== action.id
+            );
+
+        }
+
+        renderQuickOptions();
+
+      }
+    );
+
+    row.querySelectorAll(
+      ".quick-order button"
+    )
+    .forEach(button=>{
+
+      button.disabled =
+        !selected;
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          moveQuickAction(
+            action.id,
+            button.dataset.direction
+          );
+
+        }
+      );
+
+    });
+
+    if(action.superadmin){
+      quickSuperadminOptions.appendChild(row);
+    }
+    else{
+      quickOptions.appendChild(row);
+    }
+
+  });
+
+  quickSuperadminSeparator.style.display =
+    isSuperadmin
+      ? "block"
+      : "none";
+
+}
+
+function moveQuickAction(
+  actionId,
+  direction
+){
+
+  const index =
+    editingQuickActions.indexOf(
+      actionId
+    );
+
+  if(index < 0){
+    return;
+  }
+
+  const targetIndex =
+    direction === "up"
+      ? index - 1
+      : index + 1;
+
+  if(
+    targetIndex < 0 ||
+    targetIndex >= editingQuickActions.length
+  ){
+    return;
+  }
+
+  [
+    editingQuickActions[index],
+    editingQuickActions[targetIndex]
+  ] = [
+    editingQuickActions[targetIndex],
+    editingQuickActions[index]
+  ];
+
+  renderQuickOptions();
+
+}
+
+function openQuickModal(){
+
+  editingQuickActions =
+    [...currentQuickActions];
+
+  quickSaveMessage.className =
+    "quick-save-message";
+
+  quickSaveMessage.textContent =
+    "";
+
+  renderQuickOptions();
+
+  quickModalBackdrop.classList.add(
+    "open"
+  );
+
+  quickModalBackdrop.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+}
+
+function closeQuickModal(){
+
+  quickModalBackdrop.classList.remove(
+    "open"
+  );
+
+  quickModalBackdrop.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+}
+
+async function loadQuickPreferences(){
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("user_preferences")
+        .select("azioni_rapide")
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .maybeSingle();
+
+    if(error){
+      throw error;
+    }
+
+    if(data){
+
+      currentQuickActions =
+        sanitizeQuickActions(
+          data.azioni_rapide
+        );
+
+    }
+    else{
+
+      currentQuickActions =
+        sanitizeQuickActions(
+          DEFAULT_QUICK_ACTIONS
+        );
+
+      const {
+        error:insertError
+      } =
+        await supabase
+          .from("user_preferences")
+          .insert({
+            user_id:currentUser.id,
+            azioni_rapide:currentQuickActions
+          });
+
+      if(insertError){
+        throw insertError;
+      }
+
+    }
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore preferenze azioni rapide:",
+      error
+    );
+
+    currentQuickActions =
+      sanitizeQuickActions(
+        DEFAULT_QUICK_ACTIONS
+      );
+
+  }
+
+  renderQuickActions();
+
+}
+
+async function saveQuickPreferences(){
+
+  saveQuickButton.disabled = true;
+  saveQuickButton.textContent =
+    "Salvataggio...";
+
+  quickSaveMessage.className =
+    "quick-save-message";
+
+  quickSaveMessage.textContent =
+    "";
+
+  try{
+
+    const sanitized =
+      sanitizeQuickActions(
+        editingQuickActions
+      );
+
+    const {
+      error
+    } =
+      await supabase
+        .from("user_preferences")
+        .upsert(
+          {
+            user_id:currentUser.id,
+            azioni_rapide:sanitized,
+            updated_at:new Date().toISOString()
+          },
+          {
+            onConflict:"user_id"
+          }
+        );
+
+    if(error){
+      throw error;
+    }
+
+    currentQuickActions =
+      [...sanitized];
+
+    renderQuickActions();
+    closeQuickModal();
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore salvataggio azioni rapide:",
+      error
+    );
+
+    quickSaveMessage.textContent =
+      "Impossibile salvare le preferenze.";
+
+    quickSaveMessage.className =
+      "quick-save-message error";
+
+  }
+  finally{
+
+    saveQuickButton.disabled = false;
+    saveQuickButton.textContent =
+      "Salva";
+
+  }
+
+}
+
+customizeQuickButton.addEventListener(
+  "click",
+  openQuickModal
+);
+
+quickModalClose.addEventListener(
+  "click",
+  closeQuickModal
+);
+
+cancelQuickButton.addEventListener(
+  "click",
+  closeQuickModal
+);
+
+quickModalBackdrop.addEventListener(
+  "click",
+  function(event){
+
+    if(
+      event.target ===
+      quickModalBackdrop
+    ){
+      closeQuickModal();
+    }
+
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key === "Escape" &&
+      quickModalBackdrop.classList.contains(
+        "open"
+      )
+    ){
+      closeQuickModal();
+    }
+
+  }
+);
+
+resetQuickButton.addEventListener(
+  "click",
+  function(){
+
+    editingQuickActions =
+      sanitizeQuickActions(
+        DEFAULT_QUICK_ACTIONS
+      );
+
+    renderQuickOptions();
+
+  }
+);
+
+saveQuickButton.addEventListener(
+  "click",
+  saveQuickPreferences
+);
+
 
 /* ============================
    CARICA DASHBOARD
@@ -2338,6 +3273,7 @@ async function startDashboard(){
     return;
   }
 
+  await loadQuickPreferences();
   await loadDashboard();
 
 }
