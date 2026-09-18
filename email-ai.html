@@ -140,20 +140,6 @@ select{
   text-align:center;
 }
 
-.nav-disabled{
-  opacity:.42;
-}
-
-.soon{
-  margin-left:auto;
-  padding:4px 7px;
-  background:rgba(255,255,255,.08);
-  border-radius:999px;
-  color:#8fa5bb;
-  font-size:8px;
-  font-weight:900;
-}
-
 .sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
@@ -393,7 +379,7 @@ h1{
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:850px;
+  min-width:1000px;
 }
 
 thead{
@@ -435,12 +421,18 @@ tbody tr:hover{
   font-weight:700;
 }
 
+/* =========================
+   BADGE STATO
+========================= */
+
 .badge{
   display:inline-flex;
+  align-items:center;
   padding:6px 9px;
   border-radius:999px;
   font-size:8px;
   font-weight:900;
+  white-space:nowrap;
 }
 
 .badge-new{
@@ -461,6 +453,30 @@ tbody tr:hover{
 .badge-managed{
   background:#e7f2fb;
   color:#176b9c;
+}
+
+/* =========================
+   BADGE TIPO EMAIL
+========================= */
+
+.type-transport{
+  background:#e5f7ee;
+  color:#23784f;
+}
+
+.type-document{
+  background:#e7f2fb;
+  color:#176b9c;
+}
+
+.type-other{
+  background:#f1f2f4;
+  color:#69788c;
+}
+
+.type-unknown{
+  background:#fff0ce;
+  color:#9b6500;
 }
 
 .empty{
@@ -508,7 +524,6 @@ tbody tr:hover{
 
   .nav-title,
   .nav-item span:not(.nav-icon),
-  .soon,
   .user-card{
     display:none;
   }
@@ -596,9 +611,9 @@ tbody tr:hover{
       <div class="nav-title">GESTIONE</div>
 
       <a href="anagrafiche.html" class="nav-item">
-  <span class="nav-icon">▣</span>
-  <span>Anagrafiche</span>
-</a>
+        <span class="nav-icon">▣</span>
+        <span>Anagrafiche</span>
+      </a>
 
     </div>
 
@@ -644,7 +659,7 @@ tbody tr:hover{
   <h1>Email AI</h1>
 
   <div class="subtitle">
-    MatRi-mIA analizza le richieste ricevute e prepara i dati per le tue pratiche.
+    MatRi-mIA analizza e classifica automaticamente le email ricevute.
   </div>
 
 </div>
@@ -680,6 +695,26 @@ tbody tr:hover{
     class="search"
     type="search"
     placeholder="Cerca mittente, oggetto, cliente, tratta...">
+
+  <select id="typeFilter" class="filter">
+
+    <option value="">
+      Tutti i tipi
+    </option>
+
+    <option value="RICHIESTA_TRASPORTO">
+      Richieste trasporto
+    </option>
+
+    <option value="DOCUMENTO">
+      Documenti
+    </option>
+
+    <option value="ALTRO">
+      Altro
+    </option>
+
+  </select>
 
   <select id="statusFilter" class="filter">
 
@@ -722,6 +757,7 @@ tbody tr:hover{
         <tr>
           <th>Mittente</th>
           <th>Oggetto</th>
+          <th>Tipo</th>
           <th>Data</th>
           <th>Cliente</th>
           <th>Tratta</th>
@@ -782,6 +818,9 @@ const searchInput =
 const statusFilter =
   document.getElementById("statusFilter");
 
+const typeFilter =
+  document.getElementById("typeFilter");
+
 const emailRows =
   document.getElementById("emailRows");
 
@@ -825,6 +864,14 @@ function normalizeStatus(value){
 
 }
 
+function normalizeType(value){
+
+  return String(value || "")
+    .trim()
+    .toUpperCase();
+
+}
+
 function formatDate(value){
 
   if(!value){
@@ -849,6 +896,10 @@ function formatDate(value){
   );
 
 }
+
+/* =========================
+   BADGE STATO
+========================= */
 
 function badge(status){
 
@@ -898,6 +949,53 @@ function badge(status){
   return `
     <span class="badge badge-new">
       ${escapeHtml(normalized || "-")}
+    </span>
+  `;
+
+}
+
+/* =========================
+   BADGE TIPO
+========================= */
+
+function typeBadge(type){
+
+  const normalized =
+    normalizeType(type);
+
+  if(normalized === "RICHIESTA_TRASPORTO"){
+
+    return `
+      <span class="badge type-transport">
+        TRASPORTO
+      </span>
+    `;
+
+  }
+
+  if(normalized === "DOCUMENTO"){
+
+    return `
+      <span class="badge type-document">
+        DOCUMENTO
+      </span>
+    `;
+
+  }
+
+  if(normalized === "ALTRO"){
+
+    return `
+      <span class="badge type-other">
+        ALTRO
+      </span>
+    `;
+
+  }
+
+  return `
+    <span class="badge type-unknown">
+      NON CLASSIFICATA
     </span>
   `;
 
@@ -1110,6 +1208,9 @@ function renderEmails(){
   const selectedStatus =
     statusFilter.value;
 
+  const selectedType =
+    typeFilter.value;
+
   const filtered =
     emails.filter(
       email => {
@@ -1119,9 +1220,21 @@ function renderEmails(){
             email.stato
           );
 
+        const type =
+          normalizeType(
+            email.tipo_richiesta
+          );
+
         if(
           selectedStatus &&
           status !== selectedStatus
+        ){
+          return false;
+        }
+
+        if(
+          selectedType &&
+          type !== selectedType
         ){
           return false;
         }
@@ -1134,6 +1247,7 @@ function renderEmails(){
           email.mittente,
           email.email_mittente,
           email.oggetto,
+          email.tipo_richiesta,
           email.cliente,
           email.partenza,
           email.destinazione
@@ -1199,6 +1313,10 @@ function renderEmails(){
         </td>
 
         <td>
+          ${typeBadge(email.tipo_richiesta)}
+        </td>
+
+        <td>
           ${escapeHtml(
             formatDate(
               email.data_email ||
@@ -1253,6 +1371,11 @@ searchInput.addEventListener(
 );
 
 statusFilter.addEventListener(
+  "change",
+  renderEmails
+);
+
+typeFilter.addEventListener(
   "change",
   renderEmails
 );
