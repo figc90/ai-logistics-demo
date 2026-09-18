@@ -179,6 +179,37 @@ input:focus{
   box-shadow:0 0 0 3px rgba(78,197,230,.10);
 }
 
+.password-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:7px;
+}
+
+.password-row label{
+  margin-bottom:0;
+}
+
+.forgot-btn{
+  border:none;
+  background:transparent;
+  padding:0;
+  color:#1596c2;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.forgot-btn:hover{
+  text-decoration:underline;
+}
+
+.forgot-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
 .login-btn{
   width:100%;
   min-height:52px;
@@ -306,9 +337,7 @@ footer strong{
 
 </head>
 
-
 <body>
-
 
 <header class="top-header">
 
@@ -323,10 +352,7 @@ footer strong{
 
 </header>
 
-
-
 <main class="page">
-
 
 <section class="presentation">
 
@@ -344,49 +370,28 @@ footer strong{
     controlli AI e operatività della tua azienda di trasporti.
   </p>
 
-
   <div class="features">
 
     <div class="feature">
-
-      <div class="feature-icon">
-        ✓
-      </div>
-
+      <div class="feature-icon">✓</div>
       Controllo intelligente delle pratiche di trasporto.
-
     </div>
 
-
     <div class="feature">
-
-      <div class="feature-icon">
-        ✓
-      </div>
-
+      <div class="feature-icon">✓</div>
       Analisi automatica di dati e incongruenze.
-
     </div>
 
-
     <div class="feature">
-
-      <div class="feature-icon">
-        ✓
-      </div>
-
+      <div class="feature-icon">✓</div>
       Accesso protetto ai dati della tua azienda.
-
     </div>
 
   </div>
 
 </section>
 
-
-
 <section class="login-card">
-
 
   <div class="login-header">
 
@@ -404,12 +409,9 @@ footer strong{
 
   </div>
 
-
   <div class="login-body">
 
-
     <form id="loginForm">
-
 
       <div class="field">
 
@@ -426,12 +428,22 @@ footer strong{
 
       </div>
 
-
       <div class="field">
 
-        <label for="password">
-          Password
-        </label>
+        <div class="password-row">
+
+          <label for="password">
+            Password
+          </label>
+
+          <button
+            id="forgotPasswordButton"
+            class="forgot-btn"
+            type="button">
+            Password dimenticata?
+          </button>
+
+        </div>
 
         <input
           id="password"
@@ -442,7 +454,6 @@ footer strong{
 
       </div>
 
-
       <button
         id="loginButton"
         class="login-btn"
@@ -452,15 +463,12 @@ footer strong{
 
       </button>
 
-
       <div
         id="messageBox"
         class="message">
       </div>
 
-
     </form>
-
 
     <div class="security-note">
 
@@ -469,16 +477,11 @@ footer strong{
 
     </div>
 
-
   </div>
-
 
 </section>
 
-
 </main>
-
-
 
 <footer>
 
@@ -489,8 +492,6 @@ footer strong{
   · Accesso sicuro
 
 </footer>
-
-
 
 <script type="module">
 
@@ -525,9 +526,19 @@ const loginButton =
     "loginButton"
   );
 
+const forgotPasswordButton =
+  document.getElementById(
+    "forgotPasswordButton"
+  );
+
 const messageBox =
   document.getElementById(
     "messageBox"
+  );
+
+const emailInput =
+  document.getElementById(
+    "email"
   );
 
 
@@ -550,8 +561,9 @@ function showMessage(
 }
 
 
-/* Se l'utente è già autenticato,
-   non mostriamo nuovamente il login */
+/* =========================
+   SESSIONE ESISTENTE
+========================= */
 
 async function checkExistingSession(){
 
@@ -562,7 +574,6 @@ async function checkExistingSession(){
   } =
     await supabase.auth.getSession();
 
-
   if(session){
 
     window.location.href =
@@ -572,10 +583,104 @@ async function checkExistingSession(){
 
 }
 
-
 checkExistingSession();
 
 
+/* =========================
+   PASSWORD DIMENTICATA
+========================= */
+
+forgotPasswordButton.addEventListener(
+  "click",
+  async function(){
+
+    messageBox.style.display =
+      "none";
+
+    const email =
+      emailInput.value
+        .trim()
+        .toLowerCase();
+
+    if(!email){
+
+      showMessage(
+        "error",
+        "Inserisci prima il tuo indirizzo email."
+      );
+
+      emailInput.focus();
+
+      return;
+
+    }
+
+    forgotPasswordButton.disabled =
+      true;
+
+    forgotPasswordButton.textContent =
+      "Invio...";
+
+    try{
+
+      const {
+        error
+      } =
+        await supabase.auth
+          .resetPasswordForEmail(
+            email,
+            {
+              redirectTo:
+                "https://matrimialogistics.it/imposta-password.html"
+            }
+          );
+
+      if(error){
+
+        throw error;
+
+      }
+
+      showMessage(
+        "success",
+        "Ti abbiamo inviato un'email. Apri il link ricevuto per impostare una nuova password."
+      );
+
+    }
+    catch(error){
+
+      console.error(
+        "Errore recupero password:",
+        error
+      );
+
+      let message =
+        error.message ||
+        "Impossibile inviare l'email per il recupero della password.";
+
+      showMessage(
+        "error",
+        message
+      );
+
+    }
+    finally{
+
+      forgotPasswordButton.disabled =
+        false;
+
+      forgotPasswordButton.textContent =
+        "Password dimenticata?";
+
+    }
+
+  }
+);
+
+
+/* =========================
+   LOGIN
+========================= */
 
 loginForm.addEventListener(
   "submit",
@@ -583,23 +688,17 @@ loginForm.addEventListener(
 
     event.preventDefault();
 
-
     messageBox.style.display =
       "none";
 
-
     const email =
-      document
-        .getElementById("email")
-        .value
+      emailInput.value
         .trim();
-
 
     const password =
       document
         .getElementById("password")
         .value;
-
 
     loginButton.disabled =
       true;
@@ -607,9 +706,7 @@ loginForm.addEventListener(
     loginButton.textContent =
       "Accesso in corso...";
 
-
     try{
-
 
       const {
         data,
@@ -626,13 +723,11 @@ loginForm.addEventListener(
 
           });
 
-
       if(error){
 
         throw error;
 
       }
-
 
       if(
         !data ||
@@ -645,9 +740,7 @@ loginForm.addEventListener(
 
       }
 
-
-      /* Verifica che esista anche
-         il profilo dell'utente */
+      /* Verifica profilo MatRi-mIA */
 
       const {
         data:profile,
@@ -664,7 +757,6 @@ loginForm.addEventListener(
           )
           .single();
 
-
       if(profileError){
 
         await supabase.auth
@@ -675,7 +767,6 @@ loginForm.addEventListener(
         );
 
       }
-
 
       if(!profile){
 
@@ -688,12 +779,36 @@ loginForm.addEventListener(
 
       }
 
+      /*
+       * Per un normale admin aziendale
+       * deve esserci un'azienda associata.
+       * Il superadmin può invece essere gestito
+       * separatamente.
+       */
+
+      const ruolo =
+        String(
+          profile.ruolo || ""
+        ).toLowerCase();
+
+      if(
+        ruolo !== "superadmin" &&
+        !profile.azienda_id
+      ){
+
+        await supabase.auth
+          .signOut();
+
+        throw new Error(
+          "Account non associato a un'azienda."
+        );
+
+      }
 
       showMessage(
         "success",
         "Accesso effettuato. Apertura MatRi-mIA..."
       );
-
 
       setTimeout(
         function(){
@@ -705,21 +820,17 @@ loginForm.addEventListener(
         500
       );
 
-
     }
     catch(error){
-
 
       console.error(
         "Errore login:",
         error
       );
 
-
       let message =
         error.message ||
         "Credenziali non valide.";
-
 
       if(
         message
@@ -734,16 +845,13 @@ loginForm.addEventListener(
 
       }
 
-
       showMessage(
         "error",
         message
       );
 
-
     }
     finally{
-
 
       loginButton.disabled =
         false;
@@ -758,7 +866,5 @@ loginForm.addEventListener(
 
 </script>
 
-
 </body>
-
 </html>
