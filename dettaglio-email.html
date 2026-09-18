@@ -1853,10 +1853,9 @@ function renderEmail(email){
 
 
   document.getElementById(
-    "aiSummary"
-  ).textContent =
-  email.analisi_ai ||
-  "Nessuna analisi AI disponibile.";
+  "aiSummary"
+).textContent =
+buildAISummary(email);
 
 
   document.getElementById(
