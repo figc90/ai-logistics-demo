@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nuova azienda | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,input{
+  font:inherit;
+}
+
+button:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35,#0d2d50);
+  color:#fff;
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+}
+
+.sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+
+.sidebar-logo img{
+  width:175px;
+  max-width:90%;
+  display:block;
+}
+
+.sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+  overflow-y:auto;
+}
+
+.nav-section{
+  margin-bottom:28px;
+}
+
+.nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+}
+
+.nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+}
+
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px;
+  margin-bottom:9px;
+}
+
+.user-label{
+  color:#7994af;
+  font-size:9px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.user-email{
+  font-size:12px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+
+.user-role{
+  color:#55c9e9;
+  font-size:9px;
+  font-weight:900;
+  margin-top:5px;
+}
+
+.logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+  min-height:100vh;
+}
+
+.topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+}
+
+.back-link{
+  min-height:40px;
+  padding:0 15px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #dce3eb;
+  background:#fff;
+  color:#53647a;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.back-link:hover{
+  background:#f7f9fc;
+}
+
+.content{
+  max-width:1050px;
+  margin:auto;
+  padding:32px 30px 55px;
+}
+
+.heading{
+  margin-bottom:24px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+h1{
+  color:#10284a;
+  font-size:38px;
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:#7d8ba0;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* =========================
+   MESSAGES
+========================= */
+
+.message{
+  padding:14px 16px;
+  border-radius:11px;
+  margin-bottom:18px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.message-error{
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+  color:#b42318;
+}
+
+.message-success{
+  background:#eaf8f1;
+  border:1px solid #c8ead8;
+  color:#23784f;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-card{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(19,40,74,.05);
+  margin-bottom:20px;
+}
+
+.form-section{
+  padding:25px;
+}
+
+.form-section + .form-section{
+  border-top:1px solid #e8edf2;
+}
+
+.section-heading{
+  display:flex;
+  align-items:flex-start;
+  gap:13px;
+  margin-bottom:22px;
+}
+
+.section-icon{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e8f4fb;
+  color:#178ab2;
+  font-size:18px;
+  font-weight:900;
+}
+
+.section-icon.admin{
+  background:#e9f7f0;
+  color:#2a9865;
+}
+
+.section-heading h2{
+  color:#173459;
+  font-size:17px;
+  margin-bottom:5px;
+}
+
+.section-heading p{
+  color:#8d9aad;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.form-group.full{
+  grid-column:1 / -1;
+}
+
+label{
+  color:#53647a;
+  font-size:11px;
+  font-weight:900;
+}
+
+.required{
+  color:#ec4f32;
+}
+
+input{
+  width:100%;
+  height:46px;
+  border:1px solid #dce3eb;
+  border-radius:10px;
+  padding:0 13px;
+  outline:none;
+  color:#30465f;
+  background:#fff;
+  transition:.15s ease;
+}
+
+input:focus{
+  border-color:#2ca9d2;
+  box-shadow:0 0 0 3px rgba(44,169,210,.10);
+}
+
+input::placeholder{
+  color:#aab4c1;
+}
+
+.help{
+  color:#99a5b5;
+  font-size:10px;
+  line-height:1.5;
+}
+
+/* =========================
+   INFO BOX
+========================= */
+
+.info-box{
+  background:#f5f9fc;
+  border:1px solid #dceaf3;
+  border-radius:11px;
+  padding:14px 16px;
+  margin-top:18px;
+  display:flex;
+  gap:11px;
+}
+
+.info-icon{
+  color:#2198c1;
+  font-weight:900;
+}
+
+.info-text{
+  color:#65758a;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.info-text strong{
+  color:#34516f;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.actions{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:11px;
+  margin-top:20px;
+}
+
+.cancel-btn{
+  min-height:44px;
+  padding:0 19px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #dce3eb;
+  border-radius:10px;
+  background:#fff;
+  color:#5b6a7e;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.submit-btn{
+  min-height:44px;
+  padding:0 22px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  box-shadow:0 7px 18px rgba(236,79,50,.18);
+  cursor:pointer;
+}
+
+.spinner{
+  display:inline-block;
+  width:13px;
+  height:13px;
+  border:2px solid rgba(255,255,255,.45);
+  border-top-color:#fff;
+  border-radius:50%;
+  margin-right:8px;
+  vertical-align:-2px;
+  animation:spin .7s linear infinite;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:760px){
+
+  .sidebar{
+    width:72px;
+  }
+
+  .main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+  }
+
+  .sidebar-logo img{
+    width:50px;
+  }
+
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .user-card{
+    display:none;
+  }
+
+  .nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .content{
+    padding:25px 14px 40px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+  .actions{
+    flex-direction:column-reverse;
+  }
+
+  .actions a,
+  .actions button{
+    width:100%;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+  <div class="sidebar-logo">
+    <a href="dashboard.html" class="sidebar-logo-link">
+      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+    </a>
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-section">
+      <div class="nav-title">OPERATIVITÀ</div>
+
+      <a href="dashboard.html" class="nav-item">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pratiche.html" class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
+
+      <a href="nuova-pratica.html" class="nav-item">
+        <span class="nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-title">AUTOMAZIONI</div>
+
+      <a href="email-ai.html" class="nav-item">
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+      </a>
+
+      <a href="viaggi.html" class="nav-item">
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-title">GESTIONE</div>
+
+      <a href="anagrafiche.html" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Anagrafiche</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-title">SUPERADMIN</div>
+
+      <a href="aziende.html" class="nav-item active">
+        <span class="nav-icon">◆</span>
+        <span>Aziende</span>
+      </a>
+    </div>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+
+    <div class="user-card">
+      <div class="user-label">UTENTE</div>
+      <div id="userEmail" class="user-email">-</div>
+      <div class="user-role">SUPERADMIN</div>
+    </div>
+
+    <button id="logoutButton" class="logout-btn">
+      Esci
+    </button>
+
+  </div>
+
+</aside>
+
+<div class="main">
+
+<header class="topbar">
+
+  <div class="topbar-brand">
+    MatRi-mIA Logistics · Superadmin
+  </div>
+
+  <a href="aziende.html" class="back-link">
+    ← Torna alle aziende
+  </a>
+
+</header>
+
+<main class="content">
+
+  <div id="messageBox" style="display:none"></div>
+
+  <div class="heading">
+
+    <div class="eyebrow">
+      MATRI-MIA · SUPERADMIN
+    </div>
+
+    <h1>Nuova azienda</h1>
+
+    <div class="subtitle">
+      Crea un nuovo tenant MatRi-mIA e invita il suo primo amministratore.
+    </div>
+
+  </div>
+
+  <form id="companyForm">
+
+    <div class="form-card">
+
+      <!-- DATI AZIENDA -->
+
+      <section class="form-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon">
+            ◆
+          </div>
+
+          <div>
+            <h2>Dati azienda</h2>
+            <p>
+              Informazioni principali dell'azienda che utilizzerà MatRi-mIA.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="form-grid">
+
+          <div class="form-group full">
+
+            <label for="nome">
+              Nome azienda
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="nome"
+              name="nome"
+              type="text"
+              maxlength="200"
+              autocomplete="organization"
+              placeholder="Es. Trasporti Rossi S.r.l."
+              required
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="email">
+              Email azienda
+            </label>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              maxlength="250"
+              autocomplete="email"
+              placeholder="info@azienda.it"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="telefono">
+              Telefono
+            </label>
+
+            <input
+              id="telefono"
+              name="telefono"
+              type="tel"
+              maxlength="50"
+              autocomplete="tel"
+              placeholder="+39 ..."
+            >
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- AMMINISTRATORE -->
+
+      <section class="form-section">
+
+        <div class="section-heading">
+
+          <div class="section-icon admin">
+            ♙
+          </div>
+
+          <div>
+            <h2>Amministratore</h2>
+            <p>
+              Primo utente autorizzato ad accedere all'azienda.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="form-grid">
+
+          <div class="form-group full">
+
+            <label for="emailAdmin">
+              Email amministratore
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="emailAdmin"
+              name="emailAdmin"
+              type="email"
+              maxlength="250"
+              autocomplete="email"
+              placeholder="mario@azienda.it"
+              required
+            >
+
+            <div class="help">
+              A questo indirizzo verrà inviato automaticamente l'invito per accedere a MatRi-mIA.
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="info-box">
+
+          <div class="info-icon">
+            i
+          </div>
+
+          <div class="info-text">
+            <strong>Non devi creare una password.</strong>
+            MatRi-mIA creerà l'azienda e l'account amministratore.
+            Supabase invierà all'indirizzo indicato l'email di invito per completare l'accesso.
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <div class="actions">
+
+      <a href="aziende.html" class="cancel-btn">
+        Annulla
+      </a>
+
+      <button
+        id="submitButton"
+        class="submit-btn"
+        type="submit"
+      >
+        Crea azienda e invia invito
+      </button>
+
+    </div>
+
+  </form>
+
+</main>
+
+</div>
+</div>
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+"https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+let currentUser = null;
+let currentProfile = null;
+
+const userEmail =
+document.getElementById("userEmail");
+
+const form =
+document.getElementById("companyForm");
+
+const submitButton =
+document.getElementById("submitButton");
+
+const messageBox =
+document.getElementById("messageBox");
+
+/* =========================
+   MESSAGE
+========================= */
+
+function hideMessage(){
+
+  messageBox.style.display =
+  "none";
+
+  messageBox.textContent =
+  "";
+
+  messageBox.className =
+  "";
+
+}
+
+function showError(text){
+
+  messageBox.textContent =
+  text;
+
+  messageBox.className =
+  "message message-error";
+
+  messageBox.style.display =
+  "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+function showSuccess(text){
+
+  messageBox.textContent =
+  text;
+
+  messageBox.className =
+  "message message-success";
+
+  messageBox.style.display =
+  "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+/* =========================
+   AUTH SUPERADMIN
+========================= */
+
+async function protect(){
+
+  const {
+    data:{session},
+    error
+  } =
+  await supabase.auth.getSession();
+
+  if(
+    error ||
+    !session?.user
+  ){
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+  currentUser =
+  session.user;
+
+  const {
+    data:profile,
+    error:profileError
+  } =
+  await supabase
+  .from("profiles")
+  .select(
+    "id,email,ruolo,azienda_id"
+  )
+  .eq(
+    "id",
+    currentUser.id
+  )
+  .single();
+
+  if(
+    profileError ||
+    !profile
+  ){
+
+    console.error(
+      profileError
+    );
+
+    window.location.replace(
+      "dashboard.html"
+    );
+
+    return false;
+
+  }
+
+  if(
+    String(
+      profile.ruolo || ""
+    ).toLowerCase() !==
+    "superadmin"
+  ){
+
+    window.location.replace(
+      "dashboard.html"
+    );
+
+    return false;
+
+  }
+
+  currentProfile =
+  profile;
+
+  userEmail.textContent =
+  profile.email ||
+  currentUser.email ||
+  "-";
+
+  document.body.classList.add(
+    "auth-ready"
+  );
+
+  return true;
+
+}
+
+/* =========================
+   SUBMIT
+========================= */
+
+form.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+    hideMessage();
+
+    const nome =
+    document.getElementById(
+      "nome"
+    ).value.trim();
+
+    const email =
+    document.getElementById(
+      "email"
+    ).value.trim();
+
+    const telefono =
+    document.getElementById(
+      "telefono"
+    ).value.trim();
+
+    const emailAdmin =
+    document.getElementById(
+      "emailAdmin"
+    ).value.trim();
+
+    if(!nome){
+
+      showError(
+        "Inserisci il nome dell'azienda."
+      );
+
+      return;
+
+    }
+
+    if(!emailAdmin){
+
+      showError(
+        "Inserisci l'email dell'amministratore."
+      );
+
+      return;
+
+    }
+
+    submitButton.disabled =
+    true;
+
+    submitButton.innerHTML =
+    '<span class="spinner"></span>Creazione in corso...';
+
+    try{
+
+      /*
+       * supabase.functions.invoke invia automaticamente
+       * la sessione dell'utente autenticato alla
+       * Edge Function.
+       */
+
+      const {
+        data,
+        error
+      } =
+      await supabase.functions.invoke(
+        "crea-azienda",
+        {
+          body:{
+            nome:nome,
+            email:email || null,
+            telefono:telefono || null,
+            email_admin:emailAdmin
+          }
+        }
+      );
+
+      if(error){
+
+        console.error(
+          "Errore Edge Function:",
+          error
+        );
+
+        /*
+         * In alcune risposte HTTP l'errore restituito
+         * dalla funzione è disponibile nel context.
+         */
+
+        let errorMessage =
+        "Impossibile creare l'azienda.";
+
+        try{
+
+          if(
+            error.context &&
+            typeof error.context.json ===
+            "function"
+          ){
+
+            const errorBody =
+            await error.context.json();
+
+            if(errorBody?.error){
+              errorMessage =
+              errorBody.error;
+            }
+
+          }
+
+        }catch(contextError){
+
+          console.warn(
+            "Impossibile leggere il dettaglio errore:",
+            contextError
+          );
+
+        }
+
+        showError(
+          errorMessage
+        );
+
+        return;
+
+      }
+
+      if(!data?.success){
+
+        showError(
+          data?.error ||
+          "La creazione dell'azienda non è stata completata."
+        );
+
+        return;
+
+      }
+
+      showSuccess(
+        "Azienda creata correttamente. L'invito è stato inviato a " +
+        emailAdmin +
+        "."
+      );
+
+      form.reset();
+
+      /*
+       * Lasciamo qualche secondo per leggere
+       * la conferma e poi torniamo all'elenco.
+       */
+
+      setTimeout(
+        ()=>{
+          window.location.href =
+          "aziende.html";
+        },
+        2200
+      );
+
+    }catch(error){
+
+      console.error(
+        "Errore creazione azienda:",
+        error
+      );
+
+      showError(
+        error?.message ||
+        "Si è verificato un errore durante la creazione dell'azienda."
+      );
+
+    }finally{
+
+      submitButton.disabled =
+      false;
+
+      submitButton.textContent =
+      "Crea azienda e invia invito";
+
+    }
+
+  }
+);
+
+/* =========================
+   LOGOUT
+========================= */
+
+document.getElementById(
+  "logoutButton"
+).onclick =
+async ()=>{
+
+  await supabase.auth.signOut();
+
+  window.location.replace(
+    "login.html"
+  );
+
+};
+
+/* =========================
+   START
+========================= */
+
+async function start(){
+
+  await protect();
+
+}
+
+start();
+
+</script>
+
+</body>
+</html>
