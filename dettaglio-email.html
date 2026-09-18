@@ -328,10 +328,6 @@ h1{
   box-shadow:0 10px 28px rgba(19,40,74,.05);
 }
 
-.card + .card{
-  margin-top:20px;
-}
-
 .card-header{
   padding:18px 20px;
   border-bottom:1px solid #e8edf2;
@@ -476,7 +472,8 @@ h1{
 }
 
 .action-primary,
-.action-secondary{
+.action-secondary,
+.action-document{
   min-height:44px;
   padding:0 18px;
   border:none;
@@ -496,6 +493,11 @@ h1{
 .action-secondary{
   background:#eef3f8;
   color:#173459;
+}
+
+.action-document{
+  background:#e7f2fb;
+  color:#176b9c;
 }
 
 button:disabled{
@@ -585,18 +587,14 @@ button:disabled{
 
 <div class="app">
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
 
 <div class="sidebar-logo">
 
   <a href="dashboard.html" class="sidebar-logo-link">
-
     <img
       src="matrimia-logo-web.png"
       alt="MatRi-mIA Logistics">
-
   </a>
 
 </div>
@@ -605,9 +603,7 @@ button:disabled{
 
 <div class="nav-section">
 
-  <div class="nav-title">
-    OPERATIVITÀ
-  </div>
+  <div class="nav-title">OPERATIVITÀ</div>
 
   <a href="dashboard.html" class="nav-item">
     <span class="nav-icon">▦</span>
@@ -628,9 +624,7 @@ button:disabled{
 
 <div class="nav-section">
 
-  <div class="nav-title">
-    AUTOMAZIONI
-  </div>
+  <div class="nav-title">AUTOMAZIONI</div>
 
   <a href="email-ai.html" class="nav-item active">
     <span class="nav-icon">✉</span>
@@ -646,9 +640,7 @@ button:disabled{
 
 <div class="nav-section">
 
-  <div class="nav-title">
-    GESTIONE
-  </div>
+  <div class="nav-title">GESTIONE</div>
 
   <a href="anagrafiche.html" class="nav-item">
     <span class="nav-icon">▣</span>
@@ -662,17 +654,8 @@ button:disabled{
 <div class="sidebar-bottom">
 
   <div class="user-card">
-
-    <div class="user-label">
-      UTENTE
-    </div>
-
-    <div
-      id="userEmail"
-      class="user-email">
-      -
-    </div>
-
+    <div class="user-label">UTENTE</div>
+    <div id="userEmail" class="user-email">-</div>
   </div>
 
   <button
@@ -684,8 +667,6 @@ button:disabled{
 </div>
 
 </aside>
-
-<!-- MAIN -->
 
 <div class="main">
 
@@ -729,9 +710,7 @@ button:disabled{
 
   <div>
 
-    <h1 id="emailSubject">
-      -
-    </h1>
+    <h1 id="emailSubject">-</h1>
 
     <div
       id="headingMeta"
@@ -750,20 +729,16 @@ button:disabled{
 
 <div class="detail-grid">
 
-<!-- EMAIL -->
-
 <div>
 
 <section class="card">
 
   <div class="card-header">
 
-    <h2>
-      Email originale
-    </h2>
+    <h2>Email originale</h2>
 
     <p>
-      Messaggio ricevuto dal cliente.
+      Messaggio ricevuto.
     </p>
 
   </div>
@@ -826,8 +801,6 @@ button:disabled{
 
 </div>
 
-<!-- AI -->
-
 <div>
 
 <section class="card ai-card">
@@ -838,7 +811,7 @@ button:disabled{
     MATRI-MIA AI
   </div>
 
-  <h2>
+  <h2 id="analysisTitle">
     Analisi della richiesta
   </h2>
 
@@ -1105,6 +1078,11 @@ document.getElementById(
   "managedButton"
 );
 
+const analysisTitle =
+document.getElementById(
+  "analysisTitle"
+);
+
 let currentEmail = null;
 
 /* =========================
@@ -1121,6 +1099,22 @@ function setText(id,value){
   value === ""
     ? "-"
     : value;
+
+}
+
+function normalizeStatus(value){
+
+  return String(value || "")
+  .trim()
+  .toUpperCase();
+
+}
+
+function normalizeType(value){
+
+  return String(value || "")
+  .trim()
+  .toUpperCase();
 
 }
 
@@ -1195,16 +1189,8 @@ function showMessage(type,text){
 
 }
 
-function normalizeStatus(value){
-
-  return String(value || "")
-  .trim()
-  .toUpperCase();
-
-}
-
 /* =========================
-   RIEPILOGO AI LEGGIBILE
+   DATI AI
 ========================= */
 
 function getAIData(email){
@@ -1255,10 +1241,11 @@ function getAIData(email){
 
 }
 
-function createReadableSummary(email){
+/* =========================
+   RIEPILOGO TRASPORTO
+========================= */
 
-  const ai =
-  getAIData(email);
+function createTransportSummary(email,ai){
 
   const cliente =
   ai.cliente ||
@@ -1311,10 +1298,6 @@ function createReadableSummary(email){
   null;
 
   let testo = "";
-
-  /*
-   * DESCRIZIONE DELLA RICHIESTA
-   */
 
   if(cliente){
 
@@ -1375,10 +1358,6 @@ function createReadableSummary(email){
 
   testo += ".";
 
-  /*
-   * DATI DEL CARICO
-   */
-
   const carico = [];
 
   if(merce){
@@ -1412,10 +1391,6 @@ function createReadableSummary(email){
     carico.join(" · ");
 
   }
-
-  /*
-   * DATI MANCANTI
-   */
 
   const mancanti = [];
 
@@ -1518,10 +1493,6 @@ function createReadableSummary(email){
 
   }
 
-  /*
-   * NOTE
-   */
-
   if(note){
 
     testo +=
@@ -1531,6 +1502,125 @@ function createReadableSummary(email){
   }
 
   return testo;
+
+}
+
+/* =========================
+   RIEPILOGO DOCUMENTO
+========================= */
+
+function createDocumentSummary(email,ai){
+
+  const cliente =
+  ai.cliente ||
+  email.cliente ||
+  null;
+
+  const partenza =
+  ai.partenza ||
+  email.partenza ||
+  null;
+
+  const destinazione =
+  ai.destinazione ||
+  email.destinazione ||
+  null;
+
+  const note =
+  ai.note ||
+  email.note ||
+  null;
+
+  let testo =
+  "L'email è stata classificata come invio o comunicazione relativa a un documento.";
+
+  if(cliente){
+
+    testo +=
+    `\n\nCliente rilevato: ${cliente}.`;
+
+  }
+
+  if(
+    partenza &&
+    destinazione
+  ){
+
+    testo +=
+    `\nTratta rilevata: ${partenza} → ${destinazione}.`;
+
+  }
+
+  if(note){
+
+    testo +=
+    `\n\nNote: ${note}`;
+
+  }
+
+  testo +=
+  "\n\nIl documento non genera automaticamente una nuova pratica. Potrà essere collegato alla pratica o al viaggio corretto.";
+
+  return testo;
+
+}
+
+/* =========================
+   RIEPILOGO ALTRO
+========================= */
+
+function createOtherSummary(email){
+
+  const oggetto =
+  email.oggetto ||
+  "senza oggetto";
+
+  return (
+    "Questa email è stata classificata come comunicazione non operativa." +
+    "\n\nOggetto: " +
+    oggetto +
+    "." +
+    "\n\nNon è necessario creare automaticamente una pratica di trasporto. Dopo la verifica può essere segnata come gestita."
+  );
+
+}
+
+/* =========================
+   RIEPILOGO AI
+========================= */
+
+function createReadableSummary(email){
+
+  const ai =
+  getAIData(email);
+
+  const type =
+  normalizeType(
+    email.tipo_richiesta ||
+    ai.tipo_richiesta
+  );
+
+  if(type === "DOCUMENTO"){
+
+    return createDocumentSummary(
+      email,
+      ai
+    );
+
+  }
+
+  if(type === "ALTRO"){
+
+    return createOtherSummary(
+      email
+    );
+
+  }
+
+  return createTransportSummary(
+    email,
+    ai
+  );
 
 }
 
@@ -1678,6 +1768,69 @@ function renderStatus(status){
 }
 
 /* =========================
+   TIPO EMAIL
+========================= */
+
+function renderType(email){
+
+  const type =
+  normalizeType(
+    email.tipo_richiesta
+  );
+
+  if(type === "RICHIESTA_TRASPORTO"){
+
+    setText(
+      "requestType",
+      "Richiesta trasporto"
+    );
+
+    analysisTitle.textContent =
+    "Analisi della richiesta";
+
+    return;
+
+  }
+
+  if(type === "DOCUMENTO"){
+
+    setText(
+      "requestType",
+      "Documento"
+    );
+
+    analysisTitle.textContent =
+    "Analisi del documento";
+
+    return;
+
+  }
+
+  if(type === "ALTRO"){
+
+    setText(
+      "requestType",
+      "Altro"
+    );
+
+    analysisTitle.textContent =
+    "Analisi della comunicazione";
+
+    return;
+
+  }
+
+  setText(
+    "requestType",
+    email.tipo_richiesta
+  );
+
+  analysisTitle.textContent =
+  "Analisi email";
+
+}
+
+/* =========================
    RENDER EMAIL
 ========================= */
 
@@ -1716,10 +1869,7 @@ function renderEmail(email){
     email.testo
   );
 
-  setText(
-    "requestType",
-    email.tipo_richiesta
-  );
+  renderType(email);
 
   setText(
     "clientValue",
@@ -1781,11 +1931,6 @@ function renderEmail(email){
     email.note
   );
 
-  /*
-   * QUI NON MOSTRIAMO PIÙ IL JSON GREZZO.
-   * I dati restano salvati in analisi_ai.
-   */
-
   document.getElementById(
     "aiSummary"
   ).textContent =
@@ -1809,19 +1954,36 @@ function renderEmail(email){
     email.stato
   );
 
-  configurePracticeButton();
+  configurePrimaryAction();
 
 }
 
 /* =========================
-   CREA / APRI PRATICA
+   AZIONE PRINCIPALE
 ========================= */
 
-async function configurePracticeButton(){
+async function configurePrimaryAction(){
 
   if(!currentEmail){
     return;
   }
+
+  practiceButton.style.display =
+  "inline-flex";
+
+  practiceButton.disabled =
+  false;
+
+  practiceButton.className =
+  "action-primary";
+
+  practiceButton.onclick =
+  null;
+
+  /*
+   * SE ESISTE GIÀ UNA PRATICA COLLEGATA,
+   * MOSTRIAMO SEMPRE APRI PRATICA.
+   */
 
   if(currentEmail.pratica_id){
 
@@ -1883,8 +2045,81 @@ async function configurePracticeButton(){
 
   }
 
+  const type =
+  normalizeType(
+    currentEmail.tipo_richiesta
+  );
+
+  /*
+   * RICHIESTA TRASPORTO
+   */
+
+  if(type === "RICHIESTA_TRASPORTO"){
+
+    practiceButton.textContent =
+    "Crea pratica";
+
+    practiceButton.className =
+    "action-primary";
+
+    practiceButton.onclick =
+    function(){
+
+      window.location.href =
+      "nuova-pratica.html?email=" +
+      encodeURIComponent(
+        currentEmail.id
+      );
+
+    };
+
+    return;
+
+  }
+
+  /*
+   * DOCUMENTO
+   */
+
+  if(type === "DOCUMENTO"){
+
+    practiceButton.textContent =
+    "Documento ricevuto";
+
+    practiceButton.className =
+    "action-document";
+
+    practiceButton.disabled =
+    true;
+
+    return;
+
+  }
+
+  /*
+   * ALTRO
+   */
+
+  if(type === "ALTRO"){
+
+    practiceButton.style.display =
+    "none";
+
+    return;
+
+  }
+
+  /*
+   * EMAIL VECCHIE NON CLASSIFICATE
+   * Manteniamo il vecchio comportamento
+   * per non perdere funzionalità.
+   */
+
   practiceButton.textContent =
   "Crea pratica";
+
+  practiceButton.className =
+  "action-primary";
 
   practiceButton.onclick =
   function(){
@@ -1956,6 +2191,9 @@ managedButton.addEventListener(
       managedButton.textContent =
       "Gestita";
 
+      managedButton.disabled =
+      true;
+
     }
 
     catch(error){
@@ -1999,12 +2237,11 @@ async function loadEmail(){
 
   }
 
+  let data;
+
   try{
 
-    const {
-      data,
-      error
-    } =
+    const result =
     await supabase
     .from("email_ai")
     .select("*")
@@ -2014,12 +2251,38 @@ async function loadEmail(){
     )
     .single();
 
-    if(error){
-      throw error;
+    if(result.error){
+      throw result.error;
     }
 
-    currentEmail =
-    data;
+    data =
+    result.data;
+
+  }
+
+  catch(error){
+
+    console.error(
+      "Errore caricamento email:",
+      error
+    );
+
+    loadingBox.style.display =
+    "none";
+
+    showMessage(
+      "error",
+      "Email non trovata oppure non autorizzata."
+    );
+
+    return;
+
+  }
+
+  currentEmail =
+  data;
+
+  try{
 
     renderEmail(
       currentEmail
@@ -2035,14 +2298,17 @@ async function loadEmail(){
 
   catch(error){
 
-    console.error(error);
+    console.error(
+      "Errore visualizzazione email:",
+      error
+    );
 
     loadingBox.style.display =
     "none";
 
     showMessage(
       "error",
-      "Email non trovata oppure non autorizzata."
+      "Errore durante la visualizzazione dell'email."
     );
 
   }
