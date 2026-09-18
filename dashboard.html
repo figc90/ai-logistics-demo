@@ -742,6 +742,96 @@ tbody tr:hover{
 }
 
 /* ============================
+   SUPERADMIN
+============================ */
+
+.superadmin-area{
+  display:none;
+  margin-top:38px;
+  padding-top:28px;
+  border-top:1px solid #dce3eb;
+}
+
+.superadmin-heading{
+  margin-bottom:14px;
+}
+
+.superadmin-label{
+  color:#ec4f32;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin-bottom:6px;
+}
+
+.superadmin-heading h2{
+  color:#173459;
+  font-size:18px;
+  margin-bottom:5px;
+}
+
+.superadmin-heading p{
+  color:#8a98aa;
+  font-size:11px;
+}
+
+.superadmin-card{
+  max-width:520px;
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:15px;
+  padding:19px;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  box-shadow:0 9px 25px rgba(19,40,74,.05);
+  transition:.18s ease;
+}
+
+.superadmin-card:hover{
+  transform:translateY(-2px);
+  border-color:#cbd7e3;
+  box-shadow:0 12px 30px rgba(19,40,74,.09);
+}
+
+.superadmin-icon{
+  width:48px;
+  height:48px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  background:#fff0ed;
+  color:#ec4f32;
+  font-size:20px;
+  font-weight:900;
+}
+
+.superadmin-info{
+  flex:1;
+}
+
+.superadmin-info h3{
+  color:#173459;
+  font-size:14px;
+  margin-bottom:5px;
+}
+
+.superadmin-info p{
+  color:#8a98aa;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.superadmin-link{
+  color:#1596c2;
+  font-size:11px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+/* ============================
    MOBILE
 ============================ */
 
@@ -825,6 +915,10 @@ tbody tr:hover{
     grid-template-columns:1fr;
   }
 
+  .superadmin-card{
+    max-width:none;
+  }
+
 }
 
 </style>
@@ -896,28 +990,11 @@ tbody tr:hover{
       <div class="nav-title">GESTIONE</div>
 
       <a href="anagrafiche.html" class="nav-item">
-  <span class="nav-icon">▣</span>
-  <span>Anagrafiche</span>
-</a>
+        <span class="nav-icon">▣</span>
+        <span>Anagrafiche</span>
+      </a>
 
     </div>
-
-    <div
-  id="superadminMenu"
-  class="nav-section"
-  style="display:none;"
->
-
-  <div class="nav-title">
-    SUPERADMIN
-  </div>
-
-  <a href="aziende.html" class="nav-item">
-    <span class="nav-icon">◆</span>
-    <span>Aziende</span>
-  </a>
-
-</div>
 
   </nav>
 
@@ -992,75 +1069,31 @@ tbody tr:hover{
 <div class="kpi-grid">
 
   <div class="kpi-card kpi-total">
-
     <div class="kpi-icon">▤</div>
-
-    <div class="kpi-label">
-      PRATICHE TOTALI
-    </div>
-
-    <div id="totalCount" class="kpi-number">
-      0
-    </div>
-
-    <div class="kpi-description">
-      Totale pratiche registrate
-    </div>
-
+    <div class="kpi-label">PRATICHE TOTALI</div>
+    <div id="totalCount" class="kpi-number">0</div>
+    <div class="kpi-description">Totale pratiche registrate</div>
   </div>
 
   <div class="kpi-card kpi-ok">
-
     <div class="kpi-icon">✓</div>
-
-    <div class="kpi-label">
-      REGOLARI
-    </div>
-
-    <div id="regularCount" class="kpi-number">
-      0
-    </div>
-
-    <div class="kpi-description">
-      Nessuna anomalia rilevata
-    </div>
-
+    <div class="kpi-label">REGOLARI</div>
+    <div id="regularCount" class="kpi-number">0</div>
+    <div class="kpi-description">Nessuna anomalia rilevata</div>
   </div>
 
   <div class="kpi-card kpi-warning">
-
     <div class="kpi-icon">!</div>
-
-    <div class="kpi-label">
-      ATTENZIONE
-    </div>
-
-    <div id="warningCount" class="kpi-number">
-      0
-    </div>
-
-    <div class="kpi-description">
-      Pratiche da verificare
-    </div>
-
+    <div class="kpi-label">ATTENZIONE</div>
+    <div id="warningCount" class="kpi-number">0</div>
+    <div class="kpi-description">Pratiche da verificare</div>
   </div>
 
   <div class="kpi-card kpi-error">
-
     <div class="kpi-icon">×</div>
-
-    <div class="kpi-label">
-      PROBLEMI
-    </div>
-
-    <div id="problemCount" class="kpi-number">
-      0
-    </div>
-
-    <div class="kpi-description">
-      Richiedono intervento
-    </div>
-
+    <div class="kpi-label">PROBLEMI</div>
+    <div id="problemCount" class="kpi-number">0</div>
+    <div class="kpi-description">Richiedono intervento</div>
   </div>
 
 </div>
@@ -1070,85 +1103,43 @@ tbody tr:hover{
 ============================ -->
 
 <div class="section-title">
+
   <h2>Viaggi</h2>
 
   <a href="viaggi.html" class="view-all">
     Gestisci viaggi →
   </a>
+
 </div>
 
 <div class="kpi-grid">
 
   <div class="kpi-card kpi-total">
-
     <div class="kpi-icon">↗</div>
-
-    <div class="kpi-label">
-      VIAGGI TOTALI
-    </div>
-
-    <div id="tripTotalCount" class="kpi-number">
-      0
-    </div>
-
-    <div class="kpi-description">
-      Totale viaggi registrati
-    </div>
-
+    <div class="kpi-label">VIAGGI TOTALI</div>
+    <div id="tripTotalCount" class="kpi-number">0</div>
+    <div class="kpi-description">Totale viaggi registrati</div>
   </div>
 
   <div class="kpi-card kpi-warning">
-
     <div class="kpi-icon">◷</div>
-
-    <div class="kpi-label">
-      DA PROGRAMMARE
-    </div>
-
-    <div id="tripPlanCount" class="kpi-number">
-      0
-    </div>
-
-    <div class="kpi-description">
-      Viaggi ancora da organizzare
-    </div>
-
+    <div class="kpi-label">DA PROGRAMMARE</div>
+    <div id="tripPlanCount" class="kpi-number">0</div>
+    <div class="kpi-description">Viaggi ancora da organizzare</div>
   </div>
 
   <div class="kpi-card kpi-running">
-
     <div class="kpi-icon">→</div>
-
-    <div class="kpi-label">
-      IN CORSO
-    </div>
-
-    <div id="tripRunningCount" class="kpi-number">
-      0
-    </div>
-
-    <div class="kpi-description">
-      Trasporti attualmente in corso
-    </div>
-
+    <div class="kpi-label">IN CORSO</div>
+    <div id="tripRunningCount" class="kpi-number">0</div>
+    <div class="kpi-description">Trasporti attualmente in corso</div>
   </div>
 
   <div class="kpi-card kpi-done">
-
     <div class="kpi-icon">✓</div>
-
-    <div class="kpi-label">
-      CONSEGNATI
-    </div>
-
-    <div id="tripDoneCount" class="kpi-number">
-      0
-    </div>
-
-    <div class="kpi-description">
-      Viaggi completati
-    </div>
-
+    <div class="kpi-label">CONSEGNATI</div>
+    <div id="tripDoneCount" class="kpi-number">0</div>
+    <div class="kpi-description">Viaggi completati</div>
   </div>
 
 </div>
@@ -1160,8 +1151,6 @@ tbody tr:hover{
 <div class="dashboard-grid">
 
 <div>
-
-<!-- ULTIME PRATICHE -->
 
 <section class="card">
 
@@ -1192,16 +1181,13 @@ tbody tr:hover{
         </tr>
       </thead>
 
-      <tbody id="recentPractices">
-      </tbody>
+      <tbody id="recentPractices"></tbody>
 
     </table>
 
   </div>
 
 </section>
-
-<!-- ULTIMI VIAGGI -->
 
 <section class="card">
 
@@ -1232,16 +1218,13 @@ tbody tr:hover{
         </tr>
       </thead>
 
-      <tbody id="recentTrips">
-      </tbody>
+      <tbody id="recentTrips"></tbody>
 
     </table>
 
   </div>
 
 </section>
-
-<!-- ATTENZIONE -->
 
 <section class="card">
 
@@ -1262,8 +1245,6 @@ tbody tr:hover{
 </section>
 
 </div>
-
-<!-- COLONNA DESTRA -->
 
 <div>
 
@@ -1310,7 +1291,6 @@ tbody tr:hover{
       class="quick-action">
 
       <span class="quick-icon">+</span>
-
       Crea nuova pratica
 
     </a>
@@ -1320,7 +1300,6 @@ tbody tr:hover{
       class="quick-action">
 
       <span class="quick-icon">▤</span>
-
       Visualizza tutte le pratiche
 
     </a>
@@ -1330,7 +1309,6 @@ tbody tr:hover{
       class="quick-action">
 
       <span class="quick-icon">↗</span>
-
       Gestisci viaggi
 
     </a>
@@ -1340,7 +1318,6 @@ tbody tr:hover{
       class="quick-action">
 
       <span class="quick-icon">✉</span>
-
       Apri Email AI
 
     </a>
@@ -1352,6 +1329,60 @@ tbody tr:hover{
 </div>
 
 </div>
+
+<!-- ============================
+     AREA SUPERADMIN
+     NASCOSTA PER DEFAULT
+============================ -->
+
+<section
+  id="superadminArea"
+  class="superadmin-area">
+
+  <div class="superadmin-heading">
+
+    <div class="superadmin-label">
+      SUPERADMIN
+    </div>
+
+    <h2>
+      Amministrazione MatRi-mIA
+    </h2>
+
+    <p>
+      Gestione della piattaforma riservata al Superadmin.
+    </p>
+
+  </div>
+
+  <a
+    href="aziende.html"
+    class="superadmin-card">
+
+    <div class="superadmin-icon">
+      ◆
+    </div>
+
+    <div class="superadmin-info">
+
+      <h3>
+        Aziende
+      </h3>
+
+      <p>
+        Gestisci aziende, utenti e configurazioni
+        della piattaforma MatRi-mIA.
+      </p>
+
+    </div>
+
+    <div class="superadmin-link">
+      Gestisci →
+    </div>
+
+  </a>
+
+</section>
 
 </main>
 
@@ -1428,8 +1459,8 @@ const aiAttentionNumber =
 const updatedTime =
   document.getElementById("updatedTime");
 
-const superadminMenu =
-  document.getElementById("superadminMenu");
+const superadminArea =
+  document.getElementById("superadminArea");
 
 let currentUser = null;
 let currentProfile = null;
@@ -1611,37 +1642,39 @@ async function protectPage(){
     }
 
     currentProfile =
-  profile;
+      profile;
 
-userEmail.textContent =
-  profile.email ||
-  currentUser.email ||
-  "-";
+    userEmail.textContent =
+      profile.email ||
+      currentUser.email ||
+      "-";
 
-/* ============================
-   MENU SUPERADMIN
-============================ */
+    /* ============================
+       MOSTRA AREA SUPERADMIN
+       SOLO AL SUPERADMIN
+    ============================ */
 
-const ruolo =
-  String(
-    profile.ruolo || ""
-  )
-  .trim()
-  .toLowerCase();
+    const ruolo =
+      String(
+        profile.ruolo || ""
+      )
+      .trim()
+      .toLowerCase();
 
-if(
-  ruolo === "superadmin" &&
-  superadminMenu
-){
+    if(
+      ruolo === "superadmin" &&
+      superadminArea
+    ){
 
-  superadminMenu.style.display =
-    "block";
+      superadminArea.style.display =
+        "block";
 
-}
+    }
 
-document.body.classList.add(
-  "auth-ready"
-);
+    document.body.classList.add(
+      "auth-ready"
+    );
+
     return true;
 
   }
@@ -1785,8 +1818,6 @@ function renderDashboard(
   viaggi
 ){
 
-  /* PRATICHE */
-
   const total =
     pratiche.length;
 
@@ -1833,8 +1864,6 @@ function renderDashboard(
   aiAttentionNumber.textContent =
     daVerificare;
 
-  /* VIAGGI */
-
   const tripTotal =
     viaggi.length;
 
@@ -1873,8 +1902,6 @@ function renderDashboard(
 
   tripDoneCount.textContent =
     tripDone;
-
-  /* RIEPILOGO */
 
   let summary = "";
 
