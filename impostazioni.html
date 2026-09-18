@@ -531,6 +531,11 @@ input[readonly]{
   color:#687689;
 }
 
+.connect-email-box{padding:16px;border:1px dashed #cfd9e4;border-radius:12px;background:#f9fbfd}
+.connect-email-title{color:#30465f;font-size:11px;font-weight:900;margin-bottom:5px}
+.connect-email-text{color:#8a98aa;font-size:9px;line-height:1.5;margin-bottom:13px}
+.gmail-btn{min-height:41px;border:1px solid #dce3eb;border-radius:10px;padding:0 15px;background:#fff;color:#30465f;font-size:10px;font-weight:900;cursor:pointer}
+.integration-sync{color:#9aa6b6;font-size:8px;margin-top:4px}
 /* ============================
    SECURITY INFO
 ============================ */
@@ -997,11 +1002,7 @@ Verifica connessione...
 
 </div>
 
-<div class="security-note">
-Le connessioni email verranno gestite in modo separato per ogni azienda.
-La configurazione Gmail/Outlook completa sarà disponibile nella fase dedicata
-alle integrazioni multi-azienda.
-</div>
+<div id="integrationMessage" class="message"></div>
 
 </div>
 
@@ -1145,7 +1146,7 @@ document.getElementById(
 const integrationsList =
 document.getElementById(
   "integrationsList"
-);
+);const integrationMessage=document.getElementById("integrationMessage");
 
 /* ============================
    MESSAGGI
@@ -1206,6 +1207,26 @@ function providerLabel(provider){
   }
 
   return provider || "Email";
+}
+
+function readGmailCallbackStatus(){
+  const p=new URLSearchParams(location.search),s=p.get("gmail");
+  if(!s||!integrationMessage)return;
+  showMessage(integrationMessage,s==="connected"?"success":s==="cancelled"?"info":"error",
+    s==="connected"?"Casella Gmail collegata correttamente.":s==="cancelled"?"Collegamento Gmail annullato.":"Non è stato possibile completare il collegamento Gmail.");
+  history.replaceState({},document.title,location.pathname);
+}
+async function connectGmail(button){
+  clearMessage(integrationMessage); const t=button.textContent; button.disabled=true; button.textContent="Connessione...";
+  try{
+    const {data,error}=await supabase.functions.invoke("gmail-oauth-start",{body:{}});
+    if(error)throw error;
+    if(!data?.authorization_url)throw new Error("URL OAuth assente");
+    location.assign(data.authorization_url);
+  }catch(e){
+    console.error(e); showMessage(integrationMessage,"error","Non è stato possibile avviare il collegamento Gmail.");
+    button.disabled=false; button.textContent=t;
+  }
 }
 
 /* ============================
@@ -1425,46 +1446,24 @@ companyForm.addEventListener(
 
     try{
 
-      const {
-        data,
-        error
-      } =
-      await supabase
-      .rpc(
-        "aggiorna_mia_azienda",
-        {
-          p_nome:nome,
-          p_email:email || null,
-          p_telefono:telefono || null
-        }
-      );
+      const { data, error } =
+      await supabase.rpc("aggiorna_mia_azienda",{
+        p_nome:nome,
+        p_email:email || null,
+        p_telefono:telefono || null
+      });
 
-      const updatedCompany =
-        Array.isArray(data)
-          ? data[0]
-          : data;
+      const updatedCompany = Array.isArray(data) ? data[0] : data;
 
       if(error){
         throw error;
       }
 
-      if(!updatedCompany){
-        throw new Error(
-          "La funzione non ha restituito i dati dell'azienda."
-        );
-      }
-
-      currentCompany =
-      updatedCompany;
-
-      companyName.value =
-      updatedCompany.nome || "";
-
-      companyEmail.value =
-      updatedCompany.email || "";
-
-      companyPhone.value =
-      updatedCompany.telefono || "";
+      if(!updatedCompany) throw new Error("Dati azienda non restituiti.");
+      currentCompany = updatedCompany;
+      companyName.value=updatedCompany.nome||"";
+      companyEmail.value=updatedCompany.email||"";
+      companyPhone.value=updatedCompany.telefono||"";
 
       showMessage(
         companyMessage,
@@ -1607,181 +1606,24 @@ changePasswordButton.addEventListener(
 ============================ */
 
 async function loadIntegrations(){
-
-  const {
-    data,
-    error
-  } =
-  await supabase
-  .from("email_connections")
-  .select(`
-    id,
-    provider,
-    email,
-    cartella_monitorata,
-    attiva,
-    ultimo_sync
-  `)
-  .eq(
-    "azienda_id",
-    currentProfile.azienda_id
-  )
-  .order(
-    "created_at",
-    {
-      ascending:true
-    }
-  );
-
-  if(error){
-
-    console.error(
-      "Errore caricamento integrazioni:",
-      error
-    );
-
-    integrationsList.innerHTML = `
-      <div class="integration">
-
-        <div class="integration-left">
-
-          <div class="integration-icon">
-            ✉
-          </div>
-
-          <div>
-
-            <div class="integration-name">
-              Email AI
-            </div>
-
-            <div class="integration-detail">
-              Stato connessione non disponibile
-            </div>
-
-          </div>
-
-        </div>
-
-        <span class="status-badge status-off">
-          NON DISPONIBILE
-        </span>
-
-      </div>
-    `;
-
-    return;
-
+  const {data,error}=await supabase.from("email_connections")
+    .select("id,provider,email,cartella_monitorata,attiva,ultimo_sync")
+    .eq("azienda_id",currentProfile.azienda_id).order("created_at",{ascending:true});
+  if(error){console.error(error);integrationsList.innerHTML='<div class="integration"><div class="integration-left"><div class="integration-icon">✉</div><div><div class="integration-name">Email AI</div><div class="integration-detail">Stato connessione non disponibile</div></div></div><span class="status-badge status-off">NON DISPONIBILE</span></div>';return;}
+  const connections=data||[]; integrationsList.innerHTML="";
+  connections.forEach(c=>{
+    const x=document.createElement("div");x.className="integration";
+    let sync="Sincronizzazione non ancora eseguita";
+    if(c.ultimo_sync){const d=new Date(c.ultimo_sync);if(!Number.isNaN(d.getTime()))sync="Ultima sincronizzazione: "+d.toLocaleString("it-IT");}
+    x.innerHTML=`<div class="integration-left"><div class="integration-icon">✉</div><div><div class="integration-name">${escapeHtml(providerLabel(c.provider))}</div><div class="integration-detail">${escapeHtml(c.email||"Casella email")}</div><div class="integration-sync">${escapeHtml(sync)}</div></div></div><span class="status-badge ${c.attiva?"status-on":"status-off"}">${c.attiva?"COLLEGATA":"DISATTIVATA"}</span>`;
+    integrationsList.appendChild(x);
+  });
+  const hasGoogle=connections.some(c=>String(c.provider||"").toLowerCase()==="google"&&c.attiva===true);
+  if(!hasGoogle){
+    const b=document.createElement("div");b.className="connect-email-box";
+    b.innerHTML=`<div class="connect-email-title">${connections.length?"Collega Gmail":"Nessuna casella email collegata"}</div><div class="connect-email-text">Collega una casella Gmail alla tua azienda. MatRi-mIA non richiede né memorizza la password Gmail.</div><button id="connectGmailButton" type="button" class="gmail-btn">✉ Collega Gmail</button>`;
+    integrationsList.appendChild(b);document.getElementById("connectGmailButton").onclick=function(){connectGmail(this)};
   }
-
-  const connections =
-  data || [];
-
-  if(!connections.length){
-
-    integrationsList.innerHTML = `
-      <div class="integration">
-
-        <div class="integration-left">
-
-          <div class="integration-icon">
-            ✉
-          </div>
-
-          <div>
-
-            <div class="integration-name">
-              Email AI
-            </div>
-
-            <div class="integration-detail">
-              Nessuna casella email collegata
-            </div>
-
-          </div>
-
-        </div>
-
-        <span class="status-badge status-off">
-          NON COLLEGATA
-        </span>
-
-      </div>
-    `;
-
-    return;
-
-  }
-
-  integrationsList.innerHTML =
-  "";
-
-  connections.forEach(
-    connection=>{
-
-      const item =
-      document.createElement(
-        "div"
-      );
-
-      item.className =
-      "integration";
-
-      const active =
-      connection.attiva === true;
-
-      item.innerHTML = `
-
-        <div class="integration-left">
-
-          <div class="integration-icon">
-            ✉
-          </div>
-
-          <div>
-
-            <div class="integration-name">
-              ${escapeHtml(
-                providerLabel(
-                  connection.provider
-                )
-              )}
-            </div>
-
-            <div class="integration-detail">
-              ${escapeHtml(
-                connection.email ||
-                "Casella email"
-              )}
-            </div>
-
-          </div>
-
-        </div>
-
-        <span class="status-badge ${
-          active
-            ? "status-on"
-            : "status-off"
-        }">
-
-          ${
-            active
-              ? "COLLEGATA"
-              : "DISATTIVATA"
-          }
-
-        </span>
-
-      `;
-
-      integrationsList.appendChild(
-        item
-      );
-
-    }
-  );
-
 }
 
 /* ============================
@@ -1824,6 +1666,7 @@ async function start(){
   document.body.classList.add(
     "auth-ready"
   );
+  readGmailCallbackStatus();
 
 }
 
