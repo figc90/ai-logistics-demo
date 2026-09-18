@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Impostazioni | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,input{
+  font:inherit;
+}
+
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* ============================
+   SIDEBAR
+============================ */
+
+.sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35,#0d2d50);
+  color:#fff;
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+}
+
+.sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+
+.sidebar-logo img{
+  width:175px;
+  max-width:90%;
+  display:block;
+}
+
+.sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+}
+
+.nav-section{
+  margin-bottom:28px;
+}
+
+.nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+}
+
+.nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+}
+
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px;
+  margin-bottom:9px;
+}
+
+.user-label{
+  color:#7994af;
+  font-size:9px;
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.user-email{
+  font-size:12px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+
+.logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.logout-btn:hover{
+  background:rgba(255,255,255,.09);
+}
+
+/* ============================
+   MAIN
+============================ */
+
+.main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+  min-height:100vh;
+}
+
+.topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+}
+
+.content{
+  max-width:1100px;
+  margin:auto;
+  padding:32px 30px 55px;
+}
+
+.heading{
+  margin-bottom:25px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+h1{
+  color:#10284a;
+  font-size:38px;
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:#7d8ba0;
+  font-size:14px;
+}
+
+/* ============================
+   SETTINGS GRID
+============================ */
+
+.settings-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  align-items:start;
+}
+
+.settings-column{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(19,40,74,.05);
+}
+
+.card-header{
+  padding:19px 20px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border-bottom:1px solid #e8edf2;
+}
+
+.card-icon{
+  width:42px;
+  height:42px;
+  border-radius:11px;
+  background:#eaf6fb;
+  color:#1689b3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  font-weight:900;
+  flex-shrink:0;
+}
+
+.card-header h2{
+  color:#173459;
+  font-size:16px;
+  margin-bottom:4px;
+}
+
+.card-header p{
+  color:#9aa6b6;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.card-body{
+  padding:20px;
+}
+
+/* ============================
+   FORM
+============================ */
+
+.form-group{
+  margin-bottom:17px;
+}
+
+.form-group:last-child{
+  margin-bottom:0;
+}
+
+label{
+  display:block;
+  color:#526177;
+  font-size:10px;
+  font-weight:900;
+  margin-bottom:7px;
+  letter-spacing:.3px;
+}
+
+input{
+  width:100%;
+  height:43px;
+  border:1px solid #dce3eb;
+  border-radius:10px;
+  padding:0 13px;
+  color:#30465f;
+  background:#fff;
+  outline:none;
+  transition:.15s ease;
+}
+
+input:focus{
+  border-color:#36a8ce;
+  box-shadow:0 0 0 3px rgba(54,168,206,.10);
+}
+
+input[readonly]{
+  background:#f6f8fb;
+  color:#7d8ba0;
+  cursor:default;
+}
+
+.helper{
+  color:#9aa6b6;
+  font-size:9px;
+  line-height:1.5;
+  margin-top:6px;
+}
+
+/* ============================
+   BUTTONS
+============================ */
+
+.actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:20px;
+}
+
+.primary-btn{
+  min-height:41px;
+  border:0;
+  border-radius:10px;
+  padding:0 17px;
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 7px 18px rgba(236,79,50,.16);
+}
+
+.secondary-btn{
+  min-height:41px;
+  border:1px solid #dce3eb;
+  border-radius:10px;
+  padding:0 17px;
+  background:#fff;
+  color:#30465f;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.secondary-btn:hover{
+  background:#f7fafc;
+}
+
+/* ============================
+   ROLE
+============================ */
+
+.role-box{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:13px 14px;
+  border:1px solid #e1e7ed;
+  background:#f8fafc;
+  border-radius:10px;
+}
+
+.role-text{
+  color:#526177;
+  font-size:11px;
+}
+
+.role-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#e8f4fb;
+  color:#167fa5;
+  font-size:8px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+/* ============================
+   MESSAGES
+============================ */
+
+.message{
+  display:none;
+  margin-top:15px;
+  padding:11px 13px;
+  border-radius:9px;
+  font-size:10px;
+  font-weight:700;
+  line-height:1.5;
+}
+
+.message.success{
+  display:block;
+  background:#e5f7ee;
+  color:#23784f;
+  border:1px solid #c9ebda;
+}
+
+.message.error{
+  display:block;
+  background:#ffe8e5;
+  color:#b42318;
+  border:1px solid #f7cbc5;
+}
+
+.message.info{
+  display:block;
+  background:#e8f4fb;
+  color:#167fa5;
+  border:1px solid #cde7f4;
+}
+
+/* ============================
+   INTEGRATIONS
+============================ */
+
+.integration{
+  border:1px solid #e1e7ed;
+  border-radius:12px;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:10px;
+}
+
+.integration:last-child{
+  margin-bottom:0;
+}
+
+.integration-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.integration-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  background:#f1f5f8;
+  color:#173459;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  font-weight:900;
+  flex-shrink:0;
+}
+
+.integration-name{
+  color:#30465f;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:3px;
+}
+
+.integration-detail{
+  color:#8a98aa;
+  font-size:9px;
+  overflow-wrap:anywhere;
+}
+
+.status-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.status-on{
+  background:#e5f7ee;
+  color:#23784f;
+}
+
+.status-off{
+  background:#edf1f5;
+  color:#687689;
+}
+
+/* ============================
+   SECURITY INFO
+============================ */
+
+.security-note{
+  padding:14px;
+  background:#f8fafc;
+  border:1px solid #e1e7ed;
+  border-radius:10px;
+  color:#718096;
+  font-size:10px;
+  line-height:1.6;
+  margin-top:17px;
+}
+
+/* ============================
+   MOBILE
+============================ */
+
+@media(max-width:900px){
+
+  .settings-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:760px){
+
+  .sidebar{
+    width:72px;
+  }
+
+  .main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+  }
+
+  .sidebar-logo img{
+    width:50px;
+  }
+
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .user-card{
+    display:none;
+  }
+
+  .nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .content{
+    padding:25px 14px 40px;
+  }
+
+  h1{
+    font-size:32px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="sidebar-logo">
+
+<a href="dashboard.html" class="sidebar-logo-link">
+
+<img
+src="matrimia-logo-web.png"
+alt="MatRi-mIA Logistics">
+
+</a>
+
+</div>
+
+<nav class="sidebar-nav">
+
+<div class="nav-section">
+
+<div class="nav-title">
+OPERATIVITÀ
+</div>
+
+<a href="dashboard.html" class="nav-item">
+<span class="nav-icon">▦</span>
+<span>Dashboard</span>
+</a>
+
+<a href="pratiche.html" class="nav-item">
+<span class="nav-icon">▤</span>
+<span>Pratiche</span>
+</a>
+
+<a href="nuova-pratica.html" class="nav-item">
+<span class="nav-icon">＋</span>
+<span>Nuova pratica</span>
+</a>
+
+</div>
+
+<div class="nav-section">
+
+<div class="nav-title">
+AUTOMAZIONI
+</div>
+
+<a href="email-ai.html" class="nav-item">
+<span class="nav-icon">✉</span>
+<span>Email AI</span>
+</a>
+
+<a href="viaggi.html" class="nav-item">
+<span class="nav-icon">↗</span>
+<span>Viaggi</span>
+</a>
+
+</div>
+
+<div class="nav-section">
+
+<div class="nav-title">
+GESTIONE
+</div>
+
+<a href="anagrafiche.html" class="nav-item">
+<span class="nav-icon">▣</span>
+<span>Anagrafiche</span>
+</a>
+
+<a href="impostazioni.html" class="nav-item active">
+<span class="nav-icon">⚙</span>
+<span>Impostazioni</span>
+</a>
+
+</div>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<div class="user-card">
+
+<div class="user-label">
+UTENTE
+</div>
+
+<div
+id="userEmail"
+class="user-email">
+-
+</div>
+
+</div>
+
+<button
+id="logoutButton"
+class="logout-btn">
+Esci
+</button>
+
+</div>
+
+</aside>
+
+<div class="main">
+
+<header class="topbar">
+
+<div class="topbar-brand">
+MatRi-mIA Logistics · Impostazioni
+</div>
+
+</header>
+
+<main class="content">
+
+<div class="heading">
+
+<div class="eyebrow">
+MATRI-MIA · CONFIGURAZIONE
+</div>
+
+<h1>
+Impostazioni
+</h1>
+
+<div class="subtitle">
+Gestisci il tuo account, i dati aziendali e le integrazioni.
+</div>
+
+</div>
+
+<div class="settings-grid">
+
+<!-- COLONNA SINISTRA -->
+
+<div class="settings-column">
+
+<!-- ACCOUNT -->
+
+<section class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+♙
+</div>
+
+<div>
+
+<h2>
+Il mio account
+</h2>
+
+<p>
+Informazioni dell'utente autenticato
+</p>
+
+</div>
+
+</div>
+
+<div class="card-body">
+
+<div class="form-group">
+
+<label>
+EMAIL DI ACCESSO
+</label>
+
+<input
+id="accountEmail"
+type="email"
+readonly>
+
+<div class="helper">
+L'email di accesso è collegata al tuo account MatRi-mIA.
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>
+RUOLO
+</label>
+
+<div class="role-box">
+
+<div class="role-text">
+Livello di accesso
+</div>
+
+<div
+id="roleBadge"
+class="role-badge">
+-
+</div>
+
+</div>
+
+<div class="helper">
+Il ruolo e l'azienda associata non possono essere modificati da questa pagina.
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+id="changePasswordButton"
+type="button"
+class="secondary-btn">
+Cambia password
+</button>
+
+</div>
+
+<div
+id="accountMessage"
+class="message">
+</div>
+
+</div>
+
+</section>
+
+<!-- AZIENDA -->
+
+<section class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+▣
+</div>
+
+<div>
+
+<h2>
+La mia azienda
+</h2>
+
+<p>
+Dati principali dell'azienda
+</p>
+
+</div>
+
+</div>
+
+<div class="card-body">
+
+<form id="companyForm">
+
+<div class="form-group">
+
+<label for="companyName">
+NOME AZIENDA
+</label>
+
+<input
+id="companyName"
+type="text"
+required
+autocomplete="organization">
+
+</div>
+
+<div class="form-group">
+
+<label for="companyEmail">
+EMAIL AZIENDA
+</label>
+
+<input
+id="companyEmail"
+type="email"
+autocomplete="email">
+
+</div>
+
+<div class="form-group">
+
+<label for="companyPhone">
+TELEFONO
+</label>
+
+<input
+id="companyPhone"
+type="tel"
+autocomplete="tel">
+
+</div>
+
+<div class="actions">
+
+<button
+id="saveCompanyButton"
+type="submit"
+class="primary-btn">
+Salva modifiche
+</button>
+
+</div>
+
+<div
+id="companyMessage"
+class="message">
+</div>
+
+</form>
+
+</div>
+
+</section>
+
+</div>
+
+<!-- COLONNA DESTRA -->
+
+<div class="settings-column">
+
+<!-- INTEGRAZIONI -->
+
+<section class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+✉
+</div>
+
+<div>
+
+<h2>
+Integrazioni
+</h2>
+
+<p>
+Connessioni utilizzate dalle automazioni MatRi-mIA
+</p>
+
+</div>
+
+</div>
+
+<div class="card-body">
+
+<div id="integrationsList">
+
+<div class="integration">
+
+<div class="integration-left">
+
+<div class="integration-icon">
+✉
+</div>
+
+<div>
+
+<div class="integration-name">
+Email AI
+</div>
+
+<div class="integration-detail">
+Verifica connessione...
+</div>
+
+</div>
+
+</div>
+
+<span class="status-badge status-off">
+...
+</span>
+
+</div>
+
+</div>
+
+<div class="security-note">
+Le connessioni email verranno gestite in modo separato per ogni azienda.
+La configurazione Gmail/Outlook completa sarà disponibile nella fase dedicata
+alle integrazioni multi-azienda.
+</div>
+
+</div>
+
+</section>
+
+<!-- SICUREZZA -->
+
+<section class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+✓
+</div>
+
+<div>
+
+<h2>
+Sicurezza
+</h2>
+
+<p>
+Informazioni sull'accesso all'account
+</p>
+
+</div>
+
+</div>
+
+<div class="card-body">
+
+<div class="security-note" style="margin-top:0;">
+
+<strong>
+Separazione aziendale attiva
+</strong>
+
+<br><br>
+
+Il tuo account è associato a una specifica azienda.
+Le informazioni operative vengono gestite in base ai permessi
+assegnati al tuo profilo.
+
+<br><br>
+
+Il ruolo e l'associazione dell'account all'azienda non sono
+modificabili da questa pagina.
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+"https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+let currentUser = null;
+let currentProfile = null;
+let currentCompany = null;
+
+const userEmail =
+document.getElementById(
+  "userEmail"
+);
+
+const accountEmail =
+document.getElementById(
+  "accountEmail"
+);
+
+const roleBadge =
+document.getElementById(
+  "roleBadge"
+);
+
+const companyName =
+document.getElementById(
+  "companyName"
+);
+
+const companyEmail =
+document.getElementById(
+  "companyEmail"
+);
+
+const companyPhone =
+document.getElementById(
+  "companyPhone"
+);
+
+const companyForm =
+document.getElementById(
+  "companyForm"
+);
+
+const saveCompanyButton =
+document.getElementById(
+  "saveCompanyButton"
+);
+
+const companyMessage =
+document.getElementById(
+  "companyMessage"
+);
+
+const accountMessage =
+document.getElementById(
+  "accountMessage"
+);
+
+const changePasswordButton =
+document.getElementById(
+  "changePasswordButton"
+);
+
+const integrationsList =
+document.getElementById(
+  "integrationsList"
+);
+
+/* ============================
+   MESSAGGI
+============================ */
+
+function showMessage(
+  element,
+  type,
+  text
+){
+
+  element.className =
+  "message " + type;
+
+  element.textContent =
+  text;
+
+}
+
+function clearMessage(element){
+
+  element.className =
+  "message";
+
+  element.textContent =
+  "";
+
+}
+
+/* ============================
+   UTILITY
+============================ */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+
+}
+
+function providerLabel(provider){
+
+  const value =
+  String(provider || "")
+  .trim()
+  .toLowerCase();
+
+  if(value === "google"){
+    return "Gmail";
+  }
+
+  if(value === "microsoft"){
+    return "Outlook / Microsoft";
+  }
+
+  return provider || "Email";
+}
+
+/* ============================
+   PROTEZIONE PAGINA
+============================ */
+
+async function protect(){
+
+  const {
+    data:{session},
+    error
+  } =
+  await supabase.auth.getSession();
+
+  if(
+    error ||
+    !session?.user
+  ){
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+  currentUser =
+  session.user;
+
+  const {
+    data:profile,
+    error:profileError
+  } =
+  await supabase
+  .from("profiles")
+  .select(
+    "id,email,ruolo,azienda_id"
+  )
+  .eq(
+    "id",
+    currentUser.id
+  )
+  .single();
+
+  if(
+    profileError ||
+    !profile
+  ){
+
+    console.error(
+      "Profilo non disponibile:",
+      profileError
+    );
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+  if(!profile.azienda_id){
+
+    console.error(
+      "Nessuna azienda associata al profilo."
+    );
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+  currentProfile =
+  profile;
+
+  userEmail.textContent =
+  profile.email ||
+  currentUser.email ||
+  "-";
+
+  accountEmail.value =
+  profile.email ||
+  currentUser.email ||
+  "";
+
+  roleBadge.textContent =
+  String(
+    profile.ruolo || "-"
+  ).toUpperCase();
+
+  return true;
+
+}
+
+/* ============================
+   CARICA AZIENDA
+============================ */
+
+async function loadCompany(){
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("aziende")
+  .select(
+    "id,nome,email,telefono,attiva"
+  )
+  .eq(
+    "id",
+    currentProfile.azienda_id
+  )
+  .single();
+
+  if(
+    error ||
+    !data
+  ){
+
+    console.error(
+      "Errore caricamento azienda:",
+      error
+    );
+
+    showMessage(
+      companyMessage,
+      "error",
+      "Impossibile caricare i dati dell'azienda."
+    );
+
+    return false;
+
+  }
+
+  currentCompany =
+  data;
+
+  companyName.value =
+  data.nome || "";
+
+  companyEmail.value =
+  data.email || "";
+
+  companyPhone.value =
+  data.telefono || "";
+
+  return true;
+
+}
+
+/* ============================
+   SALVA AZIENDA
+============================ */
+
+companyForm.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+    clearMessage(
+      companyMessage
+    );
+
+    if(
+      !currentProfile?.azienda_id
+    ){
+
+      showMessage(
+        companyMessage,
+        "error",
+        "Azienda non disponibile."
+      );
+
+      return;
+
+    }
+
+    const nome =
+    companyName.value.trim();
+
+    const email =
+    companyEmail.value.trim();
+
+    const telefono =
+    companyPhone.value.trim();
+
+    if(!nome){
+
+      showMessage(
+        companyMessage,
+        "error",
+        "Inserisci il nome dell'azienda."
+      );
+
+      companyName.focus();
+
+      return;
+
+    }
+
+    saveCompanyButton.disabled =
+    true;
+
+    saveCompanyButton.textContent =
+    "Salvataggio...";
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+      await supabase
+      .from("aziende")
+      .update({
+        nome:nome,
+        email:email || null,
+        telefono:telefono || null
+      })
+      .eq(
+        "id",
+        currentProfile.azienda_id
+      )
+      .select(
+        "id,nome,email,telefono,attiva"
+      )
+      .single();
+
+      if(error){
+        throw error;
+      }
+
+      currentCompany =
+      data;
+
+      showMessage(
+        companyMessage,
+        "success",
+        "Dati aziendali aggiornati correttamente."
+      );
+
+    }
+    catch(error){
+
+      console.error(
+        "Errore aggiornamento azienda:",
+        error
+      );
+
+      showMessage(
+        companyMessage,
+        "error",
+        "Non è stato possibile aggiornare i dati dell'azienda."
+      );
+
+    }
+    finally{
+
+      saveCompanyButton.disabled =
+      false;
+
+      saveCompanyButton.textContent =
+      "Salva modifiche";
+
+    }
+
+  }
+);
+
+/* ============================
+   CAMBIO PASSWORD
+============================ */
+
+changePasswordButton.addEventListener(
+  "click",
+  async function(){
+
+    clearMessage(
+      accountMessage
+    );
+
+    const email =
+    currentUser?.email ||
+    currentProfile?.email;
+
+    if(!email){
+
+      showMessage(
+        accountMessage,
+        "error",
+        "Email dell'account non disponibile."
+      );
+
+      return;
+
+    }
+
+    changePasswordButton.disabled =
+    true;
+
+    changePasswordButton.textContent =
+    "Invio...";
+
+    try{
+
+      const {
+        error
+      } =
+      await supabase.auth
+      .resetPasswordForEmail(
+        email,
+        {
+          redirectTo:
+          "https://matrimialogistics.it/imposta-password.html"
+        }
+      );
+
+      if(error){
+        throw error;
+      }
+
+      showMessage(
+        accountMessage,
+        "success",
+        "Email per il cambio password inviata. Controlla la tua casella di posta."
+      );
+
+    }
+    catch(error){
+
+      console.error(
+        "Errore cambio password:",
+        error
+      );
+
+      let message =
+      "Non è stato possibile inviare l'email per il cambio password.";
+
+      if(
+        String(
+          error?.message || ""
+        )
+        .toLowerCase()
+        .includes("rate")
+      ){
+
+        message =
+        "Sono state effettuate troppe richieste email. Attendi qualche minuto e riprova.";
+
+      }
+
+      showMessage(
+        accountMessage,
+        "error",
+        message
+      );
+
+    }
+    finally{
+
+      changePasswordButton.disabled =
+      false;
+
+      changePasswordButton.textContent =
+      "Cambia password";
+
+    }
+
+  }
+);
+
+/* ============================
+   INTEGRAZIONI EMAIL
+============================ */
+
+async function loadIntegrations(){
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("email_connections")
+  .select(`
+    id,
+    provider,
+    email,
+    cartella_monitorata,
+    attiva,
+    ultimo_sync
+  `)
+  .eq(
+    "azienda_id",
+    currentProfile.azienda_id
+  )
+  .order(
+    "created_at",
+    {
+      ascending:true
+    }
+  );
+
+  if(error){
+
+    console.error(
+      "Errore caricamento integrazioni:",
+      error
+    );
+
+    integrationsList.innerHTML = `
+      <div class="integration">
+
+        <div class="integration-left">
+
+          <div class="integration-icon">
+            ✉
+          </div>
+
+          <div>
+
+            <div class="integration-name">
+              Email AI
+            </div>
+
+            <div class="integration-detail">
+              Stato connessione non disponibile
+            </div>
+
+          </div>
+
+        </div>
+
+        <span class="status-badge status-off">
+          NON DISPONIBILE
+        </span>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+  const connections =
+  data || [];
+
+  if(!connections.length){
+
+    integrationsList.innerHTML = `
+      <div class="integration">
+
+        <div class="integration-left">
+
+          <div class="integration-icon">
+            ✉
+          </div>
+
+          <div>
+
+            <div class="integration-name">
+              Email AI
+            </div>
+
+            <div class="integration-detail">
+              Nessuna casella email collegata
+            </div>
+
+          </div>
+
+        </div>
+
+        <span class="status-badge status-off">
+          NON COLLEGATA
+        </span>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+  integrationsList.innerHTML =
+  "";
+
+  connections.forEach(
+    connection=>{
+
+      const item =
+      document.createElement(
+        "div"
+      );
+
+      item.className =
+      "integration";
+
+      const active =
+      connection.attiva === true;
+
+      item.innerHTML = `
+
+        <div class="integration-left">
+
+          <div class="integration-icon">
+            ✉
+          </div>
+
+          <div>
+
+            <div class="integration-name">
+              ${escapeHtml(
+                providerLabel(
+                  connection.provider
+                )
+              )}
+            </div>
+
+            <div class="integration-detail">
+              ${escapeHtml(
+                connection.email ||
+                "Casella email"
+              )}
+            </div>
+
+          </div>
+
+        </div>
+
+        <span class="status-badge ${
+          active
+            ? "status-on"
+            : "status-off"
+        }">
+
+          ${
+            active
+              ? "COLLEGATA"
+              : "DISATTIVATA"
+          }
+
+        </span>
+
+      `;
+
+      integrationsList.appendChild(
+        item
+      );
+
+    }
+  );
+
+}
+
+/* ============================
+   LOGOUT
+============================ */
+
+document.getElementById(
+  "logoutButton"
+).addEventListener(
+  "click",
+  async function(){
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+  }
+);
+
+/* ============================
+   AVVIO
+============================ */
+
+async function start(){
+
+  const ok =
+  await protect();
+
+  if(!ok){
+    return;
+  }
+
+  await Promise.all([
+    loadCompany(),
+    loadIntegrations()
+  ]);
+
+  document.body.classList.add(
+    "auth-ready"
+  );
+
+}
+
+start();
+
+</script>
+
+</body>
+
+</html>
