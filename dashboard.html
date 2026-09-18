@@ -1428,6 +1428,9 @@ const aiAttentionNumber =
 const updatedTime =
   document.getElementById("updatedTime");
 
+const superadminMenu =
+  document.getElementById("superadminMenu");
+
 let currentUser = null;
 let currentProfile = null;
 
@@ -1608,17 +1611,37 @@ async function protectPage(){
     }
 
     currentProfile =
-      profile;
+  profile;
 
-    userEmail.textContent =
-      profile.email ||
-      currentUser.email ||
-      "-";
+userEmail.textContent =
+  profile.email ||
+  currentUser.email ||
+  "-";
 
-    document.body.classList.add(
-      "auth-ready"
-    );
+/* ============================
+   MENU SUPERADMIN
+============================ */
 
+const ruolo =
+  String(
+    profile.ruolo || ""
+  )
+  .trim()
+  .toLowerCase();
+
+if(
+  ruolo === "superadmin" &&
+  superadminMenu
+){
+
+  superadminMenu.style.display =
+    "block";
+
+}
+
+document.body.classList.add(
+  "auth-ready"
+);
     return true;
 
   }
