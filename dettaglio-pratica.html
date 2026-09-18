@@ -483,6 +483,89 @@ footer strong{
   color:#173459;
 }
 
+
+/* ============================
+   DOCUMENTI PRATICA
+============================ */
+.documents-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.document-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 15px;
+  background:#f8fafc;
+  border:1px solid #e1e7ee;
+  border-radius:12px;
+}
+.document-main{
+  min-width:0;
+}
+.document-name{
+  color:#25384f;
+  font-size:14px;
+  font-weight:800;
+  overflow-wrap:anywhere;
+}
+.document-meta{
+  margin-top:5px;
+  color:#8795a8;
+  font-size:12px;
+}
+.document-type{
+  display:inline-flex;
+  align-items:center;
+  padding:4px 8px;
+  margin-right:7px;
+  border-radius:999px;
+  background:#eaf5fb;
+  color:#176b9c;
+  font-size:10px;
+  font-weight:900;
+}
+.document-open{
+  flex-shrink:0;
+  min-height:36px;
+  padding:0 13px;
+  border:1px solid #d7e0e9;
+  border-radius:9px;
+  background:#fff;
+  color:#173459;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+.document-open:hover{
+  background:#eef3f8;
+}
+.documents-empty{
+  padding:16px;
+  border:1px dashed #d7e0e9;
+  border-radius:12px;
+  color:#8795a8;
+  font-size:13px;
+  text-align:center;
+}
+.documents-help{
+  margin-top:12px;
+  color:#8795a8;
+  font-size:12px;
+  line-height:1.5;
+}
+@media(max-width:600px){
+  .document-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .document-open{
+    width:100%;
+  }
+}
+
 @media(max-width:900px){
 
   .layout{
@@ -1312,6 +1395,21 @@ footer strong{
 
       </section>
 
+      <section id="documentsCard" class="card">
+        <div class="card-header">
+          <h2>Documenti della pratica</h2>
+        </div>
+        <div class="card-body">
+          <div id="documentsList" class="documents-list">
+            <div class="documents-empty">Caricamento documenti...</div>
+          </div>
+          <div class="documents-help">
+            Qui trovi anche i documenti caricati dai viaggi collegati a questa pratica.
+            Il caricamento operativo dei documenti continua ad avvenire dal viaggio.
+          </div>
+        </div>
+      </section>
+
     </div>
 
 
@@ -1445,6 +1543,9 @@ const practiceLayout =
 
 const aiContent =
   document.getElementById("aiContent");
+
+const documentsList =
+  document.getElementById("documentsList");
 
 
 let currentUser = null;
@@ -2948,6 +3049,133 @@ async function deletePractice(){
 
 }
 
+
+
+/* ============================
+   DOCUMENTI DELLA PRATICA
+============================ */
+
+function formatFileSize(bytes){
+  const value = Number(bytes || 0);
+  if(!value){ return ""; }
+  if(value < 1024){ return value + " B"; }
+  if(value < 1024 * 1024){ return (value / 1024).toFixed(1) + " KB"; }
+  return (value / (1024 * 1024)).toFixed(1) + " MB";
+}
+
+function formatDocumentDate(value){
+  if(!value){ return ""; }
+  const date = new Date(value);
+  if(isNaN(date.getTime())){ return ""; }
+  return date.toLocaleDateString("it-IT") + " · " +
+    date.toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"});
+}
+
+async function openPracticeDocument(storagePath){
+  try{
+    const { data, error } =
+      await supabase.storage
+        .from("documenti")
+        .createSignedUrl(storagePath,600);
+
+    if(error){ throw error; }
+    if(!data || !data.signedUrl){
+      throw new Error("URL del documento non disponibile.");
+    }
+
+    window.open(data.signedUrl,"_blank","noopener,noreferrer");
+  }
+  catch(error){
+    console.error("Errore apertura documento:",error);
+    showMessage("error","Impossibile aprire il documento: " + error.message);
+  }
+}
+
+async function loadPracticeDocuments(){
+  if(!currentPractice || !documentsList){ return; }
+
+  documentsList.innerHTML =
+    '<div class="documents-empty">Caricamento documenti...</div>';
+
+  try{
+    const { data:documents, error } =
+      await supabase
+        .from("documenti")
+        .select("id,tipo,nome_file,storage_path,mime_type,dimensione_bytes,note,created_at,viaggio_id")
+        .eq("pratica_id",currentPractice.id)
+        .order("created_at",{ascending:false});
+
+    if(error){ throw error; }
+
+    if(!documents || documents.length === 0){
+      documentsList.innerHTML =
+        '<div class="documents-empty">Nessun documento collegato alla pratica.</div>';
+      return;
+    }
+
+    documentsList.innerHTML = "";
+
+    documents.forEach(documentItem=>{
+      const row = document.createElement("div");
+      row.className = "document-row";
+
+      const main = document.createElement("div");
+      main.className = "document-main";
+
+      const name = document.createElement("div");
+      name.className = "document-name";
+      name.textContent = documentItem.nome_file || "Documento";
+
+      const meta = document.createElement("div");
+      meta.className = "document-meta";
+
+      const type = document.createElement("span");
+      type.className = "document-type";
+      type.textContent = documentItem.tipo || "ALTRO";
+      meta.appendChild(type);
+
+      const details = [];
+      if(documentItem.viaggio_id){ details.push("collegato al viaggio"); }
+      else{ details.push("archivio pratica"); }
+      const size = formatFileSize(documentItem.dimensione_bytes);
+      if(size){ details.push(size); }
+      const date = formatDocumentDate(documentItem.created_at);
+      if(date){ details.push(date); }
+      meta.appendChild(document.createTextNode(details.join(" · ")));
+
+      if(documentItem.note){
+        const note = document.createElement("div");
+        note.className = "document-meta";
+        note.textContent = "Nota: " + documentItem.note;
+        main.appendChild(name);
+        main.appendChild(meta);
+        main.appendChild(note);
+      }
+      else{
+        main.appendChild(name);
+        main.appendChild(meta);
+      }
+
+      const openButton = document.createElement("button");
+      openButton.type = "button";
+      openButton.className = "document-open";
+      openButton.textContent = "Apri";
+      openButton.addEventListener("click",()=>{
+        openPracticeDocument(documentItem.storage_path);
+      });
+
+      row.appendChild(main);
+      row.appendChild(openButton);
+      documentsList.appendChild(row);
+    });
+  }
+  catch(error){
+    console.error("Errore caricamento documenti pratica:",error);
+    documentsList.innerHTML =
+      '<div class="documents-empty">Errore durante il caricamento dei documenti.</div>';
+  }
+}
+
   /* ============================
    VIAGGIO COLLEGATO
 ============================ */
@@ -3143,6 +3371,7 @@ content.style.display =
   "block";
 
 await configureTripButton();
+await loadPracticeDocuments();
 
   }
   catch(error){
