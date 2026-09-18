@@ -1381,6 +1381,308 @@ function renderStatus(status){
   const normalized =
   normalizeStatus(status);
 
+  function formatShortDate(value){
+
+  if(!value){
+    return null;
+  }
+
+  const parts = String(value).split("-");
+
+  if(parts.length === 3){
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+
+  const date = new Date(value);
+
+  if(isNaN(date.getTime())){
+    return value;
+  }
+
+  return date.toLocaleDateString("it-IT");
+}
+
+
+function parseAIData(email){
+
+  try{
+
+    if(email.analisi_ai){
+
+      const parsed =
+      typeof email.analisi_ai === "string"
+        ? JSON.parse(email.analisi_ai)
+        : email.analisi_ai;
+
+      if(parsed && typeof parsed === "object"){
+        return parsed;
+      }
+
+    }
+
+  }
+  catch(error){
+
+    console.warn(
+      "analisi_ai non è JSON valido:",
+      error
+    );
+
+  }
+
+  return {
+    cliente: email.cliente,
+    ritiro: email.ritiro,
+    consegna: email.consegna,
+    partenza: email.partenza,
+    destinazione: email.destinazione,
+    tipo_merce: email.tipo_merce,
+    colli: email.colli,
+    peso_kg: email.peso_kg,
+    volume_m3: email.volume_m3,
+    note: email.note
+  };
+}
+
+
+function buildAISummary(email){
+
+  const data = parseAIData(email);
+
+  const cliente =
+    data.cliente ||
+    email.cliente ||
+    null;
+
+  const partenza =
+    data.partenza ||
+    email.partenza ||
+    null;
+
+  const destinazione =
+    data.destinazione ||
+    email.destinazione ||
+    null;
+
+  const ritiro =
+    data.ritiro ||
+    email.ritiro ||
+    null;
+
+  const consegna =
+    data.consegna ||
+    email.consegna ||
+    null;
+
+  const tipoMerce =
+    data.tipo_merce ||
+    email.tipo_merce ||
+    null;
+
+  const colli =
+    data.colli ??
+    email.colli ??
+    null;
+
+  const peso =
+    data.peso_kg ??
+    email.peso_kg ??
+    null;
+
+  const volume =
+    data.volume_m3 ??
+    email.volume_m3 ??
+    null;
+
+
+  let summary = "";
+
+  /*
+   * DESCRIZIONE PRINCIPALE
+   */
+
+  if(cliente){
+
+    summary +=
+      `Il cliente ${cliente} richiede un trasporto`;
+
+  }
+  else{
+
+    summary +=
+      "È stata ricevuta una richiesta di trasporto";
+
+  }
+
+
+  if(partenza && destinazione){
+
+    summary +=
+      ` da ${partenza} a ${destinazione}`;
+
+  }
+  else if(partenza){
+
+    summary +=
+      ` con partenza da ${partenza}`;
+
+  }
+  else if(destinazione){
+
+    summary +=
+      ` con destinazione ${destinazione}`;
+
+  }
+
+
+  if(ritiro && consegna){
+
+    summary +=
+      `, con ritiro previsto il ${formatShortDate(ritiro)} e consegna il ${formatShortDate(consegna)}`;
+
+  }
+  else if(ritiro){
+
+    summary +=
+      `, con ritiro previsto il ${formatShortDate(ritiro)}`;
+
+  }
+  else if(consegna){
+
+    summary +=
+      `, con consegna prevista il ${formatShortDate(consegna)}`;
+
+  }
+
+  summary += ".";
+
+
+  /*
+   * DATI DEL CARICO
+   */
+
+  const cargo = [];
+
+  if(tipoMerce){
+    cargo.push(`Merce: ${tipoMerce}`);
+  }
+
+  if(colli !== null){
+    cargo.push(`Colli: ${colli}`);
+  }
+
+  if(peso !== null){
+    cargo.push(`Peso: ${peso} kg`);
+  }
+
+  if(volume !== null){
+    cargo.push(`Volume: ${volume} m³`);
+  }
+
+  if(cargo.length){
+
+    summary +=
+      "\n\n" +
+      cargo.join(" · ");
+
+  }
+
+
+  /*
+   * DATI MANCANTI
+   */
+
+  const missing = [];
+
+  if(!data.indirizzo_ritiro){
+    missing.push("indirizzo di ritiro");
+  }
+
+  if(!data.cap_ritiro){
+    missing.push("CAP di ritiro");
+  }
+
+  if(!data.indirizzo_consegna){
+    missing.push("indirizzo di consegna");
+  }
+
+  if(!data.cap_consegna){
+    missing.push("CAP di consegna");
+  }
+
+  if(!data.vettore){
+    missing.push("vettore");
+  }
+
+  if(!cliente){
+    missing.push("cliente");
+  }
+
+  if(!partenza){
+    missing.push("località di partenza");
+  }
+
+  if(!destinazione){
+    missing.push("destinazione");
+  }
+
+  if(!ritiro){
+    missing.push("data di ritiro");
+  }
+
+  if(!consegna){
+    missing.push("data di consegna");
+  }
+
+  if(!tipoMerce){
+    missing.push("tipo merce");
+  }
+
+  if(colli === null){
+    missing.push("numero colli");
+  }
+
+  if(peso === null){
+    missing.push("peso");
+  }
+
+  if(volume === null){
+    missing.push("volume");
+  }
+
+
+  if(missing.length){
+
+    summary +=
+      "\n\n⚠ Dati da completare: " +
+      missing.join(", ") +
+      ".";
+
+  }
+  else{
+
+    summary +=
+      "\n\n✓ Tutti i dati principali della richiesta sono disponibili.";
+
+  }
+
+
+  /*
+   * NOTE
+   */
+
+  if(data.note){
+
+    summary +=
+      "\n\nNote: " +
+      data.note;
+
+  }
+
+
+  return summary;
+}
+
 
   badge.textContent =
   normalized.replaceAll(
