@@ -1430,27 +1430,41 @@ companyForm.addEventListener(
         error
       } =
       await supabase
-      .from("aziende")
-      .update({
-        nome:nome,
-        email:email || null,
-        telefono:telefono || null
-      })
-      .eq(
-        "id",
-        currentProfile.azienda_id
-      )
-      .select(
-        "id,nome,email,telefono,attiva"
-      )
-      .single();
+      .rpc(
+        "aggiorna_mia_azienda",
+        {
+          p_nome:nome,
+          p_email:email || null,
+          p_telefono:telefono || null
+        }
+      );
+
+      const updatedCompany =
+        Array.isArray(data)
+          ? data[0]
+          : data;
 
       if(error){
         throw error;
       }
 
+      if(!updatedCompany){
+        throw new Error(
+          "La funzione non ha restituito i dati dell'azienda."
+        );
+      }
+
       currentCompany =
-      data;
+      updatedCompany;
+
+      companyName.value =
+      updatedCompany.nome || "";
+
+      companyEmail.value =
+      updatedCompany.email || "";
+
+      companyPhone.value =
+      updatedCompany.telefono || "";
 
       showMessage(
         companyMessage,
