@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Area Autista | MatRi-mIA Logistics</title>
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f3f6fa;
+      color:#172033;
+      min-height:100vh;
+      visibility:hidden;
+    }
+
+    body.auth-ready{
+      visibility:visible;
+    }
+
+    .app{
+      min-height:100vh;
+      padding-bottom:30px;
+    }
+
+    /* HEADER */
+
+    .header{
+      background:#111827;
+      color:white;
+      padding:18px 18px 22px;
+    }
+
+    .header-inner{
+      max-width:760px;
+      margin:auto;
+    }
+
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+    }
+
+    .brand{
+      font-size:20px;
+      font-weight:700;
+    }
+
+    .brand .ia{
+      color:#38bdf8;
+    }
+
+    .logout{
+      border:1px solid #334155;
+      background:#1f2937;
+      color:white;
+      border-radius:8px;
+      padding:8px 11px;
+      font-size:12px;
+      cursor:pointer;
+    }
+
+    .welcome{
+      margin-top:24px;
+    }
+
+    .welcome-label{
+      color:#94a3b8;
+      font-size:12px;
+      margin-bottom:5px;
+    }
+
+    .welcome h1{
+      font-size:23px;
+      margin-bottom:5px;
+    }
+
+    .welcome p{
+      color:#cbd5e1;
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    /* MAIN */
+
+    .main{
+      max-width:760px;
+      margin:auto;
+      padding:18px;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:22px;
+    }
+
+    .summary-card{
+      background:white;
+      border:1px solid #e2e8f0;
+      border-radius:13px;
+      padding:16px;
+    }
+
+    .summary-label{
+      color:#64748b;
+      font-size:12px;
+      margin-bottom:7px;
+    }
+
+    .summary-value{
+      font-size:25px;
+      font-weight:700;
+    }
+
+    /* SECTION */
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:12px;
+    }
+
+    .section-title h2{
+      font-size:17px;
+    }
+
+    .section-title span{
+      font-size:12px;
+      color:#64748b;
+    }
+
+    /* VIAGGI */
+
+    .trips{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .trip{
+      background:white;
+      border:1px solid #e2e8f0;
+      border-radius:14px;
+      overflow:hidden;
+      cursor:pointer;
+      transition:.15s;
+    }
+
+    .trip:active{
+      transform:scale(.99);
+    }
+
+    .trip-main{
+      padding:17px;
+    }
+
+    .trip-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:15px;
+    }
+
+    .trip-number{
+      font-size:12px;
+      color:#64748b;
+      margin-bottom:4px;
+    }
+
+    .trip-route{
+      font-size:17px;
+      font-weight:700;
+      line-height:1.3;
+    }
+
+    .route-arrow{
+      color:#94a3b8;
+      padding:0 4px;
+    }
+
+    .badge{
+      display:inline-flex;
+      border-radius:999px;
+      padding:6px 9px;
+      font-size:10px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .status-default{
+      background:#f1f5f9;
+      color:#475569;
+    }
+
+    .status-programmato{
+      background:#dbeafe;
+      color:#1d4ed8;
+    }
+
+    .status-corso{
+      background:#fef3c7;
+      color:#92400e;
+    }
+
+    .status-consegnato{
+      background:#dcfce7;
+      color:#166534;
+    }
+
+    .status-annullato{
+      background:#fee2e2;
+      color:#991b1b;
+    }
+
+    .trip-info{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .info-label{
+      color:#94a3b8;
+      font-size:10px;
+      text-transform:uppercase;
+      margin-bottom:3px;
+    }
+
+    .info-value{
+      font-size:13px;
+      font-weight:600;
+      line-height:1.35;
+    }
+
+    .trip-footer{
+      border-top:1px solid #eef2f7;
+      background:#f8fafc;
+      padding:11px 17px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      color:#2563eb;
+      font-size:13px;
+      font-weight:600;
+    }
+
+    /* EMPTY */
+
+    .empty{
+      background:white;
+      border:1px solid #e2e8f0;
+      border-radius:14px;
+      padding:45px 20px;
+      text-align:center;
+    }
+
+    .empty-icon{
+      font-size:36px;
+      margin-bottom:12px;
+    }
+
+    .empty-title{
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    .empty-text{
+      color:#64748b;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .loading{
+      padding:40px 15px;
+      text-align:center;
+      color:#64748b;
+    }
+
+    .error{
+      background:#fef2f2;
+      border:1px solid #fecaca;
+      color:#991b1b;
+      border-radius:10px;
+      padding:13px;
+      font-size:13px;
+    }
+
+    @media(max-width:480px){
+
+      .header{
+        padding-top:16px;
+      }
+
+      .main{
+        padding:14px;
+      }
+
+      .trip-info{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header class="header">
+
+    <div class="header-inner">
+
+      <div class="top">
+
+        <div class="brand">
+          MatRi-m<span class="ia">IA</span>
+        </div>
+
+        <button
+          id="logoutButton"
+          class="logout"
+          type="button"
+        >
+          Esci
+        </button>
+
+      </div>
+
+
+      <div class="welcome">
+
+        <div class="welcome-label">
+          AREA AUTISTA
+        </div>
+
+        <h1 id="driverName">
+          Benvenuto
+        </h1>
+
+        <p>
+          Qui trovi esclusivamente i viaggi assegnati a te.
+        </p>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main class="main">
+
+    <div class="summary">
+
+      <div class="summary-card">
+
+        <div class="summary-label">
+          Viaggi assegnati
+        </div>
+
+        <div
+          id="totalTrips"
+          class="summary-value"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <div class="summary-label">
+          In corso
+        </div>
+
+        <div
+          id="activeTrips"
+          class="summary-value"
+        >
+          -
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+
+      <h2>
+        I miei viaggi
+      </h2>
+
+      <span id="tripCount"></span>
+
+    </div>
+
+
+    <div id="tripList">
+
+      <div class="loading">
+        Caricamento viaggi...
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<script type="module">
+
+  import {
+    createClient
+  } from
+    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+  const SUPABASE_URL =
+    "https://sctzockiurjsxzdkctmy.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+
+  const supabase =
+    createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  const driverName =
+    document.getElementById("driverName");
+
+  const totalTrips =
+    document.getElementById("totalTrips");
+
+  const activeTrips =
+    document.getElementById("activeTrips");
+
+  const tripCount =
+    document.getElementById("tripCount");
+
+  const tripList =
+    document.getElementById("tripList");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
+
+  let driver = null;
+
+  let trips = [];
+
+
+  /* =========================
+     PROTEZIONE AREA AUTISTA
+     ========================= */
+
+  async function protect(){
+
+    const {
+      data:{
+        session
+      }
+    } =
+      await supabase.auth.getSession();
+
+
+    if(!session){
+
+      window.location.href =
+        "login.html";
+
+      return false;
+    }
+
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          session.user.id
+        )
+        .single();
+
+
+    if(
+      profileError ||
+      !profile
+    ){
+
+      await supabase.auth.signOut();
+
+      window.location.href =
+        "login.html";
+
+      return false;
+    }
+
+
+    /*
+     * Questa pagina è riservata
+     * esclusivamente agli autisti.
+     */
+
+    if(
+      String(profile.ruolo)
+        .trim()
+        .toLowerCase() !== "autista"
+    ){
+
+      window.location.href =
+        "dashboard.html";
+
+      return false;
+    }
+
+
+    const {
+      data:driverData,
+      error:driverError
+    } =
+      await supabase
+        .from("autisti")
+        .select(`
+          id,
+          nome,
+          cognome,
+          telefono,
+          email,
+          targa_mezzo,
+          attivo
+        `)
+        .eq(
+          "user_id",
+          session.user.id
+        )
+        .single();
+
+
+    if(
+      driverError ||
+      !driverData
+    ){
+
+      console.error(
+        "Scheda autista non disponibile:",
+        driverError
+      );
+
+      await supabase.auth.signOut();
+
+      window.location.href =
+        "login.html";
+
+      return false;
+    }
+
+
+    /*
+     * Un autista disattivato
+     * non può usare l'Area Autista.
+     */
+
+    if(!driverData.attivo){
+
+      await supabase.auth.signOut();
+
+      window.location.href =
+        "login.html";
+
+      return false;
+    }
+
+
+    driver =
+      driverData;
+
+
+    driverName.textContent =
+      `${driver.nome} ${driver.cognome}`;
+
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+
+    return true;
+  }
+
+
+  /* =========================
+     CARICA VIAGGI
+     ========================= */
+
+  async function loadTrips(){
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("viaggi")
+        .select("*")
+        .eq(
+          "autista_id",
+          driver.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending:false
+          }
+        );
+
+
+    if(error){
+
+      console.error(
+        "Errore caricamento viaggi:",
+        error
+      );
+
+
+      tripList.innerHTML =
+        `
+          <div class="error">
+            Impossibile caricare i viaggi.
+          </div>
+        `;
+
+      return;
+    }
+
+
+    trips =
+      data || [];
+
+
+    updateSummary();
+
+    renderTrips();
+
+  }
+
+
+  /* =========================
+     RIEPILOGO
+     ========================= */
+
+  function updateSummary(){
+
+    totalTrips.textContent =
+      trips.length;
+
+
+    const inCorso =
+      trips.filter(trip => {
+
+        const status =
+          normalizeStatus(
+            trip.stato
+          );
+
+
+        return (
+          status === "IN CORSO" ||
+          status === "IN_CORSO"
+        );
+
+      }).length;
+
+
+    activeTrips.textContent =
+      inCorso;
+
+
+    tripCount.textContent =
+      trips.length === 1
+        ? "1 viaggio"
+        : `${trips.length} viaggi`;
+
+  }
+
+
+  /* =========================
+     RENDER VIAGGI
+     ========================= */
+
+  function renderTrips(){
+
+    if(!trips.length){
+
+      tripList.innerHTML =
+        `
+          <div class="empty">
+
+            <div class="empty-icon">
+              🚚
+            </div>
+
+            <div class="empty-title">
+              Nessun viaggio assegnato
+            </div>
+
+            <div class="empty-text">
+              Quando l'azienda ti assegnerà un viaggio,
+              lo troverai automaticamente qui.
+            </div>
+
+          </div>
+        `;
+
+      return;
+    }
+
+
+    const html =
+      trips.map(trip => {
+
+        const partenza =
+          firstValue(
+            trip.partenza,
+            trip.ritiro,
+            "Partenza"
+          );
+
+
+        const destinazione =
+          firstValue(
+            trip.destinazione,
+            trip.consegna,
+            "Destinazione"
+          );
+
+
+        const numero =
+          firstValue(
+            trip.numero_viaggio,
+            trip.numero,
+            trip.id
+              ? String(trip.id).slice(0,8)
+              : null,
+            "Viaggio"
+          );
+
+
+        const data =
+          firstValue(
+            trip.data_viaggio,
+            trip.data,
+            trip.ritiro,
+            trip.created_at
+          );
+
+
+        const stato =
+          normalizeStatus(
+            trip.stato || "DA PROGRAMMARE"
+          );
+
+
+        return `
+          <article
+            class="trip"
+            data-id="${escapeHtml(trip.id)}"
+          >
+
+            <div class="trip-main">
+
+              <div class="trip-top">
+
+                <div>
+
+                  <div class="trip-number">
+                    ${escapeHtml(numero)}
+                  </div>
+
+                  <div class="trip-route">
+
+                    ${escapeHtml(partenza)}
+
+                    <span class="route-arrow">
+                      →
+                    </span>
+
+                    ${escapeHtml(destinazione)}
+
+                  </div>
+
+                </div>
+
+
+                <span
+                  class="badge ${statusClass(stato)}"
+                >
+                  ${escapeHtml(stato)}
+                </span>
+
+              </div>
+
+
+              <div class="trip-info">
+
+                <div>
+
+                  <div class="info-label">
+                    Data
+                  </div>
+
+                  <div class="info-value">
+                    ${escapeHtml(formatDate(data))}
+                  </div>
+
+                </div>
+
+
+                <div>
+
+                  <div class="info-label">
+                    Mezzo
+                  </div>
+
+                  <div class="info-value">
+                    ${escapeHtml(
+                      driver.targa_mezzo ||
+                      trip.targa ||
+                      "—"
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="trip-footer">
+
+              <span>
+                Apri viaggio
+              </span>
+
+              <span>
+                →
+              </span>
+
+            </div>
+
+          </article>
+        `;
+
+      }).join("");
+
+
+    tripList.innerHTML =
+      `<div class="trips">${html}</div>`;
+
+
+    document
+      .querySelectorAll(
+        ".trip[data-id]"
+      )
+      .forEach(card => {
+
+        card.addEventListener(
+          "click",
+          () => {
+
+            window.location.href =
+              "viaggio-autista.html?id=" +
+              encodeURIComponent(
+                card.dataset.id
+              );
+
+          }
+        );
+
+      });
+
+  }
+
+
+  /* =========================
+     HELPERS
+     ========================= */
+
+  function firstValue(
+    ...values
+  ){
+
+    for(const value of values){
+
+      if(
+        value !== null &&
+        value !== undefined &&
+        String(value).trim() !== ""
+      ){
+
+        return value;
+
+      }
+
+    }
+
+
+    return "—";
+
+  }
+
+
+  function normalizeStatus(value){
+
+    return String(
+      value || ""
+    )
+      .trim()
+      .replaceAll("_"," ")
+      .toUpperCase();
+
+  }
+
+
+  function statusClass(status){
+
+    if(
+      status === "PROGRAMMATO"
+    ){
+
+      return "status-programmato";
+
+    }
+
+
+    if(
+      status === "IN CORSO"
+    ){
+
+      return "status-corso";
+
+    }
+
+
+    if(
+      status === "CONSEGNATO"
+    ){
+
+      return "status-consegnato";
+
+    }
+
+
+    if(
+      status === "ANNULLATO"
+    ){
+
+      return "status-annullato";
+
+    }
+
+
+    return "status-default";
+
+  }
+
+
+  function formatDate(value){
+
+    if(!value){
+
+      return "—";
+
+    }
+
+
+    const date =
+      new Date(value);
+
+
+    if(
+      Number.isNaN(
+        date.getTime()
+      )
+    ){
+
+      return String(value);
+
+    }
+
+
+    return new Intl.DateTimeFormat(
+      "it-IT",
+      {
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric"
+      }
+    ).format(date);
+
+  }
+
+
+  function escapeHtml(value){
+
+    return String(value ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+
+  }
+
+
+  /* =========================
+     LOGOUT
+     ========================= */
+
+  logoutButton.addEventListener(
+    "click",
+    async () => {
+
+      await supabase.auth.signOut();
+
+      window.location.href =
+        "login.html";
+
+    }
+  );
+
+
+  /* =========================
+     AVVIO
+     ========================= */
+
+  const authorized =
+    await protect();
+
+
+  if(authorized){
+
+    await loadTrips();
+
+  }
+
+</script>
+
+</body>
+</html>
