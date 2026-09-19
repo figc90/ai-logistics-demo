@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Viaggio | Area Autista MatRi-mIA</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+.header{
+  background:#111827;
+  color:#fff;
+  padding:16px 18px 22px;
+}
+
+.header-inner{
+  max-width:760px;
+  margin:auto;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.brand{
+  font-size:20px;
+  font-weight:700;
+}
+
+.brand .ia{
+  color:#38bdf8;
+}
+
+.back{
+  display:inline-flex;
+  color:#cbd5e1;
+  font-size:12px;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.trip-heading{
+  margin-top:24px;
+}
+
+.eyebrow{
+  color:#94a3b8;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1px;
+  margin-bottom:6px;
+}
+
+.trip-heading h1{
+  font-size:24px;
+  margin-bottom:7px;
+}
+
+.route{
+  color:#cbd5e1;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.main{
+  max-width:760px;
+  margin:auto;
+  padding:18px;
+}
+
+.message{
+  display:none;
+  padding:13px;
+  margin-bottom:15px;
+  border-radius:10px;
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  color:#991b1b;
+  font-size:12px;
+  font-weight:700;
+}
+
+.message.success{
+  background:#ecfdf5;
+  border-color:#bbf7d0;
+  color:#166534;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.card-header{
+  padding:16px 17px;
+  border-bottom:1px solid #eef2f7;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.card-header h2{
+  font-size:16px;
+}
+
+.card-body{
+  padding:17px;
+}
+
+.badge{
+  display:inline-flex;
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:10px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.status-default{
+  background:#f1f5f9;
+  color:#475569;
+}
+
+.status-programmato{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.status-corso{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.status-consegnato{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status-annullato{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.field{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:11px;
+  padding:13px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.label{
+  color:#94a3b8;
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  margin-bottom:5px;
+}
+
+.value{
+  color:#334155;
+  font-size:13px;
+  font-weight:700;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+}
+
+/* DOCUMENTI */
+
+.upload-box{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:18px;
+}
+
+.upload-grid{
+  display:grid;
+  grid-template-columns:150px 1fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.form-group label{
+  color:#64748b;
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+
+select,
+input,
+textarea{
+  width:100%;
+  border:1px solid #dce3eb;
+  border-radius:9px;
+  background:#fff;
+  color:#334155;
+  outline:none;
+}
+
+select,
+input{
+  height:42px;
+  padding:0 11px;
+}
+
+textarea{
+  min-height:75px;
+  padding:10px 11px;
+  resize:vertical;
+}
+
+select:focus,
+input:focus,
+textarea:focus{
+  border-color:#38bdf8;
+  box-shadow:0 0 0 3px rgba(56,189,248,.10);
+}
+
+.btn{
+  border:0;
+  min-height:42px;
+  border-radius:9px;
+  padding:0 15px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.btn-primary{
+  background:#2563eb;
+  color:#fff;
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.upload-info{
+  color:#64748b;
+  font-size:10px;
+  line-height:1.5;
+  margin-top:10px;
+}
+
+.documents-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.documents-empty{
+  color:#64748b;
+  text-align:center;
+  padding:20px 8px;
+  font-size:12px;
+}
+
+.document-item{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  border:1px solid #e2e8f0;
+  border-radius:11px;
+  padding:12px;
+}
+
+.document-icon{
+  width:43px;
+  height:43px;
+  flex:0 0 43px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#eff6ff;
+  color:#1d4ed8;
+  font-size:9px;
+  font-weight:900;
+}
+
+.document-main{
+  flex:1;
+  min-width:0;
+}
+
+.document-name{
+  font-size:12px;
+  font-weight:800;
+  color:#334155;
+  overflow-wrap:anywhere;
+}
+
+.document-meta{
+  color:#94a3b8;
+  font-size:9px;
+  margin-top:4px;
+}
+
+.document-note{
+  color:#64748b;
+  font-size:10px;
+  margin-top:5px;
+  line-height:1.4;
+}
+
+.document-open{
+  min-height:34px;
+  border:0;
+  border-radius:8px;
+  padding:0 11px;
+  background:#eff6ff;
+  color:#1d4ed8;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.security-note{
+  display:flex;
+  gap:9px;
+  align-items:flex-start;
+  background:#f0fdf4;
+  border:1px solid #bbf7d0;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:16px;
+  color:#166534;
+  font-size:11px;
+  line-height:1.45;
+}
+
+@media(max-width:520px){
+
+  .main{
+    padding:14px;
+  }
+
+  .fields,
+  .upload-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .document-item{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  .document-open{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-inner">
+
+    <div class="top">
+      <div class="brand">
+        MatRi-m<span class="ia">IA</span>
+      </div>
+
+      <a href="autista.html" class="back">
+        ← I miei viaggi
+      </a>
+    </div>
+
+    <div class="trip-heading">
+      <div class="eyebrow">
+        AREA AUTISTA · VIAGGIO
+      </div>
+
+      <h1 id="numeroViaggio">Viaggio</h1>
+
+      <div id="route" class="route">-</div>
+    </div>
+
+  </div>
+</header>
+
+
+<main class="main">
+
+  <div id="messageBox" class="message"></div>
+
+  <div class="security-note">
+    <span>✓</span>
+    <div>
+      Stai visualizzando un viaggio assegnato al tuo account autista.
+    </div>
+  </div>
+
+
+  <!-- DATI VIAGGIO -->
+
+  <section class="card">
+
+    <div class="card-header">
+      <h2>Dati viaggio</h2>
+
+      <div
+        id="statusBadge"
+        class="badge status-default">
+        -
+      </div>
+    </div>
+
+    <div class="card-body">
+
+      <div class="fields">
+
+        <div class="field">
+          <div class="label">Partenza prevista</div>
+          <div id="vPartenza" class="value">-</div>
+        </div>
+
+        <div class="field">
+          <div class="label">Arrivo previsto</div>
+          <div id="vArrivo" class="value">-</div>
+        </div>
+
+        <div class="field">
+          <div class="label">Targa trattore</div>
+          <div id="vTrattore" class="value">-</div>
+        </div>
+
+        <div class="field">
+          <div class="label">Targa rimorchio</div>
+          <div id="vRimorchio" class="value">-</div>
+        </div>
+
+        <div class="field full">
+          <div class="label">Note operative</div>
+          <div id="vNote" class="value">-</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- DOCUMENTI -->
+
+  <section class="card">
+
+    <div class="card-header">
+      <h2>Documenti viaggio</h2>
+    </div>
+
+    <div class="card-body">
+
+      <div class="upload-box">
+
+        <div class="upload-grid">
+
+          <div class="form-group">
+            <label for="documentType">
+              Tipo documento
+            </label>
+
+            <select id="documentType">
+              <option value="CMR">CMR</option>
+              <option value="POD">POD</option>
+              <option value="DDT">DDT</option>
+              <option value="ALTRO">Foto / Altro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="documentFile">
+              File o foto
+            </label>
+
+            <input
+              id="documentFile"
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png,.webp,image/*"
+            >
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <label for="documentNote">
+            Nota
+          </label>
+
+          <textarea
+            id="documentNote"
+            placeholder="Nota facoltativa">
+          </textarea>
+        </div>
+
+        <button
+          id="uploadButton"
+          class="btn btn-primary"
+          type="button"
+          style="margin-top:12px">
+          Carica documento
+        </button>
+
+        <div class="upload-info">
+          Puoi caricare CMR, POD, DDT, fotografie della merce o altri documenti relativi a questo viaggio. Dimensione massima 20 MB.
+        </div>
+
+      </div>
+
+
+      <div
+        id="documentsLoading"
+        class="documents-empty">
+        Caricamento documenti...
+      </div>
+
+      <div
+        id="documentsEmpty"
+        class="documents-empty"
+        style="display:none">
+        Nessun documento presente.
+      </div>
+
+      <div
+        id="documentsList"
+        class="documents-list">
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<script type="module">
+
+import { createClient }
+from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+const SUPABASE_URL =
+"https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+const viaggioId =
+new URLSearchParams(
+  window.location.search
+).get("id");
+
+
+let currentUser = null;
+let currentProfile = null;
+let driver = null;
+let viaggio = null;
+let currentDocuments = [];
+
+
+const messageBox =
+document.getElementById("messageBox");
+
+const uploadButton =
+document.getElementById("uploadButton");
+
+const documentFile =
+document.getElementById("documentFile");
+
+const documentType =
+document.getElementById("documentType");
+
+const documentNote =
+document.getElementById("documentNote");
+
+const documentsLoading =
+document.getElementById("documentsLoading");
+
+const documentsEmpty =
+document.getElementById("documentsEmpty");
+
+const documentsList =
+document.getElementById("documentsList");
+
+
+/* =========================
+   UTILITY
+========================= */
+
+function text(id,value){
+
+  document
+    .getElementById(id)
+    .textContent =
+      value === null ||
+      value === undefined ||
+      value === ""
+        ? "-"
+        : value;
+}
+
+
+function emptyToNull(value){
+
+  const result =
+  String(value ?? "").trim();
+
+  return result || null;
+}
+
+
+function showError(message){
+
+  messageBox.className =
+  "message";
+
+  messageBox.textContent =
+  message;
+
+  messageBox.style.display =
+  "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+function showSuccess(message){
+
+  messageBox.className =
+  "message success";
+
+  messageBox.textContent =
+  message;
+
+  messageBox.style.display =
+  "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+function hideMessage(){
+
+  messageBox.style.display =
+  "none";
+}
+
+
+function formatDate(value){
+
+  if(!value){
+    return "-";
+  }
+
+  const date =
+  new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return String(value);
+  }
+
+  return date.toLocaleString(
+    "it-IT",
+    {
+      dateStyle:"short",
+      timeStyle:"short"
+    }
+  );
+}
+
+
+function normalizeStatus(value){
+
+  return String(
+    value || ""
+  )
+  .trim()
+  .replaceAll("_"," ")
+  .toUpperCase();
+}
+
+
+function statusClass(status){
+
+  if(status === "PROGRAMMATO"){
+    return "status-programmato";
+  }
+
+  if(status === "IN CORSO"){
+    return "status-corso";
+  }
+
+  if(status === "CONSEGNATO"){
+    return "status-consegnato";
+  }
+
+  if(status === "ANNULLATO"){
+    return "status-annullato";
+  }
+
+  return "status-default";
+}
+
+
+function sanitizeFileName(name){
+
+  return String(name || "file")
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
+    .replace(
+      /[^a-zA-Z0-9._-]/g,
+      "_"
+    )
+    .replace(
+      /_+/g,
+      "_"
+    );
+}
+
+
+function formatBytes(bytes){
+
+  const value =
+  Number(bytes);
+
+  if(!Number.isFinite(value)){
+    return "";
+  }
+
+  if(value < 1024){
+    return value + " B";
+  }
+
+  if(value < 1024 * 1024){
+
+    return (
+      value / 1024
+    ).toFixed(1) + " KB";
+  }
+
+  return (
+    value /
+    (1024 * 1024)
+  ).toFixed(1) + " MB";
+}
+
+
+function documentIcon(mime){
+
+  const value =
+  String(mime || "")
+    .toLowerCase();
+
+  if(value.includes("pdf")){
+    return "PDF";
+  }
+
+  if(value.startsWith("image/")){
+    return "IMG";
+  }
+
+  return "FILE";
+}
+
+
+/* =========================
+   AUTENTICAZIONE
+========================= */
+
+async function protect(){
+
+  const {
+    data:{session},
+    error:sessionError
+  } =
+  await supabase.auth.getSession();
+
+
+  if(
+    sessionError ||
+    !session?.user
+  ){
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+  }
+
+
+  currentUser =
+  session.user;
+
+
+  const {
+    data:profile,
+    error:profileError
+  } =
+  await supabase
+    .from("profiles")
+    .select(
+      "id,email,ruolo,azienda_id"
+    )
+    .eq(
+      "id",
+      currentUser.id
+    )
+    .single();
+
+
+  if(
+    profileError ||
+    !profile ||
+    !profile.azienda_id
+  ){
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+  }
+
+
+  if(
+    String(profile.ruolo || "")
+      .trim()
+      .toLowerCase() !==
+    "autista"
+  ){
+
+    window.location.replace(
+      "dashboard.html"
+    );
+
+    return false;
+  }
+
+
+  currentProfile =
+  profile;
+
+
+  const {
+    data:driverData,
+    error:driverError
+  } =
+  await supabase
+    .from("autisti")
+    .select(`
+      id,
+      azienda_id,
+      nome,
+      cognome,
+      telefono,
+      email,
+      targa_mezzo,
+      attivo,
+      user_id
+    `)
+    .eq(
+      "user_id",
+      currentUser.id
+    )
+    .eq(
+      "azienda_id",
+      currentProfile.azienda_id
+    )
+    .single();
+
+
+  if(
+    driverError ||
+    !driverData ||
+    !driverData.attivo
+  ){
+
+    console.error(
+      "Autista non disponibile:",
+      driverError
+    );
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+  }
+
+
+  driver =
+  driverData;
+
+  document.body.classList.add(
+    "auth-ready"
+  );
+
+  return true;
+}
+
+
+/* =========================
+   CARICA VIAGGIO
+========================= */
+
+async function loadTrip(){
+
+  if(!viaggioId){
+
+    showError(
+      "Viaggio non specificato."
+    );
+
+    return false;
+  }
+
+
+  /*
+   * IMPORTANTE:
+   * oltre all'ID del viaggio controlliamo
+   * anche autista_id.
+   *
+   * Quindi l'autista non può aprire
+   * semplicemente un altro ID nell'URL.
+   */
+  const {
+    data,
+    error
+  } =
+  await supabase
+    .from("viaggi")
+    .select(`
+      id,
+      azienda_id,
+      pratica_id,
+      numero_viaggio,
+      autista_id,
+      stato,
+      targa_trattore,
+      targa_rimorchio,
+      data_partenza,
+      data_arrivo,
+      note,
+      pratiche (
+        id,
+        numero_pratica,
+        partenza,
+        destinazione
+      )
+    `)
+    .eq(
+      "id",
+      viaggioId
+    )
+    .eq(
+      "autista_id",
+      driver.id
+    )
+    .eq(
+      "azienda_id",
+      currentProfile.azienda_id
+    )
+    .single();
+
+
+  if(
+    error ||
+    !data
+  ){
+
+    console.error(
+      "Viaggio non accessibile:",
+      error
+    );
+
+    showError(
+      "Questo viaggio non è disponibile oppure non è assegnato al tuo account."
+    );
+
+    return false;
+  }
+
+
+  viaggio =
+  data;
+
+  renderTrip();
+
+  return true;
+}
+
+
+/* =========================
+   RENDER VIAGGIO
+========================= */
+
+function renderTrip(){
+
+  const pratica =
+  viaggio.pratiche || {};
+
+
+  text(
+    "numeroViaggio",
+    viaggio.numero_viaggio ||
+    "Viaggio"
+  );
+
+
+  text(
+    "route",
+    (pratica.partenza || "-") +
+    " → " +
+    (pratica.destinazione || "-")
+  );
+
+
+  text(
+    "vPartenza",
+    formatDate(
+      viaggio.data_partenza
+    )
+  );
+
+
+  text(
+    "vArrivo",
+    formatDate(
+      viaggio.data_arrivo
+    )
+  );
+
+
+  text(
+    "vTrattore",
+    viaggio.targa_trattore
+  );
+
+
+  text(
+    "vRimorchio",
+    viaggio.targa_rimorchio
+  );
+
+
+  text(
+    "vNote",
+    viaggio.note
+  );
+
+
+  const status =
+  normalizeStatus(
+    viaggio.stato ||
+    "DA PROGRAMMARE"
+  );
+
+
+  const badge =
+  document.getElementById(
+    "statusBadge"
+  );
+
+
+  badge.textContent =
+  status;
+
+
+  badge.className =
+  "badge " +
+  statusClass(status);
+}
+
+
+/* =========================
+   DOCUMENTI
+========================= */
+
+async function loadDocuments(){
+
+  documentsLoading.style.display =
+  "block";
+
+  documentsEmpty.style.display =
+  "none";
+
+  documentsList.innerHTML =
+  "";
+
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+    .from("documenti")
+    .select(`
+      id,
+      azienda_id,
+      pratica_id,
+      viaggio_id,
+      tipo,
+      nome_file,
+      storage_path,
+      mime_type,
+      dimensione_bytes,
+      note,
+      created_by,
+      created_at
+    `)
+    .eq(
+      "viaggio_id",
+      viaggio.id
+    )
+    .eq(
+      "azienda_id",
+      currentProfile.azienda_id
+    )
+    .order(
+      "created_at",
+      {
+        ascending:false
+      }
+    );
+
+
+  documentsLoading.style.display =
+  "none";
+
+
+  if(error){
+
+    console.error(
+      "Errore documenti:",
+      error
+    );
+
+    documentsEmpty.textContent =
+    "Impossibile caricare i documenti.";
+
+    documentsEmpty.style.display =
+    "block";
+
+    return;
+  }
+
+
+  currentDocuments =
+  data || [];
+
+  renderDocuments();
+}
+
+
+function renderDocuments(){
+
+  documentsList.innerHTML =
+  "";
+
+
+  if(!currentDocuments.length){
+
+    documentsEmpty.textContent =
+    "Nessun documento presente.";
+
+    documentsEmpty.style.display =
+    "block";
+
+    return;
+  }
+
+
+  documentsEmpty.style.display =
+  "none";
+
+
+  currentDocuments.forEach(
+    documento=>{
+
+      const item =
+      document.createElement(
+        "div"
+      );
+
+      item.className =
+      "document-item";
+
+
+      const icon =
+      document.createElement(
+        "div"
+      );
+
+      icon.className =
+      "document-icon";
+
+      icon.textContent =
+      documentIcon(
+        documento.mime_type
+      );
+
+
+      const main =
+      document.createElement(
+        "div"
+      );
+
+      main.className =
+      "document-main";
+
+
+      const name =
+      document.createElement(
+        "div"
+      );
+
+      name.className =
+      "document-name";
+
+      name.textContent =
+      documento.nome_file ||
+      "Documento";
+
+
+      const meta =
+      document.createElement(
+        "div"
+      );
+
+      meta.className =
+      "document-meta";
+
+      meta.textContent =
+      [
+        documento.tipo,
+        formatBytes(
+          documento.dimensione_bytes
+        ),
+        documento.created_at
+          ? formatDate(
+              documento.created_at
+            )
+          : null
+      ]
+      .filter(Boolean)
+      .join(" · ");
+
+
+      main.appendChild(name);
+      main.appendChild(meta);
+
+
+      if(documento.note){
+
+        const note =
+        document.createElement(
+          "div"
+        );
+
+        note.className =
+        "document-note";
+
+        note.textContent =
+        documento.note;
+
+        main.appendChild(note);
+      }
+
+
+      const openButton =
+      document.createElement(
+        "button"
+      );
+
+      openButton.type =
+      "button";
+
+      openButton.className =
+      "document-open";
+
+      openButton.textContent =
+      "Apri";
+
+      openButton.onclick =
+      ()=>openDocument(
+        documento
+      );
+
+
+      item.appendChild(icon);
+      item.appendChild(main);
+      item.appendChild(openButton);
+
+      documentsList.appendChild(
+        item
+      );
+    }
+  );
+}
+
+
+/* =========================
+   APERTURA DOCUMENTO
+========================= */
+
+async function openDocument(
+  documento
+){
+
+  hideMessage();
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabase.storage
+      .from("documenti")
+      .createSignedUrl(
+        documento.storage_path,
+        600
+      );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(!data?.signedUrl){
+
+      throw new Error(
+        "URL non disponibile."
+      );
+    }
+
+
+    window.open(
+      data.signedUrl,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      error
+    );
+
+    showError(
+      "Impossibile aprire il documento: " +
+      error.message
+    );
+  }
+}
+
+
+/* =========================
+   UPLOAD
+========================= */
+
+async function uploadDocument(){
+
+  const file =
+  documentFile.files?.[0];
+
+
+  if(!file){
+
+    showError(
+      "Seleziona prima un file o una foto."
+    );
+
+    return;
+  }
+
+
+  const MAX_FILE_SIZE =
+  20 * 1024 * 1024;
+
+
+  if(file.size > MAX_FILE_SIZE){
+
+    showError(
+      "Il file supera il limite di 20 MB."
+    );
+
+    return;
+  }
+
+
+  const praticaId =
+  viaggio.pratiche?.id ||
+  viaggio.pratica_id ||
+  null;
+
+
+  if(!praticaId){
+
+    showError(
+      "Il viaggio non risulta collegato a una pratica."
+    );
+
+    return;
+  }
+
+
+  hideMessage();
+
+  uploadButton.disabled =
+  true;
+
+  uploadButton.textContent =
+  "Caricamento...";
+
+
+  let uploadedPath =
+  null;
+
+
+  try{
+
+    const safeName =
+    sanitizeFileName(
+      file.name
+    );
+
+
+    const uniqueName =
+    Date.now() +
+    "_" +
+    crypto.randomUUID() +
+    "_" +
+    safeName;
+
+
+    /*
+     * Percorso dedicato agli upload
+     * effettuati dall'Area Autista.
+     */
+    const storagePath =
+    currentProfile.azienda_id +
+    "/autisti/" +
+    viaggio.id +
+    "/" +
+    uniqueName;
+
+
+    const {
+      error:uploadError
+    } =
+    await supabase.storage
+      .from("documenti")
+      .upload(
+        storagePath,
+        file,
+        {
+          cacheControl:"3600",
+          upsert:false,
+          contentType:
+            file.type ||
+            undefined
+        }
+      );
+
+
+    if(uploadError){
+      throw uploadError;
+    }
+
+
+    uploadedPath =
+    storagePath;
+
+
+    const {
+      data:documentRow,
+      error:insertError
+    } =
+    await supabase
+      .from("documenti")
+      .insert({
+
+        azienda_id:
+        currentProfile.azienda_id,
+
+        pratica_id:
+        praticaId,
+
+        viaggio_id:
+        viaggio.id,
+
+        tipo:
+        documentType.value,
+
+        nome_file:
+        file.name,
+
+        storage_path:
+        storagePath,
+
+        mime_type:
+        file.type ||
+        null,
+
+        dimensione_bytes:
+        file.size,
+
+        note:
+        emptyToNull(
+          documentNote.value
+        ),
+
+        created_by:
+        currentUser.id,
+
+        updated_at:
+        new Date().toISOString()
+
+      })
+      .select()
+      .single();
+
+
+    if(insertError){
+
+      await supabase.storage
+        .from("documenti")
+        .remove([
+          storagePath
+        ]);
+
+      uploadedPath =
+      null;
+
+      throw insertError;
+    }
+
+
+    currentDocuments.unshift(
+      documentRow
+    );
+
+
+    renderDocuments();
+
+
+    documentFile.value =
+    "";
+
+    documentNote.value =
+    "";
+
+    documentType.value =
+    "CMR";
+
+
+    showSuccess(
+      "Documento caricato correttamente."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore upload:",
+      error
+    );
+
+
+    if(uploadedPath){
+
+      try{
+
+        await supabase.storage
+          .from("documenti")
+          .remove([
+            uploadedPath
+          ]);
+
+      }
+      catch(cleanupError){
+
+        console.error(
+          "Errore pulizia:",
+          cleanupError
+        );
+      }
+    }
+
+
+    showError(
+      "Impossibile caricare il documento: " +
+      error.message
+    );
+
+  }
+  finally{
+
+    uploadButton.disabled =
+    false;
+
+    uploadButton.textContent =
+    "Carica documento";
+  }
+}
+
+
+uploadButton.addEventListener(
+  "click",
+  uploadDocument
+);
+
+
+/* =========================
+   AVVIO
+========================= */
+
+async function start(){
+
+  try{
+
+    const authorized =
+    await protect();
+
+
+    if(!authorized){
+      return;
+    }
+
+
+    const tripLoaded =
+    await loadTrip();
+
+
+    if(!tripLoaded){
+      return;
+    }
+
+
+    await loadDocuments();
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore avvio:",
+      error
+    );
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+    showError(
+      "Errore durante il caricamento: " +
+      error.message
+    );
+  }
+}
+
+
+start();
+
+</script>
+
+</body>
+</html>
