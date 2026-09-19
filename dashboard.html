@@ -1595,9 +1595,6 @@ tbody tr:hover{
 
 <script type="module">
 
-await window.matrimiaSidebarReady;
-
-
 import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
@@ -2040,10 +2037,10 @@ function setupSidebar(){
     function bindSidebar(){
 
       logoutButton =
-        document.getElementById("logoutButton");
+        document.getElementById("sidebarLogoutButton");
 
       userEmail =
-        document.getElementById("userEmail");
+        document.getElementById("sidebarUserEmail");
 
       if(logoutButton){
 
@@ -2070,7 +2067,7 @@ function setupSidebar(){
 
     }
 
-    if(document.getElementById("logoutButton")){
+    if(document.getElementById("sidebarLogoutButton")){
       bindSidebar();
       return;
     }

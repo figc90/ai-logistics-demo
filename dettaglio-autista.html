@@ -501,7 +501,88 @@
 
 <div class="app">
 
-  <div id="sidebarContainer"></div>
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-title">
+        MatRi-m<span class="ia">IA</span>
+      </div>
+
+      <div class="brand-subtitle">
+        Logistics
+      </div>
+    </div>
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        OPERATIVITÀ
+      </div>
+
+      <a class="menu-item" href="dashboard.html">
+        <span class="menu-icon">▦</span>
+        Dashboard
+      </a>
+
+      <a class="menu-item" href="pratiche.html">
+        <span class="menu-icon">▤</span>
+        Pratiche
+      </a>
+
+      <a class="menu-item" href="nuova-pratica.html">
+        <span class="menu-icon">＋</span>
+        Nuova pratica
+      </a>
+
+    </div>
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        AUTOMAZIONI
+      </div>
+
+      <a class="menu-item" href="email-ai.html">
+        <span class="menu-icon">✉</span>
+        Email AI
+      </a>
+
+      <div class="menu-item disabled">
+        <span class="menu-icon">◉</span>
+        WhatsApp AI
+      </div>
+
+      <a class="menu-item" href="viaggi.html">
+        <span class="menu-icon">↗</span>
+        Viaggi
+      </a>
+
+    </div>
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        GESTIONE
+      </div>
+
+      <a class="menu-item" href="anagrafiche.html">
+        <span class="menu-icon">▣</span>
+        Anagrafiche
+      </a>
+
+      <a class="menu-item active" href="autisti.html">
+        <span class="menu-icon">♟</span>
+        Autisti
+      </a>
+
+      <a class="menu-item" href="impostazioni.html">
+        <span class="menu-icon">⚙</span>
+        Impostazioni
+      </a>
+
+    </div>
+
+  </aside>
 
 
   <main class="main">
@@ -805,12 +886,7 @@
 </div>
 
 
-<script src="js/sidebar.js"></script>
-
 <script type="module">
-
-await window.matrimiaSidebarReady;
-
 
   import {
     createClient
