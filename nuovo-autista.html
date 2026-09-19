@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Nuovo autista | MatRi-mIA Logistics</title>
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f3f6fa;
+      color:#172033;
+      min-height:100vh;
+      visibility:hidden;
+    }
+
+    body.auth-ready{
+      visibility:visible;
+    }
+
+    .app{
+      display:flex;
+      min-height:100vh;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+      width:250px;
+      background:#111827;
+      color:white;
+      padding:24px 16px;
+      position:fixed;
+      left:0;
+      top:0;
+      bottom:0;
+      overflow-y:auto;
+    }
+
+    .brand{
+      margin-bottom:30px;
+      padding:0 8px;
+    }
+
+    .brand-title{
+      font-size:21px;
+      font-weight:700;
+      letter-spacing:-0.4px;
+    }
+
+    .brand-title .ia{
+      color:#38bdf8;
+    }
+
+    .brand-subtitle{
+      margin-top:4px;
+      font-size:12px;
+      color:#94a3b8;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .menu-section{
+      margin-top:24px;
+    }
+
+    .menu-title{
+      padding:0 12px;
+      margin-bottom:8px;
+      color:#64748b;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:1.2px;
+    }
+
+    .menu-item{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      padding:11px 12px;
+      margin-bottom:4px;
+      border-radius:9px;
+      color:#cbd5e1;
+      text-decoration:none;
+      font-size:14px;
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:#1f2937;
+      color:white;
+    }
+
+    .menu-item.active{
+      background:#2563eb;
+      color:white;
+    }
+
+    .menu-item.disabled{
+      opacity:.5;
+      cursor:default;
+    }
+
+    .menu-icon{
+      width:20px;
+      text-align:center;
+    }
+
+    /* MAIN */
+
+    .main{
+      margin-left:250px;
+      width:calc(100% - 250px);
+      padding:32px;
+    }
+
+    .page{
+      max-width:900px;
+    }
+
+    .back{
+      display:inline-block;
+      margin-bottom:20px;
+      color:#64748b;
+      text-decoration:none;
+      font-size:14px;
+    }
+
+    .back:hover{
+      color:#2563eb;
+    }
+
+    .page-title{
+      margin-bottom:26px;
+    }
+
+    .page-title h1{
+      font-size:28px;
+      margin-bottom:6px;
+    }
+
+    .page-title p{
+      color:#64748b;
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    /* CARD */
+
+    .card{
+      background:white;
+      border:1px solid #e2e8f0;
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    .card-header{
+      padding:20px 22px;
+      border-bottom:1px solid #e2e8f0;
+    }
+
+    .card-header h2{
+      font-size:17px;
+      margin-bottom:5px;
+    }
+
+    .card-header p{
+      font-size:13px;
+      color:#64748b;
+    }
+
+    .card-body{
+      padding:24px 22px;
+    }
+
+    /* FORM */
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      font-size:13px;
+      font-weight:600;
+      color:#334155;
+    }
+
+    .required{
+      color:#dc2626;
+    }
+
+    input,
+    textarea{
+      width:100%;
+      border:1px solid #cbd5e1;
+      border-radius:9px;
+      padding:11px 12px;
+      font:inherit;
+      font-size:14px;
+      color:#172033;
+      outline:none;
+      background:white;
+    }
+
+    input:focus,
+    textarea:focus{
+      border-color:#2563eb;
+      box-shadow:0 0 0 3px rgba(37,99,235,.08);
+    }
+
+    textarea{
+      resize:vertical;
+      min-height:100px;
+    }
+
+    .hint{
+      color:#64748b;
+      font-size:12px;
+      line-height:1.4;
+    }
+
+    /* INFO */
+
+    .info{
+      margin-top:22px;
+      padding:16px;
+      border-radius:10px;
+      background:#eff6ff;
+      border:1px solid #bfdbfe;
+      color:#1e40af;
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    /* ACTIONS */
+
+    .actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      padding:18px 22px;
+      border-top:1px solid #e2e8f0;
+      background:#f8fafc;
+    }
+
+    .btn{
+      border:0;
+      border-radius:9px;
+      padding:11px 17px;
+      font-weight:600;
+      font-size:14px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .btn-secondary{
+      background:white;
+      border:1px solid #cbd5e1;
+      color:#334155;
+    }
+
+    .btn-primary{
+      background:#2563eb;
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:#1d4ed8;
+    }
+
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    /* MESSAGGI */
+
+    .message{
+      display:none;
+      margin-bottom:18px;
+      padding:13px 15px;
+      border-radius:9px;
+      font-size:13px;
+      line-height:1.4;
+    }
+
+    .message.error{
+      display:block;
+      background:#fef2f2;
+      border:1px solid #fecaca;
+      color:#991b1b;
+    }
+
+    .message.success{
+      display:block;
+      background:#f0fdf4;
+      border:1px solid #bbf7d0;
+      color:#166534;
+    }
+
+    @media(max-width:900px){
+
+      .sidebar{
+        display:none;
+      }
+
+      .main{
+        margin-left:0;
+        width:100%;
+        padding:20px;
+      }
+    }
+
+    @media(max-width:650px){
+
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .field.full{
+        grid-column:auto;
+      }
+
+      .actions{
+        flex-direction:column-reverse;
+      }
+
+      .btn{
+        width:100%;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-title">
+        MatRi-m<span class="ia">IA</span>
+      </div>
+
+      <div class="brand-subtitle">
+        Logistics
+      </div>
+    </div>
+
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        OPERATIVITÀ
+      </div>
+
+      <a class="menu-item" href="dashboard.html">
+        <span class="menu-icon">▦</span>
+        Dashboard
+      </a>
+
+      <a class="menu-item" href="pratiche.html">
+        <span class="menu-icon">▤</span>
+        Pratiche
+      </a>
+
+      <a class="menu-item" href="nuova-pratica.html">
+        <span class="menu-icon">＋</span>
+        Nuova pratica
+      </a>
+
+    </div>
+
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        AUTOMAZIONI
+      </div>
+
+      <a class="menu-item" href="email-ai.html">
+        <span class="menu-icon">✉</span>
+        Email AI
+      </a>
+
+      <div class="menu-item disabled">
+        <span class="menu-icon">◉</span>
+        WhatsApp AI
+      </div>
+
+      <a class="menu-item" href="viaggi.html">
+        <span class="menu-icon">↗</span>
+        Viaggi
+      </a>
+
+    </div>
+
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        GESTIONE
+      </div>
+
+      <a class="menu-item" href="anagrafiche.html">
+        <span class="menu-icon">▣</span>
+        Anagrafiche
+      </a>
+
+      <a class="menu-item active" href="autisti.html">
+        <span class="menu-icon">♟</span>
+        Autisti
+      </a>
+
+      <a class="menu-item" href="impostazioni.html">
+        <span class="menu-icon">⚙</span>
+        Impostazioni
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <div class="page">
+
+      <a
+        href="autisti.html"
+        class="back"
+      >
+        ← Torna agli autisti
+      </a>
+
+
+      <div class="page-title">
+
+        <h1>Nuovo autista</h1>
+
+        <p>
+          Inserisci i dati dell'autista.
+          L'accesso personale a MatRi-mIA potrà essere attivato successivamente.
+        </p>
+
+      </div>
+
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+
+      <form
+        id="driverForm"
+        class="card"
+      >
+
+        <div class="card-header">
+
+          <h2>
+            Dati autista
+          </h2>
+
+          <p>
+            Nome e cognome sono obbligatori.
+          </p>
+
+        </div>
+
+
+        <div class="card-body">
+
+          <div class="grid">
+
+            <div class="field">
+
+              <label for="nome">
+                Nome
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="nome"
+                type="text"
+                maxlength="100"
+                autocomplete="given-name"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="cognome">
+                Cognome
+                <span class="required">*</span>
+              </label>
+
+              <input
+                id="cognome"
+                type="text"
+                maxlength="100"
+                autocomplete="family-name"
+                required
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="telefono">
+                Telefono
+              </label>
+
+              <input
+                id="telefono"
+                type="tel"
+                maxlength="40"
+                autocomplete="tel"
+                placeholder="+39 ..."
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="email">
+                Email
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                maxlength="200"
+                autocomplete="email"
+                placeholder="autista@esempio.it"
+              >
+
+              <div class="hint">
+                La useremo successivamente se vorrai attivare l'accesso all'Area Autista.
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label for="targa">
+                Targa mezzo
+              </label>
+
+              <input
+                id="targa"
+                type="text"
+                maxlength="30"
+                autocomplete="off"
+                placeholder="AB123CD"
+              >
+
+            </div>
+
+
+            <div class="field full">
+
+              <label for="note">
+                Note
+              </label>
+
+              <textarea
+                id="note"
+                maxlength="2000"
+                placeholder="Informazioni aggiuntive sull'autista..."
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <div class="info">
+            <strong>Area Autista:</strong>
+            la creazione di questa scheda non crea ancora un account.
+            Successivamente potrai inviare all'autista un invito personale
+            per accedere ai soli viaggi assegnati e caricare CMR, POD,
+            DDT e fotografie direttamente dallo smartphone.
+          </div>
+
+        </div>
+
+
+        <div class="actions">
+
+          <a
+            href="autisti.html"
+            class="btn btn-secondary"
+          >
+            Annulla
+          </a>
+
+          <button
+            id="saveButton"
+            type="submit"
+            class="btn btn-primary"
+          >
+            Salva autista
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<script type="module">
+
+  import {
+    createClient
+  } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+  const SUPABASE_URL =
+    "https://sctzockiurjsxzdkctmy.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+
+  const supabase =
+    createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  const form =
+    document.getElementById("driverForm");
+
+  const saveButton =
+    document.getElementById("saveButton");
+
+  const message =
+    document.getElementById("message");
+
+
+  let currentProfile = null;
+
+
+  /* =========================
+     AUTENTICAZIONE
+     ========================= */
+
+  async function protect(){
+
+    const {
+      data:{
+        session
+      }
+    } =
+      await supabase.auth.getSession();
+
+
+    if(!session){
+
+      window.location.href =
+        "login.html";
+
+      return false;
+    }
+
+
+    const {
+      data:profile,
+      error
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          session.user.id
+        )
+        .single();
+
+
+    if(
+      error ||
+      !profile ||
+      !profile.azienda_id
+    ){
+
+      console.error(
+        "Errore profilo:",
+        error
+      );
+
+      await supabase.auth.signOut();
+
+      window.location.href =
+        "login.html";
+
+      return false;
+    }
+
+
+    if(
+      String(profile.ruolo)
+        .toLowerCase() === "autista"
+    ){
+
+      window.location.href =
+        "autista.html";
+
+      return false;
+    }
+
+
+    currentProfile = profile;
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+    return true;
+  }
+
+
+  /* =========================
+     MESSAGGI
+     ========================= */
+
+  function showMessage(
+    text,
+    type = "error"
+  ){
+
+    message.textContent =
+      text;
+
+    message.className =
+      `message ${type}`;
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+  }
+
+
+  /* =========================
+     SALVATAGGIO
+     ========================= */
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      message.className =
+        "message";
+
+      message.textContent =
+        "";
+
+
+      const nome =
+        document
+          .getElementById("nome")
+          .value
+          .trim();
+
+
+      const cognome =
+        document
+          .getElementById("cognome")
+          .value
+          .trim();
+
+
+      const telefono =
+        document
+          .getElementById("telefono")
+          .value
+          .trim();
+
+
+      const email =
+        document
+          .getElementById("email")
+          .value
+          .trim()
+          .toLowerCase();
+
+
+      const targa =
+        document
+          .getElementById("targa")
+          .value
+          .trim()
+          .toUpperCase();
+
+
+      const note =
+        document
+          .getElementById("note")
+          .value
+          .trim();
+
+
+      if(
+        !nome ||
+        !cognome
+      ){
+
+        showMessage(
+          "Inserisci nome e cognome dell'autista."
+        );
+
+        return;
+      }
+
+
+      saveButton.disabled =
+        true;
+
+      saveButton.textContent =
+        "Salvataggio...";
+
+
+      try{
+
+        const {
+          data,
+          error
+        } =
+          await supabase
+            .from("autisti")
+            .insert({
+
+              azienda_id:
+                currentProfile.azienda_id,
+
+              nome,
+
+              cognome,
+
+              telefono:
+                telefono || null,
+
+              email:
+                email || null,
+
+              targa_mezzo:
+                targa || null,
+
+              note:
+                note || null,
+
+              attivo:true
+
+            })
+            .select("id")
+            .single();
+
+
+        if(error){
+
+          /*
+           * Codice PostgreSQL 23505:
+           * violazione indice UNIQUE.
+           */
+
+          if(
+            error.code === "23505"
+          ){
+
+            throw new Error(
+              "Esiste già un autista con questa email nella tua azienda."
+            );
+
+          }
+
+
+          throw error;
+        }
+
+
+        showMessage(
+          "Autista creato correttamente.",
+          "success"
+        );
+
+
+        /*
+         * Per adesso torniamo all'elenco.
+         *
+         * Quando creeremo dettaglio-autista.html
+         * potremo sostituire questo redirect con:
+         *
+         * dettaglio-autista.html?id=...
+         */
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "autisti.html";
+
+          },
+          500
+        );
+
+
+      }
+      catch(error){
+
+        console.error(
+          "Errore creazione autista:",
+          error
+        );
+
+
+        showMessage(
+          error?.message ||
+          "Impossibile creare l'autista."
+        );
+
+
+        saveButton.disabled =
+          false;
+
+        saveButton.textContent =
+          "Salva autista";
+      }
+
+    }
+  );
+
+
+  /* =========================
+     AVVIO
+     ========================= */
+
+  const authorized =
+    await protect();
+
+
+  if(!authorized){
+
+    throw new Error(
+      "Accesso non autorizzato"
+    );
+  }
+
+</script>
+
+</body>
+</html>
