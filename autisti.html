@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Autisti | MatRi-mIA Logistics</title>
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f3f6fa;
+      color:#172033;
+      min-height:100vh;
+      visibility:hidden;
+    }
+
+    body.auth-ready{
+      visibility:visible;
+    }
+
+    .app{
+      display:flex;
+      min-height:100vh;
+    }
+
+    /* =========================
+       SIDEBAR
+       ========================= */
+
+    .sidebar{
+      width:250px;
+      background:#111827;
+      color:white;
+      padding:24px 16px;
+      position:fixed;
+      left:0;
+      top:0;
+      bottom:0;
+      overflow-y:auto;
+    }
+
+    .brand{
+      margin-bottom:30px;
+      padding:0 8px;
+    }
+
+    .brand-title{
+      font-size:21px;
+      font-weight:700;
+      letter-spacing:-0.4px;
+    }
+
+    .brand-title .ia{
+      color:#38bdf8;
+    }
+
+    .brand-subtitle{
+      margin-top:4px;
+      font-size:12px;
+      color:#94a3b8;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .menu-section{
+      margin-top:24px;
+    }
+
+    .menu-title{
+      padding:0 12px;
+      margin-bottom:8px;
+      color:#64748b;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:1.2px;
+    }
+
+    .menu-item{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      padding:11px 12px;
+      margin-bottom:4px;
+      border-radius:9px;
+      color:#cbd5e1;
+      text-decoration:none;
+      font-size:14px;
+      transition:.2s;
+    }
+
+    .menu-item:hover{
+      background:#1f2937;
+      color:white;
+    }
+
+    .menu-item.active{
+      background:#2563eb;
+      color:white;
+    }
+
+    .menu-item.disabled{
+      opacity:.5;
+      cursor:default;
+    }
+
+    .menu-icon{
+      width:20px;
+      text-align:center;
+    }
+
+    /* =========================
+       MAIN
+       ========================= */
+
+    .main{
+      margin-left:250px;
+      width:calc(100% - 250px);
+      padding:32px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      margin-bottom:28px;
+    }
+
+    .page-title h1{
+      font-size:28px;
+      margin-bottom:6px;
+    }
+
+    .page-title p{
+      color:#64748b;
+      font-size:14px;
+    }
+
+    .btn{
+      border:0;
+      border-radius:9px;
+      padding:11px 17px;
+      font-weight:600;
+      font-size:14px;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+    }
+
+    .btn-primary{
+      background:#2563eb;
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:#1d4ed8;
+    }
+
+    /* =========================
+       STATS
+       ========================= */
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-bottom:22px;
+    }
+
+    .stat-card{
+      background:white;
+      border:1px solid #e2e8f0;
+      border-radius:14px;
+      padding:20px;
+    }
+
+    .stat-label{
+      color:#64748b;
+      font-size:13px;
+      margin-bottom:8px;
+    }
+
+    .stat-value{
+      font-size:27px;
+      font-weight:700;
+    }
+
+    /* =========================
+       CARD / SEARCH
+       ========================= */
+
+    .card{
+      background:white;
+      border:1px solid #e2e8f0;
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    .toolbar{
+      padding:18px;
+      border-bottom:1px solid #e2e8f0;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .search{
+      width:100%;
+      max-width:420px;
+      border:1px solid #cbd5e1;
+      border-radius:9px;
+      padding:11px 13px;
+      outline:none;
+      font-size:14px;
+    }
+
+    .search:focus{
+      border-color:#2563eb;
+      box-shadow:0 0 0 3px rgba(37,99,235,.08);
+    }
+
+    /* =========================
+       TABLE
+       ========================= */
+
+    .table-wrap{
+      overflow-x:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:760px;
+    }
+
+    th{
+      text-align:left;
+      padding:13px 18px;
+      font-size:11px;
+      color:#64748b;
+      background:#f8fafc;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      border-bottom:1px solid #e2e8f0;
+    }
+
+    td{
+      padding:16px 18px;
+      border-bottom:1px solid #eef2f7;
+      font-size:14px;
+      vertical-align:middle;
+    }
+
+    tbody tr{
+      transition:.15s;
+    }
+
+    tbody tr.clickable{
+      cursor:pointer;
+    }
+
+    tbody tr.clickable:hover{
+      background:#f8fafc;
+    }
+
+    tbody tr:last-child td{
+      border-bottom:0;
+    }
+
+    .driver-name{
+      font-weight:600;
+    }
+
+    .driver-email{
+      color:#64748b;
+      font-size:12px;
+      margin-top:4px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12px;
+      font-weight:600;
+    }
+
+    .badge-active{
+      background:#dcfce7;
+      color:#166534;
+    }
+
+    .badge-inactive{
+      background:#f1f5f9;
+      color:#64748b;
+    }
+
+    .badge-account{
+      background:#dbeafe;
+      color:#1d4ed8;
+    }
+
+    .badge-no-account{
+      background:#fef3c7;
+      color:#92400e;
+    }
+
+    .arrow{
+      font-size:20px;
+      color:#94a3b8;
+      text-align:right;
+    }
+
+    /* =========================
+       EMPTY / LOADING
+       ========================= */
+
+    .empty{
+      padding:55px 20px;
+      text-align:center;
+    }
+
+    .empty-icon{
+      font-size:38px;
+      margin-bottom:14px;
+    }
+
+    .empty-title{
+      font-size:17px;
+      font-weight:700;
+      margin-bottom:7px;
+    }
+
+    .empty-text{
+      color:#64748b;
+      font-size:14px;
+      margin-bottom:20px;
+    }
+
+    .loading{
+      padding:45px;
+      text-align:center;
+      color:#64748b;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media(max-width:900px){
+
+      .sidebar{
+        display:none;
+      }
+
+      .main{
+        margin-left:0;
+        width:100%;
+        padding:20px;
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .topbar{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- =========================
+       SIDEBAR
+       ========================= -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-title">
+        MatRi-m<span class="ia">IA</span>
+      </div>
+
+      <div class="brand-subtitle">
+        Logistics
+      </div>
+    </div>
+
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        OPERATIVITÀ
+      </div>
+
+      <a class="menu-item" href="dashboard.html">
+        <span class="menu-icon">▦</span>
+        Dashboard
+      </a>
+
+      <a class="menu-item" href="pratiche.html">
+        <span class="menu-icon">▤</span>
+        Pratiche
+      </a>
+
+      <a class="menu-item" href="nuova-pratica.html">
+        <span class="menu-icon">＋</span>
+        Nuova pratica
+      </a>
+
+    </div>
+
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        AUTOMAZIONI
+      </div>
+
+      <a class="menu-item" href="email-ai.html">
+        <span class="menu-icon">✉</span>
+        Email AI
+      </a>
+
+      <div class="menu-item disabled">
+        <span class="menu-icon">◉</span>
+        WhatsApp AI
+      </div>
+
+      <a class="menu-item" href="viaggi.html">
+        <span class="menu-icon">↗</span>
+        Viaggi
+      </a>
+
+    </div>
+
+
+    <div class="menu-section">
+
+      <div class="menu-title">
+        GESTIONE
+      </div>
+
+      <a class="menu-item" href="anagrafiche.html">
+        <span class="menu-icon">▣</span>
+        Anagrafiche
+      </a>
+
+      <a class="menu-item active" href="autisti.html">
+        <span class="menu-icon">♟</span>
+        Autisti
+      </a>
+
+      <a class="menu-item" href="impostazioni.html">
+        <span class="menu-icon">⚙</span>
+        Impostazioni
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================
+       MAIN
+       ========================= -->
+
+  <main class="main">
+
+    <div class="topbar">
+
+      <div class="page-title">
+        <h1>Autisti</h1>
+        <p>
+          Gestisci gli autisti della tua azienda e i loro accessi a MatRi-mIA.
+        </p>
+      </div>
+
+      <a
+        href="nuovo-autista.html"
+        class="btn btn-primary"
+      >
+        ＋ Nuovo autista
+      </a>
+
+    </div>
+
+
+    <!-- STATISTICHE -->
+
+    <div class="stats">
+
+      <div class="stat-card">
+        <div class="stat-label">
+          Autisti
+        </div>
+
+        <div
+          class="stat-value"
+          id="totalDrivers"
+        >
+          -
+        </div>
+      </div>
+
+
+      <div class="stat-card">
+        <div class="stat-label">
+          Attivi
+        </div>
+
+        <div
+          class="stat-value"
+          id="activeDrivers"
+        >
+          -
+        </div>
+      </div>
+
+
+      <div class="stat-card">
+        <div class="stat-label">
+          Con accesso MatRi-mIA
+        </div>
+
+        <div
+          class="stat-value"
+          id="accountDrivers"
+        >
+          -
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ELENCO -->
+
+    <div class="card">
+
+      <div class="toolbar">
+
+        <input
+          id="searchInput"
+          class="search"
+          type="search"
+          placeholder="Cerca per nome, cognome, email, telefono o targa..."
+        >
+
+      </div>
+
+
+      <div id="content">
+
+        <div class="loading">
+          Caricamento autisti...
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<script type="module">
+
+  import {
+    createClient
+  } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+  /* =========================
+     SUPABASE
+     ========================= */
+
+  const SUPABASE_URL =
+    "https://sctzockiurjsxzdkctmy.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+
+  const supabase =
+    createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* =========================
+     ELEMENTI
+     ========================= */
+
+  const content =
+    document.getElementById("content");
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  const totalDrivers =
+    document.getElementById("totalDrivers");
+
+  const activeDrivers =
+    document.getElementById("activeDrivers");
+
+  const accountDrivers =
+    document.getElementById("accountDrivers");
+
+
+  let drivers = [];
+
+  let currentProfile = null;
+
+
+  /* =========================
+     AUTENTICAZIONE
+     ========================= */
+
+  async function protect(){
+
+    const {
+      data:{
+        session
+      }
+    } =
+      await supabase.auth.getSession();
+
+
+    if(!session){
+
+      window.location.href =
+        "login.html";
+
+      return false;
+    }
+
+
+    const {
+      data:profile,
+      error
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          session.user.id
+        )
+        .single();
+
+
+    if(
+      error ||
+      !profile ||
+      !profile.azienda_id
+    ){
+
+      console.error(
+        "Errore profilo:",
+        error
+      );
+
+      await supabase.auth.signOut();
+
+      window.location.href =
+        "login.html";
+
+      return false;
+    }
+
+
+    /*
+     * Un autista non deve poter entrare
+     * nella gestione aziendale.
+     */
+
+    if(
+      String(profile.ruolo)
+        .toLowerCase() === "autista"
+    ){
+
+      window.location.href =
+        "autista.html";
+
+      return false;
+    }
+
+
+    currentProfile = profile;
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+    return true;
+  }
+
+
+  /* =========================
+     CARICA AUTISTI
+     ========================= */
+
+  async function loadDrivers(){
+
+    content.innerHTML =
+      `
+        <div class="loading">
+          Caricamento autisti...
+        </div>
+      `;
+
+
+    const {
+      data,
+      error
+    } =
+      await supabase
+        .from("autisti")
+        .select(`
+          id,
+          azienda_id,
+          user_id,
+          nome,
+          cognome,
+          telefono,
+          email,
+          targa_mezzo,
+          note,
+          attivo,
+          created_at
+        `)
+        .eq(
+          "azienda_id",
+          currentProfile.azienda_id
+        )
+        .order(
+          "cognome",
+          {
+            ascending:true
+          }
+        )
+        .order(
+          "nome",
+          {
+            ascending:true
+          }
+        );
+
+
+    if(error){
+
+      console.error(
+        "Errore caricamento autisti:",
+        error
+      );
+
+      content.innerHTML =
+        `
+          <div class="empty">
+
+            <div class="empty-icon">
+              ⚠
+            </div>
+
+            <div class="empty-title">
+              Impossibile caricare gli autisti
+            </div>
+
+            <div class="empty-text">
+              Si è verificato un errore durante il caricamento.
+            </div>
+
+          </div>
+        `;
+
+      return;
+    }
+
+
+    drivers =
+      data || [];
+
+
+    updateStats();
+
+    renderDrivers(
+      drivers
+    );
+  }
+
+
+  /* =========================
+     STATISTICHE
+     ========================= */
+
+  function updateStats(){
+
+    totalDrivers.textContent =
+      drivers.length;
+
+
+    activeDrivers.textContent =
+      drivers.filter(
+        driver =>
+          driver.attivo === true
+      ).length;
+
+
+    accountDrivers.textContent =
+      drivers.filter(
+        driver =>
+          !!driver.user_id
+      ).length;
+  }
+
+
+  /* =========================
+     RENDER
+     ========================= */
+
+  function renderDrivers(list){
+
+    if(!list.length){
+
+      content.innerHTML =
+        `
+          <div class="empty">
+
+            <div class="empty-icon">
+              🚚
+            </div>
+
+            <div class="empty-title">
+              Nessun autista
+            </div>
+
+            <div class="empty-text">
+              Aggiungi il primo autista della tua azienda.
+            </div>
+
+            <a
+              href="nuovo-autista.html"
+              class="btn btn-primary"
+            >
+              ＋ Nuovo autista
+            </a>
+
+          </div>
+        `;
+
+      return;
+    }
+
+
+    const rows =
+      list.map(driver => {
+
+        const fullName =
+          `${driver.nome || ""} ${driver.cognome || ""}`
+            .trim();
+
+
+        const status =
+          driver.attivo
+            ? `
+                <span class="badge badge-active">
+                  ● Attivo
+                </span>
+              `
+            : `
+                <span class="badge badge-inactive">
+                  Inattivo
+                </span>
+              `;
+
+
+        const account =
+          driver.user_id
+            ? `
+                <span class="badge badge-account">
+                  Accesso attivo
+                </span>
+              `
+            : `
+                <span class="badge badge-no-account">
+                  Nessun accesso
+                </span>
+              `;
+
+
+        return `
+          <tr
+            class="clickable"
+            data-id="${escapeHtml(driver.id)}"
+          >
+
+            <td>
+
+              <div class="driver-name">
+                ${escapeHtml(fullName)}
+              </div>
+
+              ${
+                driver.email
+                  ?
+                    `
+                      <div class="driver-email">
+                        ${escapeHtml(driver.email)}
+                      </div>
+                    `
+                  :
+                    ""
+              }
+
+            </td>
+
+
+            <td>
+              ${escapeHtml(driver.telefono || "—")}
+            </td>
+
+
+            <td>
+              ${escapeHtml(driver.targa_mezzo || "—")}
+            </td>
+
+
+            <td>
+              ${status}
+            </td>
+
+
+            <td>
+              ${account}
+            </td>
+
+
+            <td class="arrow">
+              →
+            </td>
+
+          </tr>
+        `;
+
+      }).join("");
+
+
+    content.innerHTML =
+      `
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Autista
+                </th>
+
+                <th>
+                  Telefono
+                </th>
+
+                <th>
+                  Mezzo
+                </th>
+
+                <th>
+                  Stato
+                </th>
+
+                <th>
+                  Account
+                </th>
+
+                <th></th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+              ${rows}
+            </tbody>
+
+          </table>
+
+        </div>
+      `;
+
+
+    document
+      .querySelectorAll(
+        "tr[data-id]"
+      )
+      .forEach(row => {
+
+        row.addEventListener(
+          "click",
+          () => {
+
+            const id =
+              row.dataset.id;
+
+            window.location.href =
+              "dettaglio-autista.html?id=" +
+              encodeURIComponent(id);
+          }
+        );
+
+      });
+  }
+
+
+  /* =========================
+     RICERCA
+     ========================= */
+
+  searchInput.addEventListener(
+    "input",
+    () => {
+
+      const search =
+        searchInput.value
+          .trim()
+          .toLowerCase();
+
+
+      if(!search){
+
+        renderDrivers(
+          drivers
+        );
+
+        return;
+      }
+
+
+      const filtered =
+        drivers.filter(driver => {
+
+          const text =
+            [
+              driver.nome,
+              driver.cognome,
+              driver.email,
+              driver.telefono,
+              driver.targa_mezzo
+            ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+
+          return text.includes(
+            search
+          );
+
+        });
+
+
+      renderDrivers(
+        filtered
+      );
+
+    }
+  );
+
+
+  /* =========================
+     ESCAPE HTML
+     ========================= */
+
+  function escapeHtml(value){
+
+    return String(value ?? "")
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+  }
+
+
+  /* =========================
+     AVVIO
+     ========================= */
+
+  const authorized =
+    await protect();
+
+
+  if(authorized){
+
+    await loadDrivers();
+
+  }
+
+</script>
+
+</body>
+</html>
