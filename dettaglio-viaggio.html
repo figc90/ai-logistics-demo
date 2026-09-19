@@ -42,7 +42,9 @@ button,input,select,textarea{
   display:flex;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
   width:225px;
@@ -55,6 +57,7 @@ button,input,select,textarea{
   bottom:0;
   display:flex;
   flex-direction:column;
+  z-index:100;
 }
 
 .sidebar-logo{
@@ -86,6 +89,8 @@ button,input,select,textarea{
 .sidebar-nav{
   padding:24px 12px;
   flex:1;
+  overflow-y:auto;
+  min-height:0;
 }
 
 .nav-section{
@@ -132,6 +137,8 @@ button,input,select,textarea{
 .sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
+  flex-shrink:0;
+  background:#0d2d50;
 }
 
 .user-card{
@@ -165,7 +172,9 @@ button,input,select,textarea{
   cursor:pointer;
 }
 
-/* MAIN */
+/* =========================
+   MAIN
+========================= */
 
 .main{
   margin-left:225px;
@@ -283,6 +292,7 @@ h1{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  gap:15px;
 }
 
 .card-header h2{
@@ -308,7 +318,7 @@ h1{
 }
 
 .field.full{
-  grid-column:1 / -1;
+  grid-column:1/-1;
 }
 
 .label{
@@ -327,8 +337,6 @@ h1{
   overflow-wrap:anywhere;
 }
 
-/* LINK ANAGRAFICA */
-
 .registry-link{
   display:none;
   margin-top:8px;
@@ -341,7 +349,37 @@ h1{
   text-decoration:underline;
 }
 
-/* PRATICA COLLEGATA */
+/* =========================
+   AUTISTA
+========================= */
+
+.driver-linked{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:7px;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#e9f8f1;
+  color:#23784f;
+  font-size:9px;
+  font-weight:900;
+}
+
+.driver-unlinked{
+  display:inline-flex;
+  margin-top:7px;
+  padding:5px 8px;
+  border-radius:999px;
+  background:#edf1f5;
+  color:#687689;
+  font-size:9px;
+  font-weight:900;
+}
+
+/* =========================
+   PRATICA
+========================= */
 
 .practice-card{
   background:linear-gradient(145deg,#0c2a4e,#123e6d);
@@ -379,7 +417,9 @@ h1{
   font-weight:900;
 }
 
-/* ACTIONS */
+/* =========================
+   BUTTONS
+========================= */
 
 .actions{
   display:flex;
@@ -417,7 +457,9 @@ h1{
   cursor:not-allowed;
 }
 
-/* EDITOR */
+/* =========================
+   EDITOR
+========================= */
 
 .editor{
   display:none;
@@ -436,7 +478,7 @@ h1{
 }
 
 .form-group.full{
-  grid-column:1 / -1;
+  grid-column:1/-1;
 }
 
 .form-group label{
@@ -446,7 +488,9 @@ h1{
   text-transform:uppercase;
 }
 
-input,select,textarea{
+input,
+select,
+textarea{
   border:1px solid #dce3eb;
   border-radius:9px;
   padding:0 12px;
@@ -455,7 +499,8 @@ input,select,textarea{
   outline:none;
 }
 
-input,select{
+input,
+select{
   height:42px;
 }
 
@@ -469,6 +514,11 @@ select:focus,
 textarea:focus{
   border-color:#2ca9d2;
   box-shadow:0 0 0 3px rgba(44,169,210,.08);
+}
+
+input:disabled{
+  background:#f1f4f7;
+  color:#738196;
 }
 
 .field-hint{
@@ -495,9 +545,9 @@ textarea:focus{
   color:#1d704c;
 }
 
-/* =========================================================
+/* =========================
    DOCUMENTI
-   ========================================================= */
+========================= */
 
 .documents-upload{
   background:#f8fafc;
@@ -641,7 +691,9 @@ textarea:focus{
   color:#b42318;
 }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:900px){
 
@@ -687,6 +739,19 @@ textarea:focus{
     padding:0;
   }
 
+  .sidebar-bottom{
+    padding:8px;
+  }
+
+  .logout-btn{
+    font-size:0;
+  }
+
+  .logout-btn::after{
+    content:"↪";
+    font-size:18px;
+  }
+
   .content{
     padding:25px 14px;
   }
@@ -728,519 +793,466 @@ textarea:focus{
 
 <aside class="sidebar">
 
-<div class="sidebar-logo">
+  <div class="sidebar-logo">
 
-<a href="dashboard.html" class="sidebar-logo-link">
+    <a href="dashboard.html" class="sidebar-logo-link">
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+    </a>
 
-<img
-src="matrimia-logo-web.png"
-alt="MatRi-mIA Logistics">
+  </div>
 
-</a>
+  <nav class="sidebar-nav">
 
-</div>
+    <div class="nav-section">
 
-<nav class="sidebar-nav">
+      <div class="nav-title">OPERATIVITÀ</div>
 
-<div class="nav-section">
+      <a href="dashboard.html" class="nav-item">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
 
-<div class="nav-title">
-OPERATIVITÀ
-</div>
+      <a href="pratiche.html" class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
 
-<a href="dashboard.html" class="nav-item">
-<span class="nav-icon">▦</span>
-<span>Dashboard</span>
-</a>
+      <a href="nuova-pratica.html" class="nav-item">
+        <span class="nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
 
-<a href="pratiche.html" class="nav-item">
-<span class="nav-icon">▤</span>
-<span>Pratiche</span>
-</a>
+    </div>
 
-<a href="nuova-pratica.html" class="nav-item">
-<span class="nav-icon">＋</span>
-<span>Nuova pratica</span>
-</a>
+    <div class="nav-section">
 
-</div>
+      <div class="nav-title">AUTOMAZIONI</div>
 
-<div class="nav-section">
+      <a href="email-ai.html" class="nav-item">
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+      </a>
 
-<div class="nav-title">
-AUTOMAZIONI
-</div>
+      <a
+        href="#"
+        class="nav-item"
+        onclick="return false;">
+        <span class="nav-icon">◉</span>
+        <span>WhatsApp AI</span>
+      </a>
 
-<a href="email-ai.html" class="nav-item">
-<span class="nav-icon">✉</span>
-<span>Email AI</span>
-</a>
+      <a href="viaggi.html" class="nav-item active">
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+      </a>
 
-<a href="#" class="nav-item" onclick="return false;" aria-label="WhatsApp AI">
-<span class="nav-icon">◉</span>
-<span>WhatsApp AI</span>
-</a>
+    </div>
 
-<a href="viaggi.html" class="nav-item active">
-<span class="nav-icon">↗</span>
-<span>Viaggi</span>
-</a>
+    <div class="nav-section">
 
-</div>
+      <div class="nav-title">GESTIONE</div>
 
-<div class="nav-section">
+      <a href="anagrafiche.html" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Anagrafiche</span>
+      </a>
 
-<div class="nav-title">
-GESTIONE
-</div>
+      <a href="autisti.html" class="nav-item">
+        <span class="nav-icon">♟</span>
+        <span>Autisti</span>
+      </a>
 
-<a href="anagrafiche.html" class="nav-item">
-<span class="nav-icon">▣</span>
-<span>Anagrafiche</span>
-</a>
+      <a href="impostazioni.html" class="nav-item">
+        <span class="nav-icon">⚙</span>
+        <span>Impostazioni</span>
+      </a>
 
-<a href="impostazioni.html" class="nav-item">
-<span class="nav-icon">⚙</span>
-<span>Impostazioni</span>
-</a>
+    </div>
 
-</div>
+  </nav>
 
-</nav>
+  <div class="sidebar-bottom">
 
-<div class="sidebar-bottom">
+    <div class="user-card">
+      <div class="user-label">UTENTE</div>
+      <div id="userEmail" class="user-email">-</div>
+    </div>
 
-<div class="user-card">
+    <button
+      id="logoutButton"
+      class="logout-btn"
+      type="button">
+      Esci
+    </button>
 
-<div class="user-label">
-UTENTE
-</div>
-
-<div id="userEmail" class="user-email">
--
-</div>
-
-</div>
-
-<button
-id="logoutButton"
-class="logout-btn"
-type="button">
-Esci
-</button>
-
-</div>
+  </div>
 
 </aside>
-
 
 <div class="main">
 
 <header class="topbar">
 
-<div class="topbar-brand">
-MatRi-mIA Logistics · Viaggi
-</div>
+  <div class="topbar-brand">
+    MatRi-mIA Logistics · Viaggi
+  </div>
 
-<a href="viaggi.html" class="back">
-← Torna ai viaggi
-</a>
+  <a href="viaggi.html" class="back">
+    ← Torna ai viaggi
+  </a>
 
 </header>
-
 
 <main class="content">
 
 <div id="messageBox" class="message"></div>
 
-
 <div class="heading">
 
-<div>
+  <div>
 
-<div class="eyebrow">
-MATRI-MIA · DETTAGLIO VIAGGIO
-</div>
+    <div class="eyebrow">
+      MATRI-MIA · DETTAGLIO VIAGGIO
+    </div>
 
-<h1 id="numeroViaggio">
--
-</h1>
+    <h1 id="numeroViaggio">-</h1>
 
-<div id="route" class="route">
--
-</div>
+    <div id="route" class="route">-</div>
 
-</div>
+  </div>
 
-<div id="statusBadge" class="badge badge-plan">
--
-</div>
+  <div id="statusBadge" class="badge badge-plan">
+    -
+  </div>
 
 </div>
-
 
 <div class="grid">
 
 <div>
 
-<!-- DATI VIAGGIO -->
+<!-- =========================
+     DATI VIAGGIO
+========================= -->
 
 <section class="card">
 
 <div class="card-header">
 
-<h2>Dati viaggio</h2>
+  <h2>Dati viaggio</h2>
 
-<div class="actions">
+  <div class="actions">
 
-<button
-id="editButton"
-class="btn btn-secondary"
-type="button">
-Modifica
-</button>
+    <button
+      id="editButton"
+      class="btn btn-secondary"
+      type="button">
+      Modifica
+    </button>
 
-<button
-id="deleteButton"
-class="btn btn-danger"
-type="button">
-Elimina
-</button>
+    <button
+      id="deleteButton"
+      class="btn btn-danger"
+      type="button">
+      Elimina
+    </button>
+
+  </div>
 
 </div>
-
-</div>
-
 
 <div id="viewMode" class="card-body">
 
 <div class="fields">
 
-<div class="field">
+  <div class="field">
 
-<div class="label">
-Vettore
-</div>
+    <div class="label">Vettore</div>
 
-<div id="vVettore" class="value">
--
-</div>
+    <div id="vVettore" class="value">-</div>
 
-<a
-id="vettoreLink"
-href="#"
-class="registry-link">
-Apri anagrafica →
-</a>
+    <a
+      id="vettoreLink"
+      href="#"
+      class="registry-link">
+      Apri anagrafica →
+    </a>
 
-</div>
+  </div>
 
+  <div class="field">
 
-<div class="field">
+    <div class="label">Autista assegnato</div>
 
-<div class="label">
-Autista
-</div>
+    <div id="vAutista" class="value">-</div>
 
-<div id="vAutista" class="value">
--
-</div>
+    <div
+      id="driverStatus"
+      class="driver-unlinked">
+      Nessun account collegato
+    </div>
 
-</div>
+  </div>
 
+  <div class="field">
 
-<div class="field">
+    <div class="label">Telefono autista</div>
 
-<div class="label">
-Telefono autista
-</div>
+    <div id="vTelefono" class="value">-</div>
 
-<div id="vTelefono" class="value">
--
-</div>
+  </div>
 
-</div>
+  <div class="field">
 
+    <div class="label">Stato</div>
 
-<div class="field">
+    <div id="vStato" class="value">-</div>
 
-<div class="label">
-Stato
-</div>
+  </div>
 
-<div id="vStato" class="value">
--
-</div>
+  <div class="field">
 
-</div>
+    <div class="label">Targa trattore</div>
 
+    <div id="vTrattore" class="value">-</div>
 
-<div class="field">
+  </div>
 
-<div class="label">
-Targa trattore
-</div>
+  <div class="field">
 
-<div id="vTrattore" class="value">
--
-</div>
+    <div class="label">Targa rimorchio</div>
 
-</div>
+    <div id="vRimorchio" class="value">-</div>
 
+  </div>
 
-<div class="field">
+  <div class="field">
 
-<div class="label">
-Targa rimorchio
-</div>
+    <div class="label">Partenza prevista</div>
 
-<div id="vRimorchio" class="value">
--
-</div>
+    <div id="vPartenza" class="value">-</div>
 
-</div>
+  </div>
 
+  <div class="field">
 
-<div class="field">
+    <div class="label">Arrivo previsto</div>
 
-<div class="label">
-Partenza prevista
-</div>
+    <div id="vArrivo" class="value">-</div>
 
-<div id="vPartenza" class="value">
--
-</div>
+  </div>
 
-</div>
+  <div class="field">
 
+    <div class="label">Km previsti</div>
 
-<div class="field">
+    <div id="vKm" class="value">-</div>
 
-<div class="label">
-Arrivo previsto
-</div>
+  </div>
 
-<div id="vArrivo" class="value">
--
-</div>
+  <div class="field">
 
-</div>
+    <div class="label">Costo previsto</div>
 
+    <div id="vCosto" class="value">-</div>
 
-<div class="field">
+  </div>
 
-<div class="label">
-Km previsti
-</div>
+  <div class="field full">
 
-<div id="vKm" class="value">
--
-</div>
+    <div class="label">Note operative</div>
 
-</div>
+    <div id="vNote" class="value">-</div>
 
-
-<div class="field">
-
-<div class="label">
-Costo previsto
-</div>
-
-<div id="vCosto" class="value">
--
-</div>
-
-</div>
-
-
-<div class="field full">
-
-<div class="label">
-Note operative
-</div>
-
-<div id="vNote" class="value">
--
-</div>
+  </div>
 
 </div>
 
 </div>
 
-</div>
-
+<!-- =========================
+     MODIFICA
+========================= -->
 
 <div id="editMode" class="card-body editor">
 
 <div class="form-grid">
 
-<div class="form-group">
+  <div class="form-group">
 
-<label for="eVettore">
-Vettore
-</label>
+    <label for="eVettore">
+      Vettore
+    </label>
 
-<input
-id="eVettore"
-type="text"
-list="vettoriList"
-autocomplete="off">
+    <input
+      id="eVettore"
+      type="text"
+      list="vettoriList"
+      autocomplete="off">
 
-<datalist id="vettoriList"></datalist>
+    <datalist id="vettoriList"></datalist>
 
-<div class="field-hint">
-Seleziona un vettore dalle Anagrafiche oppure inseriscilo manualmente.
+    <div class="field-hint">
+      Seleziona un vettore dalle Anagrafiche oppure inseriscilo manualmente.
+    </div>
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="eAutistaId">
+      Autista assegnato
+    </label>
+
+    <select id="eAutistaId">
+
+      <option value="">
+        Nessun autista assegnato
+      </option>
+
+    </select>
+
+    <div class="field-hint">
+      Sono mostrati solamente gli autisti attivi della tua azienda.
+    </div>
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="eTelefono">
+      Telefono autista
+    </label>
+
+    <input
+      id="eTelefono"
+      type="text"
+      readonly>
+
+    <div class="field-hint">
+      Compilato automaticamente dall'anagrafica dell'autista.
+    </div>
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="eStato">
+      Stato
+    </label>
+
+    <select id="eStato">
+
+      <option>DA PROGRAMMARE</option>
+      <option>PROGRAMMATO</option>
+      <option>IN CORSO</option>
+      <option>CONSEGNATO</option>
+      <option>ANNULLATO</option>
+
+    </select>
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="eTrattore">
+      Targa trattore
+    </label>
+
+    <input id="eTrattore">
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="eRimorchio">
+      Targa rimorchio
+    </label>
+
+    <input id="eRimorchio">
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="ePartenza">
+      Partenza prevista
+    </label>
+
+    <input
+      id="ePartenza"
+      type="datetime-local">
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="eArrivo">
+      Arrivo previsto
+    </label>
+
+    <input
+      id="eArrivo"
+      type="datetime-local">
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="eKm">
+      Km previsti
+    </label>
+
+    <input
+      id="eKm"
+      type="number"
+      min="0">
+
+  </div>
+
+  <div class="form-group">
+
+    <label for="eCosto">
+      Costo previsto €
+    </label>
+
+    <input
+      id="eCosto"
+      type="number"
+      min="0"
+      step="0.01">
+
+  </div>
+
+  <div class="form-group full">
+
+    <label for="eNote">
+      Note operative
+    </label>
+
+    <textarea id="eNote"></textarea>
+
+  </div>
+
 </div>
-
-</div>
-
-
-<div class="form-group">
-
-<label for="eAutista">
-Autista
-</label>
-
-<input id="eAutista">
-
-</div>
-
-
-<div class="form-group">
-
-<label for="eTelefono">
-Telefono autista
-</label>
-
-<input id="eTelefono">
-
-</div>
-
-
-<div class="form-group">
-
-<label for="eStato">
-Stato
-</label>
-
-<select id="eStato">
-
-<option>DA PROGRAMMARE</option>
-<option>PROGRAMMATO</option>
-<option>IN CORSO</option>
-<option>CONSEGNATO</option>
-<option>ANNULLATO</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label for="eTrattore">
-Targa trattore
-</label>
-
-<input id="eTrattore">
-
-</div>
-
-
-<div class="form-group">
-
-<label for="eRimorchio">
-Targa rimorchio
-</label>
-
-<input id="eRimorchio">
-
-</div>
-
-
-<div class="form-group">
-
-<label for="ePartenza">
-Partenza prevista
-</label>
-
-<input
-id="ePartenza"
-type="datetime-local">
-
-</div>
-
-
-<div class="form-group">
-
-<label for="eArrivo">
-Arrivo previsto
-</label>
-
-<input
-id="eArrivo"
-type="datetime-local">
-
-</div>
-
-
-<div class="form-group">
-
-<label for="eKm">
-Km previsti
-</label>
-
-<input
-id="eKm"
-type="number"
-min="0">
-
-</div>
-
-
-<div class="form-group">
-
-<label for="eCosto">
-Costo previsto €
-</label>
-
-<input
-id="eCosto"
-type="number"
-min="0"
-step="0.01">
-
-</div>
-
-
-<div class="form-group full">
-
-<label for="eNote">
-Note operative
-</label>
-
-<textarea id="eNote"></textarea>
-
-</div>
-
-</div>
-
 
 <div class="actions" style="margin-top:18px">
 
-<button
-id="cancelButton"
-class="btn btn-secondary"
-type="button">
-Annulla
-</button>
+  <button
+    id="cancelButton"
+    class="btn btn-secondary"
+    type="button">
+    Annulla
+  </button>
 
-<button
-id="saveButton"
-class="btn btn-primary"
-type="button">
-Salva modifiche
-</button>
+  <button
+    id="saveButton"
+    class="btn btn-primary"
+    type="button">
+    Salva modifiche
+  </button>
 
 </div>
 
@@ -1248,119 +1260,97 @@ Salva modifiche
 
 </section>
 
-
-<!-- DOCUMENTI -->
+<!-- =========================
+     DOCUMENTI
+========================= -->
 
 <section class="card">
 
 <div class="card-header">
-
-<h2>Documenti viaggio</h2>
-
+  <h2>Documenti viaggio</h2>
 </div>
 
 <div class="card-body">
 
 <div class="documents-upload">
 
-<div class="documents-upload-grid">
+  <div class="documents-upload-grid">
 
-<div class="document-field">
+    <div class="document-field">
 
-<label for="documentType">
-Tipo documento
-</label>
+      <label for="documentType">
+        Tipo documento
+      </label>
 
-<select id="documentType">
+      <select id="documentType">
 
-<option value="CMR">
-CMR
-</option>
+        <option value="CMR">CMR</option>
+        <option value="POD">POD</option>
+        <option value="DDT">DDT</option>
+        <option value="FATTURA">Fattura</option>
+        <option value="ALTRO">Altro</option>
 
-<option value="POD">
-POD
-</option>
+      </select>
 
-<option value="DDT">
-DDT
-</option>
+    </div>
 
-<option value="FATTURA">
-Fattura
-</option>
+    <div class="document-field">
 
-<option value="ALTRO">
-Altro
-</option>
+      <label for="documentFile">
+        File
+      </label>
 
-</select>
+      <input
+        id="documentFile"
+        type="file"
+        accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx">
 
-</div>
+    </div>
 
+  </div>
 
-<div class="document-field">
+  <div class="document-field">
 
-<label for="documentFile">
-File
-</label>
+    <label for="documentNote">
+      Nota
+    </label>
 
-<input
-id="documentFile"
-type="file"
-accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx">
+    <textarea
+      id="documentNote"
+      class="document-note"
+      placeholder="Nota facoltativa sul documento"></textarea>
 
-</div>
+  </div>
 
-</div>
+  <button
+    id="uploadDocumentButton"
+    class="btn btn-primary document-upload-button"
+    type="button">
+    Carica documento
+  </button>
 
-
-<div class="document-field">
-
-<label for="documentNote">
-Nota
-</label>
-
-<textarea
-id="documentNote"
-class="document-note"
-placeholder="Nota facoltativa sul documento"></textarea>
+  <div class="documents-info">
+    Il documento viene collegato automaticamente sia al viaggio sia alla pratica.
+  </div>
 
 </div>
-
-
-<button
-id="uploadDocumentButton"
-class="btn btn-primary document-upload-button"
-type="button">
-Carica documento
-</button>
-
-
-<div class="documents-info">
-Il documento viene collegato automaticamente sia al viaggio sia alla pratica.
-</div>
-
-</div>
-
 
 <div
-id="documentsLoading"
-class="documents-empty">
-Caricamento documenti...
+  id="documentsLoading"
+  class="documents-empty">
+  Caricamento documenti...
 </div>
 
-
 <div
-id="documentsEmpty"
-class="documents-empty"
-style="display:none">
-Nessun documento collegato a questo viaggio.
+  id="documentsEmpty"
+  class="documents-empty"
+  style="display:none">
+  Nessun documento collegato a questo viaggio.
 </div>
 
-
 <div
-id="documentsList"
-class="documents-list">
+  id="documentsList"
+  class="documents-list">
 </div>
 
 </div>
@@ -1369,30 +1359,42 @@ class="documents-list">
 
 </div>
 
+<!-- =========================
+     PRATICA COLLEGATA
+========================= -->
 
 <div>
 
 <section class="practice-card">
 
-<div class="label">
-PRATICA COLLEGATA
-</div>
+  <div class="label">
+    PRATICA COLLEGATA
+  </div>
 
-<div id="practiceNumber" class="practice-number">
--
-</div>
+  <div
+    id="practiceNumber"
+    class="practice-number">
+    -
+  </div>
 
-<div id="practiceRoute" class="practice-route">
--
-</div>
+  <div
+    id="practiceRoute"
+    class="practice-route">
+    -
+  </div>
 
-<div id="practiceClient" class="practice-client">
--
-</div>
+  <div
+    id="practiceClient"
+    class="practice-client">
+    -
+  </div>
 
-<a id="practiceLink" href="#" class="practice-link">
-Apri pratica →
-</a>
+  <a
+    id="practiceLink"
+    href="#"
+    class="practice-link">
+    Apri pratica →
+  </a>
 
 </section>
 
@@ -1403,15 +1405,12 @@ Apri pratica →
 </main>
 
 </div>
-
 </div>
-
 
 <script type="module">
 
 import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
 
 const SUPABASE_URL =
 "https://sctzockiurjsxzdkctmy.supabase.co";
@@ -1419,132 +1418,103 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
 
-
 const supabase =
 createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
-
 const id =
 new URLSearchParams(
   window.location.search
 ).get("id");
 
-
 let currentUser = null;
 let currentProfile = null;
 let viaggio = null;
+
 let vettori = [];
+let autisti = [];
+
 let selectedVettoreId = null;
 let currentDocuments = [];
 
-
 const userEmail =
-document.getElementById(
-  "userEmail"
-);
+document.getElementById("userEmail");
 
 const messageBox =
-document.getElementById(
-  "messageBox"
-);
+document.getElementById("messageBox");
 
 const eVettore =
-document.getElementById(
-  "eVettore"
-);
+document.getElementById("eVettore");
 
 const vettoriList =
-document.getElementById(
-  "vettoriList"
-);
+document.getElementById("vettoriList");
+
+const eAutistaId =
+document.getElementById("eAutistaId");
+
+const eTelefono =
+document.getElementById("eTelefono");
 
 const vettoreLink =
-document.getElementById(
-  "vettoreLink"
-);
+document.getElementById("vettoreLink");
 
 const saveButton =
-document.getElementById(
-  "saveButton"
-);
-
+document.getElementById("saveButton");
 
 const documentType =
-document.getElementById(
-  "documentType"
-);
+document.getElementById("documentType");
 
 const documentFile =
-document.getElementById(
-  "documentFile"
-);
+document.getElementById("documentFile");
 
 const documentNote =
-document.getElementById(
-  "documentNote"
-);
+document.getElementById("documentNote");
 
 const uploadDocumentButton =
-document.getElementById(
-  "uploadDocumentButton"
-);
+document.getElementById("uploadDocumentButton");
 
 const documentsLoading =
-document.getElementById(
-  "documentsLoading"
-);
+document.getElementById("documentsLoading");
 
 const documentsEmpty =
-document.getElementById(
-  "documentsEmpty"
-);
+document.getElementById("documentsEmpty");
 
 const documentsList =
-document.getElementById(
-  "documentsList"
-);
+document.getElementById("documentsList");
 
 
-/* =========================================================
+/* =========================
    UTILITY
-   ========================================================= */
+========================= */
 
 function emptyToNull(value){
 
   const v =
-  String(value ?? "")
-  .trim();
+  String(value ?? "").trim();
 
   return v || null;
-
 }
-
 
 function normalizeName(value){
 
   return String(value || "")
-  .trim()
-  .toLocaleLowerCase("it-IT");
-
+    .trim()
+    .toLocaleLowerCase("it-IT");
 }
-
 
 function text(id,value){
 
   document
-  .getElementById(id)
-  .textContent =
-  value === null ||
-  value === undefined ||
-  value === ""
-    ? "-"
-    : value;
-
+    .getElementById(id)
+    .textContent =
+      value === null ||
+      value === undefined ||
+      value === ""
+        ? "-"
+        : value;
 }
-
 
 function formatDate(value){
 
@@ -1566,9 +1536,7 @@ function formatDate(value){
       timeStyle:"short"
     }
   );
-
 }
-
 
 function inputDate(value){
 
@@ -1585,8 +1553,7 @@ function inputDate(value){
 
   const pad =
   n =>
-  String(n)
-  .padStart(2,"0");
+  String(n).padStart(2,"0");
 
   return (
     d.getFullYear() +
@@ -1599,9 +1566,7 @@ function inputDate(value){
     ":" +
     pad(d.getMinutes())
   );
-
 }
-
 
 function showError(message){
 
@@ -1614,8 +1579,11 @@ function showError(message){
   messageBox.textContent =
   message;
 
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
-
 
 function showSuccess(message){
 
@@ -1628,20 +1596,22 @@ function showSuccess(message){
   messageBox.textContent =
   message;
 
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
-
 
 function hideMessage(){
 
   messageBox.style.display =
   "none";
-
 }
 
 
-/* =========================================================
-   BADGE STATO
-   ========================================================= */
+/* =========================
+   BADGE
+========================= */
 
 function badge(status){
 
@@ -1653,48 +1623,42 @@ function badge(status){
   element.textContent =
   status || "-";
 
-
   if(status === "CONSEGNATO"){
 
     element.className =
     "badge badge-done";
 
   }
-
   else if(status === "IN CORSO"){
 
     element.className =
     "badge badge-running";
 
   }
-
   else if(status === "PROGRAMMATO"){
 
     element.className =
     "badge badge-programmed";
 
   }
-
   else if(status === "ANNULLATO"){
 
     element.className =
     "badge badge-cancelled";
 
   }
-
   else{
 
     element.className =
     "badge badge-plan";
 
   }
-
 }
 
 
-/* =========================================================
+/* =========================
    AUTENTICAZIONE
-   ========================================================= */
+========================= */
 
 async function protect(){
 
@@ -1703,7 +1667,6 @@ async function protect(){
     error:sessionError
   } =
   await supabase.auth.getSession();
-
 
   if(
     sessionError ||
@@ -1715,29 +1678,25 @@ async function protect(){
     );
 
     return false;
-
   }
-
 
   currentUser =
   session.user;
-
 
   const {
     data:profile,
     error
   } =
   await supabase
-  .from("profiles")
-  .select(
-    "id,email,ruolo,azienda_id"
-  )
-  .eq(
-    "id",
-    currentUser.id
-  )
-  .single();
-
+    .from("profiles")
+    .select(
+      "id,email,ruolo,azienda_id"
+    )
+    .eq(
+      "id",
+      currentUser.id
+    )
+    .single();
 
   if(
     error ||
@@ -1752,38 +1711,50 @@ async function protect(){
     );
 
     return false;
-
   }
 
+  const ruolo =
+  String(
+    profile.ruolo || ""
+  )
+  .trim()
+  .toLowerCase();
+
+  /*
+   * L'autista non deve poter usare
+   * il dettaglio viaggio amministrativo.
+   */
+  if(ruolo === "autista"){
+
+    window.location.replace(
+      "autista.html"
+    );
+
+    return false;
+  }
 
   currentProfile =
   profile;
-
 
   userEmail.textContent =
   profile.email ||
   currentUser.email ||
   "-";
 
-
   document.body.classList.add(
     "auth-ready"
   );
 
-
   return true;
-
 }
 
 
-/* =========================================================
+/* =========================
    LOGOUT
-   ========================================================= */
+========================= */
 
 document
-.getElementById(
-  "logoutButton"
-)
+.getElementById("logoutButton")
 .onclick =
 async ()=>{
 
@@ -1792,13 +1763,12 @@ async ()=>{
   window.location.replace(
     "login.html"
   );
-
 };
 
 
-/* =========================================================
-   ANAGRAFICHE VETTORI
-   ========================================================= */
+/* =========================
+   VETTORI
+========================= */
 
 async function loadVettori(){
 
@@ -1807,31 +1777,30 @@ async function loadVettori(){
     error
   } =
   await supabase
-  .from("anagrafiche")
-  .select(`
-    id,
-    tipo,
-    ragione_sociale,
-    email,
-    telefono,
-    attiva
-  `)
-  .eq(
-    "attiva",
-    true
-  )
-  .in(
-    "tipo",
-    [
-      "VETTORE",
-      "CLIENTE_VETTORE"
-    ]
-  )
-  .order(
-    "ragione_sociale",
-    {ascending:true}
-  );
-
+    .from("anagrafiche")
+    .select(`
+      id,
+      tipo,
+      ragione_sociale,
+      email,
+      telefono,
+      attiva
+    `)
+    .eq(
+      "attiva",
+      true
+    )
+    .in(
+      "tipo",
+      [
+        "VETTORE",
+        "CLIENTE_VETTORE"
+      ]
+    )
+    .order(
+      "ragione_sociale",
+      {ascending:true}
+    );
 
   if(error){
 
@@ -1841,52 +1810,40 @@ async function loadVettori(){
     );
 
     throw error;
-
   }
-
 
   vettori =
   data || [];
 
-
   vettoriList.innerHTML =
   "";
 
-
   vettori.forEach(
-  vettore=>{
+    vettore=>{
 
-    const option =
-    document.createElement(
-      "option"
-    );
+      const option =
+      document.createElement(
+        "option"
+      );
 
-    option.value =
-    vettore.ragione_sociale;
+      option.value =
+      vettore.ragione_sociale;
 
-    vettoriList.appendChild(
-      option
-    );
-
-  });
-
+      vettoriList.appendChild(
+        option
+      );
+    }
+  );
 }
-
-
-/* =========================================================
-   RICONOSCIMENTO VETTORE
-   ========================================================= */
 
 function findVettoreByName(name){
 
   const normalized =
   normalizeName(name);
 
-
   if(!normalized){
     return null;
   }
-
 
   return (
     vettori.find(
@@ -1897,9 +1854,7 @@ function findVettoreByName(name){
     ) ||
     null
   );
-
 }
-
 
 function syncSelectedVettore(){
 
@@ -1908,20 +1863,16 @@ function syncSelectedVettore(){
     eVettore.value
   );
 
-
   selectedVettoreId =
   found
     ? found.id
     : null;
-
 }
-
 
 eVettore.addEventListener(
   "input",
   syncSelectedVettore
 );
-
 
 eVettore.addEventListener(
   "change",
@@ -1929,9 +1880,176 @@ eVettore.addEventListener(
 );
 
 
-/* =========================================================
+/* =========================
+   AUTISTI
+========================= */
+
+async function loadAutisti(){
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+    .from("autisti")
+    .select(`
+      id,
+      nome,
+      cognome,
+      telefono,
+      email,
+      targa_mezzo,
+      user_id,
+      attivo
+    `)
+    .eq(
+      "azienda_id",
+      currentProfile.azienda_id
+    )
+    .eq(
+      "attivo",
+      true
+    )
+    .order(
+      "cognome",
+      {ascending:true}
+    )
+    .order(
+      "nome",
+      {ascending:true}
+    );
+
+  if(error){
+
+    console.error(
+      "Errore caricamento autisti:",
+      error
+    );
+
+    throw error;
+  }
+
+  autisti =
+  data || [];
+
+  renderAutistiSelect();
+}
+
+function renderAutistiSelect(){
+
+  eAutistaId.innerHTML =
+  "";
+
+  const emptyOption =
+  document.createElement(
+    "option"
+  );
+
+  emptyOption.value =
+  "";
+
+  emptyOption.textContent =
+  "Nessun autista assegnato";
+
+  eAutistaId.appendChild(
+    emptyOption
+  );
+
+  autisti.forEach(
+    autista=>{
+
+      const option =
+      document.createElement(
+        "option"
+      );
+
+      option.value =
+      autista.id;
+
+      let label =
+      (
+        (autista.nome || "") +
+        " " +
+        (autista.cognome || "")
+      ).trim();
+
+      if(autista.targa_mezzo){
+
+        label +=
+        " · " +
+        autista.targa_mezzo;
+      }
+
+      option.textContent =
+      label || "Autista";
+
+      eAutistaId.appendChild(
+        option
+      );
+    }
+  );
+}
+
+function getAutistaById(autistaId){
+
+  if(!autistaId){
+    return null;
+  }
+
+  return (
+    autisti.find(
+      item =>
+      item.id === autistaId
+    ) ||
+    null
+  );
+}
+
+function getAutistaName(autista){
+
+  if(!autista){
+    return null;
+  }
+
+  return (
+    (
+      (autista.nome || "") +
+      " " +
+      (autista.cognome || "")
+    ).trim() ||
+    null
+  );
+}
+
+function syncAutistaFields(){
+
+  const selected =
+  getAutistaById(
+    eAutistaId.value
+  );
+
+  if(!selected){
+
+    eTelefono.value =
+    "";
+
+    return;
+  }
+
+  eTelefono.value =
+  selected.telefono ||
+  "";
+}
+
+eAutistaId.addEventListener(
+  "change",
+  syncAutistaFields
+);
+
+
+/* =========================
    CARICAMENTO VIAGGIO
-   ========================================================= */
+========================= */
 
 async function load(){
 
@@ -1942,32 +2060,29 @@ async function load(){
     );
 
     return;
-
   }
-
 
   const {
     data,
     error
   } =
   await supabase
-  .from("viaggi")
-  .select(`
-    *,
-    pratiche (
-      id,
-      numero_pratica,
-      cliente,
-      partenza,
-      destinazione
+    .from("viaggi")
+    .select(`
+      *,
+      pratiche (
+        id,
+        numero_pratica,
+        cliente,
+        partenza,
+        destinazione
+      )
+    `)
+    .eq(
+      "id",
+      id
     )
-  `)
-  .eq(
-    "id",
-    id
-  )
-  .single();
-
+    .single();
 
   if(error){
 
@@ -1977,36 +2092,35 @@ async function load(){
     );
 
     return;
-
   }
-
 
   viaggio =
   data;
 
-
   render();
 
   await loadDocuments();
-
 }
 
 
-/* =========================================================
+/* =========================
    VISUALIZZAZIONE
-   ========================================================= */
+========================= */
 
 function render(){
 
   const p =
   viaggio.pratiche || {};
 
+  const assignedDriver =
+  getAutistaById(
+    viaggio.autista_id
+  );
 
   text(
     "numeroViaggio",
     viaggio.numero_viaggio
   );
-
 
   text(
     "route",
@@ -2015,17 +2129,14 @@ function render(){
     (p.destinazione || "-")
   );
 
-
   badge(
     viaggio.stato
   );
-
 
   text(
     "vVettore",
     viaggio.vettore
   );
-
 
   if(viaggio.vettore_id){
 
@@ -2037,7 +2148,6 @@ function render(){
 
     vettoreLink.style.display =
     "inline-flex";
-
   }
   else{
 
@@ -2046,19 +2156,64 @@ function render(){
 
     vettoreLink.style.display =
     "none";
-
   }
 
-
+  /*
+   * Se abbiamo autista_id usiamo
+   * l'anagrafica ufficiale.
+   *
+   * Se il viaggio è vecchio e non ha
+   * autista_id manteniamo il vecchio testo.
+   */
   text(
     "vAutista",
-    viaggio.autista
+    assignedDriver
+      ? getAutistaName(
+          assignedDriver
+        )
+      : viaggio.autista
   );
 
   text(
     "vTelefono",
-    viaggio.telefono_autista
+    assignedDriver
+      ? assignedDriver.telefono
+      : viaggio.telefono_autista
   );
+
+  const driverStatus =
+  document.getElementById(
+    "driverStatus"
+  );
+
+  if(assignedDriver){
+
+    if(assignedDriver.user_id){
+
+      driverStatus.className =
+      "driver-linked";
+
+      driverStatus.textContent =
+      "✓ Area Autista attiva";
+    }
+    else{
+
+      driverStatus.className =
+      "driver-unlinked";
+
+      driverStatus.textContent =
+      "Accesso Area Autista non attivo";
+    }
+
+  }
+  else{
+
+    driverStatus.className =
+    "driver-unlinked";
+
+    driverStatus.textContent =
+    "Nessun autista assegnato";
+  }
 
   text(
     "vStato",
@@ -2094,7 +2249,6 @@ function render(){
     viaggio.km_previsti
   );
 
-
   text(
     "vCosto",
     viaggio.costo_previsto != null
@@ -2111,18 +2265,15 @@ function render(){
       : "-"
   );
 
-
   text(
     "vNote",
     viaggio.note
   );
 
-
   text(
     "practiceNumber",
     p.numero_pratica
   );
-
 
   text(
     "practiceRoute",
@@ -2131,19 +2282,16 @@ function render(){
     (p.destinazione || "-")
   );
 
-
   text(
     "practiceClient",
     "Cliente: " +
     (p.cliente || "-")
   );
 
-
   const practiceLink =
   document.getElementById(
     "practiceLink"
   );
-
 
   if(p.numero_pratica){
 
@@ -2155,7 +2303,6 @@ function render(){
 
     practiceLink.style.display =
     "inline-flex";
-
   }
   else{
 
@@ -2164,40 +2311,34 @@ function render(){
 
     practiceLink.style.display =
     "none";
-
   }
-
 }
 
 
-/* =========================================================
+/* =========================
    EDITOR
-   ========================================================= */
+========================= */
 
 function openEditor(){
 
   hideMessage();
 
+  document
+    .getElementById("viewMode")
+    .style.display =
+    "none";
 
-  document.getElementById(
-    "viewMode"
-  ).style.display =
-  "none";
-
-
-  document.getElementById(
-    "editMode"
-  ).style.display =
-  "block";
-
+  document
+    .getElementById("editMode")
+    .style.display =
+    "block";
 
   eVettore.value =
   viaggio.vettore || "";
 
-
   selectedVettoreId =
-  viaggio.vettore_id || null;
-
+  viaggio.vettore_id ||
+  null;
 
   if(
     !selectedVettoreId &&
@@ -2209,143 +2350,138 @@ function openEditor(){
       viaggio.vettore
     );
 
-
     if(matched){
 
       selectedVettoreId =
       matched.id;
-
     }
-
   }
 
+  /*
+   * Nuova assegnazione autista
+   */
+  eAutistaId.value =
+  viaggio.autista_id ||
+  "";
 
-  document.getElementById(
-    "eAutista"
-  ).value =
-  viaggio.autista || "";
-
-
-  document.getElementById(
-    "eTelefono"
-  ).value =
-  viaggio.telefono_autista || "";
-
-
-  document.getElementById(
-    "eStato"
-  ).value =
-  viaggio.stato ||
-  "DA PROGRAMMARE";
-
-
-  document.getElementById(
-    "eTrattore"
-  ).value =
-  viaggio.targa_trattore || "";
-
-
-  document.getElementById(
-    "eRimorchio"
-  ).value =
-  viaggio.targa_rimorchio || "";
-
-
-  document.getElementById(
-    "ePartenza"
-  ).value =
-  inputDate(
-    viaggio.data_partenza
+  const assignedDriver =
+  getAutistaById(
+    viaggio.autista_id
   );
 
+  eTelefono.value =
+  assignedDriver
+    ? (
+        assignedDriver.telefono ||
+        ""
+      )
+    : (
+        viaggio.telefono_autista ||
+        ""
+      );
 
-  document.getElementById(
-    "eArrivo"
-  ).value =
-  inputDate(
-    viaggio.data_arrivo
-  );
+  document
+    .getElementById("eStato")
+    .value =
+    viaggio.stato ||
+    "DA PROGRAMMARE";
 
+  document
+    .getElementById("eTrattore")
+    .value =
+    viaggio.targa_trattore ||
+    "";
 
-  document.getElementById(
-    "eKm"
-  ).value =
-  viaggio.km_previsti ?? "";
+  document
+    .getElementById("eRimorchio")
+    .value =
+    viaggio.targa_rimorchio ||
+    "";
 
+  document
+    .getElementById("ePartenza")
+    .value =
+    inputDate(
+      viaggio.data_partenza
+    );
 
-  document.getElementById(
-    "eCosto"
-  ).value =
-  viaggio.costo_previsto ?? "";
+  document
+    .getElementById("eArrivo")
+    .value =
+    inputDate(
+      viaggio.data_arrivo
+    );
 
+  document
+    .getElementById("eKm")
+    .value =
+    viaggio.km_previsti ??
+    "";
 
-  document.getElementById(
-    "eNote"
-  ).value =
-  viaggio.note || "";
+  document
+    .getElementById("eCosto")
+    .value =
+    viaggio.costo_previsto ??
+    "";
 
+  document
+    .getElementById("eNote")
+    .value =
+    viaggio.note ||
+    "";
 }
-
 
 function closeEditor(){
 
-  document.getElementById(
-    "editMode"
-  ).style.display =
-  "none";
+  document
+    .getElementById("editMode")
+    .style.display =
+    "none";
 
-
-  document.getElementById(
-    "viewMode"
-  ).style.display =
-  "block";
-
+  document
+    .getElementById("viewMode")
+    .style.display =
+    "block";
 }
 
-
-document.getElementById(
-  "editButton"
-).onclick =
+document
+.getElementById("editButton")
+.onclick =
 openEditor;
 
-
-document.getElementById(
-  "cancelButton"
-).onclick =
+document
+.getElementById("cancelButton")
+.onclick =
 ()=>{
 
   hideMessage();
 
   closeEditor();
-
 };
 
 
-/* =========================================================
+/* =========================
    SALVATAGGIO VIAGGIO
-   ========================================================= */
+========================= */
 
 saveButton.onclick =
 async ()=>{
 
   hideMessage();
 
-
   const departure =
   emptyToNull(
-    document.getElementById(
-      "ePartenza"
-    ).value
+    document
+      .getElementById("ePartenza")
+      .value
   );
-
 
   const arrival =
   emptyToNull(
-    document.getElementById(
-      "eArrivo"
-    ).value
+    document
+      .getElementById("eArrivo")
+      .value
   );
-
 
   if(
     departure &&
@@ -2359,27 +2495,44 @@ async ()=>{
     );
 
     return;
-
   }
-
 
   const vettoreText =
   emptyToNull(
     eVettore.value
   );
 
-
   const matchedVettore =
   findVettoreByName(
     vettoreText
   );
-
 
   selectedVettoreId =
   matchedVettore
     ? matchedVettore.id
     : null;
 
+  /*
+   * AUTISTA SELEZIONATO
+   */
+  const selectedAutista =
+  getAutistaById(
+    eAutistaId.value
+  );
+
+  const autistaName =
+  selectedAutista
+    ? getAutistaName(
+        selectedAutista
+      )
+    : null;
+
+  const autistaTelefono =
+  selectedAutista
+    ? emptyToNull(
+        selectedAutista.telefono
+      )
+    : null;
 
   const payload = {
 
@@ -2389,37 +2542,42 @@ async ()=>{
     vettore_id:
     selectedVettoreId,
 
+    /*
+     * ID ufficiale che abilita
+     * l'Area Autista.
+     */
+    autista_id:
+    selectedAutista
+      ? selectedAutista.id
+      : null,
+
+    /*
+     * Manteniamo anche i vecchi campi
+     * per compatibilità.
+     */
     autista:
-    emptyToNull(
-      document.getElementById(
-        "eAutista"
-      ).value
-    ),
+    autistaName,
 
     telefono_autista:
-    emptyToNull(
-      document.getElementById(
-        "eTelefono"
-      ).value
-    ),
+    autistaTelefono,
 
     stato:
-    document.getElementById(
-      "eStato"
-    ).value,
+    document
+      .getElementById("eStato")
+      .value,
 
     targa_trattore:
     emptyToNull(
-      document.getElementById(
-        "eTrattore"
-      ).value
+      document
+        .getElementById("eTrattore")
+        .value
     ),
 
     targa_rimorchio:
     emptyToNull(
-      document.getElementById(
-        "eRimorchio"
-      ).value
+      document
+        .getElementById("eRimorchio")
+        .value
     ),
 
     data_partenza:
@@ -2430,30 +2588,28 @@ async ()=>{
 
     km_previsti:
     emptyToNull(
-      document.getElementById(
-        "eKm"
-      ).value
+      document
+        .getElementById("eKm")
+        .value
     ),
 
     costo_previsto:
     emptyToNull(
-      document.getElementById(
-        "eCosto"
-      ).value
+      document
+        .getElementById("eCosto")
+        .value
     ),
 
     note:
     emptyToNull(
-      document.getElementById(
-        "eNote"
-      ).value
+      document
+        .getElementById("eNote")
+        .value
     ),
 
     updated_by:
     currentUser.id
-
   };
-
 
   saveButton.disabled =
   true;
@@ -2461,105 +2617,111 @@ async ()=>{
   saveButton.textContent =
   "Salvataggio...";
 
+  try{
 
-  const {
-    data,
-    error
-  } =
-  await supabase
-  .from("viaggi")
-  .update(payload)
-  .eq(
-    "id",
-    id
-  )
-  .select(`
-    *,
-    pratiche (
-      id,
-      numero_pratica,
-      cliente,
-      partenza,
-      destinazione
-    )
-  `)
-  .single();
+    const {
+      data,
+      error
+    } =
+    await supabase
+      .from("viaggi")
+      .update(payload)
+      .eq(
+        "id",
+        id
+      )
+      .select(`
+        *,
+        pratiche (
+          id,
+          numero_pratica,
+          cliente,
+          partenza,
+          destinazione
+        )
+      `)
+      .single();
 
+    if(error){
+      throw error;
+    }
 
-  saveButton.disabled =
-  false;
+    viaggio =
+    data;
 
-  saveButton.textContent =
-  "Salva modifiche";
+    closeEditor();
 
+    render();
 
-  if(error){
+    showSuccess(
+      selectedAutista
+        ? "Viaggio aggiornato e assegnato a " +
+          autistaName +
+          "."
+        : "Viaggio aggiornato correttamente."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore salvataggio:",
+      error
+    );
 
     showError(
       "Errore salvataggio: " +
       error.message
     );
 
-    return;
-
   }
+  finally{
 
+    saveButton.disabled =
+    false;
 
-  viaggio =
-  data;
-
-
-  hideMessage();
-
-  closeEditor();
-
-  render();
-
+    saveButton.textContent =
+    "Salva modifiche";
+  }
 };
 
 
-/* =========================================================
+/* =========================
    DOCUMENTI
-   ========================================================= */
+========================= */
 
 function sanitizeFileName(name){
 
   return String(name || "file")
-  .normalize("NFD")
-  .replace(
-    /[\u0300-\u036f]/g,
-    ""
-  )
-  .replace(
-    /[^a-zA-Z0-9._-]/g,
-    "_"
-  )
-  .replace(
-    /_+/g,
-    "_"
-  );
-
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
+    .replace(
+      /[^a-zA-Z0-9._-]/g,
+      "_"
+    )
+    .replace(
+      /_+/g,
+      "_"
+    );
 }
-
 
 function formatBytes(bytes){
 
   const value =
   Number(bytes);
 
-
   if(!Number.isFinite(value)){
     return "";
   }
-
 
   if(value < 1024){
 
     return value +
     " B";
-
   }
-
 
   if(
     value <
@@ -2570,18 +2732,14 @@ function formatBytes(bytes){
       value / 1024
     ).toFixed(1) +
     " KB";
-
   }
-
 
   return (
     value /
     (1024 * 1024)
   ).toFixed(1) +
   " MB";
-
 }
-
 
 function formatDocumentDate(value){
 
@@ -2589,15 +2747,12 @@ function formatDocumentDate(value){
     return "";
   }
 
-
   const date =
   new Date(value);
-
 
   if(isNaN(date.getTime())){
     return "";
   }
-
 
   return date.toLocaleString(
     "it-IT",
@@ -2606,9 +2761,7 @@ function formatDocumentDate(value){
       timeStyle:"short"
     }
   );
-
 }
-
 
 function getDocumentIcon(mimeType){
 
@@ -2617,60 +2770,41 @@ function getDocumentIcon(mimeType){
     mimeType || ""
   ).toLowerCase();
 
-
-  if(
-    mime.includes("pdf")
-  ){
-
+  if(mime.includes("pdf")){
     return "PDF";
-
   }
 
-
-  if(
-    mime.startsWith(
-      "image/"
-    )
-  ){
-
+  if(mime.startsWith("image/")){
     return "IMG";
-
   }
-
 
   if(
     mime.includes("word") ||
     mime.includes("document")
   ){
-
     return "DOC";
-
   }
-
 
   if(
     mime.includes("excel") ||
     mime.includes("spreadsheet")
   ){
-
     return "XLS";
-
   }
 
-
   return "FILE";
-
 }
 
 
-/* CARICA DOCUMENTI DEL VIAGGIO */
+/* =========================
+   CARICA DOCUMENTI
+========================= */
 
 async function loadDocuments(){
 
   if(!viaggio?.id){
     return;
   }
-
 
   documentsLoading.style.display =
   "block";
@@ -2681,43 +2815,40 @@ async function loadDocuments(){
   documentsList.innerHTML =
   "";
 
-
   const {
     data,
     error
   } =
   await supabase
-  .from("documenti")
-  .select(`
-    id,
-    azienda_id,
-    pratica_id,
-    viaggio_id,
-    tipo,
-    nome_file,
-    storage_path,
-    mime_type,
-    dimensione_bytes,
-    note,
-    created_by,
-    created_at,
-    updated_at
-  `)
-  .eq(
-    "viaggio_id",
-    viaggio.id
-  )
-  .order(
-    "created_at",
-    {
-      ascending:false
-    }
-  );
-
+    .from("documenti")
+    .select(`
+      id,
+      azienda_id,
+      pratica_id,
+      viaggio_id,
+      tipo,
+      nome_file,
+      storage_path,
+      mime_type,
+      dimensione_bytes,
+      note,
+      created_by,
+      created_at,
+      updated_at
+    `)
+    .eq(
+      "viaggio_id",
+      viaggio.id
+    )
+    .order(
+      "created_at",
+      {
+        ascending:false
+      }
+    );
 
   documentsLoading.style.display =
   "none";
-
 
   if(error){
 
@@ -2726,262 +2857,235 @@ async function loadDocuments(){
       error
     );
 
-
     documentsEmpty.textContent =
     "Impossibile caricare i documenti.";
-
 
     documentsEmpty.style.display =
     "block";
 
     return;
-
   }
-
 
   currentDocuments =
   data || [];
 
-
   renderDocuments();
-
 }
 
 
-/* RENDER DOCUMENTI */
+/* =========================
+   RENDER DOCUMENTI
+========================= */
 
 function renderDocuments(){
 
   documentsList.innerHTML =
   "";
 
-
-  if(
-    !currentDocuments.length
-  ){
+  if(!currentDocuments.length){
 
     documentsEmpty.textContent =
     "Nessun documento collegato a questo viaggio.";
-
 
     documentsEmpty.style.display =
     "block";
 
     return;
-
   }
-
 
   documentsEmpty.style.display =
   "none";
 
-
   currentDocuments.forEach(
-  documento=>{
+    documento=>{
 
-    const item =
-    document.createElement(
-      "div"
-    );
-
-    item.className =
-    "document-item";
-
-
-    const icon =
-    document.createElement(
-      "div"
-    );
-
-    icon.className =
-    "document-icon";
-
-    icon.textContent =
-    getDocumentIcon(
-      documento.mime_type
-    );
-
-
-    const main =
-    document.createElement(
-      "div"
-    );
-
-    main.className =
-    "document-main";
-
-
-    const name =
-    document.createElement(
-      "div"
-    );
-
-    name.className =
-    "document-name";
-
-    name.textContent =
-    documento.nome_file ||
-    "Documento";
-
-
-    const meta =
-    document.createElement(
-      "div"
-    );
-
-    meta.className =
-    "document-meta";
-
-    meta.textContent =
-    [
-      documento.tipo,
-      formatBytes(
-        documento.dimensione_bytes
-      ),
-      formatDocumentDate(
-        documento.created_at
-      )
-    ]
-    .filter(Boolean)
-    .join(" · ");
-
-
-    main.appendChild(
-      name
-    );
-
-    main.appendChild(
-      meta
-    );
-
-
-    if(
-      documento.note
-    ){
-
-      const note =
+      const item =
       document.createElement(
         "div"
       );
 
-      note.className =
-      "document-note-text";
+      item.className =
+      "document-item";
 
-      note.textContent =
-      documento.note;
-
-      main.appendChild(
-        note
+      const icon =
+      document.createElement(
+        "div"
       );
 
+      icon.className =
+      "document-icon";
+
+      icon.textContent =
+      getDocumentIcon(
+        documento.mime_type
+      );
+
+      const main =
+      document.createElement(
+        "div"
+      );
+
+      main.className =
+      "document-main";
+
+      const name =
+      document.createElement(
+        "div"
+      );
+
+      name.className =
+      "document-name";
+
+      name.textContent =
+      documento.nome_file ||
+      "Documento";
+
+      const meta =
+      document.createElement(
+        "div"
+      );
+
+      meta.className =
+      "document-meta";
+
+      meta.textContent =
+      [
+        documento.tipo,
+        formatBytes(
+          documento.dimensione_bytes
+        ),
+        formatDocumentDate(
+          documento.created_at
+        )
+      ]
+      .filter(Boolean)
+      .join(" · ");
+
+      main.appendChild(
+        name
+      );
+
+      main.appendChild(
+        meta
+      );
+
+      if(documento.note){
+
+        const note =
+        document.createElement(
+          "div"
+        );
+
+        note.className =
+        "document-note-text";
+
+        note.textContent =
+        documento.note;
+
+        main.appendChild(
+          note
+        );
+      }
+
+      const type =
+      document.createElement(
+        "span"
+      );
+
+      type.className =
+      "document-type";
+
+      type.textContent =
+      documento.tipo ||
+      "ALTRO";
+
+      const actions =
+      document.createElement(
+        "div"
+      );
+
+      actions.className =
+      "document-actions";
+
+      const openButton =
+      document.createElement(
+        "button"
+      );
+
+      openButton.type =
+      "button";
+
+      openButton.className =
+      "document-btn document-open";
+
+      openButton.textContent =
+      "Apri";
+
+      openButton.onclick =
+      ()=>openDocument(
+        documento
+      );
+
+      const removeButton =
+      document.createElement(
+        "button"
+      );
+
+      removeButton.type =
+      "button";
+
+      removeButton.className =
+      "document-btn document-delete";
+
+      removeButton.textContent =
+      "Elimina";
+
+      removeButton.onclick =
+      ()=>deleteDocument(
+        documento
+      );
+
+      actions.appendChild(
+        openButton
+      );
+
+      actions.appendChild(
+        removeButton
+      );
+
+      item.appendChild(
+        icon
+      );
+
+      item.appendChild(
+        main
+      );
+
+      item.appendChild(
+        type
+      );
+
+      item.appendChild(
+        actions
+      );
+
+      documentsList.appendChild(
+        item
+      );
     }
-
-
-    const type =
-    document.createElement(
-      "span"
-    );
-
-    type.className =
-    "document-type";
-
-    type.textContent =
-    documento.tipo ||
-    "ALTRO";
-
-
-    const actions =
-    document.createElement(
-      "div"
-    );
-
-    actions.className =
-    "document-actions";
-
-
-    const openButton =
-    document.createElement(
-      "button"
-    );
-
-    openButton.type =
-    "button";
-
-    openButton.className =
-    "document-btn document-open";
-
-    openButton.textContent =
-    "Apri";
-
-    openButton.onclick =
-    ()=>openDocument(
-      documento
-    );
-
-
-    const removeButton =
-    document.createElement(
-      "button"
-    );
-
-    removeButton.type =
-    "button";
-
-    removeButton.className =
-    "document-btn document-delete";
-
-    removeButton.textContent =
-    "Elimina";
-
-    removeButton.onclick =
-    ()=>deleteDocument(
-      documento
-    );
-
-
-    actions.appendChild(
-      openButton
-    );
-
-    actions.appendChild(
-      removeButton
-    );
-
-
-    item.appendChild(
-      icon
-    );
-
-    item.appendChild(
-      main
-    );
-
-    item.appendChild(
-      type
-    );
-
-    item.appendChild(
-      actions
-    );
-
-
-    documentsList.appendChild(
-      item
-    );
-
-  });
-
+  );
 }
 
 
-/* APERTURA FILE PRIVATO */
+/* =========================
+   APERTURA DOCUMENTO
+========================= */
 
 async function openDocument(
   documento
 ){
 
   hideMessage();
-
 
   try{
 
@@ -2990,28 +3094,22 @@ async function openDocument(
       error
     } =
     await supabase.storage
-    .from("documenti")
-    .createSignedUrl(
-      documento.storage_path,
-      600
-    );
-
+      .from("documenti")
+      .createSignedUrl(
+        documento.storage_path,
+        600
+      );
 
     if(error){
       throw error;
     }
 
-
-    if(
-      !data?.signedUrl
-    ){
+    if(!data?.signedUrl){
 
       throw new Error(
         "URL documento non disponibile."
       );
-
     }
-
 
     window.open(
       data.signedUrl,
@@ -3027,18 +3125,17 @@ async function openDocument(
       error
     );
 
-
     showError(
       "Impossibile aprire il documento: " +
       error.message
     );
-
   }
-
 }
 
 
-/* UPLOAD DOCUMENTO */
+/* =========================
+   UPLOAD DOCUMENTO
+========================= */
 
 async function uploadDocument(){
 
@@ -3052,20 +3149,12 @@ async function uploadDocument(){
     );
 
     return;
-
   }
-
-
-  /*
-   * Il viaggio deve essere collegato
-   * a una pratica.
-   */
 
   const praticaId =
   viaggio.pratiche?.id ||
   viaggio.pratica_id ||
   null;
-
 
   if(!praticaId){
 
@@ -3074,13 +3163,10 @@ async function uploadDocument(){
     );
 
     return;
-
   }
-
 
   const file =
   documentFile.files?.[0];
-
 
   if(!file){
 
@@ -3089,30 +3175,21 @@ async function uploadDocument(){
     );
 
     return;
-
   }
-
 
   const MAX_FILE_SIZE =
   20 * 1024 * 1024;
 
-
-  if(
-    file.size >
-    MAX_FILE_SIZE
-  ){
+  if(file.size > MAX_FILE_SIZE){
 
     showError(
       "Il file supera il limite di 20 MB."
     );
 
     return;
-
   }
 
-
   hideMessage();
-
 
   uploadDocumentButton.disabled =
   true;
@@ -3120,10 +3197,8 @@ async function uploadDocument(){
   uploadDocumentButton.textContent =
   "Caricamento...";
 
-
   let uploadedPath =
   null;
-
 
   try{
 
@@ -3132,22 +3207,12 @@ async function uploadDocument(){
       file.name
     );
 
-
     const uniqueName =
     Date.now() +
     "_" +
     crypto.randomUUID() +
     "_" +
     safeName;
-
-
-    /*
-     * IMPORTANTE:
-     *
-     * il primo segmento deve essere
-     * azienda_id perché le policy Storage
-     * verificano proprio questa cartella.
-     */
 
     const storagePath =
     currentProfile.azienda_id +
@@ -3156,127 +3221,97 @@ async function uploadDocument(){
     "/" +
     uniqueName;
 
-
     const {
       error:uploadError
     } =
     await supabase.storage
-    .from("documenti")
-    .upload(
-      storagePath,
-      file,
-      {
-        cacheControl:"3600",
-        upsert:false,
-        contentType:
-        file.type ||
-        undefined
-      }
-    );
-
+      .from("documenti")
+      .upload(
+        storagePath,
+        file,
+        {
+          cacheControl:"3600",
+          upsert:false,
+          contentType:
+            file.type ||
+            undefined
+        }
+      );
 
     if(uploadError){
       throw uploadError;
     }
 
-
     uploadedPath =
     storagePath;
-
-
-    /*
-     * COLLEGAMENTO DOPPIO
-     *
-     * Lo stesso record viene collegato
-     * sia alla pratica sia al viaggio.
-     *
-     * In questo modo il file comparirà:
-     *
-     * - nel dettaglio viaggio
-     * - nel dettaglio pratica
-     *
-     * senza duplicare il file.
-     */
 
     const {
       data:documentRow,
       error:insertError
     } =
     await supabase
-    .from("documenti")
-    .insert({
+      .from("documenti")
+      .insert({
 
-      azienda_id:
-      currentProfile.azienda_id,
+        azienda_id:
+        currentProfile.azienda_id,
 
-      pratica_id:
-      praticaId,
+        pratica_id:
+        praticaId,
 
-      viaggio_id:
-      viaggio.id,
+        viaggio_id:
+        viaggio.id,
 
-      tipo:
-      documentType.value,
+        tipo:
+        documentType.value,
 
-      nome_file:
-      file.name,
+        nome_file:
+        file.name,
 
-      storage_path:
-      storagePath,
+        storage_path:
+        storagePath,
 
-      mime_type:
-      file.type ||
-      null,
+        mime_type:
+        file.type ||
+        null,
 
-      dimensione_bytes:
-      file.size,
+        dimensione_bytes:
+        file.size,
 
-      note:
-      emptyToNull(
-        documentNote.value
-      ),
+        note:
+        emptyToNull(
+          documentNote.value
+        ),
 
-      created_by:
-      currentUser.id,
+        created_by:
+        currentUser.id,
 
-      updated_at:
-      new Date().toISOString()
+        updated_at:
+        new Date().toISOString()
 
-    })
-    .select()
-    .single();
-
+      })
+      .select()
+      .single();
 
     if(insertError){
 
-      /*
-       * Rollback del file se fallisce
-       * la registrazione DB.
-       */
-
       await supabase.storage
-      .from("documenti")
-      .remove([
-        storagePath
-      ]);
-
+        .from("documenti")
+        .remove([
+          storagePath
+        ]);
 
       uploadedPath =
       null;
 
-
       throw insertError;
-
     }
-
 
     currentDocuments.unshift(
       documentRow
     );
 
-
     renderDocuments();
-
 
     documentFile.value =
     "";
@@ -3286,7 +3321,6 @@ async function uploadDocument(){
 
     documentType.value =
     "CMR";
-
 
     showSuccess(
       "Documento caricato e collegato al viaggio e alla pratica."
@@ -3300,16 +3334,15 @@ async function uploadDocument(){
       error
     );
 
-
     if(uploadedPath){
 
       try{
 
         await supabase.storage
-        .from("documenti")
-        .remove([
-          uploadedPath
-        ]);
+          .from("documenti")
+          .remove([
+            uploadedPath
+          ]);
 
       }
       catch(cleanupError){
@@ -3318,11 +3351,8 @@ async function uploadDocument(){
           "Errore pulizia file:",
           cleanupError
         );
-
       }
-
     }
-
 
     showError(
       "Errore durante il caricamento del documento: " +
@@ -3337,11 +3367,8 @@ async function uploadDocument(){
 
     uploadDocumentButton.textContent =
     "Carica documento";
-
   }
-
 }
-
 
 uploadDocumentButton.addEventListener(
   "click",
@@ -3349,7 +3376,9 @@ uploadDocumentButton.addEventListener(
 );
 
 
-/* ELIMINAZIONE DOCUMENTO */
+/* =========================
+   ELIMINA DOCUMENTO
+========================= */
 
 async function deleteDocument(
   documento
@@ -3365,14 +3394,11 @@ async function deleteDocument(
     "\"?\n\nIl documento verrà rimosso sia dal viaggio sia dalla pratica."
   );
 
-
   if(!confirmed){
     return;
   }
 
-
   hideMessage();
-
 
   try{
 
@@ -3380,33 +3406,29 @@ async function deleteDocument(
       error:storageError
     } =
     await supabase.storage
-    .from("documenti")
-    .remove([
-      documento.storage_path
-    ]);
-
+      .from("documenti")
+      .remove([
+        documento.storage_path
+      ]);
 
     if(storageError){
       throw storageError;
     }
 
-
     const {
       error:databaseError
     } =
     await supabase
-    .from("documenti")
-    .delete()
-    .eq(
-      "id",
-      documento.id
-    );
-
+      .from("documenti")
+      .delete()
+      .eq(
+        "id",
+        documento.id
+      );
 
     if(databaseError){
       throw databaseError;
     }
-
 
     currentDocuments =
     currentDocuments.filter(
@@ -3414,9 +3436,7 @@ async function deleteDocument(
       item.id !== documento.id
     );
 
-
     renderDocuments();
-
 
     showSuccess(
       "Documento eliminato correttamente."
@@ -3430,24 +3450,21 @@ async function deleteDocument(
       error
     );
 
-
     showError(
       "Errore durante l'eliminazione del documento: " +
       error.message
     );
-
   }
-
 }
 
 
-/* =========================================================
-   ELIMINAZIONE VIAGGIO
-   ========================================================= */
+/* =========================
+   ELIMINA VIAGGIO
+========================= */
 
-document.getElementById(
-  "deleteButton"
-).onclick =
+document
+.getElementById("deleteButton")
+.onclick =
 async ()=>{
 
   const confirmed =
@@ -3455,23 +3472,20 @@ async ()=>{
     "Vuoi eliminare definitivamente questo viaggio?"
   );
 
-
   if(!confirmed){
     return;
   }
-
 
   const {
     error
   } =
   await supabase
-  .from("viaggi")
-  .delete()
-  .eq(
-    "id",
-    id
-  );
-
+    .from("viaggi")
+    .delete()
+    .eq(
+      "id",
+      id
+    );
 
   if(error){
 
@@ -3481,19 +3495,16 @@ async ()=>{
     );
 
     return;
-
   }
-
 
   window.location.href =
   "viaggi.html";
-
 };
 
 
-/* =========================================================
+/* =========================
    AVVIO
-   ========================================================= */
+========================= */
 
 async function start(){
 
@@ -3502,36 +3513,42 @@ async function start(){
     const ok =
     await protect();
 
-
     if(!ok){
       return;
     }
 
+    /*
+     * Prima carichiamo anagrafiche
+     * e autisti.
+     */
+    await Promise.all([
+      loadVettori(),
+      loadAutisti()
+    ]);
 
-    await loadVettori();
-
+    /*
+     * Poi il viaggio, così possiamo
+     * riconoscere autista_id.
+     */
     await load();
 
   }
   catch(error){
 
-    console.error(error);
-
+    console.error(
+      error
+    );
 
     showError(
       "Errore durante il caricamento: " +
       error.message
     );
-
   }
-
 }
-
 
 start();
 
 </script>
 
 </body>
-
 </html>
