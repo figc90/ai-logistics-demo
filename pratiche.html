@@ -629,7 +629,170 @@ footer strong{
      SIDEBAR
 ========================= -->
 
-<div id="sidebarContainer"></div>
+<aside class="app-sidebar">
+
+  <div class="app-sidebar-logo">
+
+    <a
+      href="dashboard.html"
+      class="app-sidebar-logo-link"
+      aria-label="Vai alla Dashboard">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+
+    </a>
+
+  </div>
+
+
+  <nav class="app-sidebar-nav">
+
+    <!-- OPERATIVITÀ -->
+
+    <div class="app-nav-section">
+
+      <div class="app-nav-title">
+        OPERATIVITÀ
+      </div>
+
+      <a
+        href="dashboard.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ▦
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <a
+        href="pratiche.html"
+        class="app-nav-item active">
+
+        <span class="app-nav-icon">
+          ▤
+        </span>
+
+        <span>
+          Pratiche
+        </span>
+
+      </a>
+
+
+      <a
+        href="nuova-pratica.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ＋
+        </span>
+
+        <span>
+          Nuova pratica
+        </span>
+
+      </a>
+
+    </div>
+
+
+    <!-- AUTOMAZIONI -->
+
+    <div class="app-nav-section">
+
+      <div class="app-nav-title">
+        AUTOMAZIONI
+      </div>
+
+      <a
+        href="email-ai.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ✉
+        </span>
+
+        <span>
+          Email AI
+        </span>
+
+      </a>
+
+<a href="#" class="app-nav-item" onclick="return false;" aria-label="WhatsApp AI">
+<span class="app-nav-icon">◉</span>
+<span>WhatsApp AI</span>
+</a>
+
+
+      <a
+        href="viaggi.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ↗
+        </span>
+
+        <span>
+          Viaggi
+        </span>
+
+      </a>
+
+    </div>
+
+
+    <!-- GESTIONE -->
+
+    <div class="app-nav-section">
+
+      <div class="app-nav-title">
+        GESTIONE
+      </div>
+
+      <a
+        href="anagrafiche.html"
+        class="app-nav-item">
+
+        <span class="app-nav-icon">
+          ▣
+        </span>
+
+        <span>
+          Anagrafiche
+        </span>
+
+      </a>
+
+<a href="impostazioni.html" class="app-nav-item">
+<span class="app-nav-icon">⚙</span>
+<span>Impostazioni</span>
+</a>
+
+    </div>
+
+  </nav>
+
+
+  <div class="app-sidebar-bottom">
+
+    <button
+      id="logoutButton"
+      class="app-logout-btn"
+      type="button">
+      Esci
+    </button>
+
+  </div>
+
+</aside>
 
 
 <!-- =========================
@@ -837,8 +1000,6 @@ footer strong{
 </div>
 
 
-<script src="js/sidebar.js"></script>
-
 <script type="module">
 
 import {
@@ -907,6 +1068,11 @@ document.getElementById(
 const sortOrder =
 document.getElementById(
   "sortOrder"
+);
+
+const logoutButton =
+document.getElementById(
+  "logoutButton"
 );
 
 const userInfo =
@@ -1066,48 +1232,35 @@ async function protectPage(){
    LOGOUT
 ============================ */
 
-function bindSidebarLogout(){
+logoutButton.addEventListener(
+  "click",
+  async function(){
 
-  const logoutButton =
-  document.getElementById(
-    "logoutButton"
-  );
+    logoutButton.disabled =
+    true;
 
-  if(!logoutButton){
-    return;
+
+    logoutButton.textContent =
+    "Uscita...";
+
+
+    try{
+
+      await supabase.auth
+      .signOut();
+
+    }
+
+    finally{
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
   }
-
-  logoutButton.addEventListener(
-    "click",
-    async function(){
-
-      logoutButton.disabled = true;
-      logoutButton.textContent = "Uscita...";
-
-      try{
-        await supabase.auth.signOut();
-      }
-      finally{
-        window.location.replace("login.html");
-      }
-
-    },
-    { once:true }
-  );
-
-}
-
-if(document.getElementById("logoutButton")){
-  bindSidebarLogout();
-}
-else{
-  window.addEventListener(
-    "matrimia:sidebar-ready",
-    bindSidebarLogout,
-    { once:true }
-  );
-}
-
+);
 
 
 /* ============================

@@ -1192,7 +1192,102 @@ tbody tr:hover{
 
 <div class="app">
 
-<div id="sidebarContainer"></div>
+<aside class="sidebar">
+
+  <div class="sidebar-logo">
+
+    <a
+      href="dashboard.html"
+      class="sidebar-logo-link"
+      aria-label="Vai alla Dashboard">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+
+    </a>
+
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-section">
+
+      <div class="nav-title">OPERATIVITÀ</div>
+
+      <a href="dashboard.html" class="nav-item active">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pratiche.html" class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
+
+      <a href="nuova-pratica.html" class="nav-item">
+        <span class="nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">AUTOMAZIONI</div>
+
+      <a href="email-ai.html" class="nav-item">
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+      </a>
+
+<a href="#" class="nav-item" onclick="return false;" aria-label="WhatsApp AI">
+<span class="nav-icon">◉</span>
+<span>WhatsApp AI</span>
+</a>
+
+      <a href="viaggi.html" class="nav-item">
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">GESTIONE</div>
+
+      <a href="anagrafiche.html" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Anagrafiche</span>
+      </a>
+
+<a href="impostazioni.html" class="nav-item">
+<span class="nav-icon">⚙</span>
+<span>Impostazioni</span>
+</a>
+
+    </div>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+
+    <div class="user-card">
+      <div class="user-label">UTENTE</div>
+      <div id="userEmail" class="user-email">-</div>
+    </div>
+
+    <button
+      id="logoutButton"
+      class="logout-btn"
+      type="button">
+      Esci
+    </button>
+
+  </div>
+
+</aside>
 
 <div class="main">
 
@@ -1591,8 +1686,6 @@ tbody tr:hover{
 
 </div>
 
-<script src="js/sidebar.js"></script>
-
 <script type="module">
 
 import { createClient }
@@ -1614,8 +1707,11 @@ const supabase =
    ELEMENTI
 ============================ */
 
-let logoutButton = null;
-let userEmail = null;
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const userEmail =
+  document.getElementById("userEmail");
 
 const totalCount =
   document.getElementById("totalCount");
@@ -1960,12 +2056,10 @@ async function protectPage(){
     currentProfile =
       profile;
 
-    if(userEmail){
-      userEmail.textContent =
-        profile.email ||
-        currentUser.email ||
-        "-";
-    }
+    userEmail.textContent =
+      profile.email ||
+      currentUser.email ||
+      "-";
 
     /* ============================
        MOSTRA AREA SUPERADMIN
@@ -1978,16 +2072,6 @@ async function protectPage(){
       )
       .trim()
       .toLowerCase();
-
-    if(ruolo === "autista"){
-
-      window.location.replace(
-        "autista.html"
-      );
-
-      return false;
-
-    }
 
     isSuperadmin =
       ruolo === "superadmin";
@@ -2027,60 +2111,31 @@ async function protectPage(){
 }
 
 /* ============================
-   SIDEBAR CENTRALIZZATA + LOGOUT
+   LOGOUT
 ============================ */
 
-function setupSidebar(){
+logoutButton.addEventListener(
+  "click",
+  async function(){
 
-  return new Promise(resolve=>{
+    logoutButton.disabled = true;
+    logoutButton.textContent = "Uscita...";
 
-    function bindSidebar(){
+    try{
 
-      logoutButton =
-        document.getElementById("sidebarLogoutButton");
+      await supabase.auth.signOut();
 
-      userEmail =
-        document.getElementById("sidebarUserEmail");
+    }
+    finally{
 
-      if(logoutButton){
-
-        logoutButton.addEventListener(
-          "click",
-          async function(){
-
-            logoutButton.disabled = true;
-            logoutButton.textContent = "Uscita...";
-
-            try{
-              await supabase.auth.signOut();
-            }
-            finally{
-              window.location.replace("login.html");
-            }
-
-          }
-        );
-
-      }
-
-      resolve();
+      window.location.replace(
+        "login.html"
+      );
 
     }
 
-    if(document.getElementById("sidebarLogoutButton")){
-      bindSidebar();
-      return;
-    }
-
-    window.addEventListener(
-      "matrimia:sidebar-ready",
-      bindSidebar,
-      { once:true }
-    );
-
-  });
-
-}
+  }
+);
 
 
 /* ============================
@@ -3214,8 +3269,6 @@ function renderAttention(pratiche){
 ============================ */
 
 async function startDashboard(){
-
-  await setupSidebar();
 
   const authenticated =
     await protectPage();
