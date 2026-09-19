@@ -551,94 +551,13 @@ input::placeholder{
 
 <div class="app">
 
-<aside class="sidebar">
+<div id="sidebarContainer"></div>
 
-  <div class="sidebar-logo">
-    <a href="dashboard.html" class="sidebar-logo-link">
-      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
-    </a>
-  </div>
-
-  <nav class="sidebar-nav">
-
-    <div class="nav-section">
-      <div class="nav-title">OPERATIVITÀ</div>
-
-      <a href="dashboard.html" class="nav-item">
-        <span class="nav-icon">▦</span>
-        <span>Dashboard</span>
-      </a>
-
-      <a href="pratiche.html" class="nav-item">
-        <span class="nav-icon">▤</span>
-        <span>Pratiche</span>
-      </a>
-
-      <a href="nuova-pratica.html" class="nav-item">
-        <span class="nav-icon">＋</span>
-        <span>Nuova pratica</span>
-      </a>
-    </div>
-
-    <div class="nav-section">
-      <div class="nav-title">AUTOMAZIONI</div>
-
-      <a href="email-ai.html" class="nav-item">
-        <span class="nav-icon">✉</span>
-        <span>Email AI</span>
-      </a>
-
-<a href="#" class="nav-item" onclick="return false;" aria-label="WhatsApp AI">
-  <span class="nav-icon">◉</span>
-  <span>WhatsApp AI</span>
-</a>
-
-      <a href="viaggi.html" class="nav-item">
-        <span class="nav-icon">↗</span>
-        <span>Viaggi</span>
-      </a>
-    </div>
-
-    <div class="nav-section">
-      <div class="nav-title">GESTIONE</div>
-
-      <a href="anagrafiche.html" class="nav-item">
-        <span class="nav-icon">▣</span>
-        <span>Anagrafiche</span>
-      </a>
-
-<a href="impostazioni.html" class="nav-item">
-  <span class="nav-icon">⚙</span>
-  <span>Impostazioni</span>
-</a>
-    </div>
-
-    <div class="nav-section">
-      <div class="nav-title">SUPERADMIN</div>
-
-      <a href="aziende.html" class="nav-item active">
-        <span class="nav-icon">◆</span>
-        <span>Aziende</span>
-      </a>
-    </div>
-
-  </nav>
-
-  <div class="sidebar-bottom">
-
-    <div class="user-card">
-      <div class="user-label">UTENTE</div>
-      <div id="userEmail" class="user-email">-</div>
-      <div class="user-role">SUPERADMIN</div>
-    </div>
-
-    <button id="logoutButton" class="logout-btn">
-      Esci
-    </button>
-
-  </div>
-
-</aside>
+<!-- Compatibilità con la logica esistente delle pagine -->
+<div id="sidebarCompatibility" style="display:none !important;">
+  <span id="userEmail">-</span>
+  <button id="logoutButton" type="button">Esci</button>
+</div>
 
 <div class="main">
 
@@ -1236,6 +1155,8 @@ async function start(){
 start();
 
 </script>
+
+<script src="js/sidebar.js"></script>
 
 </body>
 </html>
