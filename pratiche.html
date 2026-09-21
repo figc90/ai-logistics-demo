@@ -260,6 +260,12 @@ tbody tr:hover{
   background:#fbfdff;
 }
 
+.id-pratica{
+  color:#13375f;
+  font-weight:900;
+}
+
+/* Indicatore allegati */
 .attachment-icon{
   display:inline-flex;
   align-items:center;
@@ -268,7 +274,7 @@ tbody tr:hover{
   font-size:15px;
   vertical-align:middle;
   cursor:help;
-  opacity:.75;
+  opacity:.78;
   transition:.15s ease;
 }
 
@@ -348,127 +354,6 @@ footer strong{
   display:flex;
 }
 
-.app-sidebar{
-  width:225px;
-  min-height:100vh;
-  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
-  color:#fff;
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  display:flex;
-  flex-direction:column;
-  z-index:100;
-  border-right:1px solid rgba(255,255,255,.05);
-}
-
-.app-sidebar-logo{
-  min-height:152px;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.app-sidebar-logo-link{
-  width:100%;
-  max-width:195px;
-  min-height:118px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(145deg,#fff,#f4f8fc);
-  border:1px solid rgba(255,255,255,.85);
-  border-radius:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);
-  transition:transform .2s ease,box-shadow .2s ease;
-}
-
-.app-sidebar-logo-link:hover{
-  transform:translateY(-1px);
-  box-shadow:0 10px 28px rgba(0,0,0,.22),0 0 22px rgba(73,193,229,.20);
-}
-
-.app-sidebar-logo-link img{
-  width:175px;
-  max-width:90%;
-  height:auto;
-  display:block;
-}
-
-.app-sidebar-nav{
-  padding:24px 12px;
-  flex:1;
-}
-
-.app-nav-section{
-  margin-bottom:28px;
-}
-
-.app-nav-title{
-  color:#7893af;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1.8px;
-  margin:0 5px 9px;
-}
-
-.app-nav-item{
-  min-height:44px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:0 14px;
-  border-radius:10px;
-  color:#c7d3e1;
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:5px;
-  transition:.18s ease;
-}
-
-.app-nav-item:hover{
-  background:rgba(255,255,255,.07);
-  color:#fff;
-}
-
-.app-nav-item.active{
-  background:rgba(41,169,210,.18);
-  border:1px solid rgba(41,169,210,.32);
-  color:#fff;
-}
-
-.app-nav-icon{
-  width:18px;
-  text-align:center;
-  font-size:16px;
-  opacity:.9;
-}
-
-.app-sidebar-bottom{
-  padding:12px;
-  border-top:1px solid rgba(255,255,255,.08);
-}
-
-.app-logout-btn{
-  width:100%;
-  min-height:40px;
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:9px;
-  background:rgba(255,255,255,.04);
-  color:#dbe5ef;
-  font-weight:800;
-  cursor:pointer;
-  transition:.18s ease;
-}
-
-.app-logout-btn:hover{
-  background:rgba(255,255,255,.09);
-  color:#fff;
-}
-
 .app-main{
   margin-left:225px;
   width:calc(100% - 225px);
@@ -525,12 +410,162 @@ footer strong{
 }
 
 /* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+  border-right:1px solid rgba(255,255,255,.05);
+}
+
+.sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);
+  transition:.2s ease;
+}
+
+.sidebar-logo-link:hover{
+  transform:translateY(-1px);
+}
+
+.sidebar-logo img{
+  width:175px;
+  max-width:90%;
+  height:auto;
+  display:block;
+}
+
+.sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+  overflow-y:auto;
+  min-height:0;
+}
+
+.nav-section{
+  margin-bottom:28px;
+}
+
+.nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
+  text-decoration:none;
+}
+
+.nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:16px;
+  opacity:.9;
+}
+
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+  flex-shrink:0;
+  background:#0d2d50;
+}
+
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px 12px;
+  margin-bottom:9px;
+}
+
+.user-label{
+  color:#7994af;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin-bottom:4px;
+}
+
+.user-email{
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+
+.logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.logout-btn:hover{
+  background:rgba(255,255,255,.09);
+  color:#fff;
+}
+
+/* =========================================================
    MOBILE
 ========================================================= */
 
 @media(max-width:760px){
 
-  .app-sidebar{
+  .sidebar{
     width:72px;
   }
 
@@ -539,40 +574,41 @@ footer strong{
     width:calc(100% - 72px);
   }
 
-  .app-sidebar-logo{
+  .sidebar-logo{
     min-height:80px;
     padding:8px;
   }
 
-  .app-sidebar-logo-link{
+  .sidebar-logo-link{
     width:55px;
     min-height:55px;
     border-radius:10px;
   }
 
-  .app-sidebar-logo-link img{
+  .sidebar-logo img{
     width:50px;
   }
 
-  .app-nav-title,
-  .app-nav-item span:not(.app-nav-icon){
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .user-card{
     display:none;
   }
 
-  .app-nav-item{
+  .nav-item{
     justify-content:center;
     padding:0;
   }
 
-  .app-sidebar-bottom{
+  .sidebar-bottom{
     padding:8px;
   }
 
-  .app-logout-btn{
+  .logout-btn{
     font-size:0;
   }
 
-  .app-logout-btn::after{
+  .logout-btn::after{
     content:"↪";
     font-size:18px;
   }
@@ -630,32 +666,10 @@ footer strong{
 
 }
 
-
-/* =========================================================
-   SIDEBAR UNIFICATA - STESSO STILE DASHBOARD
-========================================================= */
-.sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);color:#fff;position:fixed;left:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:100;border-right:1px solid rgba(255,255,255,.05)}
-.sidebar-logo{min-height:152px;padding:14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}
-.sidebar-logo-link{width:100%;max-width:195px;min-height:118px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#fff,#f4f8fc);border:1px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);transition:.2s ease}
-.sidebar-logo-link:hover{transform:translateY(-1px)}
-.sidebar-logo img{width:175px;max-width:90%;height:auto;display:block}
-.sidebar-nav{padding:24px 12px;flex:1;overflow-y:auto;min-height:0}
-.nav-section{margin-bottom:28px}
-.nav-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.8px;margin:0 5px 9px}
-.nav-item{min-height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:10px;color:#c7d3e1;font-size:14px;font-weight:700;margin-bottom:5px;transition:.18s ease;text-decoration:none}
-.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}
-.nav-icon{width:18px;text-align:center;font-size:16px;opacity:.9}
-.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;background:#0d2d50}
-.user-card{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 12px;margin-bottom:9px}
-.user-label{color:#7994af;font-size:9px;font-weight:900;letter-spacing:1.3px;margin-bottom:4px}
-.user-email{color:#fff;font-size:12px;font-weight:700;overflow-wrap:anywhere}
-.logout-btn{width:100%;min-height:40px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
-.logout-btn:hover{background:rgba(255,255,255,.09);color:#fff}
-@media(max-width:760px){.sidebar{width:72px}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px;border-radius:10px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center;padding:0}.sidebar-bottom{padding:8px}.logout-btn{font-size:0}.logout-btn::after{content:"↪";font-size:18px}}
-
 </style>
+
 <script type="module" src="js/admin-role-guard.js"></script>
+
 </head>
 
 <body>
@@ -714,7 +728,8 @@ footer strong{
         <span class="nav-icon">✉</span>
         <span>Email AI</span>
       </a>
-<a href="viaggi.html" class="nav-item">
+
+      <a href="viaggi.html" class="nav-item">
         <span class="nav-icon">↗</span>
         <span>Viaggi</span>
       </a>
@@ -729,16 +744,16 @@ footer strong{
         <span class="nav-icon">▣</span>
         <span>Anagrafiche</span>
       </a>
-<a href="autisti.html" class="nav-item">
-<span class="nav-icon">♟</span>
-<span>Autisti</span>
-</a>
 
+      <a href="autisti.html" class="nav-item">
+        <span class="nav-icon">♟</span>
+        <span>Autisti</span>
+      </a>
 
-<a href="impostazioni.html" class="nav-item">
-<span class="nav-icon">⚙</span>
-<span>Impostazioni</span>
-</a>
+      <a href="impostazioni.html" class="nav-item">
+        <span class="nav-icon">⚙</span>
+        <span>Impostazioni</span>
+      </a>
 
     </div>
 
@@ -761,7 +776,6 @@ footer strong{
   </div>
 
 </aside>
-
 
 <!-- =========================
      MAIN
@@ -786,7 +800,6 @@ footer strong{
   </div>
 
 </header>
-
 
 <main class="page">
 
@@ -813,7 +826,6 @@ footer strong{
 
     </div>
 
-
     <div class="counter">
 
       <span>
@@ -828,7 +840,6 @@ footer strong{
 
   </div>
 
-
   <div class="toolbar">
 
     <div class="search-wrap">
@@ -840,7 +851,6 @@ footer strong{
         placeholder="Cerca per ID, cliente, partenza o destinazione...">
 
     </div>
-
 
     <div class="filter-wrap">
 
@@ -866,7 +876,6 @@ footer strong{
 
       </select>
 
-
       <select
         id="sortOrder"
         class="filter-select">
@@ -889,7 +898,6 @@ footer strong{
 
       </select>
 
-
       <button
         id="reloadBtn"
         class="reload-btn"
@@ -901,13 +909,11 @@ footer strong{
 
   </div>
 
-
   <div
     id="statusBox"
     class="status-box status-loading">
     Caricamento pratiche...
   </div>
-
 
   <div class="table-card">
 
@@ -935,7 +941,6 @@ footer strong{
 
     </div>
 
-
     <div
       id="emptyState"
       class="empty-state">
@@ -949,7 +954,6 @@ footer strong{
     </div>
 
   </div>
-
 
   <footer>
 
@@ -967,14 +971,12 @@ footer strong{
 
 </div>
 
-
 <script type="module">
 
 import {
   createClient
 }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
 
 /* ============================
    SUPABASE
@@ -986,13 +988,11 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
 
-
 const supabase =
 createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-
 
 /* ============================
    ELEMENTI PAGINA
@@ -1048,11 +1048,9 @@ document.getElementById(
   "userInfo"
 );
 
-
 let allPratiche = [];
 let currentUser = null;
 let currentProfile = null;
-
 
 /* ============================
    FUNZIONI GENERALI
@@ -1068,7 +1066,6 @@ function escapeHtml(value){
   .replaceAll("'","&#039;");
 
 }
-
 
 /* ============================
    AUTENTICAZIONE
@@ -1087,11 +1084,9 @@ async function protectPage(){
     await supabase.auth
     .getSession();
 
-
     if(error){
       throw error;
     }
-
 
     if(
       !session ||
@@ -1106,10 +1101,8 @@ async function protectPage(){
 
     }
 
-
     currentUser =
     session.user;
-
 
     const {
       data:profile,
@@ -1126,7 +1119,6 @@ async function protectPage(){
     )
     .single();
 
-
     if(
       profileError ||
       !profile
@@ -1137,24 +1129,37 @@ async function protectPage(){
         profileError
       );
 
-
       await supabase.auth
       .signOut();
-
 
       window.location.replace(
         "login.html"
       );
 
-
       return false;
 
     }
 
-
     currentProfile =
     profile;
 
+    /*
+     * Protezione aggiuntiva.
+     * L'autista non deve accedere
+     * alla gestione amministrativa.
+     */
+    if(
+      String(profile.ruolo || "")
+      .toLowerCase() === "autista"
+    ){
+
+      window.location.replace(
+        "autista.html"
+      );
+
+      return false;
+
+    }
 
     userInfo.innerHTML =
     `Accesso: <strong>${escapeHtml(
@@ -1166,11 +1171,23 @@ async function protectPage(){
       ""
     )}`;
 
+    const sidebarEmail =
+    document.getElementById(
+      "userEmail"
+    );
+
+    if(sidebarEmail){
+
+      sidebarEmail.textContent =
+      profile.email ||
+      currentUser.email ||
+      "-";
+
+    }
 
     document.body.classList.add(
       "auth-ready"
     );
-
 
     return true;
 
@@ -1183,18 +1200,15 @@ async function protectPage(){
       error
     );
 
-
     window.location.replace(
       "login.html"
     );
-
 
     return false;
 
   }
 
 }
-
 
 /* ============================
    LOGOUT
@@ -1207,10 +1221,8 @@ logoutButton.addEventListener(
     logoutButton.disabled =
     true;
 
-
     logoutButton.textContent =
     "Uscita...";
-
 
     try{
 
@@ -1230,7 +1242,6 @@ logoutButton.addEventListener(
   }
 );
 
-
 /* ============================
    PRATICHE
 ============================ */
@@ -1241,11 +1252,9 @@ function formatDate(value){
     return "-";
   }
 
-
   const parts =
   String(value)
   .split("-");
-
 
   if(parts.length === 3){
 
@@ -1259,15 +1268,12 @@ function formatDate(value){
 
   }
 
-
   const date =
   new Date(value);
-
 
   if(isNaN(date.getTime())){
     return value;
   }
-
 
   return date.toLocaleDateString(
     "it-IT"
@@ -1275,14 +1281,12 @@ function formatDate(value){
 
 }
 
-
 function normalizeStatus(value){
 
   const text =
   String(value || "")
   .trim()
   .toUpperCase();
-
 
   if(
     text.includes(
@@ -1294,7 +1298,6 @@ function normalizeStatus(value){
 
   }
 
-
   if(
     text.includes(
       "ATTENZIONE"
@@ -1304,7 +1307,6 @@ function normalizeStatus(value){
     return "ATTENZIONE";
 
   }
-
 
   if(
     text.includes(
@@ -1316,11 +1318,9 @@ function normalizeStatus(value){
 
   }
 
-
   return text || "-";
 
 }
-
 
 function createStatusBadge(status){
 
@@ -1329,10 +1329,8 @@ function createStatusBadge(status){
     status
   );
 
-
   let className =
   "badge badge-default";
-
 
   if(
     normalized ===
@@ -1364,7 +1362,6 @@ function createStatusBadge(status){
 
   }
 
-
   return `
     <span class="${className}">
       ${escapeHtml(normalized)}
@@ -1373,14 +1370,22 @@ function createStatusBadge(status){
 
 }
 
-
 function normalizePratica(pratica){
 
   return {
 
+    /*
+     * Numero leggibile della pratica.
+     * Esempio: #2026-29
+     */
     id:
     pratica.numero_pratica || "",
 
+    /*
+     * UUID reale della riga Supabase.
+     * Questo viene utilizzato per aprire
+     * dettaglio-pratica.html.
+     */
     uuid:
     pratica.id || "",
 
@@ -1402,22 +1407,21 @@ function normalizePratica(pratica){
     stato:
     pratica.stato_ai || "",
 
-    allegati:
-    Number(
-      pratica.allegati || 0
-    )
+    /*
+     * Viene valorizzato dopo il caricamento
+     * dei documenti.
+     */
+    allegati:0
 
   };
 
 }
-
 
 function extractNumericId(id){
 
   const match =
   String(id || "")
   .match(/(\d+)\s*$/);
-
 
   return match
   ? Number(
@@ -1427,16 +1431,13 @@ function extractNumericId(id){
 
 }
 
-
 function sortPratiche(pratiche){
 
   const sorted =
   [...pratiche];
 
-
   const mode =
   sortOrder.value;
-
 
   if(
     mode ===
@@ -1451,12 +1452,10 @@ function sortPratiche(pratiche){
           a.data
         ).getTime() || 0;
 
-
         const dateB =
         new Date(
           b.data
         ).getTime() || 0;
-
 
         if(
           dateB !==
@@ -1469,7 +1468,6 @@ function sortPratiche(pratiche){
           );
 
         }
-
 
         return (
           extractNumericId(
@@ -1498,12 +1496,10 @@ function sortPratiche(pratiche){
           a.data
         ).getTime() || 0;
 
-
         const dateB =
         new Date(
           b.data
         ).getTime() || 0;
-
 
         if(
           dateA !==
@@ -1516,7 +1512,6 @@ function sortPratiche(pratiche){
           );
 
         }
-
 
         return (
           extractNumericId(
@@ -1566,21 +1561,21 @@ function sortPratiche(pratiche){
 
   }
 
-
   return sorted;
 
 }
 
+/* ============================
+   RENDER PRATICHE
+============================ */
 
 function renderPratiche(pratiche){
 
   praticheBody.innerHTML =
   "";
 
-
   practiceCount.textContent =
   pratiche.length;
-
 
   if(
     !pratiche.length
@@ -1589,15 +1584,12 @@ function renderPratiche(pratiche){
     emptyState.style.display =
     "block";
 
-
     return;
 
   }
 
-
   emptyState.style.display =
   "none";
-
 
   pratiche.forEach(
     pratica=>{
@@ -1607,33 +1599,37 @@ function renderPratiche(pratiche){
         "tr"
       );
 
-
-      row.innerHTML = `
-
-        <td class="id-pratica">
-
-  ${escapeHtml(
-    pratica.id || "-"
-  )}
-
-  ${
-    pratica.allegati > 0
+      /*
+       * Se ci sono documenti collegati
+       * mostriamo la graffetta.
+       */
+      const attachmentHtml =
+      pratica.allegati > 0
       ? `
         <span
           class="attachment-icon"
           title="${
             pratica.allegati === 1
-              ? "1 allegato presente"
-              : pratica.allegati + " allegati presenti"
+            ? "1 allegato presente"
+            : pratica.allegati + " allegati presenti"
           }"
           aria-label="Allegati presenti">
           📎
         </span>
       `
-      : ""
-  }
+      : "";
 
-</td>
+      row.innerHTML = `
+
+        <td class="id-pratica">
+
+          ${escapeHtml(
+            pratica.id || "-"
+          )}
+
+          ${attachmentHtml}
+
+        </td>
 
         <td>
           ${escapeHtml(
@@ -1669,29 +1665,36 @@ function renderPratiche(pratiche){
 
       `;
 
-
+      /*
+       * IMPORTANTE:
+       * dettaglio-pratica.html riceve
+       * l'UUID reale della pratica.
+       */
       row.addEventListener(
         "click",
         function(){
 
           if(
-            !pratica.id
+            !pratica.uuid
           ){
+
+            console.error(
+              "UUID pratica mancante:",
+              pratica
+            );
 
             return;
 
           }
 
-
           window.location.href =
           "dettaglio-pratica.html?id=" +
           encodeURIComponent(
-            pratica.id
+            pratica.uuid
           );
 
         }
       );
-
 
       praticheBody
       .appendChild(
@@ -1702,7 +1705,6 @@ function renderPratiche(pratiche){
   );
 
 }
-
 
 /* ============================
    FILTRI
@@ -1715,10 +1717,8 @@ function applyFilters(){
   .trim()
   .toLowerCase();
 
-
   const selectedStatus =
   statusFilter.value;
-
 
   let filtered =
   allPratiche.filter(
@@ -1736,26 +1736,22 @@ function applyFilters(){
       .join(" ")
       .toLowerCase();
 
-
       const matchesSearch =
       !query ||
       searchable.includes(
         query
       );
 
-
       const normalizedStatus =
       normalizeStatus(
         pratica.stato
       );
-
 
       const matchesStatus =
       selectedStatus ===
       "tutti" ||
       normalizedStatus ===
       selectedStatus;
-
 
       return (
         matchesSearch &&
@@ -1765,19 +1761,16 @@ function applyFilters(){
     }
   );
 
-
   filtered =
   sortPratiche(
     filtered
   );
-
 
   renderPratiche(
     filtered
   );
 
 }
-
 
 /* ============================
    CARICAMENTO DA SUPABASE
@@ -1788,18 +1781,14 @@ async function loadPratiche(){
   statusBox.className =
   "status-box status-loading";
 
-
   statusBox.textContent =
   "Caricamento pratiche...";
-
 
   statusBox.style.display =
   "block";
 
-
   emptyState.style.display =
   "none";
-
 
   try{
 
@@ -1813,7 +1802,6 @@ async function loadPratiche(){
 
     }
 
-
     if(
       !currentProfile.azienda_id
     ){
@@ -1824,12 +1812,12 @@ async function loadPratiche(){
 
     }
 
-
     /*
-      La RLS Supabase determina
-      quali pratiche può leggere
-      l'utente autenticato.
-    */
+     * 1. CARICAMENTO PRATICHE
+     *
+     * La RLS determina quali pratiche
+     * può vedere l'utente autenticato.
+     */
 
     const {
       data,
@@ -1855,107 +1843,110 @@ async function loadPratiche(){
       }
     );
 
-
     if(error){
       throw error;
     }
 
-
     /*
- * Recuperiamo gli allegati associati
- * alle pratiche dell'azienda.
- */
-
-const {
-  data:documenti,
-  error:documentiError
-} =
-await supabase
-.from("documenti")
-.select(`
-  id,
-  pratica_id
-`)
-.eq(
-  "azienda_id",
-  currentProfile.azienda_id
-);
-
-
-if(documentiError){
-
-  console.error(
-    "Errore caricamento allegati:",
-    documentiError
-  );
-
-}
-
-
-/*
- * Conteggio allegati per pratica.
- */
-
-const allegatiPerPratica =
-{};
-
-
-(documenti || [])
-.forEach(
-  documento=>{
-
-    if(
-      !documento.pratica_id
-    ){
-      return;
-    }
-
-
-    allegatiPerPratica[
-      documento.pratica_id
-    ] =
-    (
-      allegatiPerPratica[
-        documento.pratica_id
-      ] || 0
-    ) + 1;
-
-  }
-);
-
-
-/*
- * Associamo il numero di allegati
- * alla relativa pratica.
- */
-
-allPratiche =
-(data || [])
-.map(
-  pratica=>{
-
-    const normalized =
-    normalizePratica(
-      pratica
+     * 2. CARICAMENTO DOCUMENTI
+     *
+     * Ci servono solamente id e pratica_id.
+     * Non scarichiamo i file.
+     */
+    const {
+      data:documenti,
+      error:documentiError
+    } =
+    await supabase
+    .from("documenti")
+    .select(`
+      id,
+      pratica_id
+    `)
+    .eq(
+      "azienda_id",
+      currentProfile.azienda_id
     );
 
-    normalized.allegati =
-    allegatiPerPratica[
-      pratica.id
-    ] || 0;
+    /*
+     * Se per qualche motivo non riusciamo
+     * a leggere i documenti, non blocchiamo
+     * tutta la lista delle pratiche.
+     *
+     * Semplicemente non mostreremo
+     * temporaneamente le graffette.
+     */
+    if(documentiError){
 
-    return normalized;
+      console.error(
+        "Errore caricamento allegati:",
+        documentiError
+      );
 
-  }
-);
+    }
 
+    /*
+     * 3. CONTEGGIO DOCUMENTI PER PRATICA
+     */
+
+    const allegatiPerPratica =
+    {};
+
+    (documenti || [])
+    .forEach(
+      documento=>{
+
+        if(
+          !documento.pratica_id
+        ){
+          return;
+        }
+
+        allegatiPerPratica[
+          documento.pratica_id
+        ] =
+        (
+          allegatiPerPratica[
+            documento.pratica_id
+          ] || 0
+        ) + 1;
+
+      }
+    );
+
+    /*
+     * 4. NORMALIZZAZIONE PRATICHE
+     * + NUMERO ALLEGATI
+     */
+
+    allPratiche =
+    (data || [])
+    .map(
+      pratica=>{
+
+        const normalized =
+        normalizePratica(
+          pratica
+        );
+
+        normalized.allegati =
+        allegatiPerPratica[
+          pratica.id
+        ] || 0;
+
+        return normalized;
+
+      }
+    );
+
+    /*
+     * 5. FILTRI E RENDER
+     */
 
     applyFilters();
 
-
     statusBox.className =
     "status-box status-success";
-
 
     statusBox.textContent =
     allPratiche.length +
@@ -1964,7 +1955,6 @@ allPratiche =
       ? " pratica caricata da Supabase."
       : " pratiche caricate da Supabase."
     );
-
 
     setTimeout(
       function(){
@@ -1985,19 +1975,15 @@ allPratiche =
       error
     );
 
-
     allPratiche =
     [];
-
 
     renderPratiche(
       []
     );
 
-
     statusBox.className =
     "status-box status-error";
-
 
     statusBox.textContent =
     "Errore nel caricamento delle pratiche: " +
@@ -2006,7 +1992,6 @@ allPratiche =
   }
 
 }
-
 
 /* ============================
    EVENTI
@@ -2017,24 +2002,20 @@ searchInput.addEventListener(
   applyFilters
 );
 
-
 statusFilter.addEventListener(
   "change",
   applyFilters
 );
-
 
 sortOrder.addEventListener(
   "change",
   applyFilters
 );
 
-
 reloadBtn.addEventListener(
   "click",
   loadPratiche
 );
-
 
 /* ============================
    AVVIO
@@ -2045,7 +2026,6 @@ async function startPage(){
   const authenticated =
   await protectPage();
 
-
   if(
     !authenticated
   ){
@@ -2054,33 +2034,13 @@ async function startPage(){
 
   }
 
-
   await loadPratiche();
 
 }
-
 
 startPage();
 
 </script>
 
-
-<!-- Sincronizzazione utente sidebar -->
-<script type="module">
-  import { createClient as createSidebarClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  const sidebarUserEmail = document.getElementById("userEmail");
-  if (sidebarUserEmail) {
-    try {
-      const sidebarSupabase = createSidebarClient(
-        "https://sctzockiurjsxzdkctmy.supabase.co",
-        "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"
-      );
-      const { data: { session } } = await sidebarSupabase.auth.getSession();
-      if (session?.user?.email) sidebarUserEmail.textContent = session.user.email;
-    } catch (error) {
-      console.error("Errore visualizzazione utente sidebar:", error);
-    }
-  }
-</script>
 </body>
 </html>
