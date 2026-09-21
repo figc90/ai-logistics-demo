@@ -205,7 +205,60 @@ button,input,select,textarea{
   overflow-wrap:anywhere;
 }
 
-/* DOCUMENTI */
+/* =========================
+   AVANZAMENTO VIAGGIO
+========================= */
+
+.trip-actions{
+  margin-top:16px;
+  padding-top:16px;
+  border-top:1px solid #eef2f7;
+}
+
+.trip-action-info{
+  color:#64748b;
+  font-size:11px;
+  line-height:1.5;
+  margin-bottom:12px;
+}
+
+.btn-status{
+  width:100%;
+  min-height:52px;
+  border:0;
+  border-radius:11px;
+  padding:0 16px;
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+  background:#2563eb;
+  color:#fff;
+  transition:.15s ease;
+}
+
+.btn-status:hover{
+  background:#1d4ed8;
+}
+
+.btn-status:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.trip-completed{
+  background:#ecfdf5;
+  border:1px solid #bbf7d0;
+  color:#166534;
+  border-radius:11px;
+  padding:14px;
+  font-size:12px;
+  font-weight:800;
+  text-align:center;
+}
+
+/* =========================
+   DOCUMENTI
+========================= */
 
 .upload-box{
   background:#f8fafc;
@@ -411,6 +464,7 @@ textarea:focus{
   <div class="header-inner">
 
     <div class="top">
+
       <div class="brand">
         MatRi-m<span class="ia">IA</span>
       </div>
@@ -418,16 +472,23 @@ textarea:focus{
       <a href="autista.html" class="back">
         ← I miei viaggi
       </a>
+
     </div>
 
     <div class="trip-heading">
+
       <div class="eyebrow">
         AREA AUTISTA · VIAGGIO
       </div>
 
-      <h1 id="numeroViaggio">Viaggio</h1>
+      <h1 id="numeroViaggio">
+        Viaggio
+      </h1>
 
-      <div id="route" class="route">-</div>
+      <div id="route" class="route">
+        -
+      </div>
+
     </div>
 
   </div>
@@ -439,18 +500,24 @@ textarea:focus{
   <div id="messageBox" class="message"></div>
 
   <div class="security-note">
+
     <span>✓</span>
+
     <div>
       Stai visualizzando un viaggio assegnato al tuo account autista.
     </div>
+
   </div>
 
 
-  <!-- DATI VIAGGIO -->
+  <!-- =========================
+       DATI VIAGGIO
+  ========================== -->
 
   <section class="card">
 
     <div class="card-header">
+
       <h2>Dati viaggio</h2>
 
       <div
@@ -458,6 +525,7 @@ textarea:focus{
         class="badge status-default">
         -
       </div>
+
     </div>
 
     <div class="card-body">
@@ -465,37 +533,115 @@ textarea:focus{
       <div class="fields">
 
         <div class="field">
-          <div class="label">Partenza prevista</div>
-          <div id="vPartenza" class="value">-</div>
+
+          <div class="label">
+            Partenza prevista
+          </div>
+
+          <div
+            id="vPartenza"
+            class="value">
+            -
+          </div>
+
         </div>
 
-        <div class="field">
-          <div class="label">Arrivo previsto</div>
-          <div id="vArrivo" class="value">-</div>
-        </div>
 
         <div class="field">
-          <div class="label">Targa trattore</div>
-          <div id="vTrattore" class="value">-</div>
+
+          <div class="label">
+            Arrivo previsto
+          </div>
+
+          <div
+            id="vArrivo"
+            class="value">
+            -
+          </div>
+
         </div>
 
+
         <div class="field">
-          <div class="label">Targa rimorchio</div>
-          <div id="vRimorchio" class="value">-</div>
+
+          <div class="label">
+            Targa trattore
+          </div>
+
+          <div
+            id="vTrattore"
+            class="value">
+            -
+          </div>
+
         </div>
+
+
+        <div class="field">
+
+          <div class="label">
+            Targa rimorchio
+          </div>
+
+          <div
+            id="vRimorchio"
+            class="value">
+            -
+          </div>
+
+        </div>
+
 
         <div class="field full">
-          <div class="label">Note operative</div>
-          <div id="vNote" class="value">-</div>
+
+          <div class="label">
+            Note operative
+          </div>
+
+          <div
+            id="vNote"
+            class="value">
+            -
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- AVANZAMENTO STATO -->
+
+      <div class="trip-actions">
+
+        <div
+          id="tripActionInfo"
+          class="trip-action-info">
+        </div>
+
+        <button
+          id="statusButton"
+          class="btn-status"
+          type="button"
+          style="display:none">
+        </button>
+
+        <div
+          id="tripCompleted"
+          class="trip-completed"
+          style="display:none">
+          ✓ Viaggio consegnato
         </div>
 
       </div>
 
     </div>
+
   </section>
 
 
-  <!-- DOCUMENTI -->
+  <!-- =========================
+       DOCUMENTI
+  ========================== -->
 
   <section class="card">
 
@@ -510,6 +656,7 @@ textarea:focus{
         <div class="upload-grid">
 
           <div class="form-group">
+
             <label for="documentType">
               Tipo documento
             </label>
@@ -520,9 +667,12 @@ textarea:focus{
               <option value="DDT">DDT</option>
               <option value="ALTRO">Foto / Altro</option>
             </select>
+
           </div>
 
+
           <div class="form-group">
+
             <label for="documentFile">
               File o foto
             </label>
@@ -532,20 +682,24 @@ textarea:focus{
               type="file"
               accept=".pdf,.jpg,.jpeg,.png,.webp,image/*"
             >
+
           </div>
 
         </div>
 
+
         <div class="form-group">
+
           <label for="documentNote">
             Nota
           </label>
 
           <textarea
             id="documentNote"
-            placeholder="Nota facoltativa">
-          </textarea>
+            placeholder="Nota facoltativa"></textarea>
+
         </div>
+
 
         <button
           id="uploadButton"
@@ -555,8 +709,11 @@ textarea:focus{
           Carica documento
         </button>
 
+
         <div class="upload-info">
-          Puoi caricare CMR, POD, DDT, fotografie della merce o altri documenti relativi a questo viaggio. Dimensione massima 20 MB.
+          Puoi caricare CMR, POD, DDT, fotografie della merce
+          o altri documenti relativi a questo viaggio.
+          Dimensione massima 20 MB.
         </div>
 
       </div>
@@ -568,12 +725,14 @@ textarea:focus{
         Caricamento documenti...
       </div>
 
+
       <div
         id="documentsEmpty"
         class="documents-empty"
         style="display:none">
         Nessun documento presente.
       </div>
+
 
       <div
         id="documentsList"
@@ -598,6 +757,7 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
 "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
 
 const supabase =
 createClient(
@@ -642,6 +802,15 @@ document.getElementById("documentsEmpty");
 
 const documentsList =
 document.getElementById("documentsList");
+
+const statusButton =
+document.getElementById("statusButton");
+
+const tripActionInfo =
+document.getElementById("tripActionInfo");
+
+const tripCompleted =
+document.getElementById("tripCompleted");
 
 
 /* =========================
@@ -990,14 +1159,6 @@ async function loadTrip(){
   }
 
 
-  /*
-   * IMPORTANTE:
-   * oltre all'ID del viaggio controlliamo
-   * anche autista_id.
-   *
-   * Quindi l'autista non può aprire
-   * semplicemente un altro ID nell'URL.
-   */
   const {
     data,
     error
@@ -1144,7 +1305,221 @@ function renderTrip(){
   badge.className =
   "badge " +
   statusClass(status);
+
+
+  renderStatusAction();
 }
+
+
+/* =========================
+   STATO VIAGGIO
+========================= */
+
+function renderStatusAction(){
+
+  const status =
+  normalizeStatus(
+    viaggio?.stato ||
+    "DA PROGRAMMARE"
+  );
+
+
+  statusButton.style.display =
+  "none";
+
+  tripCompleted.style.display =
+  "none";
+
+  tripActionInfo.textContent =
+  "";
+
+
+  if(status === "PROGRAMMATO"){
+
+    tripActionInfo.textContent =
+    "Quando inizi il viaggio, aggiorna lo stato per informare l'azienda.";
+
+    statusButton.textContent =
+    "▶ Inizia viaggio";
+
+    statusButton.dataset.nextStatus =
+    "IN CORSO";
+
+    statusButton.style.display =
+    "block";
+
+    return;
+  }
+
+
+  if(status === "IN CORSO"){
+
+    tripActionInfo.textContent =
+    "Quando la consegna è stata completata, conferma la conclusione del viaggio.";
+
+    statusButton.textContent =
+    "✓ Conferma consegna";
+
+    statusButton.dataset.nextStatus =
+    "CONSEGNATO";
+
+    statusButton.style.display =
+    "block";
+
+    return;
+  }
+
+
+  if(status === "CONSEGNATO"){
+
+    tripCompleted.style.display =
+    "block";
+
+    return;
+  }
+
+
+  if(status === "ANNULLATO"){
+
+    tripActionInfo.textContent =
+    "Questo viaggio è stato annullato.";
+
+    return;
+  }
+
+
+  tripActionInfo.textContent =
+  "Lo stato del viaggio non consente aggiornamenti da parte dell'autista.";
+}
+
+
+async function updateTripStatus(){
+
+  const newStatus =
+  statusButton.dataset.nextStatus;
+
+
+  if(!newStatus){
+    return;
+  }
+
+
+  let confirmationText =
+  "";
+
+
+  if(newStatus === "IN CORSO"){
+
+    confirmationText =
+    "Confermi di voler indicare che il viaggio è iniziato?";
+
+  }
+  else if(newStatus === "CONSEGNATO"){
+
+    confirmationText =
+    "Confermi che la consegna è stata completata?";
+
+  }
+
+
+  if(
+    confirmationText &&
+    !window.confirm(confirmationText)
+  ){
+    return;
+  }
+
+
+  hideMessage();
+
+
+  statusButton.disabled =
+  true;
+
+
+  const originalText =
+  statusButton.textContent;
+
+
+  statusButton.textContent =
+  "Aggiornamento...";
+
+
+  try{
+
+    const {
+      error
+    } =
+    await supabase.rpc(
+      "autista_aggiorna_stato_viaggio",
+      {
+        p_viaggio_id:
+        viaggio.id,
+
+        p_nuovo_stato:
+        newStatus
+      }
+    );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    viaggio.stato =
+    newStatus;
+
+
+    renderTrip();
+
+
+    if(newStatus === "IN CORSO"){
+
+      showSuccess(
+        "Viaggio iniziato. L'azienda vede ora lo stato IN CORSO."
+      );
+
+    }
+    else if(newStatus === "CONSEGNATO"){
+
+      showSuccess(
+        "Consegna confermata. Il viaggio risulta CONSEGNATO."
+      );
+
+    }
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore aggiornamento stato:",
+      error
+    );
+
+
+    showError(
+      "Impossibile aggiornare lo stato del viaggio: " +
+      error.message
+    );
+
+
+    statusButton.textContent =
+    originalText;
+
+  }
+  finally{
+
+    statusButton.disabled =
+    false;
+  }
+}
+
+
+statusButton.addEventListener(
+  "click",
+  updateTripStatus
+);
 
 
 /* =========================
@@ -1384,6 +1759,7 @@ async function openDocument(
 
   hideMessage();
 
+
   try{
 
     const {
@@ -1511,10 +1887,6 @@ async function uploadDocument(){
     safeName;
 
 
-    /*
-     * Percorso dedicato agli upload
-     * effettuati dall'Area Autista.
-     */
     const storagePath =
     currentProfile.azienda_id +
     "/autisti/" +
