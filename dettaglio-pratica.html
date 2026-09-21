@@ -2913,6 +2913,359 @@ async function deletePractice(){
     return;
   }
 
+  hideMessage();
+
+  const numero =
+    currentPractice.numero_pratica ||
+    "";
+
+  /*
+   * =====================================================
+   * 1. CONTROLLO VIAGGI COLLEGATI
+   * =====================================================
+   *
+   * IMPORTANTISSIMO:
+   * prima di eliminare documenti o file controlliamo
+   * se la pratica è utilizzata da uno o più viaggi.
+   *
+   * Se esiste un viaggio non tocchiamo assolutamente
+   * nulla.
+   */
+
+  try{
+
+    const {
+      data:linkedTrips,
+      error:tripsError
+    } =
+      await supabase
+        .from("viaggi")
+        .select("id")
+        .eq(
+          "pratica_id",
+          currentPractice.id
+        )
+        .limit(1);
+
+    if(tripsError){
+      throw new Error(
+        "Impossibile verificare i viaggi collegati: " +
+        tripsError.message
+      );
+    }
+
+    if(
+      linkedTrips &&
+      linkedTrips.length > 0
+    ){
+
+      showMessage(
+        "error",
+        "Impossibile eliminare la pratica " +
+        numero +
+        " perché è collegata a un viaggio. " +
+        "Gestisci prima il viaggio collegato."
+      );
+
+      return;
+    }
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore controllo viaggi:",
+      error
+    );
+
+    showMessage(
+      "error",
+      "Impossibile verificare se la pratica è collegata a un viaggio. " +
+      "La pratica non è stata eliminata."
+    );
+
+    return;
+  }
+
+
+  /*
+   * =====================================================
+   * 2. PRIMA CONFERMA
+   * =====================================================
+   */
+
+  const confirmed =
+    window.confirm(
+      "Vuoi eliminare definitivamente la pratica " +
+      numero +
+      "?\n\n" +
+      "Verranno eliminati anche i documenti collegati " +
+      "alla pratica e i relativi file dallo Storage.\n\n" +
+      "Questa operazione non può essere annullata."
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+
+  /*
+   * =====================================================
+   * 3. SECONDA CONFERMA
+   * =====================================================
+   */
+
+  const secondConfirmation =
+    window.confirm(
+      "Confermi l'eliminazione definitiva della pratica " +
+      numero +
+      " e dei suoi documenti?"
+    );
+
+  if(!secondConfirmation){
+    return;
+  }
+
+
+  /*
+   * =====================================================
+   * 4. BLOCCO PULSANTI
+   * =====================================================
+   */
+
+  deleteButton.disabled =
+    true;
+
+  editButton.disabled =
+    true;
+
+  reanalyzeButton.disabled =
+    true;
+
+  const oldDeleteText =
+    deleteButton.textContent;
+
+  deleteButton.textContent =
+    "Eliminazione...";
+
+
+  try{
+
+    /*
+     * ===================================================
+     * 5. RECUPERO DOCUMENTI
+     * ===================================================
+     */
+
+    const {
+      data:documents,
+      error:documentsError
+    } =
+      await supabase
+        .from("documenti")
+        .select(
+          "id,storage_path,viaggio_id"
+        )
+        .eq(
+          "pratica_id",
+          currentPractice.id
+        );
+
+    if(documentsError){
+
+      throw new Error(
+        "Impossibile leggere i documenti collegati: " +
+        documentsError.message
+      );
+
+    }
+
+    const linkedDocuments =
+      documents || [];
+
+
+    /*
+     * ===================================================
+     * 6. CONTROLLO DIFENSIVO DOCUMENTI ↔ VIAGGI
+     * ===================================================
+     *
+     * In teoria siamo già sicuri perché sopra abbiamo
+     * verificato che non esistano viaggi collegati alla
+     * pratica.
+     *
+     * Manteniamo comunque questo controllo per evitare
+     * di eliminare accidentalmente un documento che
+     * risultasse collegato anche a un viaggio.
+     */
+
+    const documentLinkedToTrip =
+      linkedDocuments.some(
+        document =>
+          document.viaggio_id
+      );
+
+    if(documentLinkedToTrip){
+
+      throw new Error(
+        "Uno o più documenti risultano collegati a un viaggio. " +
+        "Nessun dato è stato eliminato."
+      );
+
+    }
+
+
+    /*
+     * ===================================================
+     * 7. ELIMINAZIONE FILE DALLO STORAGE
+     * ===================================================
+     */
+
+    const storagePaths =
+      linkedDocuments
+        .map(
+          document =>
+            document.storage_path
+        )
+        .filter(Boolean);
+
+
+    if(storagePaths.length > 0){
+
+      const {
+        error:storageError
+      } =
+        await supabase
+          .storage
+          .from("documenti")
+          .remove(
+            storagePaths
+          );
+
+      if(storageError){
+
+        throw new Error(
+          "Impossibile eliminare i file dallo Storage: " +
+          storageError.message
+        );
+
+      }
+
+    }
+
+
+    /*
+     * ===================================================
+     * 8. ELIMINAZIONE RECORD DOCUMENTI
+     * ===================================================
+     */
+
+    if(linkedDocuments.length > 0){
+
+      const documentIds =
+        linkedDocuments.map(
+          document =>
+            document.id
+        );
+
+      const {
+        error:deleteDocumentsError
+      } =
+        await supabase
+          .from("documenti")
+          .delete()
+          .in(
+            "id",
+            documentIds
+          );
+
+      if(deleteDocumentsError){
+
+        throw new Error(
+          "File eliminati dallo Storage, ma non è stato possibile " +
+          "eliminare i record dei documenti: " +
+          deleteDocumentsError.message
+        );
+
+      }
+
+    }
+
+
+    /*
+     * ===================================================
+     * 9. ELIMINAZIONE PRATICA
+     * ===================================================
+     */
+
+    const {
+      error:practiceError
+    } =
+      await supabase
+        .from("pratiche")
+        .delete()
+        .eq(
+          "id",
+          currentPractice.id
+        );
+
+    if(practiceError){
+
+      throw new Error(
+        "Documenti eliminati, ma non è stato possibile eliminare " +
+        "la pratica: " +
+        practiceError.message
+      );
+
+    }
+
+
+    /*
+     * ===================================================
+     * 10. COMPLETATO
+     * ===================================================
+     */
+
+    window.location.replace(
+      "pratiche.html"
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore eliminazione pratica:",
+      error
+    );
+
+    showMessage(
+      "error",
+      "Errore durante l'eliminazione: " +
+      (
+        error?.message ||
+        "errore sconosciuto"
+      )
+    );
+
+    deleteButton.disabled =
+      false;
+
+    editButton.disabled =
+      false;
+
+    reanalyzeButton.disabled =
+      false;
+
+    deleteButton.textContent =
+      oldDeleteText;
+
+  }
+
+}
+
+  if(!currentPractice){
+    return;
+  }
+
   const numero =
     currentPractice.numero_pratica ||
     "";
