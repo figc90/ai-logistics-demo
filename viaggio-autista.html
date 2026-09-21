@@ -184,6 +184,11 @@ button,input,select,textarea{
   padding:13px;
 }
 
+.field.actual{
+  background:#f0fdf4;
+  border-color:#bbf7d0;
+}
+
 .field.full{
   grid-column:1/-1;
 }
@@ -197,6 +202,10 @@ button,input,select,textarea{
   margin-bottom:5px;
 }
 
+.field.actual .label{
+  color:#15803d;
+}
+
 .value{
   color:#334155;
   font-size:13px;
@@ -205,9 +214,11 @@ button,input,select,textarea{
   overflow-wrap:anywhere;
 }
 
-/* =========================
-   AVANZAMENTO VIAGGIO
-========================= */
+.field.actual .value{
+  color:#166534;
+}
+
+/* AVANZAMENTO */
 
 .trip-actions{
   margin-top:16px;
@@ -233,7 +244,6 @@ button,input,select,textarea{
   cursor:pointer;
   background:#2563eb;
   color:#fff;
-  transition:.15s ease;
 }
 
 .btn-status:hover{
@@ -256,9 +266,7 @@ button,input,select,textarea{
   text-align:center;
 }
 
-/* =========================
-   DOCUMENTI
-========================= */
+/* DOCUMENTI */
 
 .upload-box{
   background:#f8fafc;
@@ -461,6 +469,7 @@ textarea:focus{
 <body>
 
 <header class="header">
+
   <div class="header-inner">
 
     <div class="top">
@@ -492,6 +501,7 @@ textarea:focus{
     </div>
 
   </div>
+
 </header>
 
 
@@ -510,9 +520,7 @@ textarea:focus{
   </div>
 
 
-  <!-- =========================
-       DATI VIAGGIO
-  ========================== -->
+  <!-- DATI VIAGGIO -->
 
   <section class="card">
 
@@ -527,6 +535,7 @@ textarea:focus{
       </div>
 
     </div>
+
 
     <div class="card-body">
 
@@ -547,6 +556,21 @@ textarea:focus{
         </div>
 
 
+        <div class="field actual">
+
+          <div class="label">
+            Partenza effettiva
+          </div>
+
+          <div
+            id="vPartenzaEffettiva"
+            class="value">
+            -
+          </div>
+
+        </div>
+
+
         <div class="field">
 
           <div class="label">
@@ -555,6 +579,21 @@ textarea:focus{
 
           <div
             id="vArrivo"
+            class="value">
+            -
+          </div>
+
+        </div>
+
+
+        <div class="field actual">
+
+          <div class="label">
+            Consegna effettiva
+          </div>
+
+          <div
+            id="vConsegnaEffettiva"
             class="value">
             -
           </div>
@@ -609,8 +648,6 @@ textarea:focus{
       </div>
 
 
-      <!-- AVANZAMENTO STATO -->
-
       <div class="trip-actions">
 
         <div
@@ -639,15 +676,14 @@ textarea:focus{
   </section>
 
 
-  <!-- =========================
-       DOCUMENTI
-  ========================== -->
+  <!-- DOCUMENTI -->
 
   <section class="card">
 
     <div class="card-header">
       <h2>Documenti viaggio</h2>
     </div>
+
 
     <div class="card-body">
 
@@ -725,14 +761,12 @@ textarea:focus{
         Caricamento documenti...
       </div>
 
-
       <div
         id="documentsEmpty"
         class="documents-empty"
         style="display:none">
         Nessun documento presente.
       </div>
-
 
       <div
         id="documentsList"
@@ -971,10 +1005,7 @@ function formatBytes(bytes){
   }
 
   if(value < 1024 * 1024){
-
-    return (
-      value / 1024
-    ).toFixed(1) + " KB";
+    return (value / 1024).toFixed(1) + " KB";
   }
 
   return (
@@ -1176,6 +1207,8 @@ async function loadTrip(){
       targa_rimorchio,
       data_partenza,
       data_arrivo,
+      data_partenza_effettiva,
+      data_consegna_effettiva,
       note,
       pratiche (
         id,
@@ -1260,9 +1293,25 @@ function renderTrip(){
 
 
   text(
+    "vPartenzaEffettiva",
+    formatDate(
+      viaggio.data_partenza_effettiva
+    )
+  );
+
+
+  text(
     "vArrivo",
     formatDate(
       viaggio.data_arrivo
+    )
+  );
+
+
+  text(
+    "vConsegnaEffettiva",
+    formatDate(
+      viaggio.data_consegna_effettiva
     )
   );
 
@@ -1337,7 +1386,7 @@ function renderStatusAction(){
   if(status === "PROGRAMMATO"){
 
     tripActionInfo.textContent =
-    "Quando inizi il viaggio, aggiorna lo stato per informare l'azienda.";
+    "Quando inizi il viaggio, aggiorna lo stato. La data e l'ora effettive di partenza verranno registrate automaticamente.";
 
     statusButton.textContent =
     "▶ Inizia viaggio";
@@ -1355,7 +1404,7 @@ function renderStatusAction(){
   if(status === "IN CORSO"){
 
     tripActionInfo.textContent =
-    "Quando la consegna è stata completata, conferma la conclusione del viaggio.";
+    "Quando hai completato la consegna, confermala. La data e l'ora effettive verranno registrate automaticamente.";
 
     statusButton.textContent =
     "✓ Conferma consegna";
@@ -1411,13 +1460,13 @@ async function updateTripStatus(){
   if(newStatus === "IN CORSO"){
 
     confirmationText =
-    "Confermi di voler indicare che il viaggio è iniziato?";
+    "Confermi l'inizio del viaggio? Verranno registrate automaticamente data e ora effettive di partenza.";
 
   }
   else if(newStatus === "CONSEGNATO"){
 
     confirmationText =
-    "Confermi che la consegna è stata completata?";
+    "Confermi che la consegna è stata completata? Verranno registrate automaticamente data e ora effettive di consegna.";
 
   }
 
@@ -1432,14 +1481,11 @@ async function updateTripStatus(){
 
   hideMessage();
 
-
   statusButton.disabled =
   true;
 
-
   const originalText =
   statusButton.textContent;
-
 
   statusButton.textContent =
   "Aggiornamento...";
@@ -1467,24 +1513,34 @@ async function updateTripStatus(){
     }
 
 
-    viaggio.stato =
-    newStatus;
+    /*
+     * Rileggiamo il viaggio dal database.
+     * In questo modo recuperiamo anche l'orario
+     * effettivo registrato dalla RPC con now().
+     */
+    const refreshed =
+    await loadTrip();
 
 
-    renderTrip();
+    if(!refreshed){
+
+      throw new Error(
+        "Stato aggiornato, ma non è stato possibile ricaricare il viaggio."
+      );
+    }
 
 
     if(newStatus === "IN CORSO"){
 
       showSuccess(
-        "Viaggio iniziato. L'azienda vede ora lo stato IN CORSO."
+        "Viaggio iniziato. Data e ora effettive di partenza registrate."
       );
 
     }
     else if(newStatus === "CONSEGNATO"){
 
       showSuccess(
-        "Consegna confermata. Il viaggio risulta CONSEGNATO."
+        "Consegna confermata. Data e ora effettive di consegna registrate."
       );
 
     }
@@ -1809,7 +1865,7 @@ async function openDocument(
 
 
 /* =========================
-   UPLOAD
+   UPLOAD DOCUMENTO
 ========================= */
 
 async function uploadDocument(){
