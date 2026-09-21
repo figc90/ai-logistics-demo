@@ -1676,30 +1676,37 @@ function renderPratiche(pratiche){
        */
 
       row.addEventListener(
-        "click",
-        function(){
+  "click",
+  function(){
 
-          if(
-            !pratica.id
-          ){
+    const numeroPratica =
+      String(pratica.id || "").trim();
 
-            console.error(
-              "Numero pratica mancante:",
-              pratica
-            );
+    if(!numeroPratica){
 
-            return;
-
-          }
-
-          window.location.href =
-          "dettaglio-pratica.html?id=" +
-          encodeURIComponent(
-            pratica.id
-          );
-
-        }
+      console.error(
+        "Numero pratica mancante:",
+        pratica
       );
+
+      return;
+
+    }
+
+    const params =
+      new URLSearchParams();
+
+    params.set(
+      "id",
+      numeroPratica
+    );
+
+    window.location.href =
+      "dettaglio-pratica.html?" +
+      params.toString();
+
+  }
+);
 
       praticheBody
       .appendChild(
