@@ -1687,6 +1687,24 @@ start();
 
 </script>
 
+
+<!-- Sincronizzazione utente sidebar -->
+<script type="module">
+  import { createClient as createSidebarClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  const sidebarUserEmail = document.getElementById("userEmail");
+  if (sidebarUserEmail) {
+    try {
+      const sidebarSupabase = createSidebarClient(
+        "https://sctzockiurjsxzdkctmy.supabase.co",
+        "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"
+      );
+      const { data: { session } } = await sidebarSupabase.auth.getSession();
+      if (session?.user?.email) sidebarUserEmail.textContent = session.user.email;
+    } catch (error) {
+      console.error("Errore visualizzazione utente sidebar:", error);
+    }
+  }
+</script>
 </body>
 
 </html>
