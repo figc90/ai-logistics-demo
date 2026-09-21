@@ -1186,6 +1186,7 @@ tbody tr:hover{
 
 </style>
 
+<script type="module" src="js/admin-role-guard.js"></script>
 </head>
 
 <body>
@@ -1240,13 +1241,7 @@ tbody tr:hover{
         <span class="nav-icon">✉</span>
         <span>Email AI</span>
       </a>
-
-<a href="#" class="nav-item" onclick="return false;" aria-label="WhatsApp AI">
-<span class="nav-icon">◉</span>
-<span>WhatsApp AI</span>
-</a>
-
-      <a href="viaggi.html" class="nav-item">
+<a href="viaggi.html" class="nav-item">
         <span class="nav-icon">↗</span>
         <span>Viaggi</span>
       </a>
@@ -1261,6 +1256,11 @@ tbody tr:hover{
         <span class="nav-icon">▣</span>
         <span>Anagrafiche</span>
       </a>
+<a href="autisti.html" class="nav-item">
+<span class="nav-icon">♟</span>
+<span>Autisti</span>
+</a>
+
 
 <a href="impostazioni.html" class="nav-item">
 <span class="nav-icon">⚙</span>
@@ -1824,13 +1824,7 @@ const QUICK_ACTION_CATALOG = [
     icon:"✉",
     href:"email-ai.html"
   },
-  {
-    id:"whatsapp_ai",
-    label:"WhatsApp AI",
-    icon:"◉",
-    href:null,
-    soon:true
-  },
+
   {
     id:"nuovo_viaggio",
     label:"Nuovo viaggio",
@@ -2072,6 +2066,11 @@ async function protectPage(){
       )
       .trim()
       .toLowerCase();
+
+    if(ruolo === "autista"){
+      window.location.replace("autista.html");
+      return false;
+    }
 
     isSuperadmin =
       ruolo === "superadmin";
