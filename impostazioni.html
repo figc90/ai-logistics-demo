@@ -531,11 +531,50 @@ input[readonly]{
   color:#687689;
 }
 
-.connect-email-box{padding:16px;border:1px dashed #cfd9e4;border-radius:12px;background:#f9fbfd}
-.connect-email-title{color:#30465f;font-size:11px;font-weight:900;margin-bottom:5px}
-.connect-email-text{color:#8a98aa;font-size:9px;line-height:1.5;margin-bottom:13px}
-.gmail-btn{min-height:41px;border:1px solid #dce3eb;border-radius:10px;padding:0 15px;background:#fff;color:#30465f;font-size:10px;font-weight:900;cursor:pointer}
-.integration-sync{color:#9aa6b6;font-size:8px;margin-top:4px}
+.connect-email-box{
+  padding:16px;
+  border:1px dashed #cfd9e4;
+  border-radius:12px;
+  background:#f9fbfd;
+  margin-top:10px;
+}
+
+.connect-email-title{
+  color:#30465f;
+  font-size:11px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.connect-email-text{
+  color:#8a98aa;
+  font-size:9px;
+  line-height:1.5;
+  margin-bottom:13px;
+}
+
+.gmail-btn{
+  min-height:41px;
+  border:1px solid #dce3eb;
+  border-radius:10px;
+  padding:0 15px;
+  background:#fff;
+  color:#30465f;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.gmail-btn:hover{
+  background:#f7fafc;
+}
+
+.integration-sync{
+  color:#9aa6b6;
+  font-size:8px;
+  margin-top:4px;
+}
+
 /* ============================
    SECURITY INFO
 ============================ */
@@ -609,33 +648,207 @@ input[readonly]{
 
 }
 
-
 /* =========================================================
    SIDEBAR UNIFICATA - STESSO STILE DASHBOARD
 ========================================================= */
-.sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);color:#fff;position:fixed;left:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:100;border-right:1px solid rgba(255,255,255,.05)}
-.sidebar-logo{min-height:152px;padding:14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}
-.sidebar-logo-link{width:100%;max-width:195px;min-height:118px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#fff,#f4f8fc);border:1px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);transition:.2s ease}
-.sidebar-logo-link:hover{transform:translateY(-1px)}
-.sidebar-logo img{width:175px;max-width:90%;height:auto;display:block}
-.sidebar-nav{padding:24px 12px;flex:1;overflow-y:auto;min-height:0}
-.nav-section{margin-bottom:28px}
-.nav-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.8px;margin:0 5px 9px}
-.nav-item{min-height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:10px;color:#c7d3e1;font-size:14px;font-weight:700;margin-bottom:5px;transition:.18s ease;text-decoration:none}
-.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}
-.nav-icon{width:18px;text-align:center;font-size:16px;opacity:.9}
-.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;background:#0d2d50}
-.user-card{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 12px;margin-bottom:9px}
-.user-label{color:#7994af;font-size:9px;font-weight:900;letter-spacing:1.3px;margin-bottom:4px}
-.user-email{color:#fff;font-size:12px;font-weight:700;overflow-wrap:anywhere}
-.logout-btn{width:100%;min-height:40px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
-.logout-btn:hover{background:rgba(255,255,255,.09);color:#fff}
-@media(max-width:760px){.sidebar{width:72px}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px;border-radius:10px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center;padding:0}.sidebar-bottom{padding:8px}.logout-btn{font-size:0}.logout-btn::after{content:"↪";font-size:18px}}
+
+.sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+  border-right:1px solid rgba(255,255,255,.05);
+}
+
+.sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);
+  transition:.2s ease;
+}
+
+.sidebar-logo-link:hover{
+  transform:translateY(-1px);
+}
+
+.sidebar-logo img{
+  width:175px;
+  max-width:90%;
+  height:auto;
+  display:block;
+}
+
+.sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+  overflow-y:auto;
+  min-height:0;
+}
+
+.nav-section{
+  margin-bottom:28px;
+}
+
+.nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
+  text-decoration:none;
+}
+
+.nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:16px;
+  opacity:.9;
+}
+
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+  flex-shrink:0;
+  background:#0d2d50;
+}
+
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px 12px;
+  margin-bottom:9px;
+}
+
+.user-label{
+  color:#7994af;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin-bottom:4px;
+}
+
+.user-email{
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+
+.logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.logout-btn:hover{
+  background:rgba(255,255,255,.09);
+  color:#fff;
+}
+
+@media(max-width:760px){
+
+  .sidebar{
+    width:72px;
+  }
+
+  .sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+    border-radius:10px;
+  }
+
+  .sidebar-logo img{
+    width:50px;
+  }
+
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .user-card{
+    display:none;
+  }
+
+  .nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .sidebar-bottom{
+    padding:8px;
+  }
+
+  .logout-btn{
+    font-size:0;
+  }
+
+  .logout-btn::after{
+    content:"↪";
+    font-size:18px;
+  }
+
+}
 
 </style>
 
 <script type="module" src="js/admin-role-guard.js"></script>
+
 </head>
 
 <body>
@@ -690,7 +903,8 @@ input[readonly]{
         <span class="nav-icon">✉</span>
         <span>Email AI</span>
       </a>
-<a href="viaggi.html" class="nav-item">
+
+      <a href="viaggi.html" class="nav-item">
         <span class="nav-icon">↗</span>
         <span>Viaggi</span>
       </a>
@@ -705,16 +919,16 @@ input[readonly]{
         <span class="nav-icon">▣</span>
         <span>Anagrafiche</span>
       </a>
-<a href="autisti.html" class="nav-item">
-<span class="nav-icon">♟</span>
-<span>Autisti</span>
-</a>
 
+      <a href="autisti.html" class="nav-item">
+        <span class="nav-icon">♟</span>
+        <span>Autisti</span>
+      </a>
 
-<a href="impostazioni.html" class="nav-item active">
-<span class="nav-icon">⚙</span>
-<span>Impostazioni</span>
-</a>
+      <a href="impostazioni.html" class="nav-item active">
+        <span class="nav-icon">⚙</span>
+        <span>Impostazioni</span>
+      </a>
 
     </div>
 
@@ -1159,7 +1373,12 @@ document.getElementById(
 const integrationsList =
 document.getElementById(
   "integrationsList"
-);const integrationMessage=document.getElementById("integrationMessage");
+);
+
+const integrationMessage =
+document.getElementById(
+  "integrationMessage"
+);
 
 /* ============================
    MESSAGGI
@@ -1223,23 +1442,109 @@ function providerLabel(provider){
 }
 
 function readGmailCallbackStatus(){
-  const p=new URLSearchParams(location.search),s=p.get("gmail");
-  if(!s||!integrationMessage)return;
-  showMessage(integrationMessage,s==="connected"?"success":s==="cancelled"?"info":"error",
-    s==="connected"?"Casella Gmail collegata correttamente.":s==="cancelled"?"Collegamento Gmail annullato.":"Non è stato possibile completare il collegamento Gmail.");
-  history.replaceState({},document.title,location.pathname);
-}
-async function connectGmail(button){
-  clearMessage(integrationMessage); const t=button.textContent; button.disabled=true; button.textContent="Connessione...";
-  try{
-    const {data,error}=await supabase.functions.invoke("gmail-oauth-start",{body:{}});
-    if(error)throw error;
-    if(!data?.authorization_url)throw new Error("URL OAuth assente");
-    location.assign(data.authorization_url);
-  }catch(e){
-    console.error(e); showMessage(integrationMessage,"error","Non è stato possibile avviare il collegamento Gmail.");
-    button.disabled=false; button.textContent=t;
+
+  const params =
+    new URLSearchParams(
+      location.search
+    );
+
+  const status =
+    params.get("gmail");
+
+  if(
+    !status ||
+    !integrationMessage
+  ){
+    return;
   }
+
+  showMessage(
+    integrationMessage,
+    status === "connected"
+      ? "success"
+      : status === "cancelled"
+        ? "info"
+        : "error",
+    status === "connected"
+      ? "Casella Gmail collegata correttamente."
+      : status === "cancelled"
+        ? "Collegamento Gmail annullato."
+        : "Non è stato possibile completare il collegamento Gmail."
+  );
+
+  history.replaceState(
+    {},
+    document.title,
+    location.pathname
+  );
+
+}
+
+async function connectGmail(button){
+
+  clearMessage(
+    integrationMessage
+  );
+
+  const originalText =
+    button.textContent;
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Connessione...";
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabase.functions.invoke(
+        "gmail-oauth-start",
+        {
+          body:{}
+        }
+      );
+
+    if(error){
+      throw error;
+    }
+
+    if(
+      !data?.authorization_url
+    ){
+      throw new Error(
+        "URL OAuth assente"
+      );
+    }
+
+    location.assign(
+      data.authorization_url
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      error
+    );
+
+    showMessage(
+      integrationMessage,
+      "error",
+      "Non è stato possibile avviare il collegamento Gmail."
+    );
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      originalText;
+
+  }
+
 }
 
 /* ============================
@@ -1268,22 +1573,22 @@ async function protect(){
   }
 
   currentUser =
-  session.user;
+    session.user;
 
   const {
     data:profile,
     error:profileError
   } =
-  await supabase
-  .from("profiles")
-  .select(
-    "id,email,ruolo,azienda_id"
-  )
-  .eq(
-    "id",
-    currentUser.id
-  )
-  .single();
+    await supabase
+      .from("profiles")
+      .select(
+        "id,email,ruolo,azienda_id"
+      )
+      .eq(
+        "id",
+        currentUser.id
+      )
+      .single();
 
   if(
     profileError ||
@@ -1305,7 +1610,9 @@ async function protect(){
 
   }
 
-  if(!profile.azienda_id){
+  if(
+    !profile.azienda_id
+  ){
 
     console.error(
       "Nessuna azienda associata al profilo."
@@ -1322,22 +1629,22 @@ async function protect(){
   }
 
   currentProfile =
-  profile;
+    profile;
 
   userEmail.textContent =
-  profile.email ||
-  currentUser.email ||
-  "-";
+    profile.email ||
+    currentUser.email ||
+    "-";
 
   accountEmail.value =
-  profile.email ||
-  currentUser.email ||
-  "";
+    profile.email ||
+    currentUser.email ||
+    "";
 
   roleBadge.textContent =
-  String(
-    profile.ruolo || "-"
-  ).toUpperCase();
+    String(
+      profile.ruolo || "-"
+    ).toUpperCase();
 
   return true;
 
@@ -1353,16 +1660,16 @@ async function loadCompany(){
     data,
     error
   } =
-  await supabase
-  .from("aziende")
-  .select(
-    "id,nome,email,telefono,attiva"
-  )
-  .eq(
-    "id",
-    currentProfile.azienda_id
-  )
-  .single();
+    await supabase
+      .from("aziende")
+      .select(
+        "id,nome,email,telefono,attiva"
+      )
+      .eq(
+        "id",
+        currentProfile.azienda_id
+      )
+      .single();
 
   if(
     error ||
@@ -1385,16 +1692,16 @@ async function loadCompany(){
   }
 
   currentCompany =
-  data;
+    data;
 
   companyName.value =
-  data.nome || "";
+    data.nome || "";
 
   companyEmail.value =
-  data.email || "";
+    data.email || "";
 
   companyPhone.value =
-  data.telefono || "";
+    data.telefono || "";
 
   return true;
 
@@ -1429,13 +1736,13 @@ companyForm.addEventListener(
     }
 
     const nome =
-    companyName.value.trim();
+      companyName.value.trim();
 
     const email =
-    companyEmail.value.trim();
+      companyEmail.value.trim();
 
     const telefono =
-    companyPhone.value.trim();
+      companyPhone.value.trim();
 
     if(!nome){
 
@@ -1452,31 +1759,52 @@ companyForm.addEventListener(
     }
 
     saveCompanyButton.disabled =
-    true;
+      true;
 
     saveCompanyButton.textContent =
-    "Salvataggio...";
+      "Salvataggio...";
 
     try{
 
-      const { data, error } =
-      await supabase.rpc("aggiorna_mia_azienda",{
-        p_nome:nome,
-        p_email:email || null,
-        p_telefono:telefono || null
-      });
+      const {
+        data,
+        error
+      } =
+        await supabase.rpc(
+          "aggiorna_mia_azienda",
+          {
+            p_nome:nome,
+            p_email:email || null,
+            p_telefono:telefono || null
+          }
+        );
 
-      const updatedCompany = Array.isArray(data) ? data[0] : data;
+      const updatedCompany =
+        Array.isArray(data)
+          ? data[0]
+          : data;
 
       if(error){
         throw error;
       }
 
-      if(!updatedCompany) throw new Error("Dati azienda non restituiti.");
-      currentCompany = updatedCompany;
-      companyName.value=updatedCompany.nome||"";
-      companyEmail.value=updatedCompany.email||"";
-      companyPhone.value=updatedCompany.telefono||"";
+      if(!updatedCompany){
+        throw new Error(
+          "Dati azienda non restituiti."
+        );
+      }
+
+      currentCompany =
+        updatedCompany;
+
+      companyName.value =
+        updatedCompany.nome || "";
+
+      companyEmail.value =
+        updatedCompany.email || "";
+
+      companyPhone.value =
+        updatedCompany.telefono || "";
 
       showMessage(
         companyMessage,
@@ -1502,10 +1830,10 @@ companyForm.addEventListener(
     finally{
 
       saveCompanyButton.disabled =
-      false;
+        false;
 
       saveCompanyButton.textContent =
-      "Salva modifiche";
+        "Salva modifiche";
 
     }
 
@@ -1525,8 +1853,8 @@ changePasswordButton.addEventListener(
     );
 
     const email =
-    currentUser?.email ||
-    currentProfile?.email;
+      currentUser?.email ||
+      currentProfile?.email;
 
     if(!email){
 
@@ -1541,24 +1869,24 @@ changePasswordButton.addEventListener(
     }
 
     changePasswordButton.disabled =
-    true;
+      true;
 
     changePasswordButton.textContent =
-    "Invio...";
+      "Invio...";
 
     try{
 
       const {
         error
       } =
-      await supabase.auth
-      .resetPasswordForEmail(
-        email,
-        {
-          redirectTo:
-          "https://matrimialogistics.it/imposta-password.html"
-        }
-      );
+        await supabase.auth
+          .resetPasswordForEmail(
+            email,
+            {
+              redirectTo:
+                "https://matrimialogistics.it/imposta-password.html"
+            }
+          );
 
       if(error){
         throw error;
@@ -1579,7 +1907,7 @@ changePasswordButton.addEventListener(
       );
 
       let message =
-      "Non è stato possibile inviare l'email per il cambio password.";
+        "Non è stato possibile inviare l'email per il cambio password.";
 
       if(
         String(
@@ -1590,7 +1918,7 @@ changePasswordButton.addEventListener(
       ){
 
         message =
-        "Sono state effettuate troppe richieste email. Attendi qualche minuto e riprova.";
+          "Sono state effettuate troppe richieste email. Attendi qualche minuto e riprova.";
 
       }
 
@@ -1604,10 +1932,10 @@ changePasswordButton.addEventListener(
     finally{
 
       changePasswordButton.disabled =
-      false;
+        false;
 
       changePasswordButton.textContent =
-      "Cambia password";
+        "Cambia password";
 
     }
 
@@ -1619,24 +1947,313 @@ changePasswordButton.addEventListener(
 ============================ */
 
 async function loadIntegrations(){
-  const {data,error}=await supabase.from("email_connections")
-    .select("id,provider,email,cartella_monitorata,attiva,ultimo_sync")
-    .eq("azienda_id",currentProfile.azienda_id).order("created_at",{ascending:true});
-  if(error){console.error(error);integrationsList.innerHTML='<div class="integration"><div class="integration-left"><div class="integration-icon">✉</div><div><div class="integration-name">Email AI</div><div class="integration-detail">Stato connessione non disponibile</div></div></div><span class="status-badge status-off">NON DISPONIBILE</span></div>';return;}
-  const connections=data||[]; integrationsList.innerHTML="";
-  connections.forEach(c=>{
-    const x=document.createElement("div");x.className="integration";
-    let sync="Sincronizzazione non ancora eseguita";
-    if(c.ultimo_sync){const d=new Date(c.ultimo_sync);if(!Number.isNaN(d.getTime()))sync="Ultima sincronizzazione: "+d.toLocaleString("it-IT");}
-    x.innerHTML=`<div class="integration-left"><div class="integration-icon">✉</div><div><div class="integration-name">${escapeHtml(providerLabel(c.provider))}</div><div class="integration-detail">${escapeHtml(c.email||"Casella email")}</div><div class="integration-sync">${escapeHtml(sync)}</div></div></div><span class="status-badge ${c.attiva?"status-on":"status-off"}">${c.attiva?"COLLEGATA":"DISATTIVATA"}</span>`;
-    integrationsList.appendChild(x);
-  });
-  const hasGoogle=connections.some(c=>String(c.provider||"").toLowerCase()==="google"&&c.attiva===true);
-  if(!hasGoogle){
-    const b=document.createElement("div");b.className="connect-email-box";
-    b.innerHTML=`<div class="connect-email-title">${connections.length?"Collega Gmail":"Nessuna casella email collegata"}</div><div class="connect-email-text">Collega una casella Gmail alla tua azienda. MatRi-mIA non richiede né memorizza la password Gmail.</div><button id="connectGmailButton" type="button" class="gmail-btn">✉ Collega Gmail</button>`;
-    integrationsList.appendChild(b);document.getElementById("connectGmailButton").onclick=function(){connectGmail(this)};
+
+  const {
+    data,
+    error
+  } =
+    await supabase
+      .from("email_connections")
+      .select(
+        "id,provider,email,cartella_monitorata,attiva,ultimo_sync"
+      )
+      .eq(
+        "azienda_id",
+        currentProfile.azienda_id
+      )
+      .order(
+        "created_at",
+        {
+          ascending:true
+        }
+      );
+
+  if(error){
+
+    console.error(
+      "Errore caricamento integrazioni:",
+      error
+    );
+
+    integrationsList.innerHTML = `
+      <div class="integration">
+
+        <div class="integration-left">
+
+          <div class="integration-icon">
+            ✉
+          </div>
+
+          <div>
+
+            <div class="integration-name">
+              Email AI
+            </div>
+
+            <div class="integration-detail">
+              Stato connessione non disponibile
+            </div>
+
+          </div>
+
+        </div>
+
+        <span class="status-badge status-off">
+          NON DISPONIBILE
+        </span>
+
+      </div>
+    `;
+
+    return;
+
   }
+
+  const connections =
+    data || [];
+
+  integrationsList.innerHTML =
+    "";
+
+  connections.forEach(
+    connection => {
+
+      const integration =
+        document.createElement(
+          "div"
+        );
+
+      integration.className =
+        "integration";
+
+      let sync =
+        "Sincronizzazione non ancora eseguita";
+
+      if(
+        connection.ultimo_sync
+      ){
+
+        const date =
+          new Date(
+            connection.ultimo_sync
+          );
+
+        if(
+          !Number.isNaN(
+            date.getTime()
+          )
+        ){
+
+          sync =
+            "Ultima sincronizzazione: " +
+            date.toLocaleString(
+              "it-IT"
+            );
+
+        }
+
+      }
+
+      integration.innerHTML = `
+
+        <div class="integration-left">
+
+          <div class="integration-icon">
+            ✉
+          </div>
+
+          <div>
+
+            <div class="integration-name">
+              ${escapeHtml(
+                providerLabel(
+                  connection.provider
+                )
+              )}
+            </div>
+
+            <div class="integration-detail">
+              ${escapeHtml(
+                connection.email ||
+                "Casella email"
+              )}
+            </div>
+
+            <div class="integration-sync">
+              ${escapeHtml(sync)}
+            </div>
+
+          </div>
+
+        </div>
+
+        <span
+          class="status-badge ${
+            connection.attiva
+              ? "status-on"
+              : "status-off"
+          }">
+
+          ${
+            connection.attiva
+              ? "COLLEGATA"
+              : "DISATTIVATA"
+          }
+
+        </span>
+      `;
+
+      integrationsList.appendChild(
+        integration
+      );
+
+    }
+  );
+
+  const googleConnection =
+    connections.find(
+      connection =>
+        String(
+          connection.provider || ""
+        )
+        .toLowerCase() ===
+          "google" &&
+        connection.attiva === true
+    );
+
+  /* ============================
+     GMAIL GIÀ COLLEGATO
+  ============================ */
+
+  if(
+    googleConnection
+  ){
+
+    const reconnectBox =
+      document.createElement(
+        "div"
+      );
+
+    reconnectBox.className =
+      "connect-email-box";
+
+    reconnectBox.innerHTML = `
+
+      <div class="connect-email-title">
+        Gmail collegato
+      </div>
+
+      <div class="connect-email-text">
+
+        La casella
+        <strong>
+          ${escapeHtml(
+            googleConnection.email
+          )}
+        </strong>
+        è collegata a MatRi-mIA.
+
+        Puoi riautorizzare l'accesso Google
+        senza eliminare la connessione.
+
+      </div>
+
+      <button
+        id="reconnectGmailButton"
+        type="button"
+        class="gmail-btn">
+
+        ↻ Riautorizza Gmail
+
+      </button>
+    `;
+
+    integrationsList.appendChild(
+      reconnectBox
+    );
+
+    const reconnectButton =
+      document.getElementById(
+        "reconnectGmailButton"
+      );
+
+    reconnectButton.addEventListener(
+      "click",
+      function(){
+
+        connectGmail(
+          reconnectButton
+        );
+
+      }
+    );
+
+    return;
+
+  }
+
+  /* ============================
+     GMAIL NON COLLEGATO
+  ============================ */
+
+  const connectBox =
+    document.createElement(
+      "div"
+    );
+
+  connectBox.className =
+    "connect-email-box";
+
+  connectBox.innerHTML = `
+
+    <div class="connect-email-title">
+
+      ${
+        connections.length
+          ? "Collega Gmail"
+          : "Nessuna casella email collegata"
+      }
+
+    </div>
+
+    <div class="connect-email-text">
+
+      Collega una casella Gmail alla tua azienda.
+      MatRi-mIA non richiede né memorizza
+      la password Gmail.
+
+    </div>
+
+    <button
+      id="connectGmailButton"
+      type="button"
+      class="gmail-btn">
+
+      ✉ Collega Gmail
+
+    </button>
+  `;
+
+  integrationsList.appendChild(
+    connectBox
+  );
+
+  const connectButton =
+    document.getElementById(
+      "connectGmailButton"
+    );
+
+  connectButton.addEventListener(
+    "click",
+    function(){
+
+      connectGmail(
+        connectButton
+      );
+
+    }
+  );
+
 }
 
 /* ============================
@@ -1665,7 +2282,7 @@ document.getElementById(
 async function start(){
 
   const ok =
-  await protect();
+    await protect();
 
   if(!ok){
     return;
@@ -1679,6 +2296,7 @@ async function start(){
   document.body.classList.add(
     "auth-ready"
   );
+
   readGmailCallbackStatus();
 
 }
@@ -1687,24 +2305,61 @@ start();
 
 </script>
 
-
 <!-- Sincronizzazione utente sidebar -->
+
 <script type="module">
-  import { createClient as createSidebarClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  const sidebarUserEmail = document.getElementById("userEmail");
-  if (sidebarUserEmail) {
-    try {
-      const sidebarSupabase = createSidebarClient(
+
+import {
+  createClient as createSidebarClient
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const sidebarUserEmail =
+  document.getElementById(
+    "userEmail"
+  );
+
+if(
+  sidebarUserEmail
+){
+
+  try{
+
+    const sidebarSupabase =
+      createSidebarClient(
         "https://sctzockiurjsxzdkctmy.supabase.co",
         "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"
       );
-      const { data: { session } } = await sidebarSupabase.auth.getSession();
-      if (session?.user?.email) sidebarUserEmail.textContent = session.user.email;
-    } catch (error) {
-      console.error("Errore visualizzazione utente sidebar:", error);
-    }
-  }
-</script>
-</body>
 
+    const {
+      data:{
+        session
+      }
+    } =
+      await sidebarSupabase.auth
+        .getSession();
+
+    if(
+      session?.user?.email
+    ){
+
+      sidebarUserEmail.textContent =
+        session.user.email;
+
+    }
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore visualizzazione utente sidebar:",
+      error
+    );
+
+  }
+
+}
+
+</script>
+
+</body>
 </html>
