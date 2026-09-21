@@ -265,7 +265,10 @@ tbody tr:hover{
   font-weight:900;
 }
 
-/* Indicatore allegati */
+/* =========================================================
+   INDICATORE ALLEGATI
+========================================================= */
+
 .attachment-icon{
   display:inline-flex;
   align-items:center;
@@ -1048,6 +1051,11 @@ document.getElementById(
   "userInfo"
 );
 
+const userEmail =
+document.getElementById(
+  "userEmail"
+);
+
 let allPratiche = [];
 let currentUser = null;
 let currentProfile = null;
@@ -1143,14 +1151,11 @@ async function protectPage(){
     currentProfile =
     profile;
 
-    /*
-     * Protezione aggiuntiva.
-     * L'autista non deve accedere
-     * alla gestione amministrativa.
-     */
     if(
-      String(profile.ruolo || "")
-      .toLowerCase() === "autista"
+      String(
+        profile.ruolo || ""
+      ).toLowerCase() ===
+      "autista"
     ){
 
       window.location.replace(
@@ -1171,14 +1176,9 @@ async function protectPage(){
       ""
     )}`;
 
-    const sidebarEmail =
-    document.getElementById(
-      "userEmail"
-    );
+    if(userEmail){
 
-    if(sidebarEmail){
-
-      sidebarEmail.textContent =
+      userEmail.textContent =
       profile.email ||
       currentUser.email ||
       "-";
@@ -1370,22 +1370,23 @@ function createStatusBadge(status){
 
 }
 
+/*
+ * IMPORTANTE
+ *
+ * numero_pratica = identificativo visualizzato e usato
+ * da dettaglio-pratica.html
+ *
+ * uuid = vero id UUID Supabase, usato internamente
+ * per collegare documenti e pratica.
+ */
+
 function normalizePratica(pratica){
 
   return {
 
-    /*
-     * Numero leggibile della pratica.
-     * Esempio: #2026-29
-     */
     id:
     pratica.numero_pratica || "",
 
-    /*
-     * UUID reale della riga Supabase.
-     * Questo viene utilizzato per aprire
-     * dettaglio-pratica.html.
-     */
     uuid:
     pratica.id || "",
 
@@ -1407,10 +1408,6 @@ function normalizePratica(pratica){
     stato:
     pratica.stato_ai || "",
 
-    /*
-     * Viene valorizzato dopo il caricamento
-     * dei documenti.
-     */
     allegati:0
 
   };
@@ -1600,9 +1597,9 @@ function renderPratiche(pratiche){
       );
 
       /*
-       * Se ci sono documenti collegati
-       * mostriamo la graffetta.
+       * GRAFFETTA ALLEGATI
        */
+
       const attachmentHtml =
       pratica.allegati > 0
       ? `
@@ -1666,20 +1663,28 @@ function renderPratiche(pratiche){
       `;
 
       /*
-       * IMPORTANTE:
-       * dettaglio-pratica.html riceve
-       * l'UUID reale della pratica.
+       * =====================================================
+       * APERTURA DETTAGLIO
+       * =====================================================
+       *
+       * dettaglio-pratica.html cerca:
+       *
+       * .eq("numero_pratica", requestedId)
+       *
+       * quindi qui dobbiamo passare pratica.id
+       * che contiene numero_pratica.
        */
+
       row.addEventListener(
         "click",
         function(){
 
           if(
-            !pratica.uuid
+            !pratica.id
           ){
 
             console.error(
-              "UUID pratica mancante:",
+              "Numero pratica mancante:",
               pratica
             );
 
@@ -1690,7 +1695,7 @@ function renderPratiche(pratiche){
           window.location.href =
           "dettaglio-pratica.html?id=" +
           encodeURIComponent(
-            pratica.uuid
+            pratica.id
           );
 
         }
@@ -1813,10 +1818,9 @@ async function loadPratiche(){
     }
 
     /*
+     * =====================================================
      * 1. CARICAMENTO PRATICHE
-     *
-     * La RLS determina quali pratiche
-     * può vedere l'utente autenticato.
+     * =====================================================
      */
 
     const {
@@ -1848,11 +1852,17 @@ async function loadPratiche(){
     }
 
     /*
+     * =====================================================
      * 2. CARICAMENTO DOCUMENTI
+     * =====================================================
      *
-     * Ci servono solamente id e pratica_id.
      * Non scarichiamo i file.
+     * Recuperiamo soltanto:
+     *
+     * - id documento
+     * - pratica_id
      */
+
     const {
       data:documenti,
       error:documentiError
@@ -1868,15 +1878,12 @@ async function loadPratiche(){
       currentProfile.azienda_id
     );
 
-    /*
-     * Se per qualche motivo non riusciamo
-     * a leggere i documenti, non blocchiamo
-     * tutta la lista delle pratiche.
-     *
-     * Semplicemente non mostreremo
-     * temporaneamente le graffette.
-     */
     if(documentiError){
+
+      /*
+       * Non blocchiamo la lista pratiche
+       * se il caricamento degli allegati fallisce.
+       */
 
       console.error(
         "Errore caricamento allegati:",
@@ -1886,7 +1893,9 @@ async function loadPratiche(){
     }
 
     /*
-     * 3. CONTEGGIO DOCUMENTI PER PRATICA
+     * =====================================================
+     * 3. CONTEGGIO ALLEGATI PER UUID PRATICA
+     * =====================================================
      */
 
     const allegatiPerPratica =
@@ -1899,7 +1908,9 @@ async function loadPratiche(){
         if(
           !documento.pratica_id
         ){
+
           return;
+
         }
 
         allegatiPerPratica[
@@ -1915,8 +1926,12 @@ async function loadPratiche(){
     );
 
     /*
-     * 4. NORMALIZZAZIONE PRATICHE
-     * + NUMERO ALLEGATI
+     * =====================================================
+     * 4. ASSOCIAZIONE ALLEGATI ALLE PRATICHE
+     * =====================================================
+     *
+     * Qui usiamo pratica.id originale di Supabase,
+     * cioè l'UUID.
      */
 
     allPratiche =
@@ -1940,7 +1955,9 @@ async function loadPratiche(){
     );
 
     /*
-     * 5. FILTRI E RENDER
+     * =====================================================
+     * 5. RENDER
+     * =====================================================
      */
 
     applyFilters();
