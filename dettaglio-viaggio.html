@@ -1059,9 +1059,25 @@ input:disabled{
 
   <div class="field">
 
+    <div class="label">Partenza effettiva</div>
+
+    <div id="vPartenzaEffettiva" class="value">-</div>
+
+  </div>
+
+  <div class="field">
+
     <div class="label">Arrivo previsto</div>
 
     <div id="vArrivo" class="value">-</div>
+
+  </div>
+
+  <div class="field">
+
+    <div class="label">Consegna effettiva</div>
+
+    <div id="vConsegnaEffettiva" class="value">-</div>
 
   </div>
 
@@ -2259,9 +2275,23 @@ function render(){
   );
 
   text(
+    "vPartenzaEffettiva",
+    formatDate(
+      viaggio.data_partenza_effettiva
+    )
+  );
+
+  text(
     "vArrivo",
     formatDate(
       viaggio.data_arrivo
+    )
+  );
+
+  text(
+    "vConsegnaEffettiva",
+    formatDate(
+      viaggio.data_consegna_effettiva
     )
   );
 
