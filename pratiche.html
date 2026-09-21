@@ -1611,10 +1611,29 @@ function renderPratiche(pratiche){
       row.innerHTML = `
 
         <td class="id-pratica">
-          ${escapeHtml(
-            pratica.id || "-"
-          )}
-        </td>
+
+  ${escapeHtml(
+    pratica.id || "-"
+  )}
+
+  ${
+    pratica.allegati > 0
+      ? `
+        <span
+          class="attachment-icon"
+          title="${
+            pratica.allegati === 1
+              ? "1 allegato presente"
+              : pratica.allegati + " allegati presenti"
+          }"
+          aria-label="Allegati presenti">
+          📎
+        </span>
+      `
+      : ""
+  }
+
+</td>
 
         <td>
           ${escapeHtml(
@@ -1842,11 +1861,93 @@ async function loadPratiche(){
     }
 
 
-    allPratiche =
-    (data || [])
-    .map(
-      normalizePratica
+    /*
+ * Recuperiamo gli allegati associati
+ * alle pratiche dell'azienda.
+ */
+
+const {
+  data:documenti,
+  error:documentiError
+} =
+await supabase
+.from("documenti")
+.select(`
+  id,
+  pratica_id
+`)
+.eq(
+  "azienda_id",
+  currentProfile.azienda_id
+);
+
+
+if(documentiError){
+
+  console.error(
+    "Errore caricamento allegati:",
+    documentiError
+  );
+
+}
+
+
+/*
+ * Conteggio allegati per pratica.
+ */
+
+const allegatiPerPratica =
+{};
+
+
+(documenti || [])
+.forEach(
+  documento=>{
+
+    if(
+      !documento.pratica_id
+    ){
+      return;
+    }
+
+
+    allegatiPerPratica[
+      documento.pratica_id
+    ] =
+    (
+      allegatiPerPratica[
+        documento.pratica_id
+      ] || 0
+    ) + 1;
+
+  }
+);
+
+
+/*
+ * Associamo il numero di allegati
+ * alla relativa pratica.
+ */
+
+allPratiche =
+(data || [])
+.map(
+  pratica=>{
+
+    const normalized =
+    normalizePratica(
+      pratica
     );
+
+    normalized.allegati =
+    allegatiPerPratica[
+      pratica.id
+    ] || 0;
+
+    return normalized;
+
+  }
+);
 
 
     applyFilters();
