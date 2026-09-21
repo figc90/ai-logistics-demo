@@ -260,9 +260,21 @@ tbody tr:hover{
   background:#fbfdff;
 }
 
-.id-pratica{
-  color:#13375f;
-  font-weight:900;
+.attachment-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:7px;
+  font-size:15px;
+  vertical-align:middle;
+  cursor:help;
+  opacity:.75;
+  transition:.15s ease;
+}
+
+.attachment-icon:hover{
+  opacity:1;
+  transform:scale(1.12);
 }
 
 .route{
@@ -1388,7 +1400,12 @@ function normalizePratica(pratica){
     pratica.cliente || "",
 
     stato:
-    pratica.stato_ai || ""
+    pratica.stato_ai || "",
+
+    allegati:
+    Number(
+      pratica.allegati || 0
+    )
 
   };
 
