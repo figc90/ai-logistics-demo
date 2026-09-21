@@ -64,6 +64,7 @@ select{
   display:flex;
   flex-direction:column;
   z-index:100;
+  border-right:1px solid rgba(255,255,255,.05);
 }
 
 .sidebar-logo{
@@ -83,19 +84,30 @@ select{
   align-items:center;
   justify-content:center;
   background:linear-gradient(145deg,#fff,#f4f8fc);
+  border:1px solid rgba(255,255,255,.85);
   border-radius:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.18);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.18),
+    0 0 18px rgba(73,193,229,.14);
+  transition:.2s ease;
+}
+
+.sidebar-logo-link:hover{
+  transform:translateY(-1px);
 }
 
 .sidebar-logo img{
   width:175px;
   max-width:90%;
+  height:auto;
   display:block;
 }
 
 .sidebar-nav{
   padding:24px 12px;
   flex:1;
+  overflow-y:auto;
+  min-height:0;
 }
 
 .nav-section{
@@ -122,6 +134,7 @@ select{
   font-weight:700;
   margin-bottom:5px;
   transition:.18s ease;
+  text-decoration:none;
 }
 
 .nav-item:hover{
@@ -138,11 +151,15 @@ select{
 .nav-icon{
   width:18px;
   text-align:center;
+  font-size:16px;
+  opacity:.9;
 }
 
 .sidebar-bottom{
   padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
+  flex-shrink:0;
+  background:#0d2d50;
 }
 
 .user-card{
@@ -176,6 +193,11 @@ select{
   color:#dbe5ef;
   font-weight:800;
   cursor:pointer;
+}
+
+.logout-btn:hover{
+  background:rgba(255,255,255,.09);
+  color:#fff;
 }
 
 /* =========================
@@ -216,6 +238,11 @@ select{
   font-size:12px;
   font-weight:900;
   cursor:pointer;
+}
+
+.refresh-btn:disabled{
+  opacity:.65;
+  cursor:default;
 }
 
 .content{
@@ -422,7 +449,7 @@ tbody tr:hover{
 }
 
 /* =========================
-   BADGE STATO
+   BADGE
 ========================= */
 
 .badge{
@@ -455,9 +482,10 @@ tbody tr:hover{
   color:#176b9c;
 }
 
-/* =========================
-   BADGE TIPO EMAIL
-========================= */
+.badge-analyzed{
+  background:#e8f7f0;
+  color:#23784f;
+}
 
 .type-transport{
   background:#e5f7ee;
@@ -516,6 +544,7 @@ tbody tr:hover{
   .sidebar-logo-link{
     width:55px;
     min-height:55px;
+    border-radius:10px;
   }
 
   .sidebar-logo img{
@@ -531,6 +560,19 @@ tbody tr:hover{
   .nav-item{
     justify-content:center;
     padding:0;
+  }
+
+  .sidebar-bottom{
+    padding:8px;
+  }
+
+  .logout-btn{
+    font-size:0;
+  }
+
+  .logout-btn::after{
+    content:"↪";
+    font-size:18px;
   }
 
   .content{
@@ -551,33 +593,10 @@ tbody tr:hover{
 
 }
 
-
-/* =========================================================
-   SIDEBAR UNIFICATA - STESSO STILE DASHBOARD
-========================================================= */
-.sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);color:#fff;position:fixed;left:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:100;border-right:1px solid rgba(255,255,255,.05)}
-.sidebar-logo{min-height:152px;padding:14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}
-.sidebar-logo-link{width:100%;max-width:195px;min-height:118px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#fff,#f4f8fc);border:1px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);transition:.2s ease}
-.sidebar-logo-link:hover{transform:translateY(-1px)}
-.sidebar-logo img{width:175px;max-width:90%;height:auto;display:block}
-.sidebar-nav{padding:24px 12px;flex:1;overflow-y:auto;min-height:0}
-.nav-section{margin-bottom:28px}
-.nav-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.8px;margin:0 5px 9px}
-.nav-item{min-height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:10px;color:#c7d3e1;font-size:14px;font-weight:700;margin-bottom:5px;transition:.18s ease;text-decoration:none}
-.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}
-.nav-icon{width:18px;text-align:center;font-size:16px;opacity:.9}
-.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;background:#0d2d50}
-.user-card{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 12px;margin-bottom:9px}
-.user-label{color:#7994af;font-size:9px;font-weight:900;letter-spacing:1.3px;margin-bottom:4px}
-.user-email{color:#fff;font-size:12px;font-weight:700;overflow-wrap:anywhere}
-.logout-btn{width:100%;min-height:40px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
-.logout-btn:hover{background:rgba(255,255,255,.09);color:#fff}
-@media(max-width:760px){.sidebar{width:72px}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px;border-radius:10px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center;padding:0}.sidebar-bottom{padding:8px}.logout-btn{font-size:0}.logout-btn::after{content:"↪";font-size:18px}}
-
 </style>
 
 <script type="module" src="js/admin-role-guard.js"></script>
+
 </head>
 
 <body>
@@ -632,7 +651,8 @@ tbody tr:hover{
         <span class="nav-icon">✉</span>
         <span>Email AI</span>
       </a>
-<a href="viaggi.html" class="nav-item">
+
+      <a href="viaggi.html" class="nav-item">
         <span class="nav-icon">↗</span>
         <span>Viaggi</span>
       </a>
@@ -647,16 +667,16 @@ tbody tr:hover{
         <span class="nav-icon">▣</span>
         <span>Anagrafiche</span>
       </a>
-<a href="autisti.html" class="nav-item">
-<span class="nav-icon">♟</span>
-<span>Autisti</span>
-</a>
 
+      <a href="autisti.html" class="nav-item">
+        <span class="nav-icon">♟</span>
+        <span>Autisti</span>
+      </a>
 
-<a href="impostazioni.html" class="nav-item">
-<span class="nav-icon">⚙</span>
-<span>Impostazioni</span>
-</a>
+      <a href="impostazioni.html" class="nav-item">
+        <span class="nav-icon">⚙</span>
+        <span>Impostazioni</span>
+      </a>
 
     </div>
 
@@ -688,7 +708,10 @@ tbody tr:hover{
     MatRi-mIA Logistics
   </div>
 
-  <button id="refreshButton" class="refresh-btn">
+  <button
+    id="refreshButton"
+    class="refresh-btn"
+    type="button">
     ↻ Aggiorna
   </button>
 
@@ -728,7 +751,7 @@ tbody tr:hover{
   </div>
 
   <div class="kpi kpi-ready">
-    <div class="kpi-label">PRONTE</div>
+    <div class="kpi-label">ANALIZZATE</div>
     <div id="readyCount" class="kpi-number">0</div>
   </div>
 
@@ -776,6 +799,10 @@ tbody tr:hover{
       Da verificare
     </option>
 
+    <option value="ANALIZZATA">
+      Analizzate
+    </option>
+
     <option value="PRONTA">
       Pronte
     </option>
@@ -792,7 +819,10 @@ tbody tr:hover{
 
   <div class="card-header">
     <h2>Email ricevute</h2>
-    <p>Seleziona una email per visualizzare l'analisi completa.</p>
+    <p>
+      Seleziona una email per visualizzare l'analisi completa.
+      L'elenco si aggiorna automaticamente.
+    </p>
   </div>
 
   <div class="table-wrap">
@@ -849,6 +879,10 @@ const supabase =
     SUPABASE_KEY
   );
 
+/* =========================
+   ELEMENTI
+========================= */
+
 const userEmail =
   document.getElementById("userEmail");
 
@@ -885,7 +919,17 @@ const checkCount =
 const readyCount =
   document.getElementById("readyCount");
 
+/* =========================
+   STATO
+========================= */
+
 let emails = [];
+
+let autoRefreshTimer = null;
+
+let isLoadingEmails = false;
+
+const AUTO_REFRESH_MS = 30000;
 
 /* =========================
    UTILITY
@@ -924,7 +968,8 @@ function formatDate(value){
     return "-";
   }
 
-  const date = new Date(value);
+  const date =
+    new Date(value);
 
   if(isNaN(date.getTime())){
     return value;
@@ -967,6 +1012,16 @@ function badge(status){
     return `
       <span class="badge badge-check">
         DA VERIFICARE
+      </span>
+    `;
+
+  }
+
+  if(normalized === "ANALIZZATA"){
+
+    return `
+      <span class="badge badge-analyzed">
+        ANALIZZATA
       </span>
     `;
 
@@ -1134,11 +1189,27 @@ async function protectPage(){
    LOAD EMAIL
 ========================= */
 
-async function loadEmails(){
+async function loadEmails(showLoading = true){
 
-  refreshButton.disabled = true;
-  refreshButton.textContent =
-    "Aggiornamento...";
+  /*
+    Impedisce che il refresh automatico
+    e quello manuale partano insieme.
+  */
+
+  if(isLoadingEmails){
+    return;
+  }
+
+  isLoadingEmails = true;
+
+  if(showLoading){
+
+    refreshButton.disabled = true;
+
+    refreshButton.textContent =
+      "Aggiornamento...";
+
+  }
 
   try{
 
@@ -1178,6 +1249,7 @@ async function loadEmails(){
       data || [];
 
     renderKpi();
+
     renderEmails();
 
   }
@@ -1188,21 +1260,38 @@ async function loadEmails(){
       error
     );
 
-    emailRows.innerHTML = "";
+    /*
+      Durante il refresh automatico non
+      cancelliamo la tabella già visibile
+      se si verifica un errore temporaneo.
+    */
 
-    emptyState.style.display =
-      "block";
+    if(showLoading){
 
-    emptyState.textContent =
-      "Errore durante il caricamento delle email: " +
-      error.message;
+      emailRows.innerHTML = "";
+
+      emptyState.style.display =
+        "block";
+
+      emptyState.textContent =
+        "Errore durante il caricamento delle email: " +
+        error.message;
+
+    }
 
   }
   finally{
 
-    refreshButton.disabled = false;
-    refreshButton.textContent =
-      "↻ Aggiorna";
+    isLoadingEmails = false;
+
+    if(showLoading){
+
+      refreshButton.disabled = false;
+
+      refreshButton.textContent =
+        "↻ Aggiorna";
+
+    }
 
   }
 
@@ -1231,11 +1320,29 @@ function renderKpi(){
         "DA_VERIFICARE"
     ).length;
 
+  /*
+    Con il nuovo gmail-sync le email
+    elaborate dall'AI diventano ANALIZZATA.
+
+    Manteniamo comunque PRONTA nel conteggio
+    per compatibilità con eventuali vecchie email.
+  */
+
   readyCount.textContent =
     emails.filter(
-      email =>
-        normalizeStatus(email.stato) ===
-        "PRONTA"
+      email => {
+
+        const status =
+          normalizeStatus(
+            email.stato
+          );
+
+        return (
+          status === "ANALIZZATA" ||
+          status === "PRONTA"
+        );
+
+      }
     ).length;
 
 }
@@ -1298,6 +1405,7 @@ function renderEmails(){
           email.partenza,
           email.destinazione
         ]
+        .filter(Boolean)
         .join(" ")
         .toLowerCase();
 
@@ -1400,7 +1508,9 @@ function renderEmails(){
         }
       );
 
-      emailRows.appendChild(row);
+      emailRows.appendChild(
+        row
+      );
 
     }
   );
@@ -1428,7 +1538,11 @@ typeFilter.addEventListener(
 
 refreshButton.addEventListener(
   "click",
-  loadEmails
+  function(){
+
+    loadEmails(true);
+
+  }
 );
 
 logoutButton.addEventListener(
@@ -1437,11 +1551,98 @@ logoutButton.addEventListener(
 
     logoutButton.disabled = true;
 
+    if(autoRefreshTimer){
+
+      clearInterval(
+        autoRefreshTimer
+      );
+
+      autoRefreshTimer = null;
+
+    }
+
     await supabase.auth.signOut();
 
     window.location.replace(
       "login.html"
     );
+
+  }
+);
+
+/* =========================
+   AUTO REFRESH
+========================= */
+
+function startAutoRefresh(){
+
+  if(autoRefreshTimer){
+    clearInterval(
+      autoRefreshTimer
+    );
+  }
+
+  autoRefreshTimer =
+    setInterval(
+      function(){
+
+        /*
+          Se la scheda del browser è visibile,
+          rileggiamo email_ai.
+
+          NON chiamiamo gmail-sync dal browser.
+          Gmail viene sincronizzata dal Cron
+          protetto ogni 5 minuti.
+        */
+
+        if(
+          document.visibilityState ===
+          "visible"
+        ){
+
+          loadEmails(false);
+
+        }
+
+      },
+      AUTO_REFRESH_MS
+    );
+
+}
+
+/*
+  Quando l'utente torna sulla scheda
+  facciamo subito un aggiornamento,
+  senza aspettare i 30 secondi.
+*/
+
+document.addEventListener(
+  "visibilitychange",
+  function(){
+
+    if(
+      document.visibilityState ===
+      "visible"
+    ){
+
+      loadEmails(false);
+
+    }
+
+  }
+);
+
+window.addEventListener(
+  "beforeunload",
+  function(){
+
+    if(autoRefreshTimer){
+
+      clearInterval(
+        autoRefreshTimer
+      );
+
+    }
 
   }
 );
@@ -1459,7 +1660,9 @@ async function start(){
     return;
   }
 
-  await loadEmails();
+  await loadEmails(true);
+
+  startAutoRefresh();
 
 }
 
@@ -1467,23 +1670,5 @@ start();
 
 </script>
 
-
-<!-- Sincronizzazione utente sidebar -->
-<script type="module">
-  import { createClient as createSidebarClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  const sidebarUserEmail = document.getElementById("userEmail");
-  if (sidebarUserEmail) {
-    try {
-      const sidebarSupabase = createSidebarClient(
-        "https://sctzockiurjsxzdkctmy.supabase.co",
-        "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"
-      );
-      const { data: { session } } = await sidebarSupabase.auth.getSession();
-      if (session?.user?.email) sidebarUserEmail.textContent = session.user.email;
-    } catch (error) {
-      console.error("Errore visualizzazione utente sidebar:", error);
-    }
-  }
-</script>
 </body>
 </html>
