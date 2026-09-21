@@ -373,6 +373,30 @@
 .logout-btn{width:100%;min-height:40px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer;}
 .logout-btn:hover{background:rgba(255,255,255,.09);color:#fff;}
 
+
+/* =========================================================
+   SIDEBAR UNIFICATA - STESSO STILE DASHBOARD
+========================================================= */
+.sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);color:#fff;position:fixed;left:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:100;border-right:1px solid rgba(255,255,255,.05)}
+.sidebar-logo{min-height:152px;padding:14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-logo-link{width:100%;max-width:195px;min-height:118px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#fff,#f4f8fc);border:1px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);transition:.2s ease}
+.sidebar-logo-link:hover{transform:translateY(-1px)}
+.sidebar-logo img{width:175px;max-width:90%;height:auto;display:block}
+.sidebar-nav{padding:24px 12px;flex:1;overflow-y:auto;min-height:0}
+.nav-section{margin-bottom:28px}
+.nav-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.8px;margin:0 5px 9px}
+.nav-item{min-height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:10px;color:#c7d3e1;font-size:14px;font-weight:700;margin-bottom:5px;transition:.18s ease;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}
+.nav-icon{width:18px;text-align:center;font-size:16px;opacity:.9}
+.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;background:#0d2d50}
+.user-card{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 12px;margin-bottom:9px}
+.user-label{color:#7994af;font-size:9px;font-weight:900;letter-spacing:1.3px;margin-bottom:4px}
+.user-email{color:#fff;font-size:12px;font-weight:700;overflow-wrap:anywhere}
+.logout-btn{width:100%;min-height:40px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
+.logout-btn:hover{background:rgba(255,255,255,.09);color:#fff}
+@media(max-width:760px){.sidebar{width:72px}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px;border-radius:10px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center;padding:0}.sidebar-bottom{padding:8px}.logout-btn{font-size:0}.logout-btn::after{content:"↪";font-size:18px}}
+
 </style>
 <script type="module" src="js/admin-role-guard.js"></script>
 </head>
@@ -384,61 +408,99 @@
   <!-- SIDEBAR -->
 
   <aside class="sidebar">
+
   <div class="sidebar-logo">
-    <a href="dashboard.html" class="sidebar-logo-link" aria-label="Vai alla Dashboard">
-      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+
+    <a
+      href="dashboard.html"
+      class="sidebar-logo-link"
+      aria-label="Vai alla Dashboard">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+
     </a>
+
   </div>
+
   <nav class="sidebar-nav">
+
     <div class="nav-section">
+
       <div class="nav-title">OPERATIVITÀ</div>
+
       <a href="dashboard.html" class="nav-item">
         <span class="nav-icon">▦</span>
         <span>Dashboard</span>
       </a>
+
       <a href="pratiche.html" class="nav-item">
         <span class="nav-icon">▤</span>
         <span>Pratiche</span>
       </a>
+
       <a href="nuova-pratica.html" class="nav-item">
         <span class="nav-icon">＋</span>
         <span>Nuova pratica</span>
       </a>
+
     </div>
+
     <div class="nav-section">
+
       <div class="nav-title">AUTOMAZIONI</div>
+
       <a href="email-ai.html" class="nav-item">
         <span class="nav-icon">✉</span>
         <span>Email AI</span>
       </a>
-      <a href="viaggi.html" class="nav-item">
+<a href="viaggi.html" class="nav-item">
         <span class="nav-icon">↗</span>
         <span>Viaggi</span>
       </a>
+
     </div>
+
     <div class="nav-section">
+
       <div class="nav-title">GESTIONE</div>
+
       <a href="anagrafiche.html" class="nav-item">
         <span class="nav-icon">▣</span>
         <span>Anagrafiche</span>
       </a>
-      <a href="autisti.html" class="nav-item active">
-        <span class="nav-icon">♟</span>
-        <span>Autisti</span>
-      </a>
-      <a href="impostazioni.html" class="nav-item">
-        <span class="nav-icon">⚙</span>
-        <span>Impostazioni</span>
-      </a>
+<a href="autisti.html" class="nav-item active">
+<span class="nav-icon">♟</span>
+<span>Autisti</span>
+</a>
+
+
+<a href="impostazioni.html" class="nav-item">
+<span class="nav-icon">⚙</span>
+<span>Impostazioni</span>
+</a>
+
     </div>
+
   </nav>
+
   <div class="sidebar-bottom">
+
     <div class="user-card">
       <div class="user-label">UTENTE</div>
       <div id="userEmail" class="user-email">-</div>
     </div>
-    <button id="logoutButton" class="logout-btn" type="button">Esci</button>
+
+    <button
+      id="logoutButton"
+      class="logout-btn"
+      type="button">
+      Esci
+    </button>
+
   </div>
+
 </aside>
 
 
