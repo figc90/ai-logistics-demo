@@ -542,6 +542,30 @@ footer strong{
 .document-open:hover{
   background:#eef3f8;
 }
+.document-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.document-delete{
+  min-height:36px;
+  padding:0 13px;
+  border:1px solid #ffd0cc;
+  border-radius:9px;
+  background:#fff1f0;
+  color:#b42318;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+.document-delete:hover{
+  background:#ffe5e2;
+}
+.document-delete:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
 .documents-empty{
   padding:16px;
   border:1px dashed #d7e0e9;
@@ -587,8 +611,12 @@ footer strong{
     align-items:flex-start;
     flex-direction:column;
   }
-  .document-open{
+  .document-actions{
     width:100%;
+  }
+  .document-open,
+  .document-delete{
+    flex:1;
   }
 }
 
@@ -3409,6 +3437,46 @@ async function openPracticeDocument(storagePath){
   }
 }
 
+async function deletePracticeDocument(documentItem){
+  if(!documentItem?.id){ return; }
+
+  const fileName = documentItem.nome_file || "questo documento";
+  const confirmed = window.confirm(
+    `Eliminare definitivamente "${fileName}"?\n\nIl file e il relativo record verranno rimossi. Questa operazione non può essere annullata.`
+  );
+  if(!confirmed){ return; }
+
+  try{
+    hideMessage();
+
+    // Prima eliminiamo il file fisico dallo Storage.
+    if(documentItem.storage_path){
+      const { error:storageError } =
+        await supabase.storage
+          .from("documenti")
+          .remove([documentItem.storage_path]);
+
+      if(storageError){ throw storageError; }
+    }
+
+    // Poi eliminiamo il record dal database.
+    const { error:dbError } =
+      await supabase
+        .from("documenti")
+        .delete()
+        .eq("id",documentItem.id);
+
+    if(dbError){ throw dbError; }
+
+    showMessage("success","Documento eliminato correttamente.");
+    await loadPracticeDocuments();
+  }
+  catch(error){
+    console.error("Errore eliminazione documento:",error);
+    showMessage("error","Impossibile eliminare il documento: " + error.message);
+  }
+}
+
 async function loadPracticeDocuments(){
   if(!currentPractice || !documentsList){ return; }
 
@@ -3474,6 +3542,9 @@ async function loadPracticeDocuments(){
         main.appendChild(meta);
       }
 
+      const actions = document.createElement("div");
+      actions.className = "document-actions";
+
       const openButton = document.createElement("button");
       openButton.type = "button";
       openButton.className = "document-open";
@@ -3482,8 +3553,27 @@ async function loadPracticeDocuments(){
         openPracticeDocument(documentItem.storage_path);
       });
 
+      const deleteDocumentButton = document.createElement("button");
+      deleteDocumentButton.type = "button";
+      deleteDocumentButton.className = "document-delete";
+      deleteDocumentButton.textContent = "Elimina";
+      deleteDocumentButton.addEventListener("click",async()=>{
+        deleteDocumentButton.disabled = true;
+        openButton.disabled = true;
+        try{
+          await deletePracticeDocument(documentItem);
+        }
+        finally{
+          deleteDocumentButton.disabled = false;
+          openButton.disabled = false;
+        }
+      });
+
+      actions.appendChild(openButton);
+      actions.appendChild(deleteDocumentButton);
+
       row.appendChild(main);
-      row.appendChild(openButton);
+      row.appendChild(actions);
       documentsList.appendChild(row);
     });
   }
