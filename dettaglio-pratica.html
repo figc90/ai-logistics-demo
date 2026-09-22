@@ -556,6 +556,32 @@ footer strong{
   font-size:12px;
   line-height:1.5;
 }
+
+.documents-header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.generate-document-button{
+  min-height:38px;
+  padding:0 14px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#173f69,#1f729d);
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.generate-document-button:hover{
+  transform:translateY(-1px);
+}
+.generate-document-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
 @media(max-width:600px){
   .document-row{
     align-items:flex-start;
@@ -1473,8 +1499,14 @@ footer strong{
       </section>
 
       <section id="documentsCard" class="card">
-        <div class="card-header">
+        <div class="card-header documents-header-row">
           <h2>Documenti della pratica</h2>
+          <button
+            id="generateDocumentButton"
+            type="button"
+            class="generate-document-button">
+            + Genera documento
+          </button>
         </div>
         <div class="card-body">
           <div id="documentsList" class="documents-list">
@@ -1624,10 +1656,39 @@ const aiContent =
 const documentsList =
   document.getElementById("documentsList");
 
+const generateDocumentButton =
+  document.getElementById("generateDocumentButton");
+
 
 let currentUser = null;
 let currentProfile = null;
 let currentPractice = null;
+
+
+/* ============================
+   GENERA DOCUMENTO
+============================ */
+
+generateDocumentButton.addEventListener(
+  "click",
+  function(){
+
+    if(!currentPractice?.id){
+      showMessage(
+        "error",
+        "Pratica non disponibile."
+      );
+      return;
+    }
+
+    const target =
+      "genera-documento.html?pratica_id=" +
+      encodeURIComponent(currentPractice.id);
+
+    window.location.href = target;
+
+  }
+);
 
 
 /* ============================
