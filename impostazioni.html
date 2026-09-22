@@ -52,8 +52,11 @@ button:disabled{
 ============================ */
 
 .sidebar{
-  width:225px;
-  min-height:100vh;
+width:225px;
+  height:100vh;
+  height:100dvh;
+  min-height:0;
+  overflow:hidden;
   background:linear-gradient(180deg,#071b35,#0d2d50);
   color:#fff;
   position:fixed;
@@ -66,7 +69,8 @@ button:disabled{
 }
 
 .sidebar-logo{
-  min-height:152px;
+min-height:152px;
+  flex:0 0 152px;
   padding:14px;
   display:flex;
   align-items:center;
@@ -93,8 +97,11 @@ button:disabled{
 }
 
 .sidebar-nav{
-  padding:24px 12px;
-  flex:1;
+padding:18px 12px;
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 
 .nav-section{
@@ -139,15 +146,22 @@ button:disabled{
 }
 
 .sidebar-bottom{
-  padding:12px;
+padding:12px;
   border-top:1px solid rgba(255,255,255,.08);
+  flex:0 0 auto;
+  flex-shrink:0;
+  background:#0d2d50;
+  position:relative;
+  z-index:2;
 }
 
 .user-card{
+display:block;
   background:rgba(255,255,255,.06);
   border-radius:10px;
   padding:11px;
   margin-bottom:9px;
+  flex-shrink:0;
 }
 
 .user-label{
@@ -164,8 +178,10 @@ button:disabled{
 }
 
 .logout-btn{
+display:block;
   width:100%;
   min-height:40px;
+  flex-shrink:0;
   border:1px solid rgba(255,255,255,.13);
   border-radius:9px;
   background:rgba(255,255,255,.04);
@@ -584,9 +600,29 @@ input[readonly]{
   }
 
   .nav-title,
-  .nav-item span:not(.nav-icon),
-  .user-card{
+  .nav-item span:not(.nav-icon){
     display:none;
+  }
+
+  .user-card{
+    display:block;
+    padding:7px 4px;
+    text-align:center;
+  }
+
+  .user-label{
+    font-size:7px;
+  }
+
+  .user-email{
+    font-size:7px;
+    word-break:break-all;
+  }
+
+  .logout-btn{
+    min-height:36px;
+    padding:0 3px;
+    font-size:9px;
   }
 
   .nav-item{
