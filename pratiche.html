@@ -727,6 +727,18 @@ footer strong{
 
       <div class="nav-title">AUTOMAZIONI</div>
 
+      <a href="assistente-ai.html" class="nav-item">
+
+
+        <span class="nav-icon">✦</span>
+
+
+        <span>Assistente AI</span>
+
+
+      </a>
+
+
       <a href="email-ai.html" class="nav-item">
         <span class="nav-icon">✉</span>
         <span>Email AI</span>
@@ -858,11 +870,25 @@ footer strong{
     <div class="filter-wrap">
 
       <select
+        id="operationalStatusFilter"
+        class="filter-select">
+
+        <option value="tutti">Tutti gli stati operativi</option>
+        <option value="BOZZA">Bozza</option>
+        <option value="DA_PROGRAMMARE">Da programmare</option>
+        <option value="PROGRAMMATA">Programmata</option>
+        <option value="IN_CORSO">In corso</option>
+        <option value="COMPLETATA">Completata</option>
+        <option value="ANNULLATA">Annullata</option>
+
+      </select>
+
+      <select
         id="statusFilter"
         class="filter-select">
 
         <option value="tutti">
-          Tutti gli stati
+          Tutti gli stati AI
         </option>
 
         <option value="REGOLARE">
@@ -932,6 +958,7 @@ footer strong{
             <th>Partenza</th>
             <th>Destinazione</th>
             <th>Cliente</th>
+            <th>Stato operativo</th>
             <th>Stato AI</th>
           </tr>
 
@@ -1370,6 +1397,23 @@ function createStatusBadge(status){
 
 }
 
+function createOperationalStatusBadge(status){
+  const normalized = String(status || "BOZZA").trim().toUpperCase();
+  const labels = {
+    BOZZA:"BOZZA",
+    DA_PROGRAMMARE:"DA PROGRAMMARE",
+    PROGRAMMATA:"PROGRAMMATA",
+    IN_CORSO:"IN CORSO",
+    COMPLETATA:"COMPLETATA",
+    ANNULLATA:"ANNULLATA"
+  };
+  let className = "badge badge-default";
+  if(normalized === "COMPLETATA") className = "badge badge-ok";
+  else if(normalized === "IN_CORSO" || normalized === "PROGRAMMATA") className = "badge badge-warning";
+  else if(normalized === "ANNULLATA") className = "badge badge-error";
+  return `<span class="${className}">${escapeHtml(labels[normalized] || normalized)}</span>`;
+}
+
 /*
  * IMPORTANTE
  *
@@ -1405,7 +1449,10 @@ function normalizePratica(pratica){
     cliente:
     pratica.cliente || "",
 
-    stato:
+    stato_operativo:
+    pratica.stato || "BOZZA",
+
+    stato_ai:
     pratica.stato_ai || "",
 
     allegati:0
@@ -1655,8 +1702,14 @@ function renderPratiche(pratiche){
         </td>
 
         <td>
+          ${createOperationalStatusBadge(
+            pratica.stato_operativo
+          )}
+        </td>
+
+        <td>
           ${createStatusBadge(
-            pratica.stato
+            pratica.stato_ai
           )}
         </td>
 
@@ -1729,6 +1782,9 @@ function applyFilters(){
   .trim()
   .toLowerCase();
 
+  const selectedOperationalStatus =
+  operationalStatusFilter.value;
+
   const selectedStatus =
   statusFilter.value;
 
@@ -1743,7 +1799,8 @@ function applyFilters(){
         pratica.partenza,
         pratica.destinazione,
         pratica.cliente,
-        pratica.stato
+        pratica.stato_operativo,
+        pratica.stato_ai
       ]
       .join(" ")
       .toLowerCase();
@@ -1756,8 +1813,12 @@ function applyFilters(){
 
       const normalizedStatus =
       normalizeStatus(
-        pratica.stato
+        pratica.stato_ai
       );
+
+      const matchesOperationalStatus =
+      selectedOperationalStatus === "tutti" ||
+      String(pratica.stato_operativo || "BOZZA").toUpperCase() === selectedOperationalStatus;
 
       const matchesStatus =
       selectedStatus ===
@@ -1767,6 +1828,7 @@ function applyFilters(){
 
       return (
         matchesSearch &&
+        matchesOperationalStatus &&
         matchesStatus
       );
 
@@ -1845,7 +1907,8 @@ async function loadPratiche(){
       cliente,
       partenza,
       destinazione,
-      stato_ai
+      stato_ai,
+      stato
     `)
     .order(
       "created_at",
@@ -2023,6 +2086,11 @@ async function loadPratiche(){
 
 searchInput.addEventListener(
   "input",
+  applyFilters
+);
+
+operationalStatusFilter.addEventListener(
+  "change",
   applyFilters
 );
 

@@ -995,6 +995,18 @@ footer strong{
 
       <div class="nav-title">AUTOMAZIONI</div>
 
+      <a href="assistente-ai.html" class="nav-item">
+
+
+        <span class="nav-icon">✦</span>
+
+
+        <span>Assistente AI</span>
+
+
+      </a>
+
+
       <a href="email-ai.html" class="nav-item">
         <span class="nav-icon">✉</span>
         <span>Email AI</span>
@@ -1107,10 +1119,14 @@ footer strong{
 
     <div class="status-area">
 
-      <div
-        id="statusBadge"
-        class="status-badge status-default">
-        -
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center">
+        <span style="font-size:11px;font-weight:900;color:#758399">STATO OPERATIVO</span>
+        <div id="operationalStatusBadge" class="status-badge status-default">-</div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center">
+        <span style="font-size:11px;font-weight:900;color:#758399">STATO AI</span>
+        <div id="statusBadge" class="status-badge status-default">-</div>
       </div>
 
       <div class="practice-actions">
@@ -1895,6 +1911,29 @@ logoutButton.addEventListener(
 
 
 /* ============================
+   STATO OPERATIVO
+============================ */
+
+function setOperationalStatus(value){
+  const badge = document.getElementById("operationalStatusBadge");
+  if(!badge) return;
+  const status = String(value || "BOZZA").trim().toUpperCase();
+  const labels = {
+    BOZZA:"BOZZA",
+    DA_PROGRAMMARE:"DA PROGRAMMARE",
+    PROGRAMMATA:"PROGRAMMATA",
+    IN_CORSO:"IN CORSO",
+    COMPLETATA:"COMPLETATA",
+    ANNULLATA:"ANNULLATA"
+  };
+  badge.textContent = labels[status] || status || "-";
+  badge.className = "status-badge status-default";
+  if(status === "COMPLETATA") badge.className = "status-badge status-ok";
+  else if(status === "IN_CORSO" || status === "PROGRAMMATA") badge.className = "status-badge status-warning";
+  else if(status === "ANNULLATA") badge.className = "status-badge status-error";
+}
+
+/* ============================
    STATO AI
 ============================ */
 
@@ -2163,6 +2202,10 @@ function renderPractice(pratica){
       (pratica.partenza || "-") +
       " → " +
       (pratica.destinazione || "-");
+
+  setOperationalStatus(
+    pratica.stato
+  );
 
   setStatus(
     pratica.stato_ai
