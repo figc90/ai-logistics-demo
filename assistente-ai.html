@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Assistente AI | MatRi-mIA Logistics</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fa;
+  color:#172033;
+  min-height:100vh;
+  visibility:hidden;
+}
+
+body.auth-ready{
+  visibility:visible;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+button,
+textarea{
+  font:inherit;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  width:225px;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
+  color:#fff;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  display:flex;
+  flex-direction:column;
+  z-index:100;
+  border-right:1px solid rgba(255,255,255,.05);
+}
+
+.sidebar-logo{
+  min-height:152px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-link{
+  width:100%;
+  max-width:195px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#fff,#f4f8fc);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:14px;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,.18),
+    0 0 18px rgba(73,193,229,.14);
+}
+
+.sidebar-logo img{
+  width:175px;
+  max-width:90%;
+  display:block;
+}
+
+.sidebar-nav{
+  padding:24px 12px;
+  flex:1;
+  overflow-y:auto;
+}
+
+.nav-section{
+  margin-bottom:28px;
+}
+
+.nav-title{
+  color:#7893af;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.8px;
+  margin:0 5px 9px;
+}
+
+.nav-item{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-radius:10px;
+  color:#c7d3e1;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:5px;
+  transition:.18s ease;
+}
+
+.nav-item:hover{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+}
+
+.nav-item.active{
+  background:rgba(41,169,210,.18);
+  border:1px solid rgba(41,169,210,.32);
+  color:#fff;
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:16px;
+}
+
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.08);
+  background:#0d2d50;
+}
+
+.user-card{
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  padding:11px 12px;
+  margin-bottom:9px;
+}
+
+.user-label{
+  color:#7994af;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.3px;
+  margin-bottom:4px;
+}
+
+.user-email{
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  overflow-wrap:anywhere;
+}
+
+.logout-btn{
+  width:100%;
+  min-height:40px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:9px;
+  background:rgba(255,255,255,.04);
+  color:#dbe5ef;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  margin-left:225px;
+  width:calc(100% - 225px);
+  min-height:100vh;
+}
+
+.topbar{
+  height:70px;
+  background:#fff;
+  border-bottom:1px solid #e2e7ee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.topbar-brand{
+  color:#8492a6;
+  font-size:12px;
+}
+
+.ai-status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#4e657f;
+  font-size:11px;
+  font-weight:800;
+}
+
+.ai-status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#2fb878;
+  box-shadow:0 0 0 4px rgba(47,184,120,.12);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+  max-width:1150px;
+  margin:0 auto;
+  padding:32px 30px 50px;
+}
+
+.heading{
+  margin-bottom:24px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:7px;
+}
+
+h1{
+  color:#10284a;
+  font-size:38px;
+  margin-bottom:9px;
+}
+
+.subtitle{
+  color:#7d8ba0;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* =========================
+   ASSISTANT
+========================= */
+
+.assistant-shell{
+  background:#fff;
+  border:1px solid #dfe6ee;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 12px 34px rgba(19,40,74,.07);
+}
+
+.assistant-header{
+  padding:18px 22px;
+  border-bottom:1px solid #e8edf2;
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.ai-avatar{
+  width:42px;
+  height:42px;
+  flex-shrink:0;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+  background:linear-gradient(135deg,#102e53,#29a9d2);
+  box-shadow:0 6px 16px rgba(41,169,210,.22);
+}
+
+.assistant-header h2{
+  color:#173459;
+  font-size:16px;
+  margin-bottom:3px;
+}
+
+.assistant-header p{
+  color:#8a98aa;
+  font-size:11px;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.chat{
+  min-height:420px;
+  max-height:590px;
+  overflow-y:auto;
+  padding:25px;
+  background:
+    linear-gradient(
+      180deg,
+      #fbfcfe 0%,
+      #f7f9fc 100%
+    );
+}
+
+.message{
+  display:flex;
+  margin-bottom:18px;
+}
+
+.message-user{
+  justify-content:flex-end;
+}
+
+.message-ai{
+  justify-content:flex-start;
+}
+
+.bubble{
+  max-width:76%;
+  padding:13px 15px;
+  border-radius:14px;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.message-user .bubble{
+  background:#12375f;
+  color:#fff;
+  border-bottom-right-radius:4px;
+}
+
+.message-ai .bubble{
+  background:#fff;
+  color:#40526a;
+  border:1px solid #e0e6ed;
+  border-bottom-left-radius:4px;
+  box-shadow:0 5px 14px rgba(19,40,74,.04);
+}
+
+.ai-name{
+  color:#1e8fb8;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.8px;
+  margin-bottom:6px;
+}
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.quick-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:15px;
+}
+
+.quick-btn{
+  border:1px solid #dce5ed;
+  background:#fff;
+  color:#31506f;
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.quick-btn:hover{
+  border-color:#29a9d2;
+  color:#1689b1;
+  background:#f4fbfd;
+}
+
+/* =========================
+   PRACTICE PREVIEW
+========================= */
+
+.practice-preview{
+  margin-top:14px;
+  border:1px solid #dce5ed;
+  border-radius:13px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.practice-title{
+  padding:12px 14px;
+  background:#f6f9fc;
+  border-bottom:1px solid #e5ebf1;
+  color:#173459;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+
+.practice-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+}
+
+.practice-field{
+  padding:11px 14px;
+  border-bottom:1px solid #edf1f4;
+}
+
+.practice-field:nth-child(odd){
+  border-right:1px solid #edf1f4;
+}
+
+.field-label{
+  color:#8b98a9;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.7px;
+  margin-bottom:4px;
+  text-transform:uppercase;
+}
+
+.field-value{
+  color:#263e5c;
+  font-size:12px;
+  font-weight:800;
+}
+
+.practice-actions{
+  padding:13px;
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+}
+
+.cancel-btn,
+.confirm-btn{
+  min-height:38px;
+  border-radius:9px;
+  padding:0 14px;
+  font-size:10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.cancel-btn{
+  border:1px solid #dce3eb;
+  background:#fff;
+  color:#68778a;
+}
+
+.confirm-btn{
+  border:0;
+  background:#173f69;
+  color:#fff;
+}
+
+.confirm-btn:hover{
+  background:#0d3158;
+}
+
+/* =========================
+   COMPOSER
+========================= */
+
+.composer{
+  border-top:1px solid #e2e7ee;
+  padding:16px;
+  background:#fff;
+}
+
+.composer-box{
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  border:1px solid #dbe3eb;
+  border-radius:14px;
+  padding:8px;
+  background:#fafcff;
+}
+
+.message-input{
+  flex:1;
+  min-height:46px;
+  max-height:130px;
+  resize:none;
+  border:0;
+  outline:none;
+  background:transparent;
+  padding:11px 8px;
+  color:#253c58;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.message-input::placeholder{
+  color:#9ba7b5;
+}
+
+.mic-btn{
+  width:46px;
+  height:46px;
+  flex-shrink:0;
+  border-radius:11px;
+  border:1px solid #dce5ed;
+  background:#fff;
+  color:#8292a5;
+  font-size:18px;
+  cursor:not-allowed;
+  opacity:.65;
+}
+
+.send-btn{
+  height:46px;
+  min-width:85px;
+  padding:0 17px;
+  flex-shrink:0;
+  border:0;
+  border-radius:11px;
+  background:linear-gradient(135deg,#173f69,#209bc5);
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.send-btn:disabled{
+  opacity:.55;
+  cursor:default;
+}
+
+.composer-note{
+  margin-top:8px;
+  color:#a0aab8;
+  font-size:9px;
+  text-align:center;
+}
+
+/* =========================
+   TYPING
+========================= */
+
+.typing{
+  display:inline-flex;
+  gap:4px;
+  align-items:center;
+}
+
+.typing span{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#7f91a6;
+  animation:typing 1.2s infinite;
+}
+
+.typing span:nth-child(2){
+  animation-delay:.15s;
+}
+
+.typing span:nth-child(3){
+  animation-delay:.3s;
+}
+
+@keyframes typing{
+
+  0%,60%,100%{
+    opacity:.35;
+    transform:translateY(0);
+  }
+
+  30%{
+    opacity:1;
+    transform:translateY(-3px);
+  }
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:760px){
+
+  .sidebar{
+    width:72px;
+  }
+
+  .main{
+    margin-left:72px;
+    width:calc(100% - 72px);
+  }
+
+  .sidebar-logo{
+    min-height:80px;
+    padding:8px;
+  }
+
+  .sidebar-logo-link{
+    width:55px;
+    min-height:55px;
+    border-radius:10px;
+  }
+
+  .sidebar-logo img{
+    width:50px;
+  }
+
+  .nav-title,
+  .nav-item span:not(.nav-icon),
+  .user-card{
+    display:none;
+  }
+
+  .nav-item{
+    justify-content:center;
+    padding:0;
+  }
+
+  .sidebar-bottom{
+    padding:8px;
+  }
+
+  .logout-btn{
+    font-size:0;
+  }
+
+  .logout-btn::after{
+    content:"↪";
+    font-size:18px;
+  }
+
+  .content{
+    padding:22px 12px 35px;
+  }
+
+  h1{
+    font-size:30px;
+  }
+
+  .chat{
+    padding:16px;
+    min-height:380px;
+  }
+
+  .bubble{
+    max-width:92%;
+  }
+
+  .practice-grid{
+    grid-template-columns:1fr;
+  }
+
+  .practice-field:nth-child(odd){
+    border-right:0;
+  }
+
+  .mic-btn{
+    display:none;
+  }
+
+}
+
+</style>
+
+<script type="module" src="js/admin-role-guard.js"></script>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+  <div class="sidebar-logo">
+
+    <a
+      href="dashboard.html"
+      class="sidebar-logo-link">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+
+    </a>
+
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-section">
+
+      <div class="nav-title">
+        OPERATIVITÀ
+      </div>
+
+      <a href="dashboard.html" class="nav-item">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pratiche.html" class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
+
+      <a href="nuova-pratica.html" class="nav-item">
+        <span class="nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">
+        AUTOMAZIONI
+      </div>
+
+      <a href="assistente-ai.html" class="nav-item active">
+        <span class="nav-icon">✦</span>
+        <span>Assistente AI</span>
+      </a>
+
+      <a href="email-ai.html" class="nav-item">
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+      </a>
+
+      <a href="viaggi.html" class="nav-item">
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">
+        GESTIONE
+      </div>
+
+      <a href="anagrafiche.html" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Anagrafiche</span>
+      </a>
+
+      <a href="autisti.html" class="nav-item">
+        <span class="nav-icon">♟</span>
+        <span>Autisti</span>
+      </a>
+
+      <a href="impostazioni.html" class="nav-item">
+        <span class="nav-icon">⚙</span>
+        <span>Impostazioni</span>
+      </a>
+
+    </div>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+
+    <div class="user-card">
+
+      <div class="user-label">
+        UTENTE
+      </div>
+
+      <div
+        id="userEmail"
+        class="user-email">
+        -
+      </div>
+
+    </div>
+
+    <button
+      id="logoutButton"
+      class="logout-btn"
+      type="button">
+      Esci
+    </button>
+
+  </div>
+
+</aside>
+
+<div class="main">
+
+<header class="topbar">
+
+  <div class="topbar-brand">
+    MatRi-mIA Logistics
+  </div>
+
+  <div class="ai-status">
+    <span class="ai-status-dot"></span>
+    Assistente disponibile
+  </div>
+
+</header>
+
+<main class="content">
+
+  <div class="heading">
+
+    <div class="eyebrow">
+      MATRI-MIA · AI ASSISTANT
+    </div>
+
+    <h1>Assistente AI</h1>
+
+    <div class="subtitle">
+      Dai istruzioni a MatRi-mIA utilizzando il linguaggio naturale.
+    </div>
+
+  </div>
+
+  <section class="assistant-shell">
+
+    <div class="assistant-header">
+
+      <div class="ai-avatar">
+        ✦
+      </div>
+
+      <div>
+
+        <h2>
+          Assistente MatRi-mIA
+        </h2>
+
+        <p>
+          Gestione intelligente delle attività operative
+        </p>
+
+      </div>
+
+    </div>
+
+    <div
+      id="chat"
+      class="chat">
+
+      <div class="message message-ai">
+
+        <div class="bubble">
+
+          <div class="ai-name">
+            MATRI-MIA AI
+          </div>
+
+          Ciao. Posso aiutarti a gestire le attività
+          della tua azienda di trasporti.
+
+          <div class="quick-actions">
+
+            <button
+              class="quick-btn"
+              data-message="Crea una nuova pratica">
+              + Crea pratica
+            </button>
+
+            <button
+              class="quick-btn"
+              data-message="Cerca una pratica">
+              Cerca pratica
+            </button>
+
+            <button
+              class="quick-btn"
+              data-message="Quali attività devo gestire oggi?">
+              Attività di oggi
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="composer">
+
+      <div class="composer-box">
+
+        <textarea
+          id="messageInput"
+          class="message-input"
+          placeholder="Scrivi un comando a MatRi-mIA..."
+          rows="1"></textarea>
+
+        <button
+          class="mic-btn"
+          type="button"
+          title="Comandi vocali: prossimamente"
+          disabled>
+          🎙
+        </button>
+
+        <button
+          id="sendButton"
+          class="send-btn"
+          type="button">
+          Invia
+        </button>
+
+      </div>
+
+      <div class="composer-note">
+        Le operazioni che modificano i dati richiedono conferma.
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import {
+  createClient
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL =
+  "https://sctzockiurjsxzdkctmy.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+const chat =
+  document.getElementById("chat");
+
+const messageInput =
+  document.getElementById("messageInput");
+
+const sendButton =
+  document.getElementById("sendButton");
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+const userEmail =
+  document.getElementById("userEmail");
+
+let isSending = false;
+
+/* =========================
+   UTILITY
+========================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+function formatDate(value){
+
+  if(!value){
+    return "-";
+  }
+
+  const parts =
+    String(value).split("-");
+
+  if(parts.length !== 3){
+    return value;
+  }
+
+  return (
+    parts[2] +
+    "/" +
+    parts[1] +
+    "/" +
+    parts[0]
+  );
+
+}
+
+function scrollChat(){
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+}
+
+/* =========================
+   AUTH
+========================= */
+
+async function protectPage(){
+
+  try{
+
+    const {
+      data:{session},
+      error
+    } =
+      await supabase.auth.getSession();
+
+    if(error){
+      throw error;
+    }
+
+    if(!session?.user){
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return false;
+
+    }
+
+    const {
+      data:profile,
+      error:profileError
+    } =
+      await supabase
+        .from("profiles")
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          session.user.id
+        )
+        .single();
+
+    if(
+      profileError ||
+      !profile
+    ){
+
+      throw (
+        profileError ||
+        new Error(
+          "Profilo non trovato"
+        )
+      );
+
+    }
+
+    userEmail.textContent =
+      profile.email ||
+      session.user.email ||
+      "-";
+
+    document.body.classList.add(
+      "auth-ready"
+    );
+
+    return true;
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore autenticazione:",
+      error
+    );
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+    return false;
+
+  }
+
+}
+
+/* =========================
+   MESSAGGIO UTENTE
+========================= */
+
+function addUserMessage(text){
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "message message-user";
+
+  wrapper.innerHTML = `
+    <div class="bubble">
+      ${escapeHtml(text)}
+    </div>
+  `;
+
+  chat.appendChild(wrapper);
+
+  scrollChat();
+
+}
+
+/* =========================
+   MESSAGGIO AI
+========================= */
+
+function addAiMessage(text){
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "message message-ai";
+
+  wrapper.innerHTML = `
+    <div class="bubble">
+
+      <div class="ai-name">
+        MATRI-MIA AI
+      </div>
+
+      ${escapeHtml(text)}
+
+    </div>
+  `;
+
+  chat.appendChild(wrapper);
+
+  scrollChat();
+
+}
+
+/* =========================
+   LOADING
+========================= */
+
+function addTyping(){
+
+  removeTyping();
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.id =
+    "typingMessage";
+
+  wrapper.className =
+    "message message-ai";
+
+  wrapper.innerHTML = `
+    <div class="bubble">
+
+      <div class="ai-name">
+        MATRI-MIA AI
+      </div>
+
+      <div class="typing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+    </div>
+  `;
+
+  chat.appendChild(wrapper);
+
+  scrollChat();
+
+}
+
+function removeTyping(){
+
+  const typing =
+    document.getElementById(
+      "typingMessage"
+    );
+
+  if(typing){
+    typing.remove();
+  }
+
+}
+
+/* =========================
+   PREVIEW PRATICA
+========================= */
+
+function addPracticePreview(comando){
+
+  const dati =
+    comando.dati || {};
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "message message-ai";
+
+  wrapper.innerHTML = `
+    <div class="bubble">
+
+      <div class="ai-name">
+        MATRI-MIA AI
+      </div>
+
+      ${escapeHtml(
+        comando.risposta ||
+        "Ho preparato la pratica."
+      )}
+
+      <div class="practice-preview">
+
+        <div class="practice-title">
+          NUOVA PRATICA
+        </div>
+
+        <div class="practice-grid">
+
+          ${practiceField(
+            "Cliente",
+            dati.cliente
+          )}
+
+          ${practiceField(
+            "Partenza",
+            dati.partenza
+          )}
+
+          ${practiceField(
+            "Destinazione",
+            dati.destinazione
+          )}
+
+          ${practiceField(
+            "Ritiro",
+            formatDate(
+              dati.ritiro
+            )
+          )}
+
+          ${practiceField(
+            "Consegna",
+            formatDate(
+              dati.consegna
+            )
+          )}
+
+          ${practiceField(
+            "Colli",
+            dati.colli
+          )}
+
+          ${practiceField(
+            "Peso",
+            dati.peso_kg != null
+              ? dati.peso_kg + " kg"
+              : null
+          )}
+
+          ${practiceField(
+            "Volume",
+            dati.volume_m3 != null
+              ? dati.volume_m3 + " m³"
+              : null
+          )}
+
+          ${practiceField(
+            "Tipo merce",
+            dati.tipo_merce
+          )}
+
+          ${practiceField(
+            "Vettore",
+            dati.vettore
+          )}
+
+        </div>
+
+        <div class="practice-actions">
+
+          <button
+            class="cancel-btn"
+            type="button">
+            Annulla
+          </button>
+
+          <button
+            class="confirm-btn"
+            type="button">
+            Conferma pratica
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  const cancelButton =
+    wrapper.querySelector(
+      ".cancel-btn"
+    );
+
+  const confirmButton =
+    wrapper.querySelector(
+      ".confirm-btn"
+    );
+
+  cancelButton.addEventListener(
+    "click",
+    function(){
+
+      cancelButton.disabled = true;
+      confirmButton.disabled = true;
+
+      addAiMessage(
+        "Operazione annullata."
+      );
+
+    }
+  );
+
+  confirmButton.addEventListener(
+    "click",
+    function(){
+
+      /*
+        IMPORTANTE:
+        per ora NON scriviamo
+        nel database.
+
+        Nel prossimo passaggio
+        collegheremo questo pulsante
+        alla creazione reale.
+      */
+
+      cancelButton.disabled = true;
+      confirmButton.disabled = true;
+
+      addAiMessage(
+        "Conferma ricevuta. La creazione reale della pratica verrà collegata nel prossimo passaggio."
+      );
+
+    }
+  );
+
+  chat.appendChild(wrapper);
+
+  scrollChat();
+
+}
+
+function practiceField(
+  label,
+  value
+){
+
+  const displayValue =
+    value === null ||
+    value === undefined ||
+    value === ""
+      ? "-"
+      : value;
+
+  return `
+    <div class="practice-field">
+
+      <div class="field-label">
+        ${escapeHtml(label)}
+      </div>
+
+      <div class="field-value">
+        ${escapeHtml(displayValue)}
+      </div>
+
+    </div>
+  `;
+
+}
+
+/* =========================
+   RISPOSTA COMANDO
+========================= */
+
+function handleCommand(comando){
+
+  if(!comando){
+
+    addAiMessage(
+      "Non sono riuscito a interpretare il comando."
+    );
+
+    return;
+  }
+
+  if(
+    comando.azione ===
+    "CREA_PRATICA"
+  ){
+
+    addPracticePreview(
+      comando
+    );
+
+    return;
+  }
+
+  /*
+    Per ora le altre azioni vengono
+    interpretate ma non ancora eseguite.
+  */
+
+  addAiMessage(
+    comando.risposta ||
+    "Ho interpretato il comando."
+  );
+
+}
+
+/* =========================
+   INVIO
+========================= */
+
+async function sendMessage(
+  forcedMessage = null
+){
+
+  if(isSending){
+    return;
+  }
+
+  const messaggio =
+    String(
+      forcedMessage ??
+      messageInput.value
+    ).trim();
+
+  if(!messaggio){
+    return;
+  }
+
+  isSending = true;
+
+  sendButton.disabled = true;
+
+  addUserMessage(
+    messaggio
+  );
+
+  messageInput.value = "";
+
+  addTyping();
+
+  try{
+
+    const {
+      data:{
+        session
+      }
+    } =
+      await supabase.auth.getSession();
+
+    if(!session?.access_token){
+
+      throw new Error(
+        "Sessione scaduta"
+      );
+
+    }
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/functions/v1/assistente-ai",
+        {
+          method:"POST",
+
+          headers:{
+
+            "Content-Type":
+              "application/json",
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " +
+              session.access_token
+
+          },
+
+          body:JSON.stringify({
+            messaggio
+          })
+
+        }
+      );
+
+    const result =
+      await response.json();
+
+    removeTyping();
+
+    if(!response.ok){
+
+      throw new Error(
+        result?.error ||
+        "Errore Assistente AI"
+      );
+
+    }
+
+    if(!result.success){
+
+      throw new Error(
+        result.error ||
+        "Operazione non riuscita"
+      );
+
+    }
+
+    handleCommand(
+      result.comando
+    );
+
+  }
+  catch(error){
+
+    removeTyping();
+
+    console.error(
+      "Errore Assistente AI:",
+      error
+    );
+
+    addAiMessage(
+      "Si è verificato un errore: " +
+      (
+        error.message ||
+        "errore sconosciuto"
+      )
+    );
+
+  }
+  finally{
+
+    isSending = false;
+
+    sendButton.disabled = false;
+
+    messageInput.focus();
+
+  }
+
+}
+
+/* =========================
+   EVENTI
+========================= */
+
+sendButton.addEventListener(
+  "click",
+  function(){
+
+    sendMessage();
+
+  }
+);
+
+messageInput.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key === "Enter" &&
+      !event.shiftKey
+    ){
+
+      event.preventDefault();
+
+      sendMessage();
+
+    }
+
+  }
+);
+
+document
+  .querySelectorAll(
+    ".quick-btn"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          const message =
+            button.dataset.message;
+
+          if(message){
+            sendMessage(
+              message
+            );
+          }
+
+        }
+      );
+
+    }
+  );
+
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled = true;
+
+    await supabase.auth.signOut();
+
+    window.location.replace(
+      "login.html"
+    );
+
+  }
+);
+
+/* =========================
+   START
+========================= */
+
+async function start(){
+
+  const authenticated =
+    await protectPage();
+
+  if(!authenticated){
+    return;
+  }
+
+  messageInput.focus();
+
+}
+
+start();
+
+</script>
+
+</body>
+</html>
