@@ -580,8 +580,32 @@ h1{
   background:#fff;
   color:#8292a5;
   font-size:18px;
+  cursor:pointer;
+  opacity:1;
+  transition:.18s ease;
+}
+
+.mic-btn:hover{
+  background:#f3f7fb;
+  border-color:#b9c8d8;
+}
+
+.mic-btn.listening{
+  background:#fff1f1;
+  border-color:#e48b8b;
+  color:#b42318;
+  box-shadow:0 0 0 4px rgba(180,35,24,.08);
+  animation:micPulse 1.15s infinite;
+}
+
+.mic-btn:disabled{
   cursor:not-allowed;
-  opacity:.65;
+  opacity:.5;
+}
+
+@keyframes micPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.06)}
 }
 
 .send-btn{
@@ -720,7 +744,9 @@ h1{
   }
 
   .mic-btn{
-    display:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
 }
 
@@ -937,10 +963,12 @@ h1{
           rows="1"></textarea>
 
         <button
+          id="micButton"
           class="mic-btn"
           type="button"
-          title="Comandi vocali: prossimamente"
-          disabled>
+          title="Parla con MatRi-mIA"
+          aria-label="Avvia comando vocale"
+          aria-pressed="false">
           🎙
         </button>
 
@@ -972,6 +1000,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const chat = document.getElementById("chat");
 const messageInput = document.getElementById("messageInput");
 const sendButton = document.getElementById("sendButton");
+const micButton = document.getElementById("micButton");
 const logoutButton = document.getElementById("logoutButton");
 const userEmail = document.getElementById("userEmail");
 
@@ -980,6 +1009,9 @@ let isConfirming = false;
 let pendingPractice = null;
 let pendingModification = null;
 let pendingStatusChange = null;
+let recognition = null;
+let isListening = false;
+let voiceTranscript = "";
 
 function escapeHtml(value){
   return String(value ?? "")
@@ -1343,12 +1375,103 @@ async function sendMessage(forcedMessage=null){
   finally{ isSending=false; sendButton.disabled=false; messageInput.focus(); }
 }
 
+
+function setListeningState(active){
+  isListening = active;
+  micButton.classList.toggle("listening", active);
+  micButton.setAttribute("aria-pressed", active ? "true" : "false");
+  micButton.setAttribute("aria-label", active ? "Ferma ascolto" : "Avvia comando vocale");
+  micButton.title = active ? "Sto ascoltando… clicca per fermare" : "Parla con MatRi-mIA";
+  micButton.textContent = active ? "■" : "🎙";
+  messageInput.placeholder = active ? "Sto ascoltando…" : "Scrivi un comando a MatRi-mIA...";
+}
+
+function initVoiceAssistant(){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+    micButton.disabled = true;
+    micButton.title = "Riconoscimento vocale non supportato da questo browser";
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = "it-IT";
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = ()=>{
+    voiceTranscript = "";
+    setListeningState(true);
+  };
+
+  recognition.onresult = event=>{
+    let interim = "";
+    let finalText = "";
+
+    for(let i=event.resultIndex; i<event.results.length; i++){
+      const text = event.results[i][0]?.transcript || "";
+      if(event.results[i].isFinal) finalText += text;
+      else interim += text;
+    }
+
+    if(finalText.trim()) voiceTranscript = (voiceTranscript + " " + finalText).trim();
+    messageInput.value = (voiceTranscript + " " + interim).trim();
+  };
+
+  recognition.onerror = event=>{
+    setListeningState(false);
+    const errors = {
+      "not-allowed":"Permesso microfono negato. Abilita il microfono per questo sito e riprova.",
+      "service-not-allowed":"Il servizio di riconoscimento vocale non è disponibile.",
+      "audio-capture":"Non riesco ad accedere al microfono.",
+      "no-speech":"Non ho rilevato alcuna voce. Riprova.",
+      "network":"Errore di rete durante il riconoscimento vocale."
+    };
+    addAiMessage(errors[event.error] || "Non sono riuscito a riconoscere il comando vocale. Riprova.");
+  };
+
+  recognition.onend = async ()=>{
+    const transcript = String(messageInput.value || voiceTranscript).trim();
+    setListeningState(false);
+    voiceTranscript = "";
+
+    if(transcript && !isSending){
+      await sendMessage(transcript);
+    }
+  };
+
+  micButton.addEventListener("click", ()=>{
+    if(isSending || isConfirming) return;
+
+    if(isListening){
+      recognition.stop();
+      return;
+    }
+
+    messageInput.value = "";
+    voiceTranscript = "";
+
+    try{
+      recognition.start();
+    }catch(error){
+      console.error("Errore avvio microfono:", error);
+    }
+  });
+}
+
 sendButton.addEventListener("click",()=>sendMessage());
 messageInput.addEventListener("keydown",event=>{ if(event.key==="Enter" && !event.shiftKey){ event.preventDefault(); sendMessage(); } });
 document.querySelectorAll(".quick-btn").forEach(button=>button.addEventListener("click",()=>{ if(button.dataset.message) sendMessage(button.dataset.message); }));
 logoutButton.addEventListener("click",async()=>{ logoutButton.disabled=true; await supabase.auth.signOut(); window.location.replace("login.html"); });
 
-async function start(){ if(await protectPage()) messageInput.focus(); }
+async function start(){
+  if(await protectPage()){
+    initVoiceAssistant();
+    messageInput.focus();
+  }
+}
 start();
 </script>
 
