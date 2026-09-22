@@ -895,7 +895,7 @@ h1{
     <h1>Assistente AI</h1>
 
     <div class="subtitle">
-      Dai istruzioni a MatRi-mIA utilizzando il linguaggio naturale.
+      Parla o scrivi a MatRi-mIA: puoi fornire le informazioni anche una alla volta.
     </div>
 
   </div>
@@ -1128,22 +1128,35 @@ function openPractice(numero){
   window.location.href="dettaglio-pratica.html?id="+encodeURIComponent(numero);
 }
 
+function nextPracticeQuestion(field){
+  const questions={
+    cliente:"Qual è il cliente?",
+    partenza:"Da dove parte il trasporto?",
+    destinazione:"Qual è la destinazione?",
+    tipo_merce:"Che tipo di merce trasportiamo?"
+  };
+  return questions[field] || `Indicami ${friendlyField(field).toLowerCase()}.`;
+}
+
 function addPracticePreview(comando){
   pendingPractice=JSON.parse(JSON.stringify(comando));
   const dati=pendingPractice.dati || {};
   const missing=requiredMissing(dati);
   const wrapper=document.createElement("div"); wrapper.className="message message-ai";
-  let missingHtml="";
+
+  let conversationHtml="";
   if(missing.length){
-    missingHtml=`<div class="missing-box"><div class="missing-title">Dati da completare</div>${escapeHtml(missing.map(friendlyField).join(", "))}<br><br>Scrivimi il dato mancante nella chat.</div>`;
+    conversationHtml=`<div class="missing-box"><div class="missing-title">Creazione guidata</div>${escapeHtml(nextPracticeQuestion(missing[0]))}<br><br><small>Puoi rispondere scrivendo oppure premendo 🎙️.</small></div>`;
   }
-  wrapper.innerHTML=`<div class="bubble"><div class="ai-name">MATRI-MIA AI</div>${escapeHtml(comando.risposta || "Ho preparato la pratica.")}${missingHtml}
+
+  wrapper.innerHTML=`<div class="bubble"><div class="ai-name">MATRI-MIA AI</div>${escapeHtml(comando.risposta || "Ho iniziato a preparare la pratica.")}${conversationHtml}
     <div class="practice-preview"><div class="practice-title">NUOVA PRATICA</div><div class="practice-grid">
     ${practiceField("Cliente",dati.cliente,!dati.cliente)}${practiceField("Partenza",dati.partenza,!dati.partenza)}${practiceField("Destinazione",dati.destinazione,!dati.destinazione)}
     ${practiceField("Ritiro",formatDate(dati.ritiro))}${practiceField("Consegna",formatDate(dati.consegna))}${practiceField("Colli",dati.colli)}
     ${practiceField("Peso",dati.peso_kg!=null?dati.peso_kg+" kg":null)}${practiceField("Volume",dati.volume_m3!=null?dati.volume_m3+" m³":null)}
     ${practiceField("Tipo merce",dati.tipo_merce,!dati.tipo_merce)}${practiceField("Vettore",dati.vettore)}</div>
     <div class="practice-actions"><button class="cancel-btn" type="button">Annulla</button><button class="confirm-btn" type="button" ${missing.length?"disabled":""}>${missing.length?"Completa i dati":"Conferma pratica"}</button></div></div></div>`;
+
   const cancelButton=wrapper.querySelector(".cancel-btn");
   const confirmButton=wrapper.querySelector(".confirm-btn");
   cancelButton.addEventListener("click",()=>{ pendingPractice=null; cancelButton.disabled=true; confirmButton.disabled=true; addAiMessage("Creazione della pratica annullata."); });
@@ -1151,18 +1164,83 @@ function addPracticePreview(comando){
   chat.appendChild(wrapper); scrollChat();
 }
 
+function normalizeConversationValue(field,value){
+  let text=String(value||"").trim();
+  if(!text) return "";
+  const prefixes={
+    cliente:/^(?:il\s+)?cliente\s+(?:è|e|sarà|sara)?\s*/i,
+    partenza:/^(?:la\s+)?partenza\s+(?:è|e|sarà|sara|da)?\s*/i,
+    destinazione:/^(?:la\s+)?destinazione\s+(?:è|e|sarà|sara|a)?\s*/i,
+    tipo_merce:/^(?:il\s+)?(?:tipo\s+(?:di\s+)?)?merce\s+(?:è|e|sarà|sara)?\s*/i
+  };
+  if(prefixes[field]) text=text.replace(prefixes[field],"").trim();
+  return text;
+}
+
+function tryConversationCorrection(message,dati){
+  const text=String(message||"").trim();
+  const patterns=[
+    ["cliente",/(?:correggi|cambia|modifica)?\s*(?:il\s+)?cliente\s+(?:in|con|è|e)?\s*(.+)$/i],
+    ["partenza",/(?:correggi|cambia|modifica)?\s*(?:la\s+)?partenza\s+(?:in|con|è|e|da)?\s*(.+)$/i],
+    ["destinazione",/(?:correggi|cambia|modifica)?\s*(?:la\s+)?destinazione\s+(?:in|con|è|e|a)?\s*(.+)$/i],
+    ["tipo_merce",/(?:correggi|cambia|modifica)?\s*(?:il\s+)?(?:tipo\s+(?:di\s+)?)?merce\s+(?:in|con|è|e)?\s*(.+)$/i]
+  ];
+  for(const [field,re] of patterns){
+    const m=text.match(re);
+    if(m?.[1]){ dati[field]=m[1].trim(); return field; }
+  }
+  return null;
+}
+
 async function completePendingPractice(userMessage){
   if(!pendingPractice) return false;
-  const dati=pendingPractice.dati || {};
-  const missing=requiredMissing(dati);
-  if(!missing.length) return false;
-  if(missing.length===1){
-    const value=String(userMessage||"").trim(); if(!value) return true;
-    dati[missing[0]]=value; pendingPractice.dati=dati; pendingPractice.campi_mancanti=requiredMissing(dati);
-    pendingPractice.risposta="Perfetto. Ho completato la pratica. Controlla i dati e conferma la creazione.";
-    addPracticePreview(pendingPractice); return true;
+
+  const raw=String(userMessage||"").trim();
+  if(!raw) return true;
+
+  if(/^(annulla|cancella|lascia perdere|stop)$/i.test(raw)){
+    pendingPractice=null;
+    addAiMessage("Creazione della pratica annullata.");
+    return true;
   }
-  addAiMessage("Mancano ancora questi dati: "+missing.map(friendlyField).join(", ")+". Scrivili in un unico messaggio, ad esempio: Cliente Amazon, partenza Palermo, destinazione Marsala, tipo merce Alimentari.");
+
+  const dati=pendingPractice.dati || {};
+  let missing=requiredMissing(dati);
+
+  /* Se i dati obbligatori sono completi, consentiamo una correzione naturale
+     prima della conferma, per esempio: “Cambia destinazione in Trapani”. */
+  if(!missing.length){
+    const corrected=tryConversationCorrection(raw,dati);
+    if(corrected){
+      pendingPractice.dati=dati;
+      pendingPractice.risposta=`Perfetto. Ho aggiornato ${friendlyField(corrected).toLowerCase()}. Controlla il riepilogo e conferma.`;
+      addPracticePreview(pendingPractice);
+      return true;
+    }
+    return false;
+  }
+
+  /* Conversazione guidata: ogni risposta completa il prossimo dato mancante.
+     Non serve più fornire cliente, partenza, destinazione e merce tutti insieme. */
+  const field=missing[0];
+  const value=normalizeConversationValue(field,raw);
+  if(!value){
+    addAiMessage(nextPracticeQuestion(field));
+    return true;
+  }
+
+  dati[field]=value;
+  pendingPractice.dati=dati;
+  missing=requiredMissing(dati);
+  pendingPractice.campi_mancanti=missing;
+
+  if(missing.length){
+    addAiMessage(`Perfetto, ${friendlyField(field).toLowerCase()}: ${value}. ${nextPracticeQuestion(missing[0])}`);
+  }else{
+    pendingPractice.risposta="Perfetto. Ora ho tutti i dati necessari. Controlla il riepilogo e conferma la creazione.";
+    addPracticePreview(pendingPractice);
+  }
+
   return true;
 }
 
