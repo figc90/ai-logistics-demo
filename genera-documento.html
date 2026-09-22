@@ -177,6 +177,24 @@ async function generate(){
 $("practice").addEventListener("change",renderPreview);
 $("type").addEventListener("change",changeType);
 $("generate").addEventListener("click",generate);
+$("returnPractice").addEventListener("click",(event)=>{
+  event.preventDefault();
+
+  // Se il generatore è stato aperto dal dettaglio pratica, torniamo esattamente
+  // alla pagina precedente, evitando problemi di parametri/URL.
+  if(document.referrer && history.length > 1){
+    history.back();
+    return;
+  }
+
+  // Fallback se la pagina è stata aperta direttamente.
+  const pratica_id=$("practice").value;
+  if(pratica_id){
+    window.location.href="dettaglio-pratica.html?id="+encodeURIComponent(pratica_id);
+  }else{
+    window.location.href="pratiche.html";
+  }
+});
 
 (async()=>{try{if(await protect())await loadPractices();}catch(e){console.error(e);showMessage("error","Errore: "+e.message);}})();
 </script>
