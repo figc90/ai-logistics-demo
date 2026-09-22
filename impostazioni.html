@@ -178,8 +178,27 @@ $("companyForm").addEventListener("submit",async e=>{
   const logo_path=await uploadLogo();
   const updates={nome:$("companyName").value.trim(),ragione_sociale:empty($("companyLegalName").value)||$("companyName").value.trim(),partita_iva:empty($("companyVat").value),codice_fiscale:empty($("companyFiscal").value),indirizzo:empty($("companyAddress").value),cap:empty($("companyCap").value),citta:empty($("companyCity").value),provincia:empty($("companyProvince").value)?.toUpperCase()||null,email:empty($("companyEmail").value),telefono:empty($("companyPhone").value),pec:empty($("companyPec").value),sito_web:empty($("companyWebsite").value),logo_path};
   if(!updates.nome)throw new Error("Inserisci il nome dell'azienda.");
-  const {data,error}=await supabase.from("aziende").update(updates).eq("id",currentProfile.azienda_id).select().single();
-  if(error)throw error;currentCompany=data;await loadCompany();$("companyLogo").value="";showMessage($("companyMessage"),"success","Dati aziendali e branding aggiornati.");
+  const {data,error}=await supabase.rpc("aggiorna_mia_azienda_completa",{
+    p_nome:updates.nome,
+    p_ragione_sociale:updates.ragione_sociale,
+    p_partita_iva:updates.partita_iva,
+    p_codice_fiscale:updates.codice_fiscale,
+    p_indirizzo:updates.indirizzo,
+    p_cap:updates.cap,
+    p_citta:updates.citta,
+    p_provincia:updates.provincia,
+    p_nazione:currentCompany?.nazione||"Italia",
+    p_email:updates.email,
+    p_telefono:updates.telefono,
+    p_pec:updates.pec,
+    p_sito_web:updates.sito_web,
+    p_logo_path:logo_path
+  });
+  if(error)throw error;
+  currentCompany=data;
+  await loadCompany();
+  $("companyLogo").value="";
+  showMessage($("companyMessage"),"success","Dati aziendali e branding aggiornati.");
  }catch(err){console.error(err);showMessage($("companyMessage"),"error",err.message||"Salvataggio non riuscito.")}finally{$("saveCompanyButton").disabled=false}
 });
 
