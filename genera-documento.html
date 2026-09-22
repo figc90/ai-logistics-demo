@@ -18,6 +18,7 @@ button.primary{width:100%;border:0;border-radius:10px;padding:13px 16px;backgrou
 button.primary:disabled{opacity:.55;cursor:not-allowed}.preview{font-size:14px;line-height:1.55}.row{padding:8px 0;border-bottom:1px solid #edf0f4}.row:last-child{border:0}.k{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700}.v{margin-top:3px;font-weight:600}
 .msg{display:none;margin-bottom:16px;padding:12px 14px;border-radius:9px}.msg.error{display:block;background:#fff0f0;color:var(--danger)}.msg.success{display:block;background:#ecfdf3;color:#067647}
 .extra{display:none}.extra.show{display:block}.open{display:none;margin-top:10px;text-align:center;text-decoration:none;padding:12px;border:1px solid var(--accent);color:#087f7a;border-radius:9px;font-weight:700}
+.return-practice{display:none;margin-top:8px;text-align:center;text-decoration:none;padding:11px;border:1px solid var(--line);background:#fff;color:var(--primary);border-radius:9px;font-weight:700}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
@@ -59,6 +60,7 @@ button.primary:disabled{opacity:.55;cursor:not-allowed}.preview{font-size:14px;l
 <div class="field"><label>Note documento</label><textarea id="note"></textarea></div>
 <button id="generate" class="primary" type="button">Genera e archivia PDF</button>
 <a id="openPdf" class="open" target="_blank" rel="noopener">Apri PDF generato</a>
+<a id="returnPractice" class="return-practice">← Torna alla pratica</a>
 </section>
 
 <section class="card"><h2>Anteprima dati</h2><div id="preview" class="preview">Seleziona una pratica.</div></section>
@@ -78,7 +80,6 @@ let profile=null, practices=[];
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
 function showMessage(kind,text){$("message").className="msg "+kind;$("message").textContent=text;}
 function clearMessage(){$("message").className="msg";$("message").textContent="";}
-function fmt(v){if(!v)return "-";const d=new Date(v);return isNaN(d)?esc(v):d.toLocaleString("it-IT",{dateStyle:"short",timeStyle:"short"});}
 function row(k,v){return `<div class="row"><div class="k">${esc(k)}</div><div class="v">${esc(v||"-")}</div></div>`;}
 
 async function protect(){
@@ -108,12 +109,13 @@ async function loadPractices(){
 
 function renderPreview(){
  const p=practices.find(x=>x.id===$("practice").value);
- if(!p){$("preview").innerHTML="Seleziona una pratica.";return;}
+ if(!p){$("preview").innerHTML="Seleziona una pratica.";$("returnPractice").style.display="none";return;}
  $("preview").innerHTML=
  row("Pratica",p.numero_pratica)+row("Cliente",p.cliente)+row("Stato",p.stato)+
  row("Ritiro",`${p.partenza||"-"} · ${p.ritiro?new Date(p.ritiro).toLocaleString("it-IT"):"-"}`)+
  row("Consegna",`${p.destinazione||"-"} · ${p.consegna?new Date(p.consegna).toLocaleString("it-IT"):"-"}`)+
  row("Merce",p.tipo_merce)+row("Colli",p.colli)+row("Peso kg",p.peso_kg)+row("Volume m³",p.volume_m3)+row("Vettore",p.vettore);
+ $("returnPractice").href="dettaglio-pratica.html?id="+encodeURIComponent(p.id);
 }
 
 function changeType(){
@@ -136,7 +138,9 @@ function extras(){
 }
 
 async function generate(){
- clearMessage();$("openPdf").style.display="none";
+ clearMessage();
+ $("openPdf").style.display="none";
+ $("returnPractice").style.display="none";
  const pratica_id=$("practice").value,tipo=$("type").value;
  if(!pratica_id){showMessage("error","Seleziona una pratica.");return;}
  if(tipo==="PREVENTIVO"&&!$("prezzo").value.trim()){showMessage("error","Inserisci il prezzo di vendita del preventivo.");return;}
@@ -147,8 +151,19 @@ async function generate(){
    const {data,error}=await supabase.functions.invoke("genera-documento",{body:{tipo,pratica_id,extra:extras()}});
    if(error)throw error;
    if(!data?.ok)throw new Error(data?.error||"Generazione non riuscita.");
+
    showMessage("success",`${tipo.replaceAll("_"," ")} generato e archiviato correttamente.`);
-   if(data.signed_url){$("openPdf").href=data.signed_url;$("openPdf").style.display="block";}
+
+   // La Edge Function attuale restituisce "url".
+   // Manteniamo anche "signed_url" per compatibilità con versioni precedenti.
+   const pdfUrl=data?.url||data?.signed_url||null;
+   if(pdfUrl){
+     $("openPdf").href=pdfUrl;
+     $("openPdf").style.display="block";
+   }
+
+   $("returnPractice").href="dettaglio-pratica.html?id="+encodeURIComponent(pratica_id);
+   $("returnPractice").style.display="block";
  }catch(e){
    console.error(e);
    let detail=e?.message||"Errore durante la generazione.";
