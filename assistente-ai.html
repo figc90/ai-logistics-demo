@@ -1009,6 +1009,8 @@ let isConfirming = false;
 let pendingPractice = null;
 let pendingModification = null;
 let pendingStatusChange = null;
+let pendingTrip = null;
+let lastPracticeContext = null;
 let recognition = null;
 let isListening = false;
 let voiceTranscript = "";
@@ -1298,10 +1300,11 @@ async function confirmPractice(comando,confirmButton,cancelButton){
     const {response,result}=await callAssistant({azione:"conferma_pratica",comando}); removeTyping();
     if(!response.ok) throw new Error(result?.error || "Errore durante la creazione della pratica");
     if(!result?.success || result?.azione!=="PRATICA_CREATA") throw new Error(result?.error || "La pratica non è stata creata");
-    const pratica=result.pratica; pendingPractice=null;
+    const pratica=result.pratica; pendingPractice=null; lastPracticeContext={id:pratica.id,numero_pratica:pratica.numero_pratica,cliente:pratica.cliente,partenza:pratica.partenza,destinazione:pratica.destinazione};
     const wrapper=document.createElement("div"); wrapper.className="message message-ai";
-    wrapper.innerHTML=`<div class="bubble"><div class="ai-name">MATRI-MIA AI</div><div class="success-card"><div class="success-title">✓ Pratica creata</div><div class="success-text">La pratica <strong>${escapeHtml(pratica.numero_pratica)}</strong> è stata creata correttamente.</div><button class="open-btn" type="button">Apri pratica</button></div></div>`;
+    wrapper.innerHTML=`<div class="bubble"><div class="ai-name">MATRI-MIA AI</div><div class="success-card"><div class="success-title">✓ Pratica creata</div><div class="success-text">La pratica <strong>${escapeHtml(pratica.numero_pratica)}</strong> è stata creata correttamente.</div><div class="practice-actions"><button class="open-btn" type="button">Apri pratica</button><button class="confirm-btn trip-now-btn" type="button">Programma viaggio</button></div></div></div>`;
     wrapper.querySelector(".open-btn").addEventListener("click",()=>openPractice(pratica.numero_pratica));
+    wrapper.querySelector(".trip-now-btn").addEventListener("click",()=>sendMessage("Programma il viaggio per questa pratica"));
     chat.appendChild(wrapper); scrollChat(); confirmButton.textContent="Pratica creata";
   }catch(error){
     removeTyping(); console.error(error); addAiMessage("Non sono riuscito a creare la pratica: "+(error.message||"errore sconosciuto"));
@@ -1470,6 +1473,86 @@ async function confirmStatusChange(confirm,cancel){
   }
 }
 
+
+function openTrip(id){
+  window.location.href="dettaglio-viaggio.html?id="+encodeURIComponent(id);
+}
+
+function addTripPreview(result){
+  pendingTrip={pratica:result.pratica,viaggio:result.viaggio};
+  lastPracticeContext={
+    id:result.pratica.id,
+    numero_pratica:result.pratica.numero_pratica,
+    cliente:result.pratica.cliente,
+    partenza:result.pratica.partenza,
+    destinazione:result.pratica.destinazione
+  };
+
+  const v=result.viaggio || {};
+  const p=result.pratica || {};
+  const wrapper=document.createElement("div");
+  wrapper.className="message message-ai";
+  wrapper.innerHTML=`<div class="bubble"><div class="ai-name">MATRI-MIA AI</div>
+    Ho collegato la richiesta alla pratica <strong>${escapeHtml(p.numero_pratica)}</strong>. Controlla e conferma la programmazione del viaggio.
+    <div class="practice-preview"><div class="practice-title">NUOVO VIAGGIO</div><div class="practice-grid">
+      ${practiceField("Pratica",p.numero_pratica)}
+      ${practiceField("Cliente",p.cliente)}
+      ${practiceField("Tratta",`${p.partenza || "-"} → ${p.destinazione || "-"}`)}
+      ${practiceField("Stato","PROGRAMMATO")}
+      ${practiceField("Partenza prevista",v.data_partenza ? new Date(v.data_partenza).toLocaleString("it-IT") : null)}
+      ${practiceField("Arrivo previsto",v.data_arrivo ? new Date(v.data_arrivo).toLocaleString("it-IT") : null)}
+      ${practiceField("Vettore",v.vettore)}
+    </div><div class="practice-actions"><button class="cancel-btn" type="button">Annulla</button><button class="confirm-btn" type="button">Conferma viaggio</button></div></div></div>`;
+
+  const cancel=wrapper.querySelector(".cancel-btn");
+  const confirm=wrapper.querySelector(".confirm-btn");
+  cancel.addEventListener("click",()=>{
+    pendingTrip=null; cancel.disabled=true; confirm.disabled=true;
+    addAiMessage("Programmazione del viaggio annullata.");
+  });
+  confirm.addEventListener("click",()=>confirmTrip(confirm,cancel));
+  chat.appendChild(wrapper); scrollChat();
+}
+
+async function prepareTrip(comando){
+  if(!comando.pratica_riferimento && lastPracticeContext?.numero_pratica){
+    comando={...comando,pratica_riferimento:lastPracticeContext.numero_pratica};
+  }
+  if(!comando.pratica_riferimento){
+    addAiMessage("A quale pratica devo collegare il viaggio? Indicami il numero della pratica.");
+    return;
+  }
+  addTyping();
+  try{
+    const {response,result}=await callAssistant({azione:"prepara_viaggio",comando});
+    removeTyping();
+    if(!response.ok || !result?.success) throw new Error(result?.error || "Preparazione viaggio non riuscita");
+    addTripPreview(result);
+  }catch(error){
+    removeTyping();
+    addAiMessage("Non sono riuscito a preparare il viaggio: "+(error.message||"errore sconosciuto"));
+  }
+}
+
+async function confirmTrip(confirm,cancel){
+  if(!pendingTrip || isConfirming) return;
+  isConfirming=true; confirm.disabled=true; cancel.disabled=true;
+  const old=confirm.textContent; confirm.textContent="Programmazione..."; addTyping();
+  try{
+    const {response,result}=await callAssistant({azione:"conferma_viaggio",pratica_id:pendingTrip.pratica.id});
+    removeTyping();
+    if(!response.ok || !result?.success) throw new Error(result?.error || "Creazione viaggio non riuscita");
+    pendingTrip=null; confirm.textContent="Viaggio programmato";
+    const wrapper=document.createElement("div"); wrapper.className="message message-ai";
+    wrapper.innerHTML=`<div class="bubble"><div class="ai-name">MATRI-MIA AI</div><div class="success-card"><div class="success-title">✓ Viaggio programmato</div><div class="success-text">${escapeHtml(result.message || "Il viaggio è stato creato correttamente.")}</div><button class="open-btn" type="button">Apri viaggio</button></div></div>`;
+    wrapper.querySelector(".open-btn").addEventListener("click",()=>openTrip(result.viaggio.id));
+    chat.appendChild(wrapper); scrollChat();
+  }catch(error){
+    removeTyping(); addAiMessage("Non sono riuscito a programmare il viaggio: "+(error.message||"errore sconosciuto"));
+    confirm.disabled=false; cancel.disabled=false; confirm.textContent=old;
+  }finally{ isConfirming=false; }
+}
+
 async function handleCommand(comando){
   if(!comando){ addAiMessage("Non sono riuscito a interpretare il comando."); return; }
   if(comando.azione==="CREA_PRATICA"){ addPracticePreview(comando); return; }
@@ -1477,6 +1560,7 @@ async function handleCommand(comando){
   if(comando.azione==="INFO_OPERATIVE"){ await executeOperationalInfo(comando); return; }
   if(comando.azione==="MODIFICA_PRATICA"){ await prepareModification(comando); return; }
   if(comando.azione==="CAMBIA_STATO_PRATICA"){ await prepareStatusChange(comando); return; }
+  if(comando.azione==="CREA_VIAGGIO"){ await prepareTrip(comando); return; }
   addAiMessage(comando.risposta || "Non ho riconosciuto un'operazione disponibile.");
 }
 
@@ -1490,7 +1574,14 @@ async function sendMessage(forcedMessage=null){
   }
   addTyping();
   try{
-    const {response,result}=await callAssistant({azione:"interpreta",messaggio}); removeTyping();
+    let messaggioPerAI=messaggio;
+    if(lastPracticeContext?.numero_pratica){
+      messaggioPerAI=`CONTESTO CONVERSAZIONE: la pratica attualmente in riferimento è ${lastPracticeContext.numero_pratica}, cliente ${lastPracticeContext.cliente || "-"}, tratta ${lastPracticeContext.partenza || "-"} → ${lastPracticeContext.destinazione || "-"}. Se l’utente usa espressioni come “questa pratica”, “quella pratica”, “il viaggio”, “programma il viaggio” o “anche il viaggio”, riferiscile a questa pratica.
+
+MESSAGGIO UTENTE:
+${messaggio}`;
+    }
+    const {response,result}=await callAssistant({azione:"interpreta",messaggio:messaggioPerAI}); removeTyping();
     if(!response.ok || !result?.success) throw new Error(result?.error || "Errore Assistente AI");
     await handleCommand(result.comando);
   }catch(error){ removeTyping(); console.error(error); addAiMessage("Si è verificato un errore: "+(error.message||"errore sconosciuto")); }
