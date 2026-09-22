@@ -1204,44 +1204,88 @@ async function completePendingPractice(userMessage){
     return true;
   }
 
-  const dati=pendingPractice.dati || {};
-  let missing=requiredMissing(dati);
+  /*
+    Ogni risposta viene reinterpretata dall'AI come un messaggio completo.
+    In questo modo, anche se MatRi-mIA sta chiedendo solo il cliente,
+    l'utente può rispondere con cliente + date + località + peso + colli ecc.
+    I dati già raccolti vengono passati come contesto e poi uniti ai nuovi.
+  */
+  addTyping();
 
-  /* Se i dati obbligatori sono completi, consentiamo una correzione naturale
-     prima della conferma, per esempio: “Cambia destinazione in Trapani”. */
-  if(!missing.length){
-    const corrected=tryConversationCorrection(raw,dati);
-    if(corrected){
-      pendingPractice.dati=dati;
-      pendingPractice.risposta=`Perfetto. Ho aggiornato ${friendlyField(corrected).toLowerCase()}. Controlla il riepilogo e conferma.`;
-      addPracticePreview(pendingPractice);
+  try{
+    const datiAttuali=JSON.parse(JSON.stringify(pendingPractice.dati || {}));
+
+    const contesto=`
+Stiamo già creando una pratica di trasporto.
+Questi sono i dati raccolti finora (potrebbero essere incompleti):
+${JSON.stringify(datiAttuali)}
+
+NUOVO MESSAGGIO DELL'UTENTE:
+${raw}
+
+Interpreta il nuovo messaggio nel contesto della pratica in corso.
+Restituisci CREA_PRATICA.
+Estrai TUTTE le informazioni presenti nel nuovo messaggio, non soltanto il dato che avevi chiesto.
+Se il nuovo messaggio corregge un dato precedente, usa il valore più recente.
+Non inventare dati non dichiarati.
+Per i dati non citati nel nuovo messaggio puoi mantenere quelli già raccolti sopra.
+`;
+
+    const {response,result}=await callAssistant({
+      azione:"interpreta",
+      messaggio:contesto
+    });
+
+    removeTyping();
+
+    if(!response.ok || !result?.success){
+      throw new Error(result?.error || "Errore durante l'interpretazione della risposta");
+    }
+
+    const nuovoComando=result.comando;
+
+    if(!nuovoComando || nuovoComando.azione!=="CREA_PRATICA"){
+      addAiMessage("Sto ancora preparando la pratica. Puoi indicarmi i dati del trasporto oppure scrivere “annulla”.");
       return true;
     }
-    return false;
-  }
 
-  /* Conversazione guidata: ogni risposta completa il prossimo dato mancante.
-     Non serve più fornire cliente, partenza, destinazione e merce tutti insieme. */
-  const field=missing[0];
-  const value=normalizeConversationValue(field,raw);
-  if(!value){
-    addAiMessage(nextPracticeQuestion(field));
+    const estratti=nuovoComando.dati || {};
+    const datiUniti={...datiAttuali};
+
+    /* Aggiorniamo solo i valori realmente restituiti dall'AI.
+       I null non cancellano informazioni raccolte nei turni precedenti. */
+    for(const [chiave,valore] of Object.entries(estratti)){
+      if(valore!==null && valore!==undefined && valore!==""){
+        datiUniti[chiave]=valore;
+      }
+    }
+
+    pendingPractice={
+      ...pendingPractice,
+      ...nuovoComando,
+      azione:"CREA_PRATICA",
+      dati:datiUniti
+    };
+
+    const missing=requiredMissing(datiUniti);
+    pendingPractice.campi_mancanti=missing;
+
+    if(missing.length){
+      pendingPractice.risposta="Ho acquisito le informazioni che mi hai dato.";
+      addPracticePreview(pendingPractice);
+    }else{
+      pendingPractice.risposta="Perfetto. Ho tutti i dati necessari. Controlla il riepilogo e conferma la creazione.";
+      addPracticePreview(pendingPractice);
+    }
+
+    return true;
+
+  }catch(error){
+    removeTyping();
+    console.error("Errore conversazione pratica:",error);
+    addAiMessage("Non sono riuscito a interpretare questa risposta. Puoi ripeterla in modo diverso?");
     return true;
   }
-
-  dati[field]=value;
-  pendingPractice.dati=dati;
-  missing=requiredMissing(dati);
-  pendingPractice.campi_mancanti=missing;
-
-  if(missing.length){
-    addAiMessage(`Perfetto, ${friendlyField(field).toLowerCase()}: ${value}. ${nextPracticeQuestion(missing[0])}`);
-  }else{
-    pendingPractice.risposta="Perfetto. Ora ho tutti i dati necessari. Controlla il riepilogo e conferma la creazione.";
-    addPracticePreview(pendingPractice);
-  }
-
-  return true;
 }
 
 async function confirmPractice(comando,confirmButton,cancelButton){
