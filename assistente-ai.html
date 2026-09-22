@@ -318,12 +318,7 @@ h1{
   max-height:590px;
   overflow-y:auto;
   padding:25px;
-  background:
-    linear-gradient(
-      180deg,
-      #fbfcfe 0%,
-      #f7f9fc 100%
-    );
+  background:linear-gradient(180deg,#fbfcfe 0%,#f7f9fc 100%);
 }
 
 .message{
@@ -340,7 +335,7 @@ h1{
 }
 
 .bubble{
-  max-width:76%;
+  max-width:78%;
   padding:13px 15px;
   border-radius:14px;
   font-size:13px;
@@ -389,13 +384,32 @@ h1{
   font-size:10px;
   font-weight:800;
   cursor:pointer;
-  transition:.15s;
 }
 
 .quick-btn:hover{
   border-color:#29a9d2;
   color:#1689b1;
   background:#f4fbfd;
+}
+
+/* =========================
+   WARNING
+========================= */
+
+.missing-box{
+  margin-top:12px;
+  padding:11px 13px;
+  border-radius:10px;
+  background:#fff8e8;
+  border:1px solid #f1d79a;
+  color:#765d1f;
+  font-size:11px;
+  font-weight:700;
+}
+
+.missing-title{
+  font-weight:900;
+  margin-bottom:3px;
 }
 
 /* =========================
@@ -423,7 +437,6 @@ h1{
 .practice-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:0;
 }
 
 .practice-field{
@@ -450,6 +463,10 @@ h1{
   font-weight:800;
 }
 
+.field-value.missing{
+  color:#b47a16;
+}
+
 .practice-actions{
   padding:13px;
   display:flex;
@@ -458,7 +475,8 @@ h1{
 }
 
 .cancel-btn,
-.confirm-btn{
+.confirm-btn,
+.open-btn{
   min-height:38px;
   border-radius:9px;
   padding:0 14px;
@@ -473,14 +491,46 @@ h1{
   color:#68778a;
 }
 
-.confirm-btn{
+.confirm-btn,
+.open-btn{
   border:0;
   background:#173f69;
   color:#fff;
 }
 
-.confirm-btn:hover{
+.confirm-btn:hover,
+.open-btn:hover{
   background:#0d3158;
+}
+
+.confirm-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+/* =========================
+   SUCCESS
+========================= */
+
+.success-card{
+  margin-top:12px;
+  border:1px solid #bfe2cf;
+  background:#f2fbf6;
+  border-radius:12px;
+  padding:14px;
+}
+
+.success-title{
+  color:#24734a;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.success-text{
+  color:#4b6658;
+  font-size:11px;
+  margin-bottom:12px;
 }
 
 /* =========================
@@ -553,13 +603,6 @@ h1{
   cursor:default;
 }
 
-.composer-note{
-  margin-top:8px;
-  color:#a0aab8;
-  font-size:9px;
-  text-align:center;
-}
-
 /* =========================
    TYPING
 ========================= */
@@ -587,7 +630,6 @@ h1{
 }
 
 @keyframes typing{
-
   0%,60%,100%{
     opacity:.35;
     transform:translateY(0);
@@ -597,7 +639,6 @@ h1{
     opacity:1;
     transform:translateY(-3px);
   }
-
 }
 
 /* =========================
@@ -664,11 +705,10 @@ h1{
 
   .chat{
     padding:16px;
-    min-height:380px;
   }
 
   .bubble{
-    max-width:92%;
+    max-width:94%;
   }
 
   .practice-grid{
@@ -682,7 +722,6 @@ h1{
   .mic-btn{
     display:none;
   }
-
 }
 
 </style>
@@ -698,26 +737,16 @@ h1{
 <aside class="sidebar">
 
   <div class="sidebar-logo">
-
-    <a
-      href="dashboard.html"
-      class="sidebar-logo-link">
-
-      <img
-        src="matrimia-logo-web.png"
-        alt="MatRi-mIA Logistics">
-
+    <a href="dashboard.html" class="sidebar-logo-link">
+      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
     </a>
-
   </div>
 
   <nav class="sidebar-nav">
 
     <div class="nav-section">
 
-      <div class="nav-title">
-        OPERATIVITÀ
-      </div>
+      <div class="nav-title">OPERATIVITÀ</div>
 
       <a href="dashboard.html" class="nav-item">
         <span class="nav-icon">▦</span>
@@ -738,9 +767,7 @@ h1{
 
     <div class="nav-section">
 
-      <div class="nav-title">
-        AUTOMAZIONI
-      </div>
+      <div class="nav-title">AUTOMAZIONI</div>
 
       <a href="assistente-ai.html" class="nav-item active">
         <span class="nav-icon">✦</span>
@@ -761,9 +788,7 @@ h1{
 
     <div class="nav-section">
 
-      <div class="nav-title">
-        GESTIONE
-      </div>
+      <div class="nav-title">GESTIONE</div>
 
       <a href="anagrafiche.html" class="nav-item">
         <span class="nav-icon">▣</span>
@@ -788,22 +813,13 @@ h1{
 
     <div class="user-card">
 
-      <div class="user-label">
-        UTENTE
-      </div>
+      <div class="user-label">UTENTE</div>
 
-      <div
-        id="userEmail"
-        class="user-email">
-        -
-      </div>
+      <div id="userEmail" class="user-email">-</div>
 
     </div>
 
-    <button
-      id="logoutButton"
-      class="logout-btn"
-      type="button">
+    <button id="logoutButton" class="logout-btn" type="button">
       Esci
     </button>
 
@@ -846,35 +862,22 @@ h1{
 
     <div class="assistant-header">
 
-      <div class="ai-avatar">
-        ✦
-      </div>
+      <div class="ai-avatar">✦</div>
 
       <div>
-
-        <h2>
-          Assistente MatRi-mIA
-        </h2>
-
-        <p>
-          Gestione intelligente delle attività operative
-        </p>
-
+        <h2>Assistente MatRi-mIA</h2>
+        <p>Gestione intelligente delle attività operative</p>
       </div>
 
     </div>
 
-    <div
-      id="chat"
-      class="chat">
+    <div id="chat" class="chat">
 
       <div class="message message-ai">
 
         <div class="bubble">
 
-          <div class="ai-name">
-            MATRI-MIA AI
-          </div>
+          <div class="ai-name">MATRI-MIA AI</div>
 
           Ciao. Posso aiutarti a gestire le attività
           della tua azienda di trasporti.
@@ -934,10 +937,6 @@ h1{
 
       </div>
 
-      <div class="composer-note">
-        Le operazioni che modificano i dati richiedono conferma.
-      </div>
-
     </div>
 
   </section>
@@ -945,7 +944,6 @@ h1{
 </main>
 
 </div>
-
 </div>
 
 <script type="module">
@@ -982,6 +980,13 @@ const userEmail =
   document.getElementById("userEmail");
 
 let isSending = false;
+let isConfirming = false;
+
+/*
+  Se stiamo costruendo una pratica,
+  conserviamo qui il comando corrente.
+*/
+let pendingPractice = null;
 
 /* =========================
    UTILITY
@@ -1025,6 +1030,43 @@ function scrollChat(){
 
   chat.scrollTop =
     chat.scrollHeight;
+
+}
+
+function requiredMissing(dati){
+
+  const missing = [];
+
+  if(!dati?.cliente){
+    missing.push("cliente");
+  }
+
+  if(!dati?.partenza){
+    missing.push("partenza");
+  }
+
+  if(!dati?.destinazione){
+    missing.push("destinazione");
+  }
+
+  if(!dati?.tipo_merce){
+    missing.push("tipo_merce");
+  }
+
+  return missing;
+
+}
+
+function friendlyField(field){
+
+  const labels = {
+    cliente:"Cliente",
+    partenza:"Partenza",
+    destinazione:"Destinazione",
+    tipo_merce:"Tipo merce"
+  };
+
+  return labels[field] || field;
 
 }
 
@@ -1075,14 +1117,12 @@ async function protectPage(){
       profileError ||
       !profile
     ){
-
       throw (
         profileError ||
         new Error(
           "Profilo non trovato"
         )
       );
-
     }
 
     userEmail.textContent =
@@ -1117,7 +1157,80 @@ async function protectPage(){
 }
 
 /* =========================
-   MESSAGGIO UTENTE
+   SESSION TOKEN
+========================= */
+
+async function getAccessToken(){
+
+  const {
+    data:{session}
+  } =
+    await supabase.auth.getSession();
+
+  if(!session?.access_token){
+    throw new Error(
+      "Sessione scaduta"
+    );
+  }
+
+  return session.access_token;
+
+}
+
+/* =========================
+   API ASSISTENTE
+========================= */
+
+async function callAssistant(payload){
+
+  const accessToken =
+    await getAccessToken();
+
+  const response =
+    await fetch(
+      SUPABASE_URL +
+      "/functions/v1/assistente-ai",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+            "application/json",
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Authorization":
+            "Bearer " +
+            accessToken
+        },
+
+        body:
+          JSON.stringify(payload)
+      }
+    );
+
+  let result;
+
+  try{
+    result =
+      await response.json();
+  }
+  catch{
+    throw new Error(
+      "Risposta server non valida"
+    );
+  }
+
+  return {
+    response,
+    result
+  };
+
+}
+
+/* =========================
+   CHAT
 ========================= */
 
 function addUserMessage(text){
@@ -1139,10 +1252,6 @@ function addUserMessage(text){
   scrollChat();
 
 }
-
-/* =========================
-   MESSAGGIO AI
-========================= */
 
 function addAiMessage(text){
 
@@ -1171,7 +1280,7 @@ function addAiMessage(text){
 }
 
 /* =========================
-   LOADING
+   TYPING
 ========================= */
 
 function addTyping(){
@@ -1223,19 +1332,86 @@ function removeTyping(){
 }
 
 /* =========================
+   FIELD
+========================= */
+
+function practiceField(
+  label,
+  value,
+  isMissing = false
+){
+
+  const displayValue =
+    value === null ||
+    value === undefined ||
+    value === ""
+      ? "-"
+      : value;
+
+  return `
+    <div class="practice-field">
+
+      <div class="field-label">
+        ${escapeHtml(label)}
+      </div>
+
+      <div class="field-value ${isMissing ? "missing" : ""}">
+        ${escapeHtml(displayValue)}
+      </div>
+
+    </div>
+  `;
+
+}
+
+/* =========================
    PREVIEW PRATICA
 ========================= */
 
 function addPracticePreview(comando){
 
+  pendingPractice =
+    JSON.parse(
+      JSON.stringify(comando)
+    );
+
   const dati =
-    comando.dati || {};
+    pendingPractice.dati || {};
+
+  const missing =
+    requiredMissing(dati);
 
   const wrapper =
     document.createElement("div");
 
   wrapper.className =
     "message message-ai";
+
+  let missingHtml = "";
+
+  if(missing.length){
+
+    const labels =
+      missing
+        .map(friendlyField)
+        .join(", ");
+
+    missingHtml = `
+      <div class="missing-box">
+
+        <div class="missing-title">
+          Dati da completare
+        </div>
+
+        ${escapeHtml(labels)}
+
+        <br><br>
+
+        Scrivimi il dato mancante nella chat.
+      </div>
+    `;
+
+  }
 
   wrapper.innerHTML = `
     <div class="bubble">
@@ -1249,6 +1425,8 @@ function addPracticePreview(comando){
         "Ho preparato la pratica."
       )}
 
+      ${missingHtml}
+
       <div class="practice-preview">
 
         <div class="practice-title">
@@ -1259,17 +1437,20 @@ function addPracticePreview(comando){
 
           ${practiceField(
             "Cliente",
-            dati.cliente
+            dati.cliente,
+            !dati.cliente
           )}
 
           ${practiceField(
             "Partenza",
-            dati.partenza
+            dati.partenza,
+            !dati.partenza
           )}
 
           ${practiceField(
             "Destinazione",
-            dati.destinazione
+            dati.destinazione,
+            !dati.destinazione
           )}
 
           ${practiceField(
@@ -1307,7 +1488,8 @@ function addPracticePreview(comando){
 
           ${practiceField(
             "Tipo merce",
-            dati.tipo_merce
+            dati.tipo_merce,
+            !dati.tipo_merce
           )}
 
           ${practiceField(
@@ -1327,8 +1509,13 @@ function addPracticePreview(comando){
 
           <button
             class="confirm-btn"
-            type="button">
-            Conferma pratica
+            type="button"
+            ${missing.length ? "disabled" : ""}>
+            ${
+              missing.length
+                ? "Completa i dati"
+                : "Conferma pratica"
+            }
           </button>
 
         </div>
@@ -1352,39 +1539,34 @@ function addPracticePreview(comando){
     "click",
     function(){
 
-      cancelButton.disabled = true;
-      confirmButton.disabled = true;
-
-      addAiMessage(
-        "Operazione annullata."
-      );
-
-    }
-  );
-
-  confirmButton.addEventListener(
-    "click",
-    function(){
-
-      /*
-        IMPORTANTE:
-        per ora NON scriviamo
-        nel database.
-
-        Nel prossimo passaggio
-        collegheremo questo pulsante
-        alla creazione reale.
-      */
+      pendingPractice = null;
 
       cancelButton.disabled = true;
       confirmButton.disabled = true;
 
       addAiMessage(
-        "Conferma ricevuta. La creazione reale della pratica verrà collegata nel prossimo passaggio."
+        "Creazione della pratica annullata."
       );
 
     }
   );
+
+  if(!missing.length){
+
+    confirmButton.addEventListener(
+      "click",
+      async function(){
+
+        await confirmPractice(
+          pendingPractice,
+          confirmButton,
+          cancelButton
+        );
+
+      }
+    );
+
+  }
 
   chat.appendChild(wrapper);
 
@@ -1392,36 +1574,326 @@ function addPracticePreview(comando){
 
 }
 
-function practiceField(
-  label,
-  value
+/* =========================
+   COMPLETA PRATICA
+========================= */
+
+async function completePendingPractice(
+  userMessage
 ){
 
-  const displayValue =
-    value === null ||
-    value === undefined ||
-    value === ""
-      ? "-"
-      : value;
+  if(!pendingPractice){
+    return false;
+  }
 
-  return `
-    <div class="practice-field">
+  const dati =
+    pendingPractice.dati || {};
 
-      <div class="field-label">
-        ${escapeHtml(label)}
-      </div>
+  const missing =
+    requiredMissing(dati);
 
-      <div class="field-value">
-        ${escapeHtml(displayValue)}
-      </div>
+  if(!missing.length){
+    return false;
+  }
 
-    </div>
-  `;
+  /*
+    Prima gestiamo il caso più comune:
+    manca un solo dato.
+
+    Se, ad esempio, manca solo tipo_merce
+    e l'utente scrive "Alimentari",
+    assegniamo direttamente quel valore.
+  */
+
+  if(missing.length === 1){
+
+    const field =
+      missing[0];
+
+    const value =
+      String(
+        userMessage || ""
+      ).trim();
+
+    if(!value){
+      return true;
+    }
+
+    dati[field] =
+      value;
+
+    pendingPractice.dati =
+      dati;
+
+    pendingPractice.campi_mancanti =
+      requiredMissing(dati);
+
+    pendingPractice.risposta =
+      "Perfetto. Ho completato la pratica. Controlla i dati e conferma la creazione.";
+
+    addPracticePreview(
+      pendingPractice
+    );
+
+    return true;
+
+  }
+
+  /*
+    Se mancano più campi, facciamo
+    reinterpretare all'AI l'intera richiesta
+    insieme ai dati già raccolti.
+
+    Per ora chiediamo all'utente di specificare
+    chiaramente i dati mancanti.
+  */
+
+  addAiMessage(
+    "Mancano ancora questi dati: " +
+    missing
+      .map(friendlyField)
+      .join(", ") +
+    ". Scrivili in un unico messaggio, ad esempio: Cliente Amazon, partenza Palermo, destinazione Marsala, tipo merce Alimentari."
+  );
+
+  return true;
 
 }
 
 /* =========================
-   RISPOSTA COMANDO
+   CONFERMA REALE
+========================= */
+
+async function confirmPractice(
+  comando,
+  confirmButton,
+  cancelButton
+){
+
+  if(isConfirming){
+    return;
+  }
+
+  const missing =
+    requiredMissing(
+      comando?.dati || {}
+    );
+
+  if(missing.length){
+
+    addAiMessage(
+      "Prima di creare la pratica devo completare: " +
+      missing
+        .map(friendlyField)
+        .join(", ") +
+      "."
+    );
+
+    return;
+  }
+
+  isConfirming = true;
+
+  confirmButton.disabled = true;
+  cancelButton.disabled = true;
+
+  const originalText =
+    confirmButton.textContent;
+
+  confirmButton.textContent =
+    "Creazione...";
+
+  addTyping();
+
+  try{
+
+    const {
+      response,
+      result
+    } =
+      await callAssistant({
+        azione:
+          "conferma_pratica",
+
+        comando
+      });
+
+    removeTyping();
+
+    if(!response.ok){
+
+      if(
+        result?.error ===
+        "DATI_MANCANTI"
+      ){
+
+        const missingFields =
+          Array.isArray(
+            result.campi_mancanti
+          )
+            ? result.campi_mancanti
+            : [];
+
+        addAiMessage(
+          "Per creare la pratica manca: " +
+          missingFields
+            .map(friendlyField)
+            .join(", ") +
+          "."
+        );
+
+        confirmButton.disabled =
+          false;
+
+        cancelButton.disabled =
+          false;
+
+        confirmButton.textContent =
+          originalText;
+
+        return;
+
+      }
+
+      throw new Error(
+        result?.error ||
+        "Errore durante la creazione della pratica"
+      );
+
+    }
+
+    if(
+      !result?.success ||
+      result?.azione !==
+        "PRATICA_CREATA"
+    ){
+
+      throw new Error(
+        result?.error ||
+        "La pratica non è stata creata"
+      );
+
+    }
+
+    const pratica =
+      result.pratica;
+
+    pendingPractice = null;
+
+    const wrapper =
+      document.createElement("div");
+
+    wrapper.className =
+      "message message-ai";
+
+    wrapper.innerHTML = `
+      <div class="bubble">
+
+        <div class="ai-name">
+          MATRI-MIA AI
+        </div>
+
+        <div class="success-card">
+
+          <div class="success-title">
+            ✓ Pratica creata
+          </div>
+
+          <div class="success-text">
+            La pratica
+            <strong>
+              ${escapeHtml(
+                pratica.numero_pratica
+              )}
+            </strong>
+            è stata creata correttamente.
+          </div>
+
+          <button
+            class="open-btn"
+            type="button">
+            Apri pratica
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+    const openButton =
+      wrapper.querySelector(
+        ".open-btn"
+      );
+
+    openButton.addEventListener(
+      "click",
+      function(){
+
+        /*
+          Il dettaglio pratica esistente
+          utilizza l'ID della pratica.
+        */
+
+        window.location.href =
+          "dettaglio-pratica.html?id=" +
+          encodeURIComponent(
+            pratica.id
+          );
+
+      }
+    );
+
+    chat.appendChild(wrapper);
+
+    scrollChat();
+
+    confirmButton.textContent =
+      "Pratica creata";
+
+    confirmButton.disabled =
+      true;
+
+    cancelButton.disabled =
+      true;
+
+  }
+  catch(error){
+
+    removeTyping();
+
+    console.error(
+      "Errore conferma pratica:",
+      error
+    );
+
+    addAiMessage(
+      "Non sono riuscito a creare la pratica: " +
+      (
+        error.message ||
+        "errore sconosciuto"
+      )
+    );
+
+    confirmButton.disabled =
+      false;
+
+    cancelButton.disabled =
+      false;
+
+    confirmButton.textContent =
+      originalText;
+
+  }
+  finally{
+
+    isConfirming = false;
+
+  }
+
+}
+
+/* =========================
+   RISPOSTA AI
 ========================= */
 
 function handleCommand(comando){
@@ -1447,11 +1919,6 @@ function handleCommand(comando){
     return;
   }
 
-  /*
-    Per ora le altre azioni vengono
-    interpretate ma non ancora eseguite.
-  */
-
   addAiMessage(
     comando.risposta ||
     "Ho interpretato il comando."
@@ -1460,7 +1927,7 @@ function handleCommand(comando){
 }
 
 /* =========================
-   INVIO
+   INVIO MESSAGGIO
 ========================= */
 
 async function sendMessage(
@@ -1491,55 +1958,45 @@ async function sendMessage(
 
   messageInput.value = "";
 
+  /*
+    Se esiste già una pratica in composizione
+    e manca un solo campo obbligatorio,
+    il messaggio viene usato per completarla.
+  */
+
+  if(pendingPractice){
+
+    const handled =
+      await completePendingPractice(
+        messaggio
+      );
+
+    if(handled){
+
+      isSending = false;
+      sendButton.disabled = false;
+      messageInput.focus();
+
+      return;
+
+    }
+
+  }
+
   addTyping();
 
   try{
 
     const {
-      data:{
-        session
-      }
+      response,
+      result
     } =
-      await supabase.auth.getSession();
+      await callAssistant({
+        azione:
+          "interpreta",
 
-    if(!session?.access_token){
-
-      throw new Error(
-        "Sessione scaduta"
-      );
-
-    }
-
-    const response =
-      await fetch(
-        SUPABASE_URL +
-        "/functions/v1/assistente-ai",
-        {
-          method:"POST",
-
-          headers:{
-
-            "Content-Type":
-              "application/json",
-
-            "apikey":
-              SUPABASE_KEY,
-
-            "Authorization":
-              "Bearer " +
-              session.access_token
-
-          },
-
-          body:JSON.stringify({
-            messaggio
-          })
-
-        }
-      );
-
-    const result =
-      await response.json();
+        messaggio
+      });
 
     removeTyping();
 
@@ -1552,10 +2009,10 @@ async function sendMessage(
 
     }
 
-    if(!result.success){
+    if(!result?.success){
 
       throw new Error(
-        result.error ||
+        result?.error ||
         "Operazione non riuscita"
       );
 
@@ -1603,9 +2060,7 @@ async function sendMessage(
 sendButton.addEventListener(
   "click",
   function(){
-
     sendMessage();
-
   }
 );
 
@@ -1657,7 +2112,8 @@ logoutButton.addEventListener(
   "click",
   async function(){
 
-    logoutButton.disabled = true;
+    logoutButton.disabled =
+      true;
 
     await supabase.auth.signOut();
 
