@@ -979,6 +979,7 @@ let isSending = false;
 let isConfirming = false;
 let pendingPractice = null;
 let pendingModification = null;
+let pendingStatusChange = null;
 
 function escapeHtml(value){
   return String(value ?? "")
@@ -1157,7 +1158,7 @@ async function confirmPractice(comando,confirmButton,cancelButton){
 function addPracticeResults(pratiche,title){
   const wrapper=document.createElement("div"); wrapper.className="message message-ai";
   if(!pratiche?.length){ wrapper.innerHTML=`<div class="bubble"><div class="ai-name">MATRI-MIA AI</div>${escapeHtml(title)}<div class="missing-box">Nessuna pratica trovata.</div></div>`; chat.appendChild(wrapper); scrollChat(); return; }
-  const cards=pratiche.map(p=>`<div class="result-card"><div class="result-top"><div class="result-number">${escapeHtml(p.numero_pratica)}</div><div class="result-status">${escapeHtml(p.stato_ai || "SENZA STATO")}</div></div><div class="result-route">${escapeHtml(p.partenza || "-")} → ${escapeHtml(p.destinazione || "-")}</div><div class="result-meta"><strong>${escapeHtml(p.cliente || "-")}</strong><br>Ritiro: ${escapeHtml(formatDate(p.ritiro))} · Consegna: ${escapeHtml(formatDate(p.consegna))}<br>Merce: ${escapeHtml(p.tipo_merce || "-")}${p.peso_kg!=null?` · ${escapeHtml(p.peso_kg)} kg`:""}</div><div class="result-actions"><button class="open-btn result-open" data-numero="${escapeHtml(p.numero_pratica)}" type="button">Apri pratica</button></div></div>`).join("");
+  const cards=pratiche.map(p=>`<div class="result-card"><div class="result-top"><div class="result-number">${escapeHtml(p.numero_pratica)}</div><div class="result-status">${escapeHtml((p.stato || "BOZZA").replaceAll("_"," "))}</div></div><div class="result-route">${escapeHtml(p.partenza || "-")} → ${escapeHtml(p.destinazione || "-")}</div><div class="result-meta"><strong>${escapeHtml(p.cliente || "-")}</strong><br>Ritiro: ${escapeHtml(formatDate(p.ritiro))} · Consegna: ${escapeHtml(formatDate(p.consegna))}<br>Merce: ${escapeHtml(p.tipo_merce || "-")}${p.peso_kg!=null?` · ${escapeHtml(p.peso_kg)} kg`:""}</div><div class="result-actions"><button class="open-btn result-open" data-numero="${escapeHtml(p.numero_pratica)}" type="button">Apri pratica</button></div></div>`).join("");
   wrapper.innerHTML=`<div class="bubble"><div class="ai-name">MATRI-MIA AI</div>${escapeHtml(title)}<div class="result-list">${cards}</div></div>`;
   wrapper.querySelectorAll(".result-open").forEach(btn=>btn.addEventListener("click",()=>openPractice(btn.dataset.numero)));
   chat.appendChild(wrapper); scrollChat();
@@ -1215,15 +1216,113 @@ async function confirmModification(confirm,cancel){
   finally{ isConfirming=false; }
 }
 
+
+function statusLabel(value){
+  return String(value || "BOZZA").replaceAll("_", " ");
+}
+
+function addStatusChangePreview(result){
+  pendingStatusChange = {
+    pratica: result.pratica,
+    stato_attuale: result.stato_attuale,
+    nuovo_stato: result.nuovo_stato
+  };
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "message message-ai";
+  wrapper.innerHTML = `
+    <div class="bubble">
+      <div class="ai-name">MATRI-MIA AI</div>
+      Ho preparato il cambio stato della pratica <strong>${escapeHtml(result.pratica.numero_pratica)}</strong>.
+      <div class="modify-box">
+        <div class="modify-row"><strong>Stato attuale:</strong> ${escapeHtml(statusLabel(result.stato_attuale))}</div>
+        <div class="modify-row"><strong>Nuovo stato:</strong> ${escapeHtml(statusLabel(result.nuovo_stato))}</div>
+      </div>
+      <div class="practice-actions">
+        <button class="cancel-btn" type="button">Annulla</button>
+        <button class="confirm-btn" type="button">Conferma cambio stato</button>
+      </div>
+    </div>`;
+
+  const cancel = wrapper.querySelector(".cancel-btn");
+  const confirm = wrapper.querySelector(".confirm-btn");
+
+  cancel.addEventListener("click", () => {
+    pendingStatusChange = null;
+    cancel.disabled = true;
+    confirm.disabled = true;
+    addAiMessage("Cambio stato annullato.");
+  });
+
+  confirm.addEventListener("click", () => confirmStatusChange(confirm, cancel));
+  chat.appendChild(wrapper);
+  scrollChat();
+}
+
+async function prepareStatusChange(comando){
+  addTyping();
+  try{
+    const {response,result} = await callAssistant({
+      azione:"prepara_cambio_stato",
+      comando
+    });
+    removeTyping();
+    if(!response.ok || !result?.success){
+      throw new Error(result?.error || "Preparazione cambio stato non riuscita");
+    }
+    addStatusChangePreview(result);
+  }catch(error){
+    removeTyping();
+    addAiMessage("Non sono riuscito a preparare il cambio stato: "+(error.message||"errore sconosciuto"));
+  }
+}
+
+async function confirmStatusChange(confirm,cancel){
+  if(!pendingStatusChange || isConfirming) return;
+  isConfirming = true;
+  confirm.disabled = true;
+  cancel.disabled = true;
+  const old = confirm.textContent;
+  confirm.textContent = "Salvataggio...";
+  addTyping();
+
+  try{
+    const {response,result} = await callAssistant({
+      azione:"conferma_cambio_stato",
+      pratica_id:pendingStatusChange.pratica.id,
+      nuovo_stato:pendingStatusChange.nuovo_stato
+    });
+    removeTyping();
+    if(!response.ok || !result?.success){
+      throw new Error(result?.error || "Cambio stato non riuscito");
+    }
+    pendingStatusChange = null;
+    confirm.textContent = "Stato aggiornato";
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "message message-ai";
+    wrapper.innerHTML = `<div class="bubble"><div class="ai-name">MATRI-MIA AI</div><div class="success-card"><div class="success-title">✓ Stato pratica aggiornato</div><div class="success-text">${escapeHtml(result.message || "Stato aggiornato correttamente.")}</div><button class="open-btn" type="button">Apri pratica</button></div></div>`;
+    wrapper.querySelector(".open-btn").addEventListener("click",()=>openPractice(result.pratica.numero_pratica));
+    chat.appendChild(wrapper);
+    scrollChat();
+  }catch(error){
+    removeTyping();
+    addAiMessage("Non sono riuscito a cambiare lo stato: "+(error.message||"errore sconosciuto"));
+    confirm.disabled = false;
+    cancel.disabled = false;
+    confirm.textContent = old;
+  }finally{
+    isConfirming = false;
+  }
+}
+
 async function handleCommand(comando){
   if(!comando){ addAiMessage("Non sono riuscito a interpretare il comando."); return; }
   if(comando.azione==="CREA_PRATICA"){ addPracticePreview(comando); return; }
   if(comando.azione==="CERCA_PRATICHE"){ await executeSearch(comando); return; }
   if(comando.azione==="INFO_OPERATIVE"){ await executeOperationalInfo(comando); return; }
   if(comando.azione==="MODIFICA_PRATICA"){ await prepareModification(comando); return; }
-  if(comando.azione==="CAMBIA_STATO_PRATICA"){
-    addAiMessage("Il cambio stato tramite Assistente AI sarà collegato nel prossimo blocco. Per ora non applico modifiche automatiche allo stato."); return;
-  }
+  if(comando.azione==="CAMBIA_STATO_PRATICA"){ await prepareStatusChange(comando); return; }
   addAiMessage(comando.risposta || "Non ho riconosciuto un'operazione disponibile.");
 }
 
