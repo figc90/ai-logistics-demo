@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Genera documento · MatRi-mIA Logistics</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#6b7280;--line:#dfe5ee;--primary:#183b63;--accent:#18a7a0;--danger:#b42318}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#fff;border-bottom:1px solid var(--line);padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:800;font-size:20px}.brand span{color:var(--accent)} .user{font-size:13px;color:var(--muted)}
+main{max-width:1050px;margin:28px auto;padding:0 18px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:18px}
+h1{margin:0;font-size:28px}.sub{color:var(--muted);margin-top:6px}.back{border:1px solid var(--line);background:#fff;padding:10px 14px;border-radius:9px;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 4px 16px rgba(0,0,0,.035)}
+.card h2{margin:0 0 16px;font-size:18px}.field{margin-bottom:14px}label{display:block;font-size:12px;font-weight:700;color:#4b5563;margin-bottom:6px;text-transform:uppercase;letter-spacing:.03em}
+select,input,textarea{width:100%;border:1px solid #ccd5e1;border-radius:9px;padding:11px 12px;background:#fff;font:inherit}textarea{min-height:88px;resize:vertical}
+button.primary{width:100%;border:0;border-radius:10px;padding:13px 16px;background:var(--primary);color:#fff;font-weight:700;cursor:pointer}
+button.primary:disabled{opacity:.55;cursor:not-allowed}.preview{font-size:14px;line-height:1.55}.row{padding:8px 0;border-bottom:1px solid #edf0f4}.row:last-child{border:0}.k{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700}.v{margin-top:3px;font-weight:600}
+.msg{display:none;margin-bottom:16px;padding:12px 14px;border-radius:9px}.msg.error{display:block;background:#fff0f0;color:var(--danger)}.msg.success{display:block;background:#ecfdf3;color:#067647}
+.extra{display:none}.extra.show{display:block}.open{display:none;margin-top:10px;text-align:center;text-decoration:none;padding:12px;border:1px solid var(--accent);color:#087f7a;border-radius:9px;font-weight:700}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="brand">MatRi-m<span>IA</span> Logistics</div><div id="userInfo" class="user"></div></header>
+<main>
+<div class="top"><div><h1>Genera documento</h1><div class="sub">Un unico motore per DDT, CMR, ordine di trasporto e preventivo.</div></div><button class="back" onclick="history.back()">← Indietro</button></div>
+<div id="message" class="msg"></div>
+<div class="grid">
+<section class="card">
+<h2>Documento</h2>
+<div class="field"><label for="practice">Pratica</label><select id="practice"><option value="">Caricamento...</option></select></div>
+<div class="field"><label for="type">Tipo documento</label><select id="type">
+<option value="DDT">DDT</option><option value="CMR">CMR</option><option value="ORDINE_TRASPORTO">Ordine di trasporto</option><option value="PREVENTIVO">Preventivo</option>
+</select></div>
+
+<div id="ddtFields" class="extra show">
+<div class="field"><label>Causale trasporto</label><input id="causale" value="Trasporto merci"></div>
+<div class="field"><label>Aspetto esteriore beni</label><input id="aspetto" placeholder="Es. pallet, scatole, sfuso"></div>
+<div class="field"><label>Porto</label><input id="porto" placeholder="Es. franco / assegnato"></div>
+</div>
+
+<div id="cmrFields" class="extra">
+<div class="field"><label>Mittente (facoltativo)</label><input id="mittente" placeholder="Se vuoto usa l'azienda"></div>
+<div class="field"><label>Destinatario (facoltativo)</label><input id="destinatario" placeholder="Se vuoto usa il cliente"></div>
+</div>
+
+<div id="orderFields" class="extra">
+<div class="field"><label>Riferimento ordine</label><input id="riferimento" placeholder="Facoltativo"></div>
+<div class="field"><label>Istruzioni operative</label><textarea id="istruzioni"></textarea></div>
+</div>
+
+<div id="quoteFields" class="extra">
+<div class="field"><label>Prezzo di vendita € *</label><input id="prezzo" type="number" min="0" step="0.01" placeholder="Es. 450.00"></div>
+<div class="field"><label>Validità offerta</label><input id="validita" placeholder="Es. 15 giorni"></div>
+<div class="field"><label>Condizioni</label><textarea id="condizioni" placeholder="Es. IVA esclusa, pagamento 30 gg"></textarea></div>
+</div>
+
+<div class="field"><label>Note documento</label><textarea id="note"></textarea></div>
+<button id="generate" class="primary" type="button">Genera e archivia PDF</button>
+<a id="openPdf" class="open" target="_blank" rel="noopener">Apri PDF generato</a>
+</section>
+
+<section class="card"><h2>Anteprima dati</h2><div id="preview" class="preview">Seleziona una pratica.</div></section>
+</div>
+</main>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL="https://sctzockiurjsxzdkctmy.supabase.co";
+const SUPABASE_KEY="sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
+const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const $=id=>document.getElementById(id);
+let profile=null, practices=[];
+
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+function showMessage(kind,text){$("message").className="msg "+kind;$("message").textContent=text;}
+function clearMessage(){$("message").className="msg";$("message").textContent="";}
+function fmt(v){if(!v)return "-";const d=new Date(v);return isNaN(d)?esc(v):d.toLocaleString("it-IT",{dateStyle:"short",timeStyle:"short"});}
+function row(k,v){return `<div class="row"><div class="k">${esc(k)}</div><div class="v">${esc(v||"-")}</div></div>`;}
+
+async function protect(){
+ const {data:{session}}=await supabase.auth.getSession();
+ if(!session?.user){location.replace("login.html");return false;}
+ const {data,error}=await supabase.from("profiles").select("id,email,ruolo,azienda_id").eq("id",session.user.id).single();
+ if(error||!data?.azienda_id){await supabase.auth.signOut();location.replace("login.html");return false;}
+ profile=data;$("userInfo").textContent=data.email||session.user.email||"";
+ return true;
+}
+
+async function loadPractices(){
+ const {data,error}=await supabase.from("pratiche")
+ .select("id,numero_pratica,cliente,partenza,destinazione,ritiro,consegna,tipo_merce,colli,peso_kg,volume_m3,vettore,stato")
+ .order("created_at",{ascending:false});
+ if(error)throw error;
+ practices=data||[];
+ $("practice").innerHTML='<option value="">Seleziona pratica</option>'+practices.map(p=>`<option value="${p.id}">${esc(p.numero_pratica)} · ${esc(p.cliente)} · ${esc(p.partenza)} → ${esc(p.destinazione)}</option>`).join("");
+ const q=new URLSearchParams(location.search);
+ const requested=q.get("pratica")||q.get("pratica_id");
+ if(requested){
+   const found=practices.find(p=>p.id===requested||p.numero_pratica===requested);
+   if(found){$("practice").value=found.id;}
+ }
+ renderPreview();
+}
+
+function renderPreview(){
+ const p=practices.find(x=>x.id===$("practice").value);
+ if(!p){$("preview").innerHTML="Seleziona una pratica.";return;}
+ $("preview").innerHTML=
+ row("Pratica",p.numero_pratica)+row("Cliente",p.cliente)+row("Stato",p.stato)+
+ row("Ritiro",`${p.partenza||"-"} · ${p.ritiro?new Date(p.ritiro).toLocaleString("it-IT"):"-"}`)+
+ row("Consegna",`${p.destinazione||"-"} · ${p.consegna?new Date(p.consegna).toLocaleString("it-IT"):"-"}`)+
+ row("Merce",p.tipo_merce)+row("Colli",p.colli)+row("Peso kg",p.peso_kg)+row("Volume m³",p.volume_m3)+row("Vettore",p.vettore);
+}
+
+function changeType(){
+ ["ddtFields","cmrFields","orderFields","quoteFields"].forEach(id=>$(id).classList.remove("show"));
+ const t=$("type").value;
+ if(t==="DDT")$("ddtFields").classList.add("show");
+ if(t==="CMR")$("cmrFields").classList.add("show");
+ if(t==="ORDINE_TRASPORTO")$("orderFields").classList.add("show");
+ if(t==="PREVENTIVO")$("quoteFields").classList.add("show");
+}
+
+function extras(){
+ const t=$("type").value;
+ const common={note:$("note").value.trim()||null};
+ if(t==="DDT")return {...common,causale:$("causale").value.trim()||null,aspetto_beni:$("aspetto").value.trim()||null,porto:$("porto").value.trim()||null};
+ if(t==="CMR")return {...common,mittente:$("mittente").value.trim()||null,destinatario:$("destinatario").value.trim()||null};
+ if(t==="ORDINE_TRASPORTO")return {...common,riferimento:$("riferimento").value.trim()||null,istruzioni:$("istruzioni").value.trim()||null};
+ if(t==="PREVENTIVO")return {...common,prezzo:$("prezzo").value.trim(),validita:$("validita").value.trim()||null,condizioni:$("condizioni").value.trim()||null};
+ return common;
+}
+
+async function generate(){
+ clearMessage();$("openPdf").style.display="none";
+ const pratica_id=$("practice").value,tipo=$("type").value;
+ if(!pratica_id){showMessage("error","Seleziona una pratica.");return;}
+ if(tipo==="PREVENTIVO"&&!$("prezzo").value.trim()){showMessage("error","Inserisci il prezzo di vendita del preventivo.");return;}
+ const p=practices.find(x=>x.id===pratica_id);
+ if(!confirm(`Confermi la generazione e l'archiviazione di ${tipo.replaceAll("_"," ")} per la pratica ${p?.numero_pratica||""}?`))return;
+ const btn=$("generate"),old=btn.textContent;btn.disabled=true;btn.textContent="Generazione PDF...";
+ try{
+   const {data,error}=await supabase.functions.invoke("genera-documento",{body:{tipo,pratica_id,extra:extras()}});
+   if(error)throw error;
+   if(!data?.ok)throw new Error(data?.error||"Generazione non riuscita.");
+   showMessage("success",`${tipo.replaceAll("_"," ")} generato e archiviato correttamente.`);
+   if(data.signed_url){$("openPdf").href=data.signed_url;$("openPdf").style.display="block";}
+ }catch(e){
+   console.error(e);
+   let detail=e?.message||"Errore durante la generazione.";
+   try{
+     if(e?.context){const body=await e.context.json();if(body?.error)detail=body.error;}
+   }catch{}
+   showMessage("error",detail);
+ }finally{btn.disabled=false;btn.textContent=old;}
+}
+
+$("practice").addEventListener("change",renderPreview);
+$("type").addEventListener("change",changeType);
+$("generate").addEventListener("click",generate);
+
+(async()=>{try{if(await protect())await loadPractices();}catch(e){console.error(e);showMessage("error","Errore: "+e.message);}})();
+</script>
+</body>
+</html>
