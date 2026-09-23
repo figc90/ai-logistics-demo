@@ -1,0 +1,77 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Preventivi | MatRi-mIA Logistics</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#172033;min-height:100vh;visibility:hidden}
+body.auth-ready{visibility:visible}a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}
+.app{min-height:100vh}.sidebar{width:225px;height:100vh;height:100dvh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;display:flex;flex-direction:column;overflow:hidden;z-index:100}
+.sidebar-logo{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08);font-size:18px;font-weight:900}.sidebar-logo small{display:block;color:#82d5d1;font-size:10px;letter-spacing:1.4px;margin-top:3px}
+.sidebar-nav{padding:14px 11px;flex:1;min-height:0;overflow-y:auto}.nav-title{font-size:9px;font-weight:900;letter-spacing:1.2px;color:#7891aa;margin:15px 9px 7px}
+.nav-item{display:flex;align-items:center;gap:10px;color:#d9e4ef;padding:10px 11px;border-radius:9px;font-size:13px;font-weight:700;margin:2px 0}.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.10);color:#fff}.nav-icon{width:18px;text-align:center}
+.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex:0 0 auto;background:#0d2d50}.user-card{background:rgba(255,255,255,.06);border-radius:9px;padding:9px;margin-bottom:8px}.user-label{font-size:8px;color:#89a1b8;font-weight:900}.user-email{font-size:10px;font-weight:700;word-break:break-all;margin-top:3px}.logout{width:100%;min-height:38px;border:1px solid rgba(255,255,255,.13);border-radius:8px;background:rgba(255,255,255,.04);color:#fff;font-weight:800;cursor:pointer}
+.main{margin-left:225px;min-height:100vh}.topbar{height:64px;background:#fff;border-bottom:1px solid #e3e9ef;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:30}.brand{font-weight:900;color:#173459}.top-actions{display:flex;gap:9px}
+.btn{border:0;border-radius:10px;min-height:40px;padding:0 15px;font-weight:850;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn-primary{background:linear-gradient(135deg,#ec4f32,#ff7b1f);color:#fff}.btn-secondary{background:#eaf0f6;color:#173459}.btn-danger{background:#fff1f0;color:#b42318}
+.page{max-width:1280px;margin:0 auto;padding:30px}.eyebrow{font-size:10px;font-weight:900;letter-spacing:1.3px;color:#18a7a0;margin-bottom:8px}.heading{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}.heading h1{font-size:30px;color:#102d4f}.heading p{color:#6c7b8d;margin-top:7px;line-height:1.5}
+.card{background:#fff;border:1px solid #e2e8ef;border-radius:15px;box-shadow:0 8px 24px rgba(24,59,99,.05);padding:20px}.message{display:none;padding:12px 14px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:700}.message.error{display:block;background:#fff1f0;color:#b42318}.message.success{display:block;background:#ecfdf3;color:#027a48}
+input,select,textarea{width:100%;border:1px solid #d8e0e8;border-radius:9px;padding:10px 11px;background:#fff;color:#172033;outline:none}input:focus,select:focus,textarea:focus{border-color:#18a7a0;box-shadow:0 0 0 3px rgba(24,167,160,.10)}
+label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6px}.muted{color:#758399;font-size:12px}.money{font-variant-numeric:tabular-nums}
+.status{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:900;letter-spacing:.3px;background:#eef3f8;color:#40536a}.status.ACCETTATO{background:#e9f9ef;color:#137a3d}.status.RIFIUTATO,.status.ANNULLATO{background:#fff0ef;color:#b42318}.status.INVIATO{background:#eef4ff;color:#3159a6}.status.DA_INVIARE{background:#fff7e8;color:#a15c00}
+@media(max-width:800px){.sidebar{width:70px}.sidebar-logo{font-size:11px;padding:15px 7px;text-align:center}.sidebar-logo small,.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center}.main{margin-left:70px}.page{padding:20px 14px}.topbar{padding:0 14px}.heading{flex-direction:column}}
+
+.toolbar{display:grid;grid-template-columns:1fr 190px 150px;gap:10px;margin-bottom:16px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:950px}th{text-align:left;font-size:9px;letter-spacing:.7px;color:#718095;padding:11px 9px;border-bottom:1px solid #e4e9ef}td{padding:12px 9px;border-bottom:1px solid #edf1f5;font-size:12px}tr.clickable{cursor:pointer}tr.clickable:hover{background:#f8fafc}.route{font-weight:800;color:#173459}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.metric strong{display:block;font-size:22px;color:#173459;margin-top:5px}@media(max-width:950px){.toolbar,.summary{grid-template-columns:1fr 1fr}}@media(max-width:600px){.toolbar,.summary{grid-template-columns:1fr}}
+</style></head><body><div class="app">
+<aside class="sidebar">
+ <div class="sidebar-logo">MatRi-mIA<small>LOGISTICS</small></div>
+ <nav class="sidebar-nav">
+  <div class="nav-title">OPERATIVITÀ</div>
+  <a class="nav-item" href="dashboard.html"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+  <a class="nav-item" href="pratiche.html"><span class="nav-icon">▤</span><span>Pratiche</span></a>
+  <a class="nav-item" href="nuova-pratica.html"><span class="nav-icon">＋</span><span>Nuova pratica</span></a>
+  <div class="nav-title">AUTOMAZIONI</div>
+  <a class="nav-item" href="assistente-ai.html"><span class="nav-icon">✦</span><span>Assistente AI</span></a>
+  <a class="nav-item" href="email-ai.html"><span class="nav-icon">✉</span><span>Email AI</span></a>
+  <a class="nav-item" href="viaggi.html"><span class="nav-icon">↗</span><span>Viaggi</span></a>
+  <div class="nav-title">COMMERCIALE</div>
+  <a class="nav-item active" href="preventivi.html"><span class="nav-icon">€</span><span>Preventivi</span></a>
+  <div class="nav-title">GESTIONE</div>
+  <a class="nav-item" href="anagrafiche.html"><span class="nav-icon">▣</span><span>Anagrafiche</span></a>
+  <a class="nav-item" href="autisti.html"><span class="nav-icon">♟</span><span>Autisti</span></a>
+  <a class="nav-item" href="impostazioni.html"><span class="nav-icon">⚙</span><span>Impostazioni</span></a>
+ </nav>
+ <div class="sidebar-bottom"><div class="user-card"><div class="user-label">UTENTE</div><div id="userEmail" class="user-email">-</div></div><button id="logoutButton" class="logout">Esci</button></div>
+</aside>
+<div class="main"><header class="topbar"><div class="brand">MatRi-mIA Logistics</div><div class="top-actions"><a class="btn btn-primary" href="nuovo-preventivo.html">+ Nuovo preventivo</a></div></header><main class="page">
+<div class="heading"><div><div class="eyebrow">MATRI-MIA · COMMERCIALE</div><h1>Preventivi</h1><p>Controlla prezzi, margini e stato delle offerte commerciali.</p></div></div>
+<div id="message" class="message"></div>
+<div class="summary"><div class="card metric"><span class="muted">PREVENTIVI</span><strong id="mTot">0</strong></div><div class="card metric"><span class="muted">DA INVIARE</span><strong id="mSend">0</strong></div><div class="card metric"><span class="muted">ACCETTATI</span><strong id="mOk">0</strong></div><div class="card metric"><span class="muted">VALORE TOTALE</span><strong id="mValue">€ 0,00</strong></div></div>
+<div class="card"><div class="toolbar"><input id="search" type="search" placeholder="Cerca numero, cliente, partenza o destinazione..."><select id="state"><option value="">Tutti gli stati</option><option>BOZZA</option><option>DA_INVIARE</option><option>INVIATO</option><option>ACCETTATO</option><option>RIFIUTATO</option><option>ANNULLATO</option></select><button id="refresh" class="btn btn-secondary">Aggiorna</button></div>
+<div id="loading" class="muted">Caricamento preventivi...</div><div class="table-wrap"><table id="table" style="display:none"><thead><tr><th>PREVENTIVO</th><th>DATA</th><th>CLIENTE</th><th>TRATTA</th><th>COSTO</th><th>PREZZO</th><th>MARGINE</th><th>STATO</th></tr></thead><tbody id="rows"></tbody></table></div><div id="empty" class="muted" style="display:none;padding:25px 5px">Nessun preventivo trovato.</div></div>
+</main></div></div>
+<script type="module">
+import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+const supabase=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G");
+let all=[];
+const $=id=>document.getElementById(id);
+const eur=n=>new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"}).format(Number(n||0));
+const dt=v=>v?new Date(v+"T12:00:00").toLocaleDateString("it-IT"):"-";
+function msg(t){$("message").textContent=t;$("message").className="message error"}
+async function boot(){
+ const {data:{session}}=await supabase.auth.getSession(); if(!session) return location.replace("login.html");
+ const {data:p,error}=await supabase.from("profiles").select("azienda_id,ruolo,email").eq("id",session.user.id).single();
+ if(error||!p?.azienda_id) return location.replace("login.html");
+ if(String(p.ruolo||"").toLowerCase()==="autista") return location.replace("area-autista.html");
+ $("userEmail").textContent=session.user.email||p.email||"-"; document.body.classList.add("auth-ready"); await load();
+}
+async function load(){
+ $("loading").style.display="block";$("table").style.display="none";$("empty").style.display="none";
+ const {data,error}=await supabase.from("preventivi").select("*").order("created_at",{ascending:false});
+ if(error){msg(error.message);return} all=data||[]; render();
+}
+function render(){
+ const q=$("search").value.trim().toLowerCase(),st=$("state").value;
+ const data=all.filter(x=>(!st||x.stato===st)&&(!q||[x.numero_preventivo,x.cliente,x.partenza,x.destinazione].some(v=>String(v||"").toLowerCase().includes(q))));
+ $("rows").innerHTML=data.map(x=>`<tr class="clickable" data-id="${x.id}"><td><strong>${x.numero_preventivo}</strong></td><td>${dt(x.data_preventivo)}</td><td>${x.cliente}</td><td class="route">${x.partenza} → ${x.destinazione}</td><td class="money">${eur(x.costo_totale)}</td><td class="money"><strong>${eur(x.prezzo_finale)}</strong></td><td>${Number(x.margine_percentuale||0).toFixed(1)}%</td><td><span class="status ${x.stato}">${x.stato.replaceAll("_"," ")}</span></td></tr>`).join("");
+ $("loading").style.display="none";$("table").style.display=data.length?"table":"none";$("empty").style.display=data.length?"none":"block";
+ $("mTot").textContent=all.length;$("mSend").textContent=all.filter(x=>x.stato==="DA_INVIARE").length;$("mOk").textContent=all.filter(x=>x.stato==="ACCETTATO").length;$("mValue").textContent=eur(all.reduce((a,x)=>a+Number(x.prezzo_finale||0),0));
+ document.querySelectorAll("tr[data-id]").forEach(r=>r.onclick=()=>location.href="dettaglio-preventivo.html?id="+encodeURIComponent(r.dataset.id));
+}
+$("search").oninput=render;$("state").onchange=render;$("refresh").onclick=load;$("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};boot();
+</script></body></html>
