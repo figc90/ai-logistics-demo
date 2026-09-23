@@ -1256,6 +1256,30 @@ tbody tr:hover{
   .std-logo img{width:54px!important;height:46px!important;padding:4px!important}
 }
 </style>
+
+<style id="dashboard-safe-enhancement">
+/* Logo: stesso file originale, più grande e leggibile su fondo bianco */
+.std-logo{height:112px!important;min-height:112px!important;padding:11px 14px!important}
+.std-logo img{width:176px!important;height:86px!important;object-fit:contain!important;background:#fff!important;border-radius:11px!important;padding:7px 10px!important;box-shadow:0 5px 18px rgba(0,0,0,.14)!important}
+
+/* Piccolo benvenuto aggiunto senza spostare i contenitori esistenti */
+.dashboard-welcome-kicker{color:#159bd0;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin:0 0 7px}
+
+/* Elementi aggiunti nell'header esistente */
+.dashboard-safe-actions{display:flex;align-items:center;gap:12px;margin-left:auto}
+.dashboard-safe-bell{width:38px;height:38px;border:1px solid #e2e8ef;border-radius:10px;background:#fff;color:#173459;display:flex;align-items:center;justify-content:center;font-size:17px;position:relative}
+.dashboard-safe-bell:after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:#ff603b;border:2px solid #fff;right:6px;top:6px}
+.dashboard-safe-user{display:flex;align-items:center;gap:8px;color:#173459;font-size:12px;font-weight:800}
+.dashboard-safe-avatar{width:34px;height:34px;border-radius:50%;background:#173f6c;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
+.dashboard-safe-name{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dashboard-safe-brand{font-size:18px!important;font-weight:900!important;color:#173459!important;letter-spacing:-.3px!important}
+.dashboard-safe-brand .ia{color:#16a7e0}
+@media(max-width:760px){
+ .std-logo{height:70px!important;min-height:70px!important;padding:7px!important}
+ .std-logo img{width:54px!important;height:52px!important;padding:4px!important}
+ .dashboard-safe-name{display:none}
+}
+</style>
 </head>
 
 <body>
@@ -3277,6 +3301,53 @@ startDashboard();
       console.error("Errore visualizzazione utente sidebar:", error);
     }
   }
+</script>
+
+<script id="dashboard-safe-enhancement-js">
+document.addEventListener("DOMContentLoaded", function(){
+  try{
+    /* Uniforma la scritta MatRi-mIA Logistics se già presente nell'header */
+    const candidates=[...document.querySelectorAll("header *, .topbar *, .header *")];
+    const brand=candidates.find(el => el.children.length===0 && /MatRi-mIA\s+Logistics/i.test((el.textContent||"").trim()));
+    if(brand){
+      brand.classList.add("dashboard-safe-brand");
+      brand.innerHTML='MatRi-m<span class="ia">IA</span> Logistics';
+    }
+
+    /* Benvenuto: viene inserito soltanto davanti al titolo H1 già esistente */
+    const h1=document.querySelector("main h1, .main h1, .content h1, h1");
+    if(h1 && !document.querySelector(".dashboard-welcome-kicker")){
+      const k=document.createElement("div");
+      k.className="dashboard-welcome-kicker";
+      k.textContent="Benvenuto in MatRi-mIA";
+      h1.parentNode.insertBefore(k,h1);
+    }
+
+    /* Campanella + utente: aggiunta al contenitore header esistente, senza spostarlo */
+    const host=document.querySelector("header, .topbar, .header");
+    if(host && !document.querySelector(".dashboard-safe-actions")){
+      const box=document.createElement("div");
+      box.className="dashboard-safe-actions";
+      box.innerHTML='<div class="dashboard-safe-bell" title="Notifiche">&#128276;</div><div class="dashboard-safe-user"><div class="dashboard-safe-avatar">U</div><span class="dashboard-safe-name">Utente</span></div>';
+      host.appendChild(box);
+
+      const updateUser=()=>{
+        const email=(document.getElementById("userEmail")?.textContent||"").trim();
+        if(!email || email==="-" || email.toLowerCase()==="utente") return;
+        const local=email.split("@")[0];
+        const parts=local.split(/[._-]+/).filter(Boolean);
+        const name=parts.map(x=>x.charAt(0).toUpperCase()+x.slice(1)).join(" ")||email;
+        const initials=parts.slice(0,2).map(x=>x.charAt(0).toUpperCase()).join("")||"U";
+        const n=document.querySelector(".dashboard-safe-name"), a=document.querySelector(".dashboard-safe-avatar");
+        if(n)n.textContent=name;if(a)a.textContent=initials;
+      };
+      updateUser();
+      const target=document.getElementById("userEmail");
+      if(target)new MutationObserver(updateUser).observe(target,{childList:true,subtree:true,characterData:true});
+      setTimeout(updateUser,500);
+    }
+  }catch(e){console.warn("Dashboard UI enhancement:",e)}
+});
 </script>
 </body>
 </html>
