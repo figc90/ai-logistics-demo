@@ -24,20 +24,14 @@ body{
   visibility:hidden;
 }
 
-body.auth-ready{
-  visibility:visible;
-}
+body.auth-ready{visibility:visible}
 
 a{
   text-decoration:none;
   color:inherit;
 }
 
-button,input,select,textarea{
-  font:inherit;
-}
-
-/* MAIN */
+button,input,select,textarea{font:inherit}
 
 .app{
   min-height:100vh;
@@ -63,9 +57,9 @@ button,input,select,textarea{
 }
 
 .topbar-brand{
-  color:#173459!important;
-  font-size:14px!important;
-  font-weight:900!important;
+  color:#173459;
+  font-size:14px;
+  font-weight:900;
 }
 
 .back-btn{
@@ -218,6 +212,12 @@ input[readonly]{
   color:#65758b;
 }
 
+.field-helper{
+  color:#8795a8;
+  font-size:11px;
+  line-height:1.4;
+}
+
 /* VETTORE */
 
 .vettore-box{
@@ -226,17 +226,14 @@ input[readonly]{
   gap:8px;
 }
 
-.vettore-helper,
-.field-helper{
+.vettore-helper{
   color:#8795a8;
   font-size:11px;
-  line-height:1.4;
 }
 
 .registry-link{
   display:none;
   width:max-content;
-  max-width:100%;
   color:#176b9c;
   font-size:11px;
   font-weight:900;
@@ -265,11 +262,11 @@ input[readonly]{
 
 .vehicle-grid{
   display:grid;
-  grid-template-columns:2fr 1fr 1fr;
+  grid-template-columns:2fr 1fr 1fr 1fr;
   gap:12px;
 }
 
-.vehicle-cost{
+.vehicle-value{
   height:44px;
   border:1px solid #dce3eb;
   border-radius:10px;
@@ -287,39 +284,81 @@ input[readonly]{
   font-size:11px;
 }
 
-/* COST BOX */
+/* CARBURANTE */
 
-.cost-preview{
+.fuel-panel{
   grid-column:1 / -1;
-  background:linear-gradient(145deg,#f4f9fc,#edf6fa);
-  border:1px solid #d3e8f1;
+  border:1px solid #d9e7ef;
+  background:#fbfdfe;
   border-radius:13px;
-  padding:16px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
+  padding:16px;
 }
 
-.cost-preview-label{
-  color:#526177;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:.5px;
-  text-transform:uppercase;
-}
-
-.cost-preview-sub{
-  color:#8795a8;
-  font-size:10px;
-  margin-top:4px;
-}
-
-.cost-preview-value{
+.fuel-title{
   color:#173459;
-  font-size:24px;
+  font-size:12px;
   font-weight:900;
-  white-space:nowrap;
+  margin-bottom:13px;
+}
+
+.fuel-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+/* COSTI */
+
+.cost-summary{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.cost-box{
+  background:#f6f9fc;
+  border:1px solid #dfe8ef;
+  border-radius:13px;
+  padding:16px;
+}
+
+.cost-box.total{
+  background:linear-gradient(145deg,#10284a,#173f69);
+  border:none;
+}
+
+.cost-label{
+  color:#718096;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.cost-value{
+  color:#173459;
+  font-size:23px;
+  font-weight:900;
+}
+
+.cost-box.total .cost-label{
+  color:#a9c5dc;
+}
+
+.cost-box.total .cost-value{
+  color:#fff;
+}
+
+.cost-note{
+  margin-top:6px;
+  color:#93a0b1;
+  font-size:9px;
+}
+
+.cost-box.total .cost-note{
+  color:#a9c5dc;
 }
 
 /* ACTIONS */
@@ -391,7 +430,6 @@ input[readonly]{
   display:flex;
   flex-direction:column;
   z-index:1000;
-  font-family:Arial,Helvetica,sans-serif;
 }
 
 .std-logo{
@@ -413,14 +451,12 @@ input[readonly]{
   background:#fff;
   border-radius:11px;
   padding:6px 9px;
-  box-shadow:0 5px 18px rgba(0,0,0,.14);
 }
 
 .std-nav{
   padding:7px 10px 10px;
   flex:1;
   overflow-y:auto;
-  overflow-x:hidden;
 }
 
 .std-title{
@@ -438,7 +474,7 @@ input[readonly]{
   min-height:37px;
   padding:7px 10px;
   border-radius:9px;
-  color:#d9e4ef!important;
+  color:#d9e4ef;
   font-size:13px;
   font-weight:700;
   margin:1px 0;
@@ -447,7 +483,7 @@ input[readonly]{
 .std-item:hover,
 .std-item.active{
   background:#ffffff19;
-  color:#fff!important;
+  color:#fff;
 }
 
 .std-icon{
@@ -468,7 +504,6 @@ input[readonly]{
   padding:7px 9px;
   border-radius:8px;
   margin-bottom:7px;
-  color:#fff;
 }
 
 .std-logout{
@@ -482,7 +517,18 @@ input[readonly]{
   cursor:pointer;
 }
 
-/* MOBILE */
+@media(max-width:900px){
+
+  .vehicle-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .fuel-grid,
+  .cost-summary{
+    grid-template-columns:1fr;
+  }
+
+}
 
 @media(max-width:760px){
 
@@ -510,7 +556,6 @@ input[readonly]{
 
   .std-item{
     justify-content:center;
-    padding:8px 0;
   }
 
   .main{
@@ -523,17 +568,14 @@ input[readonly]{
   }
 
   .form-grid,
-  .vehicle-grid{
+  .vehicle-grid,
+  .fuel-grid,
+  .cost-summary{
     grid-template-columns:1fr;
   }
 
   .form-group.full{
     grid-column:auto;
-  }
-
-  .cost-preview{
-    flex-direction:column;
-    align-items:flex-start;
   }
 
 }
@@ -617,7 +659,6 @@ input[readonly]{
 
 </aside>
 
-
 <div class="main">
 
 <header class="topbar">
@@ -632,7 +673,6 @@ MatRi-mIA Logistics · Viaggi
 
 </header>
 
-
 <main class="content">
 
 <div class="eyebrow">MATRI-MIA · AUTOMAZIONI</div>
@@ -644,7 +684,6 @@ Programma un trasporto partendo da una pratica esistente.
 </div>
 
 <div id="messageBox" class="message"></div>
-
 
 <section class="practice-card">
 
@@ -660,7 +699,6 @@ Seleziona una pratica
 
 </section>
 
-
 <section class="card">
 
 <div class="card-header">
@@ -673,7 +711,6 @@ Seleziona una pratica
 
 <div class="form-grid">
 
-
 <div class="form-group full">
 
 <label for="practiceSelect">Pratica</label>
@@ -684,14 +721,11 @@ Seleziona una pratica
 
 </div>
 
-
 <!-- VETTORE -->
 
 <div class="form-group full">
 
-<label for="vettoreSelect">
-Vettore da anagrafica
-</label>
+<label for="vettoreSelect">Vettore da anagrafica</label>
 
 <div class="vettore-box">
 
@@ -718,7 +752,6 @@ Seleziona un vettore registrato oppure inserisci manualmente il nome.
 
 </div>
 
-
 <!-- MEZZO -->
 
 <div class="vehicle-panel">
@@ -731,26 +764,17 @@ MEZZO DALLA FLOTTA
 
 <div class="form-group">
 
-<label for="mezzoSelect">
-Mezzo
-</label>
+<label for="mezzoSelect">Mezzo</label>
 
 <select id="mezzoSelect">
-
-<option value="">
-Nessun mezzo selezionato
-</option>
-
+<option value="">Nessun mezzo selezionato</option>
 </select>
 
 </div>
 
-
 <div class="form-group">
 
-<label>
-Targa
-</label>
+<label>Targa</label>
 
 <input
 id="targaTrattore"
@@ -759,17 +783,26 @@ placeholder="-">
 
 </div>
 
-
 <div class="form-group">
 
-<label>
-Costo mezzo €/km
-</label>
+<label>Costo mezzo €/km</label>
 
 <div
 id="costoKmDisplay"
-class="vehicle-cost">
+class="vehicle-value">
 € 0,000 / km
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>Consumo medio</label>
+
+<div
+id="consumoDisplay"
+class="vehicle-value">
+0,00 km/l
 </div>
 
 </div>
@@ -782,34 +815,23 @@ Seleziona un mezzo della flotta per collegarlo al viaggio.
 
 </div>
 
-
 <div class="form-group">
 
-<label for="autista">
-Autista
-</label>
-
+<label for="autista">Autista</label>
 <input id="autista" type="text">
 
 </div>
 
-
 <div class="form-group">
 
-<label for="telefonoAutista">
-Telefono autista
-</label>
-
+<label for="telefonoAutista">Telefono autista</label>
 <input id="telefonoAutista" type="tel">
 
 </div>
 
-
 <div class="form-group">
 
-<label for="stato">
-Stato
-</label>
+<label for="stato">Stato</label>
 
 <select id="stato">
 
@@ -837,7 +859,6 @@ ANNULLATO
 
 </div>
 
-
 <div class="form-group">
 
 <label for="targaRimorchio">
@@ -847,7 +868,6 @@ Targa rimorchio
 <input id="targaRimorchio" type="text">
 
 </div>
-
 
 <div class="form-group">
 
@@ -859,7 +879,6 @@ Partenza prevista
 
 </div>
 
-
 <div class="form-group">
 
 <label for="dataArrivo">
@@ -869,7 +888,6 @@ Arrivo previsto
 <input id="dataArrivo" type="datetime-local">
 
 </div>
-
 
 <div class="form-group">
 
@@ -885,7 +903,6 @@ step="1">
 
 </div>
 
-
 <div class="form-group">
 
 <label for="costoPrevisto">
@@ -899,32 +916,130 @@ min="0"
 step="0.01">
 
 <div class="field-helper">
-Escluso carburante.
+Calcolato da km × costo mezzo €/km.
 </div>
 
 </div>
 
+<!-- CARBURANTE -->
 
-<div class="cost-preview">
+<div class="fuel-panel">
 
-<div>
-
-<div class="cost-preview-label">
-Costo mezzo del viaggio
+<div class="fuel-title">
+CARBURANTE
 </div>
 
-<div class="cost-preview-sub">
-Km previsti × costo mezzo €/km · carburante escluso
+<div class="fuel-grid">
+
+<div class="form-group">
+
+<label for="consumoViaggio">
+Consumo km/l
+</label>
+
+<input
+id="consumoViaggio"
+type="number"
+min="0"
+step="0.01"
+placeholder="Es. 3.20">
+
+<div class="field-helper">
+Recuperato automaticamente dal mezzo. Puoi modificarlo per questo viaggio.
 </div>
 
 </div>
 
-<div id="costPreview" class="cost-preview-value">
+<div class="form-group">
+
+<label for="prezzoCarburante">
+Prezzo carburante €/l
+</label>
+
+<input
+id="prezzoCarburante"
+type="number"
+min="0"
+step="0.001"
+placeholder="Es. 1.700">
+
+</div>
+
+<div class="form-group">
+
+<label>Litri previsti</label>
+
+<input
+id="litriPrevisti"
+type="text"
+readonly
+value="0,00">
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIEPILOGO COSTI -->
+
+<div class="cost-summary">
+
+<div class="cost-box">
+
+<div class="cost-label">
+Costo mezzo
+</div>
+
+<div
+id="costoMezzoDisplay"
+class="cost-value">
 € 0,00
 </div>
 
+<div class="cost-note">
+Carburante e autista esclusi
 </div>
 
+</div>
+
+<div class="cost-box">
+
+<div class="cost-label">
+Costo carburante
+</div>
+
+<div
+id="costoCarburanteDisplay"
+class="cost-value">
+€ 0,00
+</div>
+
+<div class="cost-note">
+Litri previsti × prezzo €/l
+</div>
+
+</div>
+
+<div class="cost-box total">
+
+<div class="cost-label">
+Costo totale viaggio
+</div>
+
+<div
+id="costoTotaleDisplay"
+class="cost-value">
+€ 0,00
+</div>
+
+<div class="cost-note">
+Mezzo + carburante · autista escluso
+</div>
+
+</div>
+
+</div>
 
 <div class="form-group full">
 
@@ -937,7 +1052,6 @@ Note operative
 </div>
 
 </div>
-
 
 <div class="actions">
 
@@ -968,12 +1082,10 @@ Crea viaggio
 
 </div>
 
-
 <script type="module">
 
 import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
 
 const SUPABASE_URL =
 "https://sctzockiurjsxzdkctmy.supabase.co";
@@ -987,77 +1099,14 @@ createClient(
   SUPABASE_KEY
 );
 
-
-/* PARAMETRI */
-
 const params =
-new URLSearchParams(
-  window.location.search
-);
+new URLSearchParams(window.location.search);
 
 const requestedPractice =
 params.get("pratica");
 
-
-/* ELEMENTI */
-
-const userEmail =
-document.getElementById("userEmail");
-
-const logoutButton =
-document.getElementById("logoutButton");
-
-const practiceSelect =
-document.getElementById("practiceSelect");
-
-const practiceNumber =
-document.getElementById("practiceNumber");
-
-const practiceRoute =
-document.getElementById("practiceRoute");
-
-const practiceClient =
-document.getElementById("practiceClient");
-
-const tripForm =
-document.getElementById("tripForm");
-
-const saveButton =
-document.getElementById("saveButton");
-
-const messageBox =
-document.getElementById("messageBox");
-
-const vettoreSelect =
-document.getElementById("vettoreSelect");
-
-const vettoreInput =
-document.getElementById("vettore");
-
-const vettoreRegistryLink =
-document.getElementById("vettoreRegistryLink");
-
-const mezzoSelect =
-document.getElementById("mezzoSelect");
-
-const targaTrattore =
-document.getElementById("targaTrattore");
-
-const costoKmDisplay =
-document.getElementById("costoKmDisplay");
-
-const vehicleInfo =
-document.getElementById("vehicleInfo");
-
-const kmPrevistiInput =
-document.getElementById("kmPrevisti");
-
-const costoPrevistoInput =
-document.getElementById("costoPrevisto");
-
-const costPreview =
-document.getElementById("costPreview");
-
+const $ =
+id => document.getElementById(id);
 
 let currentUser = null;
 let currentProfile = null;
@@ -1070,9 +1119,6 @@ let selectedVettoreId = null;
 let selectedMezzoId = null;
 let selectedMezzoCostoKm = 0;
 
-
-/* UTILITY */
-
 function emptyToNull(value){
 
   const clean =
@@ -1081,7 +1127,6 @@ function emptyToNull(value){
   return clean || null;
 
 }
-
 
 function normalizeText(value){
 
@@ -1093,18 +1138,34 @@ function normalizeText(value){
 
 }
 
-
 function numberValue(value){
 
   const n =
   Number(value);
 
   return Number.isFinite(n)
-    ? n
-    : 0;
+  ? n
+  : 0;
 
 }
 
+function numberOrNull(value){
+
+  const clean =
+  String(value ?? "").trim();
+
+  if(clean === ""){
+    return null;
+  }
+
+  const n =
+  Number(clean);
+
+  return Number.isFinite(n)
+  ? n
+  : null;
+
+}
 
 function euro(value){
 
@@ -1116,52 +1177,57 @@ function euro(value){
       minimumFractionDigits:2,
       maximumFractionDigits:2
     }
-  ).format(
-    numberValue(value)
-  );
+  ).format(numberValue(value));
 
 }
-
 
 function euroKm(value){
 
   return (
     "€ " +
     numberValue(value)
-      .toFixed(3)
-      .replace(".",",") +
+    .toFixed(3)
+    .replace(".",",") +
     " / km"
   );
 
 }
 
+function consumoText(value){
+
+  return (
+    numberValue(value)
+    .toFixed(2)
+    .replace(".",",") +
+    " km/l"
+  );
+
+}
 
 function showMessage(text,type="error"){
 
-  messageBox.style.display =
+  $("messageBox").style.display =
   "block";
 
-  messageBox.className =
+  $("messageBox").className =
   "message " +
   (
     type === "info"
-      ? "message-info"
-      : "message-error"
+    ? "message-info"
+    : "message-error"
   );
 
-  messageBox.textContent =
+  $("messageBox").textContent =
   text;
 
 }
 
-
 function hideMessage(){
 
-  messageBox.style.display =
+  $("messageBox").style.display =
   "none";
 
 }
-
 
 function toLocalInput(value){
 
@@ -1189,8 +1255,7 @@ function toLocalInput(value){
 
 }
 
-
-/* AUTENTICAZIONE */
+/* AUTH */
 
 async function protectPage(){
 
@@ -1247,7 +1312,7 @@ async function protectPage(){
   currentProfile =
   profile;
 
-  userEmail.textContent =
+  $("userEmail").textContent =
   profile.email ||
   currentUser.email ||
   "-";
@@ -1260,10 +1325,7 @@ async function protectPage(){
 
 }
 
-
-/* LOGOUT */
-
-logoutButton.addEventListener(
+$("logoutButton").addEventListener(
 "click",
 async ()=>{
 
@@ -1275,8 +1337,7 @@ async ()=>{
 
 });
 
-
-/* CARICA VETTORI */
+/* VETTORI */
 
 async function loadVettori(){
 
@@ -1292,10 +1353,7 @@ async function loadVettori(){
     ragione_sociale,
     attiva
   `)
-  .eq(
-    "attiva",
-    true
-  )
+  .eq("attiva",true)
   .in(
     "tipo",
     [
@@ -1315,13 +1373,12 @@ async function loadVettori(){
   vettori =
   data || [];
 
-  vettoreSelect.innerHTML =
+  $("vettoreSelect").innerHTML =
   `<option value="">
-    Nessun vettore collegato
-   </option>`;
+  Nessun vettore collegato
+  </option>`;
 
-  vettori.forEach(
-  vettore=>{
+  vettori.forEach(vettore=>{
 
     const option =
     document.createElement(
@@ -1334,16 +1391,224 @@ async function loadVettori(){
     option.textContent =
     vettore.ragione_sociale;
 
-    vettoreSelect.appendChild(
-      option
-    );
+    $("vettoreSelect")
+    .appendChild(option);
 
   });
 
 }
 
+function findVettore(id){
 
-/* CARICA FLOTTA */
+  return vettori.find(
+    item =>
+    String(item.id) ===
+    String(id)
+  ) || null;
+
+}
+
+function setVettoreLink(){
+
+  if(selectedVettoreId){
+
+    $("vettoreRegistryLink")
+    .style.display =
+    "inline-block";
+
+    $("vettoreRegistryLink").href =
+    "dettaglio-anagrafica.html?id=" +
+    encodeURIComponent(
+      selectedVettoreId
+    );
+
+  }else{
+
+    $("vettoreRegistryLink")
+    .style.display =
+    "none";
+
+    $("vettoreRegistryLink")
+    .removeAttribute("href");
+
+  }
+
+}
+
+function clearVettore(){
+
+  selectedVettoreId = null;
+
+  $("vettoreSelect").value = "";
+  $("vettore").value = "";
+
+  setVettoreLink();
+
+}
+
+function applyVettoreById(
+  id,
+  fallbackName=""
+){
+
+  if(!id){
+
+    selectedVettoreId = null;
+
+    $("vettoreSelect").value = "";
+    $("vettore").value =
+    fallbackName || "";
+
+    setVettoreLink();
+
+    return;
+
+  }
+
+  const vettore =
+  findVettore(id);
+
+  if(vettore){
+
+    selectedVettoreId =
+    vettore.id;
+
+    $("vettoreSelect").value =
+    vettore.id;
+
+    $("vettore").value =
+    vettore.ragione_sociale;
+
+  }else{
+
+    selectedVettoreId = id;
+
+    $("vettoreSelect").value = "";
+
+    $("vettore").value =
+    fallbackName || "";
+
+  }
+
+  setVettoreLink();
+
+}
+
+function tryMatchVettoreByName(){
+
+  const name =
+  normalizeText(
+    $("vettore").value
+  );
+
+  if(!name){
+
+    selectedVettoreId = null;
+
+    $("vettoreSelect").value = "";
+
+    setVettoreLink();
+
+    return;
+
+  }
+
+  const match =
+  vettori.find(
+    item =>
+    normalizeText(
+      item.ragione_sociale
+    ) === name
+  );
+
+  if(match){
+
+    selectedVettoreId =
+    match.id;
+
+    $("vettoreSelect").value =
+    match.id;
+
+  }else{
+
+    selectedVettoreId = null;
+
+    $("vettoreSelect").value = "";
+
+  }
+
+  setVettoreLink();
+
+}
+
+$("vettoreSelect").addEventListener(
+"change",
+()=>{
+
+  const vettore =
+  findVettore(
+    $("vettoreSelect").value
+  );
+
+  if(!vettore){
+
+    selectedVettoreId = null;
+
+    setVettoreLink();
+
+    return;
+
+  }
+
+  selectedVettoreId =
+  vettore.id;
+
+  $("vettore").value =
+  vettore.ragione_sociale;
+
+  setVettoreLink();
+
+});
+
+$("vettore").addEventListener(
+"input",
+()=>{
+
+  if(!selectedVettoreId){
+    return;
+  }
+
+  const vettore =
+  findVettore(
+    selectedVettoreId
+  );
+
+  if(
+    !vettore ||
+    normalizeText(
+      $("vettore").value
+    ) !==
+    normalizeText(
+      vettore.ragione_sociale
+    )
+  ){
+
+    selectedVettoreId = null;
+
+    $("vettoreSelect").value = "";
+
+    setVettoreLink();
+
+  }
+
+});
+
+$("vettore").addEventListener(
+"blur",
+tryMatchVettoreByName
+);
+
+/* FLOTTA */
 
 async function loadMezzi(){
 
@@ -1360,7 +1625,8 @@ async function loadMezzi(){
     modello,
     tipo_mezzo,
     attivo,
-    costo_mezzo_km
+    costo_mezzo_km,
+    consumo_km_l
   `)
   .eq(
     "azienda_id",
@@ -1382,13 +1648,12 @@ async function loadMezzi(){
   mezzi =
   data || [];
 
-  mezzoSelect.innerHTML =
+  $("mezzoSelect").innerHTML =
   `<option value="">
-    Nessun mezzo selezionato
-   </option>`;
+  Nessun mezzo selezionato
+  </option>`;
 
-  mezzi.forEach(
-  mezzo=>{
+  mezzi.forEach(mezzo=>{
 
     const option =
     document.createElement(
@@ -1398,7 +1663,7 @@ async function loadMezzi(){
     option.value =
     mezzo.id;
 
-    const descrizione =
+    option.textContent =
     [
       mezzo.targa,
       mezzo.marca,
@@ -1407,257 +1672,12 @@ async function loadMezzi(){
     .filter(Boolean)
     .join(" · ");
 
-    option.textContent =
-    descrizione || "Mezzo";
-
-    mezzoSelect.appendChild(
-      option
-    );
+    $("mezzoSelect")
+    .appendChild(option);
 
   });
 
 }
-
-
-/* VETTORE */
-
-function findVettore(id){
-
-  return vettori.find(
-    item =>
-    String(item.id) ===
-    String(id)
-  ) || null;
-
-}
-
-
-function setVettoreLink(){
-
-  if(selectedVettoreId){
-
-    vettoreRegistryLink.style.display =
-    "inline-block";
-
-    vettoreRegistryLink.href =
-    "dettaglio-anagrafica.html?id=" +
-    encodeURIComponent(
-      selectedVettoreId
-    );
-
-  }
-  else{
-
-    vettoreRegistryLink.style.display =
-    "none";
-
-    vettoreRegistryLink.removeAttribute(
-      "href"
-    );
-
-  }
-
-}
-
-
-function clearVettore(){
-
-  selectedVettoreId =
-  null;
-
-  vettoreSelect.value =
-  "";
-
-  vettoreInput.value =
-  "";
-
-  setVettoreLink();
-
-}
-
-
-function applyVettoreById(
-  id,
-  fallbackName=""
-){
-
-  if(!id){
-
-    selectedVettoreId =
-    null;
-
-    vettoreSelect.value =
-    "";
-
-    vettoreInput.value =
-    fallbackName || "";
-
-    setVettoreLink();
-
-    return;
-
-  }
-
-  const vettore =
-  findVettore(id);
-
-  if(vettore){
-
-    selectedVettoreId =
-    vettore.id;
-
-    vettoreSelect.value =
-    vettore.id;
-
-    vettoreInput.value =
-    vettore.ragione_sociale;
-
-  }
-  else{
-
-    selectedVettoreId =
-    id;
-
-    vettoreSelect.value =
-    "";
-
-    vettoreInput.value =
-    fallbackName || "";
-
-  }
-
-  setVettoreLink();
-
-}
-
-
-function tryMatchVettoreByName(){
-
-  const name =
-  normalizeText(
-    vettoreInput.value
-  );
-
-  if(!name){
-
-    selectedVettoreId =
-    null;
-
-    vettoreSelect.value =
-    "";
-
-    setVettoreLink();
-
-    return;
-
-  }
-
-  const match =
-  vettori.find(
-    item =>
-    normalizeText(
-      item.ragione_sociale
-    ) === name
-  );
-
-  if(match){
-
-    selectedVettoreId =
-    match.id;
-
-    vettoreSelect.value =
-    match.id;
-
-  }
-  else{
-
-    selectedVettoreId =
-    null;
-
-    vettoreSelect.value =
-    "";
-
-  }
-
-  setVettoreLink();
-
-}
-
-
-vettoreSelect.addEventListener(
-"change",
-function(){
-
-  const vettore =
-  findVettore(
-    vettoreSelect.value
-  );
-
-  if(!vettore){
-
-    selectedVettoreId =
-    null;
-
-    setVettoreLink();
-
-    return;
-
-  }
-
-  selectedVettoreId =
-  vettore.id;
-
-  vettoreInput.value =
-  vettore.ragione_sociale;
-
-  setVettoreLink();
-
-});
-
-
-vettoreInput.addEventListener(
-"input",
-function(){
-
-  if(!selectedVettoreId){
-    return;
-  }
-
-  const vettore =
-  findVettore(
-    selectedVettoreId
-  );
-
-  if(
-    !vettore ||
-    normalizeText(
-      vettoreInput.value
-    ) !==
-    normalizeText(
-      vettore.ragione_sociale
-    )
-  ){
-
-    selectedVettoreId =
-    null;
-
-    vettoreSelect.value =
-    "";
-
-    setVettoreLink();
-
-  }
-
-});
-
-
-vettoreInput.addEventListener(
-"blur",
-tryMatchVettoreByName
-);
-
-
-/* MEZZO */
 
 function findMezzo(id){
 
@@ -1669,37 +1689,34 @@ function findMezzo(id){
 
 }
 
-
 function clearMezzo(){
 
-  selectedMezzoId =
-  null;
+  selectedMezzoId = null;
+  selectedMezzoCostoKm = 0;
 
-  selectedMezzoCostoKm =
-  0;
+  $("mezzoSelect").value = "";
+  $("targaTrattore").value = "";
 
-  mezzoSelect.value =
-  "";
-
-  targaTrattore.value =
-  "";
-
-  costoKmDisplay.textContent =
+  $("costoKmDisplay").textContent =
   euroKm(0);
 
-  vehicleInfo.textContent =
+  $("consumoDisplay").textContent =
+  consumoText(0);
+
+  $("consumoViaggio").value = "";
+
+  $("vehicleInfo").textContent =
   "Seleziona un mezzo della flotta per collegarlo al viaggio.";
 
-  calculateVehicleCost();
+  calculateCosts();
 
 }
-
 
 function applyMezzo(){
 
   const mezzo =
   findMezzo(
-    mezzoSelect.value
+    $("mezzoSelect").value
   );
 
   if(!mezzo){
@@ -1717,13 +1734,26 @@ function applyMezzo(){
     mezzo.costo_mezzo_km
   );
 
-  targaTrattore.value =
+  const consumo =
+  numberValue(
+    mezzo.consumo_km_l
+  );
+
+  $("targaTrattore").value =
   mezzo.targa || "";
 
-  costoKmDisplay.textContent =
+  $("costoKmDisplay").textContent =
   euroKm(
     selectedMezzoCostoKm
   );
+
+  $("consumoDisplay").textContent =
+  consumoText(consumo);
+
+  $("consumoViaggio").value =
+  consumo > 0
+  ? consumo
+  : "";
 
   const description =
   [
@@ -1734,70 +1764,112 @@ function applyMezzo(){
   .filter(Boolean)
   .join(" · ");
 
-  vehicleInfo.textContent =
+  $("vehicleInfo").textContent =
   description ||
   "Mezzo collegato alla flotta.";
 
-  calculateVehicleCost();
+  calculateCosts();
 
 }
 
-
-function calculateVehicleCost(){
-
-  const km =
-  numberValue(
-    kmPrevistiInput.value
-  );
-
-  const total =
-  km *
-  selectedMezzoCostoKm;
-
-  costPreview.textContent =
-  euro(total);
-
-  /*
-   * Se abbiamo un mezzo selezionato,
-   * aggiorniamo automaticamente
-   * il costo previsto.
-   */
-
-  if(selectedMezzoId){
-
-    costoPrevistoInput.value =
-    total > 0
-      ? total.toFixed(2)
-      : "";
-
-  }
-
-}
-
-
-mezzoSelect.addEventListener(
+$("mezzoSelect").addEventListener(
 "change",
 applyMezzo
 );
 
+/* CALCOLO COSTI */
 
-kmPrevistiInput.addEventListener(
+function calculateCosts(){
+
+  const km =
+  numberValue(
+    $("kmPrevisti").value
+  );
+
+  const costoMezzo =
+  km *
+  selectedMezzoCostoKm;
+
+  const consumo =
+  numberValue(
+    $("consumoViaggio").value
+  );
+
+  const prezzoCarburante =
+  numberValue(
+    $("prezzoCarburante").value
+  );
+
+  let litri = 0;
+
+  if(
+    km > 0 &&
+    consumo > 0
+  ){
+
+    litri =
+    km / consumo;
+
+  }
+
+  const costoCarburante =
+  litri *
+  prezzoCarburante;
+
+  const costoTotale =
+  costoMezzo +
+  costoCarburante;
+
+  /*
+   * Manteniamo costo_previsto
+   * compatibile con la vecchia
+   * struttura: per ora contiene
+   * il costo del mezzo.
+   */
+
+  if(selectedMezzoId){
+
+    $("costoPrevisto").value =
+    costoMezzo > 0
+    ? costoMezzo.toFixed(2)
+    : "";
+
+  }
+
+  $("litriPrevisti").value =
+  litri.toFixed(2)
+  .replace(".",",");
+
+  $("costoMezzoDisplay")
+  .textContent =
+  euro(costoMezzo);
+
+  $("costoCarburanteDisplay")
+  .textContent =
+  euro(costoCarburante);
+
+  $("costoTotaleDisplay")
+  .textContent =
+  euro(costoTotale);
+
+}
+
+$("kmPrevisti").addEventListener(
 "input",
-calculateVehicleCost
+calculateCosts
 );
 
+$("consumoViaggio").addEventListener(
+"input",
+calculateCosts
+);
 
-/*
- * La targa resta modificabile per
- * compatibilità con la struttura
- * precedente del viaggio.
- *
- * Il vero collegamento con la flotta
- * è comunque mezzo_id.
- */
+$("prezzoCarburante").addEventListener(
+"input",
+calculateCosts
+);
 
-
-/* CARICA PRATICHE */
+/* PRATICHE */
 
 async function loadPractices(){
 
@@ -1807,9 +1879,7 @@ async function loadPractices(){
   } =
   await supabase
   .from("viaggi")
-  .select(
-    "pratica_id"
-  );
+  .select("pratica_id");
 
   if(tripError){
     throw tripError;
@@ -1859,13 +1929,12 @@ async function loadPractices(){
     )
   );
 
-  practiceSelect.innerHTML =
+  $("practiceSelect").innerHTML =
   `<option value="">
-    Seleziona una pratica...
-   </option>`;
+  Seleziona una pratica...
+  </option>`;
 
-  practices.forEach(
-  pratica=>{
+  practices.forEach(pratica=>{
 
     const option =
     document.createElement(
@@ -1891,9 +1960,8 @@ async function loadPractices(){
       "-"
     );
 
-    practiceSelect.appendChild(
-      option
-    );
+    $("practiceSelect")
+    .appendChild(option);
 
   });
 
@@ -1912,13 +1980,12 @@ async function loadPractices(){
 
     if(found){
 
-      practiceSelect.value =
+      $("practiceSelect").value =
       found.id;
 
       updatePracticeCard();
 
-    }
-    else{
+    }else{
 
       showMessage(
         "La pratica indicata non è disponibile oppure ha già un viaggio."
@@ -1930,9 +1997,6 @@ async function loadPractices(){
 
 }
 
-
-/* AGGIORNA PRATICA */
-
 function updatePracticeCard(){
 
   const pratica =
@@ -1940,19 +2004,19 @@ function updatePracticeCard(){
     pratica =>
     String(pratica.id) ===
     String(
-      practiceSelect.value
+      $("practiceSelect").value
     )
   );
 
   if(!pratica){
 
-    practiceNumber.textContent =
+    $("practiceNumber").textContent =
     "Seleziona una pratica";
 
-    practiceRoute.textContent =
+    $("practiceRoute").textContent =
     "-";
 
-    practiceClient.textContent =
+    $("practiceClient").textContent =
     "-";
 
     clearVettore();
@@ -1961,26 +2025,22 @@ function updatePracticeCard(){
 
   }
 
-  practiceNumber.textContent =
-  pratica.numero_pratica ||
-  "-";
+  $("practiceNumber").textContent =
+  pratica.numero_pratica || "-";
 
-  practiceRoute.textContent =
+  $("practiceRoute").textContent =
   (
-    pratica.partenza ||
-    "-"
+    pratica.partenza || "-"
   ) +
   " → " +
   (
-    pratica.destinazione ||
-    "-"
+    pratica.destinazione || "-"
   );
 
-  practiceClient.textContent =
+  $("practiceClient").textContent =
   "Cliente: " +
   (
-    pratica.cliente ||
-    "-"
+    pratica.cliente || "-"
   );
 
   if(pratica.vettore_id){
@@ -1990,45 +2050,32 @@ function updatePracticeCard(){
       pratica.vettore || ""
     );
 
-  }
-  else if(pratica.vettore){
+  }else if(pratica.vettore){
 
-    selectedVettoreId =
-    null;
+    selectedVettoreId = null;
 
-    vettoreInput.value =
+    $("vettore").value =
     pratica.vettore;
 
-    vettoreSelect.value =
+    $("vettoreSelect").value =
     "";
 
     tryMatchVettoreByName();
 
-  }
-  else{
+  }else{
 
     clearVettore();
 
   }
 
-  const dataPartenzaInput =
-  document.getElementById(
-    "dataPartenza"
-  );
-
-  const dataArrivoInput =
-  document.getElementById(
-    "dataArrivo"
-  );
-
-  dataPartenzaInput.value =
+  $("dataPartenza").value =
   pratica.ritiro
   ? toLocalInput(
       pratica.ritiro
     )
   : "";
 
-  dataArrivoInput.value =
+  $("dataArrivo").value =
   pratica.consegna
   ? toLocalInput(
       pratica.consegna
@@ -2037,21 +2084,18 @@ function updatePracticeCard(){
 
 }
 
-
-practiceSelect.addEventListener(
+$("practiceSelect").addEventListener(
 "change",
-function(){
+()=>{
 
   hideMessage();
-
   updatePracticeCard();
 
 });
 
+/* SALVATAGGIO */
 
-/* CREA VIAGGIO */
-
-tripForm.addEventListener(
+$("tripForm").addEventListener(
 "submit",
 async event=>{
 
@@ -2060,7 +2104,7 @@ async event=>{
   hideMessage();
 
   const praticaId =
-  practiceSelect.value;
+  $("practiceSelect").value;
 
   if(!praticaId){
 
@@ -2076,16 +2120,12 @@ async event=>{
 
   const dataPartenza =
   emptyToNull(
-    document.getElementById(
-      "dataPartenza"
-    ).value
+    $("dataPartenza").value
   );
 
   const dataArrivo =
   emptyToNull(
-    document.getElementById(
-      "dataArrivo"
-    ).value
+    $("dataArrivo").value
   );
 
   if(
@@ -2102,6 +2142,46 @@ async event=>{
     return;
 
   }
+
+  const km =
+  numberValue(
+    $("kmPrevisti").value
+  );
+
+  const consumo =
+  numberValue(
+    $("consumoViaggio").value
+  );
+
+  const prezzo =
+  numberValue(
+    $("prezzoCarburante").value
+  );
+
+  const costoMezzo =
+  selectedMezzoId
+  ? km * selectedMezzoCostoKm
+  : numberValue(
+      $("costoPrevisto").value
+    );
+
+  const litri =
+  (
+    km > 0 &&
+    consumo > 0
+  )
+  ? km / consumo
+  : 0;
+
+  const costoCarburante =
+  litri * prezzo;
+
+  const costoTotale =
+  costoMezzo +
+  costoCarburante;
+
+  const saveButton =
+  $("saveButton");
 
   saveButton.disabled =
   true;
@@ -2120,54 +2200,37 @@ async event=>{
       praticaId,
 
       stato:
-      document.getElementById(
-        "stato"
-      ).value,
+      $("stato").value,
 
       vettore:
       emptyToNull(
-        vettoreInput.value
+        $("vettore").value
       ),
 
       vettore_id:
       selectedVettoreId,
-
-      /*
-       * Collegamento reale alla flotta.
-       */
 
       mezzo_id:
       selectedMezzoId,
 
       autista:
       emptyToNull(
-        document.getElementById(
-          "autista"
-        ).value
+        $("autista").value
       ),
 
       telefono_autista:
       emptyToNull(
-        document.getElementById(
-          "telefonoAutista"
-        ).value
+        $("telefonoAutista").value
       ),
-
-      /*
-       * Manteniamo anche la targa
-       * testuale per compatibilità.
-       */
 
       targa_trattore:
       emptyToNull(
-        targaTrattore.value
+        $("targaTrattore").value
       ),
 
       targa_rimorchio:
       emptyToNull(
-        document.getElementById(
-          "targaRimorchio"
-        ).value
+        $("targaRimorchio").value
       ),
 
       data_partenza:
@@ -2177,26 +2240,65 @@ async event=>{
       dataArrivo,
 
       km_previsti:
-      emptyToNull(
-        kmPrevistiInput.value
+      numberOrNull(
+        $("kmPrevisti").value
       ),
 
       /*
-       * Per ora questo valore è
-       * SOLO il costo mezzo.
-       * Carburante escluso.
+       * Compatibilità con
+       * il vecchio campo.
        */
 
       costo_previsto:
-      emptyToNull(
-        costoPrevistoInput.value
-      ),
+      costoMezzo > 0
+      ? costoMezzo
+      : null,
+
+      /*
+       * Nuovo sistema costi.
+       */
+
+      consumo_km_l:
+      consumo > 0
+      ? consumo
+      : null,
+
+      prezzo_carburante_l:
+      prezzo > 0
+      ? prezzo
+      : null,
+
+      litri_previsti:
+      litri > 0
+      ? Number(
+          litri.toFixed(2)
+        )
+      : null,
+
+      costo_carburante_previsto:
+      costoCarburante > 0
+      ? Number(
+          costoCarburante.toFixed(2)
+        )
+      : null,
+
+      costo_mezzo_previsto:
+      costoMezzo > 0
+      ? Number(
+          costoMezzo.toFixed(2)
+        )
+      : null,
+
+      costo_totale_previsto:
+      costoTotale > 0
+      ? Number(
+          costoTotale.toFixed(2)
+        )
+      : null,
 
       note:
       emptyToNull(
-        document.getElementById(
-          "note"
-        ).value
+        $("note").value
       ),
 
       created_by:
@@ -2242,8 +2344,7 @@ async event=>{
         "Questa pratica ha già un viaggio programmato."
       );
 
-    }
-    else{
+    }else{
 
       showMessage(
         "Errore durante la creazione del viaggio: " +
@@ -2262,9 +2363,6 @@ async event=>{
 
 });
 
-
-/* AVVIO */
-
 async function start(){
 
   try{
@@ -2276,17 +2374,8 @@ async function start(){
       return;
     }
 
-    /*
-     * Ordine:
-     * 1. vettori
-     * 2. flotta
-     * 3. pratiche
-     */
-
     await loadVettori();
-
     await loadMezzi();
-
     await loadPractices();
 
   }
