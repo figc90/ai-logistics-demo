@@ -1,0 +1,4 @@
+AUDIT RIMOZIONE MAKE
+
+Ricerca residui tecnici nell’intero progetto:
+ZERO riferimenti a webhook Make / make.com / costanti webhook.

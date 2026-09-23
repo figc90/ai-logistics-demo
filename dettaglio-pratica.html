@@ -542,6 +542,30 @@ footer strong{
 .document-open:hover{
   background:#eef3f8;
 }
+.document-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.document-delete{
+  min-height:36px;
+  padding:0 13px;
+  border:1px solid #ffd0cc;
+  border-radius:9px;
+  background:#fff1f0;
+  color:#b42318;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+.document-delete:hover{
+  background:#ffe5e2;
+}
+.document-delete:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
 .documents-empty{
   padding:16px;
   border:1px dashed #d7e0e9;
@@ -556,13 +580,43 @@ footer strong{
   font-size:12px;
   line-height:1.5;
 }
+
+.documents-header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.generate-document-button{
+  min-height:38px;
+  padding:0 14px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#173f69,#1f729d);
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.generate-document-button:hover{
+  transform:translateY(-1px);
+}
+.generate-document-button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
 @media(max-width:600px){
   .document-row{
     align-items:flex-start;
     flex-direction:column;
   }
-  .document-open{
+  .document-actions{
     width:100%;
+  }
+  .document-open,
+  .document-delete{
+    flex:1;
   }
 }
 
@@ -916,8 +970,109 @@ footer strong{
   }
 }
 
+
+/* =========================================================
+   SIDEBAR UNIFICATA - STESSO STILE DASHBOARD
+========================================================= */
+.sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);color:#fff;position:fixed;left:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:100;border-right:1px solid rgba(255,255,255,.05)}
+.sidebar-logo{min-height:152px;padding:14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-logo-link{width:100%;max-width:195px;min-height:118px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#fff,#f4f8fc);border:1px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);transition:.2s ease}
+.sidebar-logo-link:hover{transform:translateY(-1px)}
+.sidebar-logo img{width:175px;max-width:90%;height:auto;display:block}
+.sidebar-nav{padding:24px 12px;flex:1;overflow-y:auto;min-height:0}
+.nav-section{margin-bottom:28px}
+.nav-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.8px;margin:0 5px 9px}
+.nav-item{min-height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:10px;color:#c7d3e1;font-size:14px;font-weight:700;margin-bottom:5px;transition:.18s ease;text-decoration:none}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}
+.nav-icon{width:18px;text-align:center;font-size:16px;opacity:.9}
+.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;background:#0d2d50}
+.user-card{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 12px;margin-bottom:9px}
+.user-label{color:#7994af;font-size:9px;font-weight:900;letter-spacing:1.3px;margin-bottom:4px}
+.user-email{color:#fff;font-size:12px;font-weight:700;overflow-wrap:anywhere}
+.logout-btn{width:100%;min-height:40px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
+.logout-btn:hover{background:rgba(255,255,255,.09);color:#fff}
+@media(max-width:760px){.sidebar{width:72px}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px;border-radius:10px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center;padding:0}.sidebar-bottom{padding:8px}.logout-btn{font-size:0}.logout-btn::after{content:"↪";font-size:18px}}
+
 </style>
 
+<script type="module" src="js/admin-role-guard.js"></script>
+
+<style id="matrimia-standard-sidebar-css">
+.std-sidebar{width:225px;height:100vh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;display:flex;flex-direction:column;z-index:1000;font-family:Arial,Helvetica,sans-serif}
+.std-logo{height:62px;min-height:62px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #ffffff15;padding:5px 10px}
+.std-logo img{display:block;width:50px;height:46px;object-fit:contain}
+.std-nav{padding:7px 10px 10px;flex:1;overflow-y:auto;overflow-x:hidden}
+.std-title{font-size:9px;color:#7891aa;font-weight:900;letter-spacing:1.15px;margin:11px 9px 5px}
+.std-item{display:flex;align-items:center;gap:10px;min-height:37px;padding:7px 10px;border-radius:9px;color:#d9e4ef!important;font-size:13px;font-weight:700;margin:1px 0;text-decoration:none!important}
+.std-item:hover,.std-item.active{background:#ffffff19;color:#fff!important}
+.std-icon{width:18px;text-align:center;flex:0 0 18px}
+.std-bottom{padding:9px 10px;border-top:1px solid #ffffff15}
+.std-user{font-size:10px;word-break:break-all;background:#ffffff10;padding:7px 9px;border-radius:8px;margin-bottom:7px;color:#fff}
+.std-logout{width:100%;height:34px;border:1px solid #ffffff22;background:#ffffff09;color:#fff;border-radius:8px;font-weight:800;cursor:pointer}
+@media(max-width:760px){.std-sidebar{width:70px}.std-logo{padding:5px}.std-logo img{width:44px;height:42px}.std-title,.std-item span:not(.std-icon),.std-user{display:none}.std-item{justify-content:center;padding:8px 0}.std-bottom{padding:8px}.std-logout{font-size:11px}}
+</style>
+<style id="preventivo-pratica-css">
+.preventivo-pratica-card{background:#fff;border:1px solid #e2e8ef;border-radius:14px;padding:16px 18px;margin:0 0 18px;box-shadow:0 7px 22px rgba(24,59,99,.06)}
+.preventivo-pratica-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.preventivo-pratica-label{font-size:10px;font-weight:900;letter-spacing:.7px;color:#7b8999;margin-bottom:5px}.preventivo-pratica-title{font-size:17px;font-weight:900;color:#173459}.preventivo-pratica-meta{font-size:12px;color:#6f7f91;margin-top:4px}.preventivo-pratica-link{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 14px;border-radius:9px;background:#eef3f8;color:#173459!important;text-decoration:none!important;font-size:12px;font-weight:900}
+</style>
+<style id="matrimia-brand-uniform-css">
+.std-logo{
+  height:68px!important;
+  min-height:68px!important;
+  padding:7px 12px!important;
+  background:transparent!important;
+}
+.std-logo img{
+  width:96px!important;
+  height:52px!important;
+  object-fit:contain!important;
+  background:#fff!important;
+  border-radius:9px!important;
+  padding:5px 9px!important;
+  box-shadow:0 2px 8px rgba(0,0,0,.10)!important;
+}
+/* Brand della topbar uniforme al formato di preventivi.html */
+.topbar-brand,.app-topbar-brand,.brand,.header-brand,.main-brand{
+  color:#173459!important;
+  font-size:14px!important;
+  font-weight:900!important;
+  letter-spacing:0!important;
+  line-height:1!important;
+}
+@media(max-width:760px){
+  .std-logo{height:62px!important;min-height:62px!important;padding:6px!important}
+  .std-logo img{width:54px!important;height:46px!important;padding:4px!important}
+}
+</style>
+
+<style id="matrimia-logo-large-override">
+/* Logo MatRi-mIA più grande, senza modificare la struttura delle pagine */
+.std-logo{
+  height:116px!important;
+  min-height:116px!important;
+  padding:10px 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.std-logo img{
+  width:180px!important;
+  max-width:180px!important;
+  height:90px!important;
+  max-height:90px!important;
+  object-fit:contain!important;
+  background:#fff!important;
+  border-radius:11px!important;
+  padding:6px 9px!important;
+  box-sizing:border-box!important;
+  box-shadow:0 5px 18px rgba(0,0,0,.14)!important;
+}
+@media(max-width:760px){
+  .std-logo{height:70px!important;min-height:70px!important;padding:6px!important}
+  .std-logo img{width:56px!important;max-width:56px!important;height:54px!important;max-height:54px!important;padding:4px!important}
+}
+</style>
 </head>
 
 <body>
@@ -926,65 +1081,7 @@ footer strong{
 
 <div class="app-shell">
 
-<aside class="app-sidebar">
-
-  <div class="app-sidebar-logo">
-    <a href="dashboard.html" class="app-sidebar-logo-link" aria-label="Vai alla Dashboard">
-      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
-    </a>
-  </div>
-
-  <nav class="app-sidebar-nav">
-
-    <div class="app-nav-section">
-      <div class="app-nav-title">OPERATIVITÀ</div>
-
-      <a href="dashboard.html" class="app-nav-item">
-        <span class="app-nav-icon">▦</span>
-        <span>Dashboard</span>
-      </a>
-
-      <a href="pratiche.html" class="app-nav-item active">
-        <span class="app-nav-icon">▤</span>
-        <span>Pratiche</span>
-      </a>
-
-      <a href="nuova-pratica.html" class="app-nav-item">
-        <span class="app-nav-icon">＋</span>
-        <span>Nuova pratica</span>
-      </a>
-    </div>
-
-    <div class="app-nav-section">
-      <div class="app-nav-title">AUTOMAZIONI</div>
-
-      <a href="email-ai.html" class="app-nav-item">
-        <span class="app-nav-icon">✉</span>
-        <span>Email AI</span>
-      </a>
-
-      <a href="viaggi.html" class="app-nav-item">
-  <span class="app-nav-icon">↗</span>
-  <span>Viaggi</span>
-</a>
-    </div>
-
-    <div class="app-nav-section">
-      <div class="app-nav-title">GESTIONE</div>
-
-      <a href="anagrafiche.html" class="app-nav-item">
-        <span class="app-nav-icon">▣</span>
-        <span>Anagrafiche</span>
-      </a>
-    </div>
-
-  </nav>
-
-  <div class="app-sidebar-bottom">
-    <button id="logoutButton" class="app-logout-btn" type="button">Esci</button>
-  </div>
-
-</aside>
+<aside class="std-sidebar"><a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a><nav class="std-nav"><div class="std-title">OPERATIVITÀ</div><a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a><a href="pratiche.html" class="std-item active"><span class="std-icon">▤</span><span>Pratiche</span></a><a href="nuova-pratica.html" class="std-item"><span class="std-icon">＋</span><span>Nuova pratica</span></a><div class="std-title">AUTOMAZIONI</div><a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a><a href="email-ai.html" class="std-item"><span class="std-icon">✉</span><span>Email AI</span></a><a href="viaggi.html" class="std-item"><span class="std-icon">↗</span><span>Viaggi</span></a><div class="std-title">COMMERCIALE</div><a href="preventivi.html" class="std-item"><span class="std-icon">€</span><span>Preventivi</span></a><div class="std-title">GESTIONE</div><a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a><a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a><a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a></nav><div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div></aside>
 
 <div class="app-main">
 
@@ -1028,9 +1125,7 @@ footer strong{
 
     <div class="heading-main">
 
-      <div class="eyebrow">
-        MATRI-MIA · DETTAGLIO PRATICA
-      </div>
+      <div class="eyebrow">MATRI-MIA · OPERATIVITÀ</div>
 
       <h1 id="practiceId">-</h1>
 
@@ -1046,10 +1141,14 @@ footer strong{
 
     <div class="status-area">
 
-      <div
-        id="statusBadge"
-        class="status-badge status-default">
-        -
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center">
+        <span style="font-size:11px;font-weight:900;color:#758399">STATO OPERATIVO</span>
+        <div id="operationalStatusBadge" class="status-badge status-default">-</div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center">
+        <span style="font-size:11px;font-weight:900;color:#758399">STATO AI</span>
+        <div id="statusBadge" class="status-badge status-default">-</div>
       </div>
 
       <div class="practice-actions">
@@ -1089,7 +1188,8 @@ footer strong{
   </div>
 
 
-  <div
+  <section id="linkedQuoteCard" class="preventivo-pratica-card" style="display:none"><div class="preventivo-pratica-row"><div><div class="preventivo-pratica-label">PREVENTIVO COLLEGATO</div><div id="linkedQuoteTitle" class="preventivo-pratica-title">-</div><div id="linkedQuoteMeta" class="preventivo-pratica-meta"></div></div><a id="linkedQuoteOpen" class="preventivo-pratica-link" href="#">Apri preventivo</a></div></section>
+<div
     id="practiceLayout"
     class="layout">
 
@@ -1396,8 +1496,14 @@ footer strong{
       </section>
 
       <section id="documentsCard" class="card">
-        <div class="card-header">
+        <div class="card-header documents-header-row">
           <h2>Documenti della pratica</h2>
+          <button
+            id="generateDocumentButton"
+            type="button"
+            class="generate-document-button">
+            + Genera documento
+          </button>
         </div>
         <div class="card-body">
           <div id="documentsList" class="documents-list">
@@ -1474,6 +1580,8 @@ const supabase =
   );
 
 
+/* ANALISI AI TRAMITE SUPABASE EDGE FUNCTION */
+
 
 /* ============================
    PARAMETRI
@@ -1540,10 +1648,39 @@ const aiContent =
 const documentsList =
   document.getElementById("documentsList");
 
+const generateDocumentButton =
+  document.getElementById("generateDocumentButton");
+
 
 let currentUser = null;
 let currentProfile = null;
 let currentPractice = null;
+
+
+/* ============================
+   GENERA DOCUMENTO
+============================ */
+
+generateDocumentButton.addEventListener(
+  "click",
+  function(){
+
+    if(!currentPractice?.id){
+      showMessage(
+        "error",
+        "Pratica non disponibile."
+      );
+      return;
+    }
+
+    const target =
+      "genera-documento.html?pratica_id=" +
+      encodeURIComponent(currentPractice.id);
+
+    window.location.href = target;
+
+  }
+);
 
 
 /* ============================
@@ -1827,6 +1964,29 @@ logoutButton.addEventListener(
 
 
 /* ============================
+   STATO OPERATIVO
+============================ */
+
+function setOperationalStatus(value){
+  const badge = document.getElementById("operationalStatusBadge");
+  if(!badge) return;
+  const status = String(value || "BOZZA").trim().toUpperCase();
+  const labels = {
+    BOZZA:"BOZZA",
+    DA_PROGRAMMARE:"DA PROGRAMMARE",
+    PROGRAMMATA:"PROGRAMMATA",
+    IN_CORSO:"IN CORSO",
+    COMPLETATA:"COMPLETATA",
+    ANNULLATA:"ANNULLATA"
+  };
+  badge.textContent = labels[status] || status || "-";
+  badge.className = "status-badge status-default";
+  if(status === "COMPLETATA") badge.className = "status-badge status-ok";
+  else if(status === "IN_CORSO" || status === "PROGRAMMATA") badge.className = "status-badge status-warning";
+  else if(status === "ANNULLATA") badge.className = "status-badge status-error";
+}
+
+/* ============================
    STATO AI
 ============================ */
 
@@ -2095,6 +2255,10 @@ function renderPractice(pratica){
       (pratica.partenza || "-") +
       " → " +
       (pratica.destinazione || "-");
+
+  setOperationalStatus(
+    pratica.stato
+  );
 
   setStatus(
     pratica.stato_ai
@@ -2704,7 +2868,7 @@ async function reanalyzePractice(){
     const responseText =
       typeof responseData === "string"
         ? responseData
-        : String(responseData?.analysis || responseData?.text || "");
+        : String(responseData?.analysis || responseData?.analisi || responseData?.text || responseData?.message || "");
 
     const result =
       parseAIResponse(
@@ -2828,31 +2992,125 @@ async function deletePractice(){
     return;
   }
 
+  hideMessage();
+
   const numero =
     currentPractice.numero_pratica ||
     "";
+
+  /*
+   * =====================================================
+   * 1. CONTROLLO VIAGGI COLLEGATI
+   * =====================================================
+   *
+   * IMPORTANTISSIMO:
+   * prima di eliminare documenti o file controlliamo
+   * se la pratica è utilizzata da uno o più viaggi.
+   *
+   * Se esiste un viaggio non tocchiamo assolutamente
+   * nulla.
+   */
+
+  try{
+
+    const {
+      data:linkedTrips,
+      error:tripsError
+    } =
+      await supabase
+        .from("viaggi")
+        .select("id")
+        .eq(
+          "pratica_id",
+          currentPractice.id
+        )
+        .limit(1);
+
+    if(tripsError){
+      throw new Error(
+        "Impossibile verificare i viaggi collegati: " +
+        tripsError.message
+      );
+    }
+
+    if(
+      linkedTrips &&
+      linkedTrips.length > 0
+    ){
+
+      showMessage(
+        "error",
+        "Impossibile eliminare la pratica " +
+        numero +
+        " perché è collegata a un viaggio. " +
+        "Gestisci prima il viaggio collegato."
+      );
+
+      return;
+    }
+
+  }
+  catch(error){
+
+    console.error(
+      "Errore controllo viaggi:",
+      error
+    );
+
+    showMessage(
+      "error",
+      "Impossibile verificare se la pratica è collegata a un viaggio. " +
+      "La pratica non è stata eliminata."
+    );
+
+    return;
+  }
+
+
+  /*
+   * =====================================================
+   * 2. PRIMA CONFERMA
+   * =====================================================
+   */
 
   const confirmed =
     window.confirm(
       "Vuoi eliminare definitivamente la pratica " +
       numero +
-      "?\n\nVerranno eliminati anche i documenti collegati alla pratica e i relativi file dallo Storage. Questa operazione non può essere annullata."
+      "?\n\n" +
+      "Verranno eliminati anche i documenti collegati " +
+      "alla pratica e i relativi file dallo Storage.\n\n" +
+      "Questa operazione non può essere annullata."
     );
 
   if(!confirmed){
     return;
   }
 
+
+  /*
+   * =====================================================
+   * 3. SECONDA CONFERMA
+   * =====================================================
+   */
+
   const secondConfirmation =
     window.confirm(
-      "Confermi l'eliminazione definitiva della pratica e dei suoi documenti?"
+      "Confermi l'eliminazione definitiva della pratica " +
+      numero +
+      " e dei suoi documenti?"
     );
 
   if(!secondConfirmation){
     return;
   }
 
-  hideMessage();
+
+  /*
+   * =====================================================
+   * 4. BLOCCO PULSANTI
+   * =====================================================
+   */
 
   deleteButton.disabled =
     true;
@@ -2863,17 +3121,19 @@ async function deletePractice(){
   reanalyzeButton.disabled =
     true;
 
+  const oldDeleteText =
+    deleteButton.textContent;
+
   deleteButton.textContent =
     "Eliminazione...";
+
 
   try{
 
     /*
-     * 1. Recuperiamo tutti i documenti collegati
-     *    alla pratica prima di cancellare qualsiasi dato.
-     *
-     * Grazie alle RLS vengono restituiti solamente
-     * i documenti appartenenti all'azienda dell'utente.
+     * ===================================================
+     * 5. RECUPERO DOCUMENTI
+     * ===================================================
      */
 
     const {
@@ -2882,17 +3142,21 @@ async function deletePractice(){
     } =
       await supabase
         .from("documenti")
-        .select("id,storage_path,viaggio_id")
+        .select(
+          "id,storage_path,viaggio_id"
+        )
         .eq(
           "pratica_id",
           currentPractice.id
         );
 
     if(documentsError){
+
       throw new Error(
         "Impossibile leggere i documenti collegati: " +
         documentsError.message
       );
+
     }
 
     const linkedDocuments =
@@ -2900,17 +3164,49 @@ async function deletePractice(){
 
 
     /*
-     * 2. Eliminiamo prima i file fisici dal bucket privato.
+     * ===================================================
+     * 6. CONTROLLO DIFENSIVO DOCUMENTI ↔ VIAGGI
+     * ===================================================
      *
-     * Se Storage restituisce un errore interrompiamo tutto:
-     * la pratica e i record documenti rimangono nel database,
-     * evitando di creare file orfani.
+     * In teoria siamo già sicuri perché sopra abbiamo
+     * verificato che non esistano viaggi collegati alla
+     * pratica.
+     *
+     * Manteniamo comunque questo controllo per evitare
+     * di eliminare accidentalmente un documento che
+     * risultasse collegato anche a un viaggio.
+     */
+
+    const documentLinkedToTrip =
+      linkedDocuments.some(
+        document =>
+          document.viaggio_id
+      );
+
+    if(documentLinkedToTrip){
+
+      throw new Error(
+        "Uno o più documenti risultano collegati a un viaggio. " +
+        "Nessun dato è stato eliminato."
+      );
+
+    }
+
+
+    /*
+     * ===================================================
+     * 7. ELIMINAZIONE FILE DALLO STORAGE
+     * ===================================================
      */
 
     const storagePaths =
       linkedDocuments
-        .map(document => document.storage_path)
-        .filter(path => Boolean(path));
+        .map(
+          document =>
+            document.storage_path
+        )
+        .filter(Boolean);
+
 
     if(storagePaths.length > 0){
 
@@ -2920,30 +3216,34 @@ async function deletePractice(){
         await supabase
           .storage
           .from("documenti")
-          .remove(storagePaths);
+          .remove(
+            storagePaths
+          );
 
       if(storageError){
+
         throw new Error(
           "Impossibile eliminare i file dallo Storage: " +
           storageError.message
         );
+
       }
 
     }
 
 
     /*
-     * 3. Ora eliminiamo i record dei documenti.
-     *
-     * Il vincolo pratica_id è RESTRICT, quindi la pratica
-     * non potrà essere eliminata finché questi record esistono.
+     * ===================================================
+     * 8. ELIMINAZIONE RECORD DOCUMENTI
+     * ===================================================
      */
 
     if(linkedDocuments.length > 0){
 
       const documentIds =
         linkedDocuments.map(
-          document => document.id
+          document =>
+            document.id
         );
 
       const {
@@ -2952,24 +3252,28 @@ async function deletePractice(){
         await supabase
           .from("documenti")
           .delete()
-          .in("id",documentIds);
+          .in(
+            "id",
+            documentIds
+          );
 
       if(deleteDocumentsError){
+
         throw new Error(
-          "I file sono stati eliminati dallo Storage, ma non è stato possibile eliminare i record dei documenti: " +
+          "File eliminati dallo Storage, ma non è stato possibile " +
+          "eliminare i record dei documenti: " +
           deleteDocumentsError.message
         );
+
       }
 
     }
 
 
     /*
-     * 4. Eliminiamo infine la pratica.
-     *
-     * Eventuali viaggi collegati possono comunque impedire
-     * l'eliminazione in base ai vincoli presenti nel database.
-     * In quel caso mostriamo l'errore e non nascondiamo il problema.
+     * ===================================================
+     * 9. ELIMINAZIONE PRATICA
+     * ===================================================
      */
 
     const {
@@ -2984,12 +3288,21 @@ async function deletePractice(){
         );
 
     if(practiceError){
+
       throw new Error(
-        "Documenti eliminati, ma non è stato possibile eliminare la pratica: " +
+        "Documenti eliminati, ma non è stato possibile eliminare " +
+        "la pratica: " +
         practiceError.message
       );
+
     }
 
+
+    /*
+     * ===================================================
+     * 10. COMPLETATO
+     * ===================================================
+     */
 
     window.location.replace(
       "pratiche.html"
@@ -3006,7 +3319,10 @@ async function deletePractice(){
     showMessage(
       "error",
       "Errore durante l'eliminazione: " +
-      error.message
+      (
+        error?.message ||
+        "errore sconosciuto"
+      )
     );
 
     deleteButton.disabled =
@@ -3019,11 +3335,12 @@ async function deletePractice(){
       false;
 
     deleteButton.textContent =
-      "Elimina";
+      oldDeleteText;
 
   }
 
 }
+
 
 
 
@@ -3064,6 +3381,47 @@ async function openPracticeDocument(storagePath){
   catch(error){
     console.error("Errore apertura documento:",error);
     showMessage("error","Impossibile aprire il documento: " + error.message);
+  }
+}
+
+async function deletePracticeDocument(documentItem){
+  if(!documentItem?.id){ return; }
+
+  const fileName = documentItem.nome_file || "questo documento";
+  const confirmed = window.confirm(
+    `Eliminare definitivamente "${fileName}"?\n\nIl file e il relativo record verranno rimossi. Questa operazione non può essere annullata.`
+  );
+  if(!confirmed){ return; }
+
+  try{
+    hideMessage();
+
+    // Prima eliminiamo il file fisico dallo Storage.
+    if(documentItem.storage_path){
+      const { error:storageError } =
+        await supabase.storage
+          .from("documenti")
+          .remove([documentItem.storage_path]);
+
+      if(storageError){ throw storageError; }
+    }
+
+    // Poi eliminiamo il record dal database.
+    const { error:dbError } =
+      await supabase
+        .from("documenti")
+        .delete()
+        .eq("id",documentItem.id);
+
+    if(dbError){ throw dbError; }
+
+    showMessage("success","Documento eliminato correttamente.");
+    await loadPracticeDocuments();
+await loadLinkedQuote();
+  }
+  catch(error){
+    console.error("Errore eliminazione documento:",error);
+    showMessage("error","Impossibile eliminare il documento: " + error.message);
   }
 }
 
@@ -3132,6 +3490,9 @@ async function loadPracticeDocuments(){
         main.appendChild(meta);
       }
 
+      const actions = document.createElement("div");
+      actions.className = "document-actions";
+
       const openButton = document.createElement("button");
       openButton.type = "button";
       openButton.className = "document-open";
@@ -3140,8 +3501,27 @@ async function loadPracticeDocuments(){
         openPracticeDocument(documentItem.storage_path);
       });
 
+      const deleteDocumentButton = document.createElement("button");
+      deleteDocumentButton.type = "button";
+      deleteDocumentButton.className = "document-delete";
+      deleteDocumentButton.textContent = "Elimina";
+      deleteDocumentButton.addEventListener("click",async()=>{
+        deleteDocumentButton.disabled = true;
+        openButton.disabled = true;
+        try{
+          await deletePracticeDocument(documentItem);
+        }
+        finally{
+          deleteDocumentButton.disabled = false;
+          openButton.disabled = false;
+        }
+      });
+
+      actions.appendChild(openButton);
+      actions.appendChild(deleteDocumentButton);
+
       row.appendChild(main);
-      row.appendChild(openButton);
+      row.appendChild(actions);
       documentsList.appendChild(row);
     });
   }
@@ -3290,6 +3670,19 @@ deleteButton.addEventListener(
    CARICAMENTO PRATICA
 ============================ */
 
+async function loadLinkedQuote(){
+  if(!currentPractice?.id) return;
+  const {data,error}=await supabase.from("preventivi").select("id,numero_preventivo,data_preventivo,stato,prezzo_finale").eq("pratica_id",currentPractice.id).order("created_at",{ascending:false}).limit(1).maybeSingle();
+  if(error){console.warn("Preventivo collegato:",error);return;}
+  const card=document.getElementById("linkedQuoteCard");
+  if(!data){if(card)card.style.display="none";return;}
+  document.getElementById("linkedQuoteTitle").textContent=data.numero_preventivo;
+  const prezzo=Number(data.prezzo_finale||0).toLocaleString("it-IT",{style:"currency",currency:"EUR"});
+  document.getElementById("linkedQuoteMeta").textContent=(data.stato||"").replaceAll("_"," ")+" · "+prezzo;
+  document.getElementById("linkedQuoteOpen").href="dettaglio-preventivo.html?id="+encodeURIComponent(data.id);
+  card.style.display="block";
+}
+
 async function loadPractice(){
 
   if(!requestedId){
@@ -3390,5 +3783,23 @@ startPage();
 
 </script>
 
+
+<!-- Sincronizzazione utente sidebar -->
+<script type="module">
+  import { createClient as createSidebarClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  const sidebarUserEmail = document.getElementById("userEmail");
+  if (sidebarUserEmail) {
+    try {
+      const sidebarSupabase = createSidebarClient(
+        "https://sctzockiurjsxzdkctmy.supabase.co",
+        "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"
+      );
+      const { data: { session } } = await sidebarSupabase.auth.getSession();
+      if (session?.user?.email) sidebarUserEmail.textContent = session.user.email;
+    } catch (error) {
+      console.error("Errore visualizzazione utente sidebar:", error);
+    }
+  }
+</script>
 </body>
 </html>
