@@ -151,6 +151,26 @@ function render(){
  $("km").textContent=Number(item.km_previsti||0).toLocaleString("it-IT")+" km";$("fuel").textContent=eur(item.costo_carburante);$("vehicle").textContent=eur(item.costo_mezzo);$("tolls").textContent=eur(item.pedaggi);$("driver").textContent=eur(item.costo_autista);$("other").textContent=eur(item.altri_costi);$("total").textContent=eur(item.costo_totale);$("suggested").textContent=eur(item.prezzo_suggerito);
  $("conditions").textContent=val(item.condizioni);$("notes").textContent=val(item.note);$("state").value=item.stato;$("finalPrice").value=Number(item.prezzo_finale||0).toFixed(2);effectiveMargin();
 }
+async function loadQuoteDocuments(){
+ if(!item?.id)return;
+ const box=$("quoteDocuments");
+ if(!box)return;
+ const {data,error}=await supabase.from("documenti")
+   .select("id,nome_file,created_at,storage_path")
+   .eq("preventivo_id",item.id)
+   .eq("tipo","PREVENTIVO")
+   .order("created_at",{ascending:false});
+ if(error){box.innerHTML='<div class="empty">Impossibile caricare i PDF.</div>';return;}
+ if(!data?.length){box.innerHTML='<div class="empty">Nessun PDF generato.</div>';return;}
+ const rows=[];
+ for(const doc of data){
+   const {data:signed}=await supabase.storage.from("documenti").createSignedUrl(doc.storage_path,600);
+   const url=signed?.signedUrl||"#";
+   rows.push(`<div class="history-item"><div><strong>${esc(doc.nome_file||"Preventivo PDF")}</strong><div class="small">${new Date(doc.created_at).toLocaleString("it-IT")}</div></div><a class="btn secondary" href="${url}" target="_blank" rel="noopener">Apri PDF</a></div>`);
+ }
+ box.innerHTML=rows.join("");
+}
+
 async function loadHistory(){
  const {data,error}=await sb.from("preventivi").select("id,numero_preventivo,data_preventivo,cliente,prezzo_finale,stato").ilike("partenza",item.partenza).ilike("destinazione",item.destinazione).neq("id",item.id).order("created_at",{ascending:false}).limit(5);
  if(error||!data?.length){$("history").textContent="Nessun altro preventivo per questa tratta.";return}

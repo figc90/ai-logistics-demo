@@ -75,7 +75,7 @@ const SUPABASE_KEY="sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
 const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const $=id=>document.getElementById(id);
-let profile=null, practices=[];
+let profile=null, practices=[], standaloneQuote=null;
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
 function showMessage(kind,text){$("message").className="msg "+kind;$("message").textContent=text;}
@@ -92,22 +92,61 @@ async function protect(){
 }
 
 async function loadPractices(){
+ const q=new URLSearchParams(location.search);
+ const preventivoId=q.get("preventivo_id");
+
+ if(preventivoId){
+   const {data:qData,error:qError}=await supabase.from("preventivi")
+     .select("*").eq("id",preventivoId).single();
+   if(qError||!qData)throw qError||new Error("Preventivo non disponibile");
+   standaloneQuote=qData;
+
+   $("practice").innerHTML=`<option value="">Preventivo ${esc(qData.numero_preventivo)}</option>`;
+   $("practice").disabled=true;
+   $("practice").closest(".field").querySelector("label").textContent="Preventivo";
+   $("type").value="PREVENTIVO";
+   $("type").disabled=true;
+   $("prezzo").value=qData.prezzo_finale??"";
+   $("prezzo").readOnly=true;
+   $("validita").value=qData.validita_fino_al?new Date(qData.validita_fino_al+"T12:00:00").toLocaleDateString("it-IT"):"";
+   $("validita").readOnly=true;
+   $("condizioni").value=qData.condizioni||"";
+   $("note").value=qData.note||"";
+   changeType();
+   renderPreview();
+   return;
+ }
+
  const {data,error}=await supabase.from("pratiche")
  .select("id,numero_pratica,cliente,partenza,destinazione,ritiro,consegna,tipo_merce,colli,peso_kg,volume_m3,vettore,stato")
  .order("created_at",{ascending:false});
  if(error)throw error;
  practices=data||[];
  $("practice").innerHTML='<option value="">Seleziona pratica</option>'+practices.map(p=>`<option value="${p.id}">${esc(p.numero_pratica)} · ${esc(p.cliente)} · ${esc(p.partenza)} → ${esc(p.destinazione)}</option>`).join("");
- const q=new URLSearchParams(location.search);
  const requested=q.get("pratica")||q.get("pratica_id");
  if(requested){
    const found=practices.find(p=>p.id===requested||p.numero_pratica===requested);
    if(found){$("practice").value=found.id;}
  }
+ const requestedType=q.get("tipo");
+ if(requestedType && ["DDT","CMR","ORDINE_TRASPORTO","PREVENTIVO"].includes(requestedType)){
+   $("type").value=requestedType; changeType();
+ }
  renderPreview();
 }
-
 function renderPreview(){
+ if(standaloneQuote){
+   const q=standaloneQuote;
+   $("preview").innerHTML=
+    row("Preventivo",q.numero_preventivo)+row("Cliente",q.cliente)+row("Stato",q.stato)+
+    row("Tratta",`${q.partenza||"-"} → ${q.destinazione||"-"}`)+
+    row("Merce",q.tipo_merce)+row("Colli",q.colli)+row("Peso kg",q.peso_kg)+
+    row("Volume m³",q.volume_m3)+row("Prezzo finale",Number(q.prezzo_finale||0).toLocaleString("it-IT",{style:"currency",currency:"EUR"}));
+   $("returnPractice").textContent="← Torna al preventivo";
+   $("returnPractice").href="dettaglio-preventivo.html?id="+encodeURIComponent(q.id);
+   $("returnPractice").style.display="block";
+   return;
+ }
  const p=practices.find(x=>x.id===$("practice").value);
  if(!p){$("preview").innerHTML="Seleziona una pratica.";$("returnPractice").style.display="none";return;}
  $("preview").innerHTML=
@@ -142,13 +181,16 @@ async function generate(){
  $("openPdf").style.display="none";
  $("returnPractice").style.display="none";
  const pratica_id=$("practice").value,tipo=$("type").value;
- if(!pratica_id){showMessage("error","Seleziona una pratica.");return;}
- if(tipo==="PREVENTIVO"&&!$("prezzo").value.trim()){showMessage("error","Inserisci il prezzo di vendita del preventivo.");return;}
+ const preventivo_id=standaloneQuote?.id||null;
+ if(!pratica_id&&!preventivo_id){showMessage("error","Seleziona una pratica o un preventivo.");return;}
+ if(tipo==="PREVENTIVO"&&!preventivo_id&&!$("prezzo").value.trim()){showMessage("error","Inserisci il prezzo di vendita del preventivo.");return;}
  const p=practices.find(x=>x.id===pratica_id);
- if(!confirm(`Confermi la generazione e l'archiviazione di ${tipo.replaceAll("_"," ")} per la pratica ${p?.numero_pratica||""}?`))return;
+ const riferimento=preventivo_id?`il preventivo ${standaloneQuote.numero_preventivo}`:`la pratica ${p?.numero_pratica||""}`;
+ if(!confirm(`Confermi la generazione e l'archiviazione di ${tipo.replaceAll("_"," ")} per ${riferimento}?`))return;
  const btn=$("generate"),old=btn.textContent;btn.disabled=true;btn.textContent="Generazione PDF...";
  try{
-   const {data,error}=await supabase.functions.invoke("genera-documento",{body:{tipo,pratica_id,extra:extras()}});
+   const body=preventivo_id?{tipo,preventivo_id,extra:extras()}:{tipo,pratica_id,extra:extras()};
+   const {data,error}=await supabase.functions.invoke("genera-documento",{body});
    if(error)throw error;
    if(!data?.ok)throw new Error(data?.error||"Generazione non riuscita.");
 
@@ -162,7 +204,12 @@ async function generate(){
      $("openPdf").style.display="block";
    }
 
-   $("returnPractice").href="dettaglio-pratica.html?id="+encodeURIComponent(pratica_id);
+   if(preventivo_id){
+     $("returnPractice").textContent="← Torna al preventivo";
+     $("returnPractice").href="dettaglio-preventivo.html?id="+encodeURIComponent(preventivo_id);
+   }else{
+     $("returnPractice").href="dettaglio-pratica.html?id="+encodeURIComponent(pratica_id);
+   }
    $("returnPractice").style.display="block";
  }catch(e){
    console.error(e);
@@ -188,6 +235,10 @@ $("returnPractice").addEventListener("click",(event)=>{
   }
 
   // Fallback se la pagina è stata aperta direttamente.
+  if(standaloneQuote?.id){
+    window.location.href="dettaglio-preventivo.html?id="+encodeURIComponent(standaloneQuote.id);
+    return;
+  }
   const pratica_id=$("practice").value;
   if(pratica_id){
     window.location.href="dettaglio-pratica.html?id="+encodeURIComponent(pratica_id);
