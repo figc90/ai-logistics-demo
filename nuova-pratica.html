@@ -907,6 +907,8 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
 
+
+
 const supabase =
   createClient(
     SUPABASE_URL,
@@ -2208,10 +2210,24 @@ async function analyzePractice(){
       throw analysisError;
     }
 
+    if(responseData?.ok === false){
+      throw new Error(
+        responseData.detail ||
+        responseData.error ||
+        "Errore durante l'analisi AI."
+      );
+    }
+
     const responseText =
       typeof responseData === "string"
         ? responseData
-        : String(responseData?.analysis || responseData?.analisi || responseData?.text || responseData?.message || "");
+        : String(
+            responseData?.analysis ||
+            responseData?.analisi ||
+            responseData?.text ||
+            responseData?.message ||
+            ""
+          );
 
     let result = null;
 
@@ -2219,8 +2235,17 @@ async function analyzePractice(){
       result = responseData;
     }
     else{
-      try{ result = responseText ? JSON.parse(responseText) : {}; }
-      catch{ result = { analisi:responseText }; }
+      try{
+        result =
+          responseText
+            ? JSON.parse(responseText)
+            : {};
+      }
+      catch{
+        result = {
+          analisi:responseText
+        };
+      }
     }
 
 
@@ -2388,20 +2413,13 @@ async function generatePracticeNumber(){
   const year =
     new Date().getFullYear();
 
-  const prefix =
-    `#${year}-`;
-
   const {
     data,
     error
   } =
     await supabase
       .from("pratiche")
-      .select("numero_pratica")
-      .like(
-        "numero_pratica",
-        `${prefix}%`
-      );
+      .select("numero_pratica");
 
   if(error){
     throw error;
@@ -2414,12 +2432,12 @@ async function generatePracticeNumber(){
     const value =
       String(
         row.numero_pratica || ""
-      );
+      ).trim();
 
     const match =
       value.match(
         new RegExp(
-          `^#${year}-(\\d+)$`
+          `^#?${year}-(\\d+)$`
         )
       );
 
@@ -2441,12 +2459,13 @@ async function generatePracticeNumber(){
   });
 
   return (
-    prefix +
+    `${year}-` +
     String(maxNumber + 1)
-      .padStart(2,"0")
+      .padStart(4,"0")
   );
 
 }
+
 
 
 /* CONFERMA PRATICA */
