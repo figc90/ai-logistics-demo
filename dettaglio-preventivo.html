@@ -6,7 +6,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#172033;visibility:hidden}body.ready{visibility:visible}a{text-decoration:none;color:inherit}button,input,select{font:inherit}
 .sidebar{width:225px;height:100vh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:white;display:flex;flex-direction:column;z-index:50}.logo{padding:18px 16px;border-bottom:1px solid #ffffff15;font-weight:900;font-size:18px}.logo small{display:block;color:#82d5d1;font-size:10px;letter-spacing:1.4px}nav{padding:14px 11px;flex:1;overflow:auto}.title{font-size:9px;color:#7891aa;font-weight:900;letter-spacing:1.2px;margin:15px 9px 7px}.nav{display:flex;gap:10px;padding:10px 11px;border-radius:9px;color:#d9e4ef;font-size:13px;font-weight:700;margin:2px 0}.nav:hover,.nav.active{background:#ffffff19;color:white}.bottom{padding:12px;border-top:1px solid #ffffff15}.user{font-size:10px;word-break:break-all;background:#ffffff10;padding:9px;border-radius:9px;margin-bottom:8px}.logout{width:100%;height:38px;border:1px solid #ffffff22;background:#ffffff09;color:white;border-radius:8px;font-weight:800;cursor:pointer}
-.main{margin-left:225px;min-height:100vh}header{height:64px;background:white;border-bottom:1px solid #e3e9ef;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}.brand{font-weight:900;color:#173459}.page{max-width:1250px;margin:auto;padding:30px}.back{font-size:12px;color:#54708e;font-weight:800;display:inline-block;margin-bottom:15px}.head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}h1{font-size:29px;color:#102d4f}.sub{color:#6c7b8d;margin-top:6px}.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:10px;min-height:40px;padding:0 15px;font-weight:850;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}.primary{background:linear-gradient(135deg,#ec4f32,#ff7b1f);color:white}.secondary{background:#eaf0f6;color:#173459}.danger{background:#fff0ef;color:#b42318}.card{background:white;border:1px solid #e2e8ef;border-radius:15px;box-shadow:0 8px 24px #183b630d;padding:20px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:17px}.section{margin-bottom:17px}.section h2{font-size:15px;color:#173459;margin-bottom:15px}.data-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.field span{display:block;font-size:9px;font-weight:900;color:#7a8798;letter-spacing:.5px;margin-bottom:4px}.field strong{font-size:13px;color:#263a52}.full{grid-column:1/-1}.route{font-size:19px!important;color:#173459!important}.costs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.cost{border:1px solid #e5ebf1;background:#f8fafc;border-radius:11px;padding:12px}.cost span{font-size:9px;color:#77869a;font-weight:900}.cost strong{display:block;margin-top:5px;font-size:18px;color:#173459}.highlight{background:#edf9f8;border-color:#b9e7e3}.highlight strong{color:#087d77}.price{background:#102d4f;color:white;border-radius:14px;padding:18px;margin-top:12px}.price span{font-size:10px;color:#b7c7d8;font-weight:900}.price strong{font-size:30px;display:block;margin-top:5px}.status{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:10px;font-weight:900;background:#eef3f8;color:#40536a}.status.ACCETTATO{background:#e9f9ef;color:#137a3d}.status.RIFIUTATO,.status.ANNULLATO{background:#fff0ef;color:#b42318}.status.INVIATO{background:#eef4ff;color:#3159a6}.status.DA_INVIARE{background:#fff7e8;color:#a15c00}label{display:block;font-size:10px;font-weight:900;color:#55667a;margin:10px 0 5px}input,select{width:100%;border:1px solid #d8e0e8;border-radius:9px;padding:10px;background:white}.msg{display:none;padding:12px 14px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:700}.msg.error{display:block;background:#fff1f0;color:#b42318}.msg.success{display:block;background:#ecfdf3;color:#027a48}.history{border-bottom:1px solid #edf1f5;padding:10px 0}.history:last-child{border:0}.muted{font-size:11px;color:#78869a}@media(max-width:900px){.grid{grid-template-columns:1fr}}@media(max-width:800px){.sidebar{width:70px}.logo{font-size:10px;text-align:center;padding:15px 5px}.logo small,.nav span:last-child,.title,.user{display:none}.nav{justify-content:center}.main{margin-left:70px}.page{padding:20px 14px}header{padding:0 14px}.head{flex-direction:column}}@media(max-width:550px){.data-grid,.costs{grid-template-columns:1fr}.full{grid-column:auto}}
+.main{margin-left:225px;min-height:100vh}header{height:64px;background:white;border-bottom:1px solid #e3e9ef;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}.brand{font-weight:900;color:#173459}.page{max-width:1250px;margin:auto;padding:30px}.back{font-size:12px;color:#54708e;font-weight:800;display:inline-block;margin-bottom:15px}.head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}h1{font-size:29px;color:#102d4f}.sub{color:#6c7b8d;margin-top:6px}.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:10px;min-height:40px;padding:0 15px;font-weight:850;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}.primary{background:linear-gradient(135deg,#ec4f32,#ff7b1f);color:white}.secondary{background:#eaf0f6;color:#173459}.danger{background:#fff0ef;color:#b42318}.card{background:white;border:1px solid #e2e8ef;border-radius:15px;box-shadow:0 8px 24px #183b630d;padding:20px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:17px}.section{margin-bottom:17px}.section h2{font-size:15px;color:#173459;margin-bottom:15px}.data-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.field span{display:block;font-size:9px;font-weight:900;color:#7a8798;letter-spacing:.5px;margin-bottom:4px}.field strong{font-size:13px;color:#263a52}.full{grid-column:1/-1}.route{font-size:19px!important;color:#173459!important}.costs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.cost{border:1px solid #e5ebf1;background:#f8fafc;border-radius:11px;padding:12px}.cost span{font-size:9px;color:#77869a;font-weight:900}.cost strong{display:block;margin-top:5px;font-size:18px;color:#173459}.highlight{background:#edf9f8;border-color:#b9e7e3}.highlight strong{color:#087d77}.price{background:#102d4f;color:white;border-radius:14px;padding:18px;margin-top:12px}.price span{font-size:10px;color:#b7c7d8;font-weight:900}.price strong{font-size:30px;display:block;margin-top:5px}.status{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:10px;font-weight:900;background:#eef3f8;color:#40536a}.status.ACCETTATO{background:#e9f9ef;color:#137a3d}.status.RIFIUTATO,.status.ANNULLATO{background:#fff0ef;color:#b42318}.status.INVIATO{background:#eef4ff;color:#3159a6}.status.DA_INVIARE{background:#fff7e8;color:#a15c00}label{display:block;font-size:10px;font-weight:900;color:#55667a;margin:10px 0 5px}input,select{width:100%;border:1px solid #d8e0e8;border-radius:9px;padding:10px;background:white}.msg{display:none;padding:12px 14px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:700}.msg.error{display:block;background:#fff1f0;color:#b42318}.msg.success{display:block;background:#ecfdf3;color:#027a48}.history{border-bottom:1px solid #edf1f5;padding:10px 0}.history:last-child{border:0}.muted{font-size:11px;color:#78869a}.linkbox{background:#f7fafc;border:1px solid #e1e8ef;border-radius:12px;padding:14px;margin-top:12px}.linkbox-title{font-size:10px;font-weight:900;color:#718095;letter-spacing:.5px;margin-bottom:7px}.linked-practice{font-size:16px;font-weight:900;color:#173459}.modal-bg{display:none;position:fixed;inset:0;background:#071b3588;z-index:200;align-items:center;justify-content:center;padding:20px}.modal-bg.open{display:flex}.modal{background:white;width:min(620px,100%);max-height:85vh;overflow:auto;border-radius:16px;padding:22px;box-shadow:0 25px 70px #0004}.modal h2{color:#173459;margin-bottom:6px}.practice-option{border:1px solid #e1e8ef;border-radius:11px;padding:12px;margin-top:9px;cursor:pointer}.practice-option:hover{border-color:#18a7a0;background:#f3fbfa}.practice-option strong{color:#173459}.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:16px}@media(max-width:900px){.grid{grid-template-columns:1fr}}@media(max-width:800px){.sidebar{width:70px}.logo{font-size:10px;text-align:center;padding:15px 5px}.logo small,.nav span:last-child,.title,.user{display:none}.nav{justify-content:center}.main{margin-left:70px}.page{padding:20px 14px}header{padding:0 14px}.head{flex-direction:column}}@media(max-width:550px){.data-grid,.costs{grid-template-columns:1fr}.full{grid-column:auto}}
 </style>
 </head>
 <body>
@@ -39,21 +39,41 @@
 <label>Prezzo finale €</label><input id="finalPrice" type="number" min="0" step=".01">
 <div class="price"><span>PREZZO FINALE</span><strong id="priceBig">€ 0,00</strong><div id="realMargin" class="muted" style="color:#c6d5e3;margin-top:6px"></div></div>
 <button id="save" class="btn primary" style="width:100%;margin-top:12px">Salva modifiche</button></section>
+<section class="card section"><h2>Pratica collegata</h2>
+<div id="practiceLinkArea">
+  <div id="noPractice">
+    <div class="muted">Questo preventivo non è ancora collegato a una pratica.</div>
+    <button id="associatePractice" class="btn secondary" style="width:100%;margin-top:12px">Associa pratica esistente</button>
+    <button id="createPractice" class="btn primary" style="width:100%;margin-top:9px">Crea pratica dal preventivo</button>
+  </div>
+  <div id="linkedPractice" style="display:none">
+    <div class="linkbox"><div class="linkbox-title">PRATICA</div><div id="linkedPracticeNumber" class="linked-practice">-</div></div>
+    <a id="openPractice" class="btn secondary" style="width:100%;margin-top:10px">Apri pratica</a>
+    <button id="unlinkPractice" class="btn danger" style="width:100%;margin-top:8px">Scollega pratica</button>
+  </div>
+</div>
+</section>
 <section class="card section"><h2>Storico tratta</h2><div id="history" class="muted">Caricamento...</div></section>
 </aside></div></main></div>
+<div id="practiceModal" class="modal-bg"><div class="modal">
+<h2>Associa una pratica</h2><div class="muted">Sono mostrate le pratiche della tua azienda. Selezionane una per collegarla al preventivo.</div>
+<div style="margin-top:13px"><input id="practiceSearch" placeholder="Cerca numero, cliente o tratta..."></div>
+<div id="practiceOptions" style="margin-top:8px"></div>
+<div class="modal-actions"><button id="closePracticeModal" class="btn secondary">Chiudi</button></div>
+</div></div>
 <script type="module">
 import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-const sb=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"),$=x=>document.getElementById(x);let item=null;
+const sb=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"),$=x=>document.getElementById(x);let item=null;let currentSession=null;let practices=[];
 const eur=x=>new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"}).format(Number(x||0));
 const val=x=>(x===null||x===undefined||x==="")?"-":x;
 function message(t,type="error"){$("msg").textContent=t;$("msg").className="msg "+type;window.scrollTo({top:0,behavior:"smooth"})}
 function effectiveMargin(){let p=Number($("finalPrice").value||0),c=Number(item?.costo_totale||0);let m=p>0?(p-c)/p*100:0;$("priceBig").textContent=eur(p);$("realMargin").textContent="Margine effettivo: "+m.toFixed(1)+"% · Utile: "+eur(p-c)}
 async function boot(){
- const {data:{session}}=await sb.auth.getSession();if(!session)return location.replace("login.html");
+ const {data:{session}}=await sb.auth.getSession();if(!session)return location.replace("login.html");currentSession=session;
  const {data:p,error:pe}=await sb.from("profiles").select("azienda_id,ruolo,email").eq("id",session.user.id).single();if(pe||!p?.azienda_id)return location.replace("login.html");if(String(p.ruolo||"").toLowerCase()==="autista")return location.replace("area-autista.html");
  $("userEmail").textContent=session.user.email||p.email||"-";document.body.classList.add("ready");
  const id=new URLSearchParams(location.search).get("id");if(!id){message("ID preventivo mancante.");return}
- const {data,error}=await sb.from("preventivi").select("*").eq("id",id).single();if(error||!data){message(error?.message||"Preventivo non trovato.");return}item=data;render();loadHistory();
+ const {data,error}=await sb.from("preventivi").select("*").eq("id",id).single();if(error||!data){message(error?.message||"Preventivo non trovato.");return}item=data;render();await renderPracticeLink();loadHistory();
 }
 function render(){
  $("number").textContent="Preventivo "+item.numero_preventivo;$("subtitle").textContent="del "+new Date(item.data_preventivo+"T12:00:00").toLocaleDateString("it-IT")+(item.validita_fino_al?" · valido fino al "+new Date(item.validita_fino_al+"T12:00:00").toLocaleDateString("it-IT"):"");
@@ -68,6 +88,66 @@ async function loadHistory(){
  if(error||!data?.length){$("history").textContent="Nessun altro preventivo per questa tratta.";return}
  $("history").innerHTML=data.map(x=>`<div class="history"><strong>${x.numero_preventivo} · ${x.cliente}</strong><div class="muted">${new Date(x.data_preventivo+"T12:00:00").toLocaleDateString("it-IT")} · ${eur(x.prezzo_finale)} · ${x.stato.replaceAll("_"," ")}</div></div>`).join("");
 }
+
+async function renderPracticeLink(){
+ if(!item?.pratica_id){$("noPractice").style.display="block";$("linkedPractice").style.display="none";return}
+ const {data,error}=await sb.from("pratiche").select("id,numero_pratica,cliente,partenza,destinazione").eq("id",item.pratica_id).single();
+ if(error||!data){$("noPractice").style.display="block";$("linkedPractice").style.display="none";return}
+ $("noPractice").style.display="none";$("linkedPractice").style.display="block";
+ $("linkedPracticeNumber").textContent=data.numero_pratica+" · "+data.partenza+" → "+data.destinazione;
+ $("openPractice").href="dettaglio-pratica.html?id="+encodeURIComponent(data.id);
+}
+async function loadPractices(){
+ const {data,error}=await sb.from("pratiche").select("id,numero_pratica,cliente,partenza,destinazione,stato,created_at").order("created_at",{ascending:false}).limit(100);
+ if(error){message(error.message);return false} practices=data||[];renderPracticeOptions();return true
+}
+function renderPracticeOptions(){
+ const q=$("practiceSearch").value.trim().toLowerCase();
+ const rows=practices.filter(p=>!q||[p.numero_pratica,p.cliente,p.partenza,p.destinazione].some(v=>String(v||"").toLowerCase().includes(q)));
+ $("practiceOptions").innerHTML=rows.length?rows.map(p=>`<div class="practice-option" data-pid="${p.id}"><strong>${p.numero_pratica}</strong> · ${p.cliente}<div class="muted" style="margin-top:4px">${p.partenza} → ${p.destinazione}${p.stato?" · "+p.stato.replaceAll("_"," "):""}</div></div>`).join(""):`<div class="muted" style="padding:15px 0">Nessuna pratica trovata.</div>`;
+ document.querySelectorAll(".practice-option").forEach(el=>el.onclick=()=>associateExisting(el.dataset.pid));
+}
+async function associateExisting(pid){
+ const p=practices.find(x=>x.id===pid);if(!p)return;
+ if(!confirm(`Associare il preventivo ${item.numero_preventivo} alla pratica ${p.numero_pratica}?`))return;
+ const {data,error}=await sb.from("preventivi").update({pratica_id:pid}).eq("id",item.id).select().single();
+ if(error)return message(error.message);
+ item=data;$("practiceModal").classList.remove("open");await renderPracticeLink();message("Pratica associata al preventivo.","success");
+}
+$("associatePractice").onclick=async()=>{if(await loadPractices())$("practiceModal").classList.add("open")};
+$("closePracticeModal").onclick=()=>$("practiceModal").classList.remove("open");
+$("practiceModal").onclick=e=>{if(e.target===$("practiceModal"))$("practiceModal").classList.remove("open")};
+$("practiceSearch").oninput=renderPracticeOptions;
+$("unlinkPractice").onclick=async()=>{
+ if(!confirm("Scollegare la pratica da questo preventivo?"))return;
+ const {data,error}=await sb.from("preventivi").update({pratica_id:null}).eq("id",item.id).select().single();
+ if(error)return message(error.message);item=data;await renderPracticeLink();message("Pratica scollegata.","success");
+};
+$("createPractice").onclick=async()=>{
+ if(!item)return;
+ if(!item.tipo_merce){return message("Per creare la pratica devi prima indicare il tipo di merce nel preventivo.")}
+ const accept=item.stato!=="ACCETTATO" && confirm("Vuoi impostare anche il preventivo come ACCETTATO dopo la creazione della pratica?");
+ if(!confirm(`Creare una nuova pratica usando i dati del preventivo ${item.numero_preventivo}?`))return;
+ const btn=$("createPractice");btn.disabled=true;btn.textContent="Creazione pratica...";
+ try{
+   const comando={azione:"CREA_PRATICA",dati:{
+     cliente:item.cliente,partenza:item.partenza,destinazione:item.destinazione,tipo_merce:item.tipo_merce,
+     indirizzo_ritiro:item.indirizzo_ritiro,cap_ritiro:item.cap_ritiro,
+     indirizzo_consegna:item.indirizzo_consegna,cap_consegna:item.cap_consegna,
+     colli:item.colli,peso_kg:item.peso_kg,volume_m3:item.volume_m3,
+     note:`Creata dal preventivo ${item.numero_preventivo}${item.note?" · "+item.note:""}`
+   }};
+   const {data,error}=await sb.functions.invoke("assistente-ai",{body:{modalita:"conferma_pratica",comando}});
+   if(error)throw error;if(!data?.success||!data?.pratica?.id)throw new Error(data?.error||"Creazione pratica non riuscita");
+   const praticaId=data.pratica.id;
+   if(item.cliente_id){await sb.from("pratiche").update({cliente_id:item.cliente_id}).eq("id",praticaId)}
+   const patch={pratica_id:praticaId};if(accept)patch.stato="ACCETTATO";
+   const {data:updated,error:updateError}=await sb.from("preventivi").update(patch).eq("id",item.id).select().single();
+   if(updateError)throw updateError;item=updated;render();await renderPracticeLink();
+   message(`Pratica ${data.pratica.numero_pratica} creata e collegata correttamente.`,"success");
+ }catch(e){message(e?.message||"Errore durante la creazione della pratica")}
+ finally{btn.disabled=false;btn.textContent="Crea pratica dal preventivo"}
+};
 $("finalPrice").addEventListener("input",effectiveMargin);
 $("save").onclick=async()=>{if(!item)return;const b=$("save");b.disabled=true;b.textContent="Salvataggio...";const {data,error}=await sb.from("preventivi").update({stato:$("state").value,prezzo_finale:Number($("finalPrice").value||0)}).eq("id",item.id).select().single();b.disabled=false;b.textContent="Salva modifiche";if(error)return message(error.message);item=data;render();message("Preventivo aggiornato.","success")};
 $("delete").onclick=async()=>{if(!item||!confirm("Eliminare definitivamente il preventivo "+item.numero_preventivo+"?"))return;const {error}=await sb.from("preventivi").delete().eq("id",item.id);if(error)return message(error.message);location.href="preventivi.html"};
