@@ -597,120 +597,28 @@ tbody tr:hover{
 
 <script type="module" src="js/admin-role-guard.js"></script>
 
+
+<style id="matrimia-standard-sidebar-css">
+.std-sidebar{width:225px;height:100vh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;display:flex;flex-direction:column;z-index:1000;font-family:Arial,Helvetica,sans-serif}
+.std-logo{height:62px;min-height:62px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #ffffff15;padding:5px 10px}
+.std-logo img{display:block;width:50px;height:46px;object-fit:contain}
+.std-nav{padding:7px 10px 10px;flex:1;overflow-y:auto;overflow-x:hidden}
+.std-title{font-size:9px;color:#7891aa;font-weight:900;letter-spacing:1.15px;margin:11px 9px 5px}
+.std-item{display:flex;align-items:center;gap:10px;min-height:37px;padding:7px 10px;border-radius:9px;color:#d9e4ef!important;font-size:13px;font-weight:700;margin:1px 0;text-decoration:none!important}
+.std-item:hover,.std-item.active{background:#ffffff19;color:#fff!important}
+.std-icon{width:18px;text-align:center;flex:0 0 18px}
+.std-bottom{padding:9px 10px;border-top:1px solid #ffffff15}
+.std-user{font-size:10px;word-break:break-all;background:#ffffff10;padding:7px 9px;border-radius:8px;margin-bottom:7px;color:#fff}
+.std-logout{width:100%;height:34px;border:1px solid #ffffff22;background:#ffffff09;color:#fff;border-radius:8px;font-weight:800;cursor:pointer}
+@media(max-width:760px){.std-sidebar{width:70px}.std-logo{padding:5px}.std-logo img{width:44px;height:42px}.std-title,.std-item span:not(.std-icon),.std-user{display:none}.std-item{justify-content:center;padding:8px 0}.std-bottom{padding:8px}.std-logout{font-size:11px}}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-<aside class="sidebar">
-
-  <div class="sidebar-logo">
-
-    <a
-      href="dashboard.html"
-      class="sidebar-logo-link"
-      aria-label="Vai alla Dashboard">
-
-      <img
-        src="matrimia-logo-web.png"
-        alt="MatRi-mIA Logistics">
-
-    </a>
-
-  </div>
-
-  <nav class="sidebar-nav">
-
-    <div class="nav-section">
-
-      <div class="nav-title">OPERATIVITÀ</div>
-
-      <a href="dashboard.html" class="nav-item">
-        <span class="nav-icon">▦</span>
-        <span>Dashboard</span>
-      </a>
-
-      <a href="pratiche.html" class="nav-item">
-        <span class="nav-icon">▤</span>
-        <span>Pratiche</span>
-      </a>
-
-      <a href="nuova-pratica.html" class="nav-item">
-        <span class="nav-icon">＋</span>
-        <span>Nuova pratica</span>
-      </a>
-
-    </div>
-
-    <div class="nav-section">
-
-      <div class="nav-title">AUTOMAZIONI</div>
-
-      <a href="assistente-ai.html" class="nav-item active">
-
-
-        <span class="nav-icon">✦</span>
-
-
-        <span>Assistente AI</span>
-
-
-      </a>
-
-
-      <a href="email-ai.html" class="nav-item active">
-        <span class="nav-icon">✉</span>
-        <span>Email AI</span>
-      </a>
-
-      <a href="viaggi.html" class="nav-item">
-        <span class="nav-icon">↗</span>
-        <span>Viaggi</span>
-      </a>
-
-    </div>
-
-    <div class="nav-section">
-
-      <div class="nav-title">GESTIONE</div>
-
-      <a href="anagrafiche.html" class="nav-item">
-        <span class="nav-icon">▣</span>
-        <span>Anagrafiche</span>
-      </a>
-
-      <a href="autisti.html" class="nav-item">
-        <span class="nav-icon">♟</span>
-        <span>Autisti</span>
-      </a>
-
-      <a href="impostazioni.html" class="nav-item">
-        <span class="nav-icon">⚙</span>
-        <span>Impostazioni</span>
-      </a>
-
-    </div>
-
-  </nav>
-
-  <div class="sidebar-bottom">
-
-    <div class="user-card">
-      <div class="user-label">UTENTE</div>
-      <div id="userEmail" class="user-email">-</div>
-    </div>
-
-    <button
-      id="logoutButton"
-      class="logout-btn"
-      type="button">
-      Esci
-    </button>
-
-  </div>
-
-</aside>
+<aside class="std-sidebar"><a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a><nav class="std-nav"><div class="std-title">OPERATIVITÀ</div><a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a><a href="pratiche.html" class="std-item"><span class="std-icon">▤</span><span>Pratiche</span></a><a href="nuova-pratica.html" class="std-item"><span class="std-icon">＋</span><span>Nuova pratica</span></a><div class="std-title">AUTOMAZIONI</div><a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a><a href="email-ai.html" class="std-item active"><span class="std-icon">✉</span><span>Email AI</span></a><a href="viaggi.html" class="std-item"><span class="std-icon">↗</span><span>Viaggi</span></a><div class="std-title">COMMERCIALE</div><a href="preventivi.html" class="std-item"><span class="std-icon">€</span><span>Preventivi</span></a><div class="std-title">GESTIONE</div><a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a><a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a><a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a></nav><div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div></aside>
 
 <div class="main">
 

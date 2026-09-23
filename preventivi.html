@@ -17,27 +17,23 @@ label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6
 @media(max-width:800px){.sidebar{width:70px}.sidebar-logo{font-size:11px;padding:15px 7px;text-align:center}.sidebar-logo small,.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center}.main{margin-left:70px}.page{padding:20px 14px}.topbar{padding:0 14px}.heading{flex-direction:column}}
 
 .toolbar{display:grid;grid-template-columns:1fr 190px 150px;gap:10px;margin-bottom:16px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:950px}th{text-align:left;font-size:9px;letter-spacing:.7px;color:#718095;padding:11px 9px;border-bottom:1px solid #e4e9ef}td{padding:12px 9px;border-bottom:1px solid #edf1f5;font-size:12px}tr.clickable{cursor:pointer}tr.clickable:hover{background:#f8fafc}.route{font-weight:800;color:#173459}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.metric strong{display:block;font-size:22px;color:#173459;margin-top:5px}@media(max-width:950px){.toolbar,.summary{grid-template-columns:1fr 1fr}}@media(max-width:600px){.toolbar,.summary{grid-template-columns:1fr}}
-</style></head><body><div class="app">
-<aside class="sidebar">
- <div class="sidebar-logo">MatRi-mIA<small>LOGISTICS</small></div>
- <nav class="sidebar-nav">
-  <div class="nav-title">OPERATIVITÀ</div>
-  <a class="nav-item" href="dashboard.html"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
-  <a class="nav-item" href="pratiche.html"><span class="nav-icon">▤</span><span>Pratiche</span></a>
-  <a class="nav-item" href="nuova-pratica.html"><span class="nav-icon">＋</span><span>Nuova pratica</span></a>
-  <div class="nav-title">AUTOMAZIONI</div>
-  <a class="nav-item" href="assistente-ai.html"><span class="nav-icon">✦</span><span>Assistente AI</span></a>
-  <a class="nav-item" href="email-ai.html"><span class="nav-icon">✉</span><span>Email AI</span></a>
-  <a class="nav-item" href="viaggi.html"><span class="nav-icon">↗</span><span>Viaggi</span></a>
-  <div class="nav-title">COMMERCIALE</div>
-  <a class="nav-item active" href="preventivi.html"><span class="nav-icon">€</span><span>Preventivi</span></a>
-  <div class="nav-title">GESTIONE</div>
-  <a class="nav-item" href="anagrafiche.html"><span class="nav-icon">▣</span><span>Anagrafiche</span></a>
-  <a class="nav-item" href="autisti.html"><span class="nav-icon">♟</span><span>Autisti</span></a>
-  <a class="nav-item" href="impostazioni.html"><span class="nav-icon">⚙</span><span>Impostazioni</span></a>
- </nav>
- <div class="sidebar-bottom"><div class="user-card"><div class="user-label">UTENTE</div><div id="userEmail" class="user-email">-</div></div><button id="logoutButton" class="logout">Esci</button></div>
-</aside>
+</style>
+<style id="matrimia-standard-sidebar-css">
+.std-sidebar{width:225px;height:100vh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;display:flex;flex-direction:column;z-index:1000;font-family:Arial,Helvetica,sans-serif}
+.std-logo{height:62px;min-height:62px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #ffffff15;padding:5px 10px}
+.std-logo img{display:block;width:50px;height:46px;object-fit:contain}
+.std-nav{padding:7px 10px 10px;flex:1;overflow-y:auto;overflow-x:hidden}
+.std-title{font-size:9px;color:#7891aa;font-weight:900;letter-spacing:1.15px;margin:11px 9px 5px}
+.std-item{display:flex;align-items:center;gap:10px;min-height:37px;padding:7px 10px;border-radius:9px;color:#d9e4ef!important;font-size:13px;font-weight:700;margin:1px 0;text-decoration:none!important}
+.std-item:hover,.std-item.active{background:#ffffff19;color:#fff!important}
+.std-icon{width:18px;text-align:center;flex:0 0 18px}
+.std-bottom{padding:9px 10px;border-top:1px solid #ffffff15}
+.std-user{font-size:10px;word-break:break-all;background:#ffffff10;padding:7px 9px;border-radius:8px;margin-bottom:7px;color:#fff}
+.std-logout{width:100%;height:34px;border:1px solid #ffffff22;background:#ffffff09;color:#fff;border-radius:8px;font-weight:800;cursor:pointer}
+@media(max-width:760px){.std-sidebar{width:70px}.std-logo{padding:5px}.std-logo img{width:44px;height:42px}.std-title,.std-item span:not(.std-icon),.std-user{display:none}.std-item{justify-content:center;padding:8px 0}.std-bottom{padding:8px}.std-logout{font-size:11px}}
+</style>
+</head><body><div class="app">
+<aside class="std-sidebar"><a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a><nav class="std-nav"><div class="std-title">OPERATIVITÀ</div><a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a><a href="pratiche.html" class="std-item"><span class="std-icon">▤</span><span>Pratiche</span></a><a href="nuova-pratica.html" class="std-item"><span class="std-icon">＋</span><span>Nuova pratica</span></a><div class="std-title">AUTOMAZIONI</div><a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a><a href="email-ai.html" class="std-item"><span class="std-icon">✉</span><span>Email AI</span></a><a href="viaggi.html" class="std-item"><span class="std-icon">↗</span><span>Viaggi</span></a><div class="std-title">COMMERCIALE</div><a href="preventivi.html" class="std-item active"><span class="std-icon">€</span><span>Preventivi</span></a><div class="std-title">GESTIONE</div><a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a><a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a><a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a></nav><div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div></aside>
 <div class="main"><header class="topbar"><div class="brand">MatRi-mIA Logistics</div><div class="top-actions"><a class="btn btn-primary" href="nuovo-preventivo.html">+ Nuovo preventivo</a></div></header><main class="page">
 <div class="heading"><div><div class="eyebrow">MATRI-MIA · COMMERCIALE</div><h1>Preventivi</h1><p>Controlla prezzi, margini e stato delle offerte commerciali.</p></div></div>
 <div id="message" class="message"></div>
