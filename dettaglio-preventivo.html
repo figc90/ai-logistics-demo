@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dettaglio preventivo | MatRi-mIA Logistics</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#172033;visibility:hidden}body.ready{visibility:visible}a{text-decoration:none;color:inherit}button,input,select{font:inherit}
+.sidebar{width:225px;height:100vh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:white;display:flex;flex-direction:column;z-index:50}.logo{padding:18px 16px;border-bottom:1px solid #ffffff15;font-weight:900;font-size:18px}.logo small{display:block;color:#82d5d1;font-size:10px;letter-spacing:1.4px}nav{padding:14px 11px;flex:1;overflow:auto}.title{font-size:9px;color:#7891aa;font-weight:900;letter-spacing:1.2px;margin:15px 9px 7px}.nav{display:flex;gap:10px;padding:10px 11px;border-radius:9px;color:#d9e4ef;font-size:13px;font-weight:700;margin:2px 0}.nav:hover,.nav.active{background:#ffffff19;color:white}.bottom{padding:12px;border-top:1px solid #ffffff15}.user{font-size:10px;word-break:break-all;background:#ffffff10;padding:9px;border-radius:9px;margin-bottom:8px}.logout{width:100%;height:38px;border:1px solid #ffffff22;background:#ffffff09;color:white;border-radius:8px;font-weight:800;cursor:pointer}
+.main{margin-left:225px;min-height:100vh}header{height:64px;background:white;border-bottom:1px solid #e3e9ef;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:20}.brand{font-weight:900;color:#173459}.page{max-width:1250px;margin:auto;padding:30px}.back{font-size:12px;color:#54708e;font-weight:800;display:inline-block;margin-bottom:15px}.head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:20px}h1{font-size:29px;color:#102d4f}.sub{color:#6c7b8d;margin-top:6px}.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:0;border-radius:10px;min-height:40px;padding:0 15px;font-weight:850;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}.primary{background:linear-gradient(135deg,#ec4f32,#ff7b1f);color:white}.secondary{background:#eaf0f6;color:#173459}.danger{background:#fff0ef;color:#b42318}.card{background:white;border:1px solid #e2e8ef;border-radius:15px;box-shadow:0 8px 24px #183b630d;padding:20px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:17px}.section{margin-bottom:17px}.section h2{font-size:15px;color:#173459;margin-bottom:15px}.data-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.field span{display:block;font-size:9px;font-weight:900;color:#7a8798;letter-spacing:.5px;margin-bottom:4px}.field strong{font-size:13px;color:#263a52}.full{grid-column:1/-1}.route{font-size:19px!important;color:#173459!important}.costs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.cost{border:1px solid #e5ebf1;background:#f8fafc;border-radius:11px;padding:12px}.cost span{font-size:9px;color:#77869a;font-weight:900}.cost strong{display:block;margin-top:5px;font-size:18px;color:#173459}.highlight{background:#edf9f8;border-color:#b9e7e3}.highlight strong{color:#087d77}.price{background:#102d4f;color:white;border-radius:14px;padding:18px;margin-top:12px}.price span{font-size:10px;color:#b7c7d8;font-weight:900}.price strong{font-size:30px;display:block;margin-top:5px}.status{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:10px;font-weight:900;background:#eef3f8;color:#40536a}.status.ACCETTATO{background:#e9f9ef;color:#137a3d}.status.RIFIUTATO,.status.ANNULLATO{background:#fff0ef;color:#b42318}.status.INVIATO{background:#eef4ff;color:#3159a6}.status.DA_INVIARE{background:#fff7e8;color:#a15c00}label{display:block;font-size:10px;font-weight:900;color:#55667a;margin:10px 0 5px}input,select{width:100%;border:1px solid #d8e0e8;border-radius:9px;padding:10px;background:white}.msg{display:none;padding:12px 14px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:700}.msg.error{display:block;background:#fff1f0;color:#b42318}.msg.success{display:block;background:#ecfdf3;color:#027a48}.history{border-bottom:1px solid #edf1f5;padding:10px 0}.history:last-child{border:0}.muted{font-size:11px;color:#78869a}@media(max-width:900px){.grid{grid-template-columns:1fr}}@media(max-width:800px){.sidebar{width:70px}.logo{font-size:10px;text-align:center;padding:15px 5px}.logo small,.nav span:last-child,.title,.user{display:none}.nav{justify-content:center}.main{margin-left:70px}.page{padding:20px 14px}header{padding:0 14px}.head{flex-direction:column}}@media(max-width:550px){.data-grid,.costs{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<aside class="sidebar"><div class="logo">MatRi-mIA<small>LOGISTICS</small></div><nav>
+<div class="title">OPERATIVITÀ</div><a class="nav" href="dashboard.html"><span>⌂</span><span>Dashboard</span></a><a class="nav" href="pratiche.html"><span>▤</span><span>Pratiche</span></a><a class="nav" href="nuova-pratica.html"><span>＋</span><span>Nuova pratica</span></a>
+<div class="title">AUTOMAZIONI</div><a class="nav" href="assistente-ai.html"><span>✦</span><span>Assistente AI</span></a><a class="nav" href="email-ai.html"><span>✉</span><span>Email AI</span></a><a class="nav" href="viaggi.html"><span>↗</span><span>Viaggi</span></a>
+<div class="title">COMMERCIALE</div><a class="nav active" href="preventivi.html"><span>€</span><span>Preventivi</span></a>
+<div class="title">GESTIONE</div><a class="nav" href="anagrafiche.html"><span>▣</span><span>Anagrafiche</span></a><a class="nav" href="autisti.html"><span>♟</span><span>Autisti</span></a><a class="nav" href="impostazioni.html"><span>⚙</span><span>Impostazioni</span></a>
+</nav><div class="bottom"><div id="userEmail" class="user">-</div><button id="logout" class="logout">Esci</button></div></aside>
+<div class="main"><header><div class="brand">MatRi-mIA Logistics</div><div></div></header><main class="page">
+<a class="back" href="preventivi.html">← Torna ai preventivi</a><div id="msg" class="msg"></div>
+<div class="head"><div><h1 id="number">Preventivo</h1><div id="subtitle" class="sub">Caricamento...</div></div><div class="actions"><button id="pdf" class="btn secondary">Genera PDF</button><button id="delete" class="btn danger">Elimina</button></div></div>
+<div class="grid"><div>
+<section class="card section"><h2>Cliente e trasporto</h2><div class="data-grid">
+<div class="field"><span>CLIENTE</span><strong id="cliente">-</strong></div><div class="field"><span>STATO</span><strong id="statusBox">-</strong></div>
+<div class="field full"><span>TRATTA</span><strong id="route" class="route">-</strong></div>
+<div class="field"><span>INDIRIZZO RITIRO</span><strong id="pickup">-</strong></div><div class="field"><span>INDIRIZZO CONSEGNA</span><strong id="delivery">-</strong></div>
+<div class="field"><span>TIPO MERCE</span><strong id="merce">-</strong></div><div class="field"><span>COLLI</span><strong id="colli">-</strong></div>
+<div class="field"><span>PESO</span><strong id="peso">-</strong></div><div class="field"><span>VOLUME</span><strong id="volume">-</strong></div>
+</div></section>
+<section class="card section"><h2>Dettaglio costi</h2><div class="costs">
+<div class="cost"><span>KM PREVISTI</span><strong id="km">0</strong></div><div class="cost"><span>CARBURANTE</span><strong id="fuel">€ 0,00</strong></div>
+<div class="cost"><span>COSTO MEZZO</span><strong id="vehicle">€ 0,00</strong></div><div class="cost"><span>PEDAGGI</span><strong id="tolls">€ 0,00</strong></div>
+<div class="cost"><span>AUTISTA</span><strong id="driver">€ 0,00</strong></div><div class="cost"><span>ALTRI COSTI</span><strong id="other">€ 0,00</strong></div>
+<div class="cost highlight"><span>COSTO TOTALE</span><strong id="total">€ 0,00</strong></div><div class="cost highlight"><span>PREZZO SUGGERITO</span><strong id="suggested">€ 0,00</strong></div>
+</div></section>
+<section class="card section"><h2>Note e condizioni</h2><div class="data-grid"><div class="field full"><span>CONDIZIONI</span><strong id="conditions">-</strong></div><div class="field full"><span>NOTE</span><strong id="notes">-</strong></div></div></section>
+</div><aside>
+<section class="card section"><h2>Gestione preventivo</h2><label>Stato</label><select id="state"><option>BOZZA</option><option>DA_INVIARE</option><option>INVIATO</option><option>ACCETTATO</option><option>RIFIUTATO</option><option>ANNULLATO</option></select>
+<label>Prezzo finale €</label><input id="finalPrice" type="number" min="0" step=".01">
+<div class="price"><span>PREZZO FINALE</span><strong id="priceBig">€ 0,00</strong><div id="realMargin" class="muted" style="color:#c6d5e3;margin-top:6px"></div></div>
+<button id="save" class="btn primary" style="width:100%;margin-top:12px">Salva modifiche</button></section>
+<section class="card section"><h2>Storico tratta</h2><div id="history" class="muted">Caricamento...</div></section>
+</aside></div></main></div>
+<script type="module">
+import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+const sb=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"),$=x=>document.getElementById(x);let item=null;
+const eur=x=>new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"}).format(Number(x||0));
+const val=x=>(x===null||x===undefined||x==="")?"-":x;
+function message(t,type="error"){$("msg").textContent=t;$("msg").className="msg "+type;window.scrollTo({top:0,behavior:"smooth"})}
+function effectiveMargin(){let p=Number($("finalPrice").value||0),c=Number(item?.costo_totale||0);let m=p>0?(p-c)/p*100:0;$("priceBig").textContent=eur(p);$("realMargin").textContent="Margine effettivo: "+m.toFixed(1)+"% · Utile: "+eur(p-c)}
+async function boot(){
+ const {data:{session}}=await sb.auth.getSession();if(!session)return location.replace("login.html");
+ const {data:p,error:pe}=await sb.from("profiles").select("azienda_id,ruolo,email").eq("id",session.user.id).single();if(pe||!p?.azienda_id)return location.replace("login.html");if(String(p.ruolo||"").toLowerCase()==="autista")return location.replace("area-autista.html");
+ $("userEmail").textContent=session.user.email||p.email||"-";document.body.classList.add("ready");
+ const id=new URLSearchParams(location.search).get("id");if(!id){message("ID preventivo mancante.");return}
+ const {data,error}=await sb.from("preventivi").select("*").eq("id",id).single();if(error||!data){message(error?.message||"Preventivo non trovato.");return}item=data;render();loadHistory();
+}
+function render(){
+ $("number").textContent="Preventivo "+item.numero_preventivo;$("subtitle").textContent="del "+new Date(item.data_preventivo+"T12:00:00").toLocaleDateString("it-IT")+(item.validita_fino_al?" · valido fino al "+new Date(item.validita_fino_al+"T12:00:00").toLocaleDateString("it-IT"):"");
+ $("cliente").textContent=item.cliente;$("statusBox").innerHTML=`<span class="status ${item.stato}">${item.stato.replaceAll("_"," ")}</span>`;$("route").textContent=item.partenza+" → "+item.destinazione;
+ $("pickup").textContent=[item.indirizzo_ritiro,item.cap_ritiro].filter(Boolean).join(" · ")||"-";$("delivery").textContent=[item.indirizzo_consegna,item.cap_consegna].filter(Boolean).join(" · ")||"-";
+ $("merce").textContent=val(item.tipo_merce);$("colli").textContent=val(item.colli);$("peso").textContent=item.peso_kg!=null?item.peso_kg+" kg":"-";$("volume").textContent=item.volume_m3!=null?item.volume_m3+" m³":"-";
+ $("km").textContent=Number(item.km_previsti||0).toLocaleString("it-IT")+" km";$("fuel").textContent=eur(item.costo_carburante);$("vehicle").textContent=eur(item.costo_mezzo);$("tolls").textContent=eur(item.pedaggi);$("driver").textContent=eur(item.costo_autista);$("other").textContent=eur(item.altri_costi);$("total").textContent=eur(item.costo_totale);$("suggested").textContent=eur(item.prezzo_suggerito);
+ $("conditions").textContent=val(item.condizioni);$("notes").textContent=val(item.note);$("state").value=item.stato;$("finalPrice").value=Number(item.prezzo_finale||0).toFixed(2);effectiveMargin();
+}
+async function loadHistory(){
+ const {data,error}=await sb.from("preventivi").select("id,numero_preventivo,data_preventivo,cliente,prezzo_finale,stato").ilike("partenza",item.partenza).ilike("destinazione",item.destinazione).neq("id",item.id).order("created_at",{ascending:false}).limit(5);
+ if(error||!data?.length){$("history").textContent="Nessun altro preventivo per questa tratta.";return}
+ $("history").innerHTML=data.map(x=>`<div class="history"><strong>${x.numero_preventivo} · ${x.cliente}</strong><div class="muted">${new Date(x.data_preventivo+"T12:00:00").toLocaleDateString("it-IT")} · ${eur(x.prezzo_finale)} · ${x.stato.replaceAll("_"," ")}</div></div>`).join("");
+}
+$("finalPrice").addEventListener("input",effectiveMargin);
+$("save").onclick=async()=>{if(!item)return;const b=$("save");b.disabled=true;b.textContent="Salvataggio...";const {data,error}=await sb.from("preventivi").update({stato:$("state").value,prezzo_finale:Number($("finalPrice").value||0)}).eq("id",item.id).select().single();b.disabled=false;b.textContent="Salva modifiche";if(error)return message(error.message);item=data;render();message("Preventivo aggiornato.","success")};
+$("delete").onclick=async()=>{if(!item||!confirm("Eliminare definitivamente il preventivo "+item.numero_preventivo+"?"))return;const {error}=await sb.from("preventivi").delete().eq("id",item.id);if(error)return message(error.message);location.href="preventivi.html"};
+$("pdf").onclick=()=>{if(!item)return;location.href="genera-documento.html?tipo=PREVENTIVO&preventivo_id="+encodeURIComponent(item.id)};
+$("logout").onclick=async()=>{await sb.auth.signOut();location.replace("login.html")};boot();
+</script></body></html>
