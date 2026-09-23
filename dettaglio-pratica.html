@@ -1474,7 +1474,7 @@ const supabase =
   );
 
 
-/* Analisi AI tramite Supabase Edge Function: analizza-pratica */
+
 /* ============================
    PARAMETRI
 ============================ */
@@ -2691,14 +2691,20 @@ async function reanalyzePractice(){
      * una nuova pratica.
      */
 
-    const {data:responseData,error:analysisError}=await supabase.functions.invoke(
+    const { data: responseData, error: analysisError } =
+      await supabase.functions.invoke(
         "analizza-pratica",
-        {body:getAIData()}
+        { body: getAIData() }
       );
-      if(analysisError) throw analysisError;
-      const responseText=typeof responseData==="string"
+
+    if(analysisError){
+      throw analysisError;
+    }
+
+    const responseText =
+      typeof responseData === "string"
         ? responseData
-        : String(responseData?.analysis||responseData?.text||"");
+        : String(responseData?.analysis || responseData?.text || "");
 
     const result =
       parseAIResponse(

@@ -1196,7 +1196,7 @@ const supabase =
   );
 
 
-/* Analisi AI tramite Supabase Edge Function: analizza-pratica */
+
 /* ============================
    ELEMENTI
 ============================ */
@@ -1883,7 +1883,7 @@ correctButton.addEventListener(
 
 
 /* ============================
-   ANALIZZA CON MAKE
+   ANALIZZA CON MATRI-MIA AI
 ============================ */
 
 form.addEventListener(
@@ -1930,14 +1930,20 @@ form.addEventListener(
 
     try{
 
-      const {data:responseData,error:analysisError}=await supabase.functions.invoke(
-        "analizza-pratica",
-        {body:getAnalysisData()}
-      );
-      if(analysisError) throw analysisError;
-      const responseText=typeof responseData==="string"
-        ? responseData
-        : String(responseData?.analysis||responseData?.text||"");
+      const { data: responseData, error: analysisError } =
+        await supabase.functions.invoke(
+          "analizza-pratica",
+          { body: getAnalysisData() }
+        );
+
+      if(analysisError){
+        throw analysisError;
+      }
+
+      const responseText =
+        typeof responseData === "string"
+          ? responseData
+          : String(responseData?.analysis || responseData?.text || "");
 
       ultimaAnalisi =
         responseText;
