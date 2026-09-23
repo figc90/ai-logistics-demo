@@ -129,7 +129,7 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
 }
 .preventivi-edit-btn,.preventivi-save-btn{background:#174f87;color:#fff}
 .preventivi-cancel-btn{background:#fff;color:#334d6a;border:1px solid #d7e0e9}
-.preventivi-compact-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 18px}
+.preventivi-compact-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px 18px}
 .preventivi-compact-grid .field{min-width:0;margin:0}
 .preventivi-compact-grid label{display:block;margin-bottom:7px;font-size:11px;font-weight:800;color:#52657b}
 .input-unit{height:42px;display:flex;align-items:center;border:1px solid #d8e1eb;border-radius:10px;background:#fff;overflow:hidden}
@@ -181,7 +181,7 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
     <div class="field"><label for="preventivi_consumo_l_100km">Consumo medio</label><div class="input-unit"><input id="preventivi_consumo_l_100km" type="number" min="0" step="0.01" placeholder="30"><span>L/100 km</span></div></div>
     <div class="field"><label for="preventivi_prezzo_carburante_l">Prezzo carburante</label><div class="input-unit"><input id="preventivi_prezzo_carburante_l" type="number" min="0" step="0.001" placeholder="1,70"><span>€/L</span></div></div>
     <div class="field"><label for="preventivi_costo_mezzo_km">Costo mezzo</label><div class="input-unit"><input id="preventivi_costo_mezzo_km" type="number" min="0" step="0.01" placeholder="0,45"><span>€/km</span></div></div>
-    <div class="field"><label for="preventivi_costo_autista">Costo autista orario</label><div class="input-unit"><input id="preventivi_costo_autista" type="number" min="0" step="0.01" placeholder="0,00"><span>€/ora</span></div></div>
+    <div class="field"><label for="preventivi_costo_autista">Costo autista</label><div class="input-unit"><input id="preventivi_costo_autista" type="number" min="0" step="0.01" placeholder="0,00"><span>€/ora</span></div></div>
     <div class="field"><label for="preventivi_margine_percentuale">Margine</label><div class="input-unit"><input id="preventivi_margine_percentuale" type="number" min="0" max="99.99" step="0.01" placeholder="20"><span>%</span></div></div>
   </div>
 </section>
@@ -454,7 +454,7 @@ document.addEventListener("DOMContentLoaded",()=>{
        p_preventivi_margine_percentuale:n("preventivi_margine_percentuale")
      });
      if(error)throw error;
-     if(data)setPreventiviSettings(Array.isArray(data)?data[0]:data);
+     /* Salvataggio riuscito: i valori visualizzati sono già quelli appena salvati. */
      lock();
    }catch(e){alert("Errore nel salvataggio dei parametri preventivi: "+(e?.message||e));}
    finally{save.disabled=false;save.textContent="Salva e blocca";}
