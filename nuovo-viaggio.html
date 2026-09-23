@@ -37,140 +37,12 @@ button,input,select,textarea{
   font:inherit;
 }
 
-/* LAYOUT */
+/* MAIN */
 
 .app{
   min-height:100vh;
   display:flex;
 }
-
-/* SIDEBAR */
-
-.sidebar{
-  width:225px;
-  min-height:100vh;
-  background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);
-  color:#fff;
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  display:flex;
-  flex-direction:column;
-  z-index:100;
-}
-
-.sidebar-logo{
-  min-height:152px;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.sidebar-logo-link{
-  width:100%;
-  max-width:195px;
-  min-height:118px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(145deg,#fff,#f4f8fc);
-  border-radius:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.18);
-}
-
-.sidebar-logo img{
-  width:175px;
-  max-width:90%;
-}
-
-.sidebar-nav{
-  padding:24px 12px;
-  flex:1;
-}
-
-.nav-section{
-  margin-bottom:28px;
-}
-
-.nav-title{
-  color:#7893af;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1.8px;
-  margin:0 5px 9px;
-}
-
-.nav-item{
-  min-height:44px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:0 14px;
-  border-radius:10px;
-  color:#c7d3e1;
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:5px;
-}
-
-.nav-item:hover{
-  background:rgba(255,255,255,.07);
-  color:#fff;
-}
-
-.nav-item.active{
-  background:rgba(41,169,210,.18);
-  border:1px solid rgba(41,169,210,.32);
-  color:#fff;
-}
-
-.nav-icon{
-  width:18px;
-  text-align:center;
-}
-
-.sidebar-bottom{
-  padding:12px;
-  border-top:1px solid rgba(255,255,255,.08);
-}
-
-.user-card{
-  background:rgba(255,255,255,.06);
-  border-radius:10px;
-  padding:11px 12px;
-  margin-bottom:9px;
-}
-
-.user-label{
-  color:#7994af;
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:1.3px;
-  margin-bottom:4px;
-}
-
-.user-email{
-  color:#fff;
-  font-size:12px;
-  font-weight:700;
-  overflow-wrap:anywhere;
-}
-
-.logout-btn{
-  width:100%;
-  min-height:40px;
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:9px;
-  background:rgba(255,255,255,.04);
-  color:#dbe5ef;
-  font-weight:800;
-  cursor:pointer;
-}
-
-/* MAIN */
 
 .main{
   margin-left:225px;
@@ -191,8 +63,9 @@ button,input,select,textarea{
 }
 
 .topbar-brand{
-  color:#8492a6;
-  font-size:12px;
+  color:#173459!important;
+  font-size:14px!important;
+  font-weight:900!important;
 }
 
 .back-btn{
@@ -340,6 +213,11 @@ textarea:focus{
   box-shadow:0 0 0 3px rgba(44,169,210,.08);
 }
 
+input[readonly]{
+  background:#f6f8fb;
+  color:#65758b;
+}
+
 /* VETTORE */
 
 .vettore-box{
@@ -348,7 +226,8 @@ textarea:focus{
   gap:8px;
 }
 
-.vettore-helper{
+.vettore-helper,
+.field-helper{
   color:#8795a8;
   font-size:11px;
   line-height:1.4;
@@ -366,6 +245,84 @@ textarea:focus{
 .registry-link:hover{
   text-decoration:underline;
 }
+
+/* MEZZO */
+
+.vehicle-panel{
+  grid-column:1 / -1;
+  border:1px solid #d9e7ef;
+  background:#f8fbfd;
+  border-radius:13px;
+  padding:16px;
+}
+
+.vehicle-title{
+  color:#173459;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:13px;
+}
+
+.vehicle-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+}
+
+.vehicle-cost{
+  height:44px;
+  border:1px solid #dce3eb;
+  border-radius:10px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  padding:0 13px;
+  color:#173459;
+  font-weight:900;
+}
+
+.vehicle-info{
+  margin-top:10px;
+  color:#748499;
+  font-size:11px;
+}
+
+/* COST BOX */
+
+.cost-preview{
+  grid-column:1 / -1;
+  background:linear-gradient(145deg,#f4f9fc,#edf6fa);
+  border:1px solid #d3e8f1;
+  border-radius:13px;
+  padding:16px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.cost-preview-label{
+  color:#526177;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+}
+
+.cost-preview-sub{
+  color:#8795a8;
+  font-size:10px;
+  margin-top:4px;
+}
+
+.cost-preview-value{
+  color:#173459;
+  font-size:24px;
+  font-weight:900;
+  white-space:nowrap;
+}
+
+/* ACTIONS */
 
 .actions{
   display:flex;
@@ -422,47 +379,151 @@ textarea:focus{
   color:#176b9c;
 }
 
+/* SIDEBAR */
+
+.std-sidebar{
+  width:225px;
+  height:100vh;
+  position:fixed;
+  inset:0 auto 0 0;
+  background:linear-gradient(180deg,#071b35,#0d2d50);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  z-index:1000;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.std-logo{
+  height:116px;
+  min-height:116px;
+  padding:10px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid #ffffff15;
+}
+
+.std-logo img{
+  width:180px;
+  max-width:180px;
+  height:90px;
+  max-height:90px;
+  object-fit:contain;
+  background:#fff;
+  border-radius:11px;
+  padding:6px 9px;
+  box-shadow:0 5px 18px rgba(0,0,0,.14);
+}
+
+.std-nav{
+  padding:7px 10px 10px;
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+.std-title{
+  font-size:9px;
+  color:#7891aa;
+  font-weight:900;
+  letter-spacing:1.15px;
+  margin:11px 9px 5px;
+}
+
+.std-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-height:37px;
+  padding:7px 10px;
+  border-radius:9px;
+  color:#d9e4ef!important;
+  font-size:13px;
+  font-weight:700;
+  margin:1px 0;
+}
+
+.std-item:hover,
+.std-item.active{
+  background:#ffffff19;
+  color:#fff!important;
+}
+
+.std-icon{
+  width:18px;
+  text-align:center;
+  flex:0 0 18px;
+}
+
+.std-bottom{
+  padding:9px 10px;
+  border-top:1px solid #ffffff15;
+}
+
+.std-user{
+  font-size:10px;
+  word-break:break-all;
+  background:#ffffff10;
+  padding:7px 9px;
+  border-radius:8px;
+  margin-bottom:7px;
+  color:#fff;
+}
+
+.std-logout{
+  width:100%;
+  height:34px;
+  border:1px solid #ffffff22;
+  background:#ffffff09;
+  color:#fff;
+  border-radius:8px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* MOBILE */
+
 @media(max-width:760px){
 
-  .sidebar{
-    width:72px;
+  .std-sidebar{
+    width:70px;
   }
 
-  .main{
-    margin-left:72px;
-    width:calc(100% - 72px);
+  .std-logo{
+    height:70px;
+    min-height:70px;
+    padding:6px;
   }
 
-  .sidebar-logo{
-    min-height:80px;
-    padding:8px;
+  .std-logo img{
+    width:56px;
+    height:54px;
+    padding:4px;
   }
 
-  .sidebar-logo-link{
-    width:55px;
-    min-height:55px;
-  }
-
-  .sidebar-logo img{
-    width:50px;
-  }
-
-  .nav-title,
-  .nav-item span:not(.nav-icon),
-  .user-card{
+  .std-title,
+  .std-item span:not(.std-icon),
+  .std-user{
     display:none;
   }
 
-  .nav-item{
+  .std-item{
     justify-content:center;
-    padding:0;
+    padding:8px 0;
+  }
+
+  .main{
+    margin-left:70px;
+    width:calc(100% - 70px);
   }
 
   .content{
     padding:25px 14px 40px;
   }
 
-  .form-grid{
+  .form-grid,
+  .vehicle-grid{
     grid-template-columns:1fr;
   }
 
@@ -470,115 +531,91 @@ textarea:focus{
     grid-column:auto;
   }
 
+  .cost-preview{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
 }
-
-
-/* =========================================================
-   SIDEBAR UNIFICATA - STESSO STILE DASHBOARD
-========================================================= */
-.sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);color:#fff;position:fixed;left:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:100;border-right:1px solid rgba(255,255,255,.05)}
-.sidebar-logo{min-height:152px;padding:14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}
-.sidebar-logo-link{width:100%;max-width:195px;min-height:118px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#fff,#f4f8fc);border:1px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);transition:.2s ease}
-.sidebar-logo-link:hover{transform:translateY(-1px)}
-.sidebar-logo img{width:175px;max-width:90%;height:auto;display:block}
-.sidebar-nav{padding:24px 12px;flex:1;overflow-y:auto;min-height:0}
-.nav-section{margin-bottom:28px}
-.nav-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.8px;margin:0 5px 9px}
-.nav-item{min-height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:10px;color:#c7d3e1;font-size:14px;font-weight:700;margin-bottom:5px;transition:.18s ease;text-decoration:none}
-.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}
-.nav-icon{width:18px;text-align:center;font-size:16px;opacity:.9}
-.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;background:#0d2d50}
-.user-card{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 12px;margin-bottom:9px}
-.user-label{color:#7994af;font-size:9px;font-weight:900;letter-spacing:1.3px;margin-bottom:4px}
-.user-email{color:#fff;font-size:12px;font-weight:700;overflow-wrap:anywhere}
-.logout-btn{width:100%;min-height:40px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
-.logout-btn:hover{background:rgba(255,255,255,.09);color:#fff}
-@media(max-width:760px){.sidebar{width:72px}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px;border-radius:10px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center;padding:0}.sidebar-bottom{padding:8px}.logout-btn{font-size:0}.logout-btn::after{content:"↪";font-size:18px}}
 
 </style>
 
 <script type="module" src="js/admin-role-guard.js"></script>
 
-<style id="matrimia-standard-sidebar-css">
-.std-sidebar{width:225px;height:100vh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;display:flex;flex-direction:column;z-index:1000;font-family:Arial,Helvetica,sans-serif}
-.std-logo{height:62px;min-height:62px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #ffffff15;padding:5px 10px}
-.std-logo img{display:block;width:50px;height:46px;object-fit:contain}
-.std-nav{padding:7px 10px 10px;flex:1;overflow-y:auto;overflow-x:hidden}
-.std-title{font-size:9px;color:#7891aa;font-weight:900;letter-spacing:1.15px;margin:11px 9px 5px}
-.std-item{display:flex;align-items:center;gap:10px;min-height:37px;padding:7px 10px;border-radius:9px;color:#d9e4ef!important;font-size:13px;font-weight:700;margin:1px 0;text-decoration:none!important}
-.std-item:hover,.std-item.active{background:#ffffff19;color:#fff!important}
-.std-icon{width:18px;text-align:center;flex:0 0 18px}
-.std-bottom{padding:9px 10px;border-top:1px solid #ffffff15}
-.std-user{font-size:10px;word-break:break-all;background:#ffffff10;padding:7px 9px;border-radius:8px;margin-bottom:7px;color:#fff}
-.std-logout{width:100%;height:34px;border:1px solid #ffffff22;background:#ffffff09;color:#fff;border-radius:8px;font-weight:800;cursor:pointer}
-@media(max-width:760px){.std-sidebar{width:70px}.std-logo{padding:5px}.std-logo img{width:44px;height:42px}.std-title,.std-item span:not(.std-icon),.std-user{display:none}.std-item{justify-content:center;padding:8px 0}.std-bottom{padding:8px}.std-logout{font-size:11px}}
-</style>
-
-<style id="matrimia-brand-uniform-css">
-.std-logo{
-  height:68px!important;
-  min-height:68px!important;
-  padding:7px 12px!important;
-  background:transparent!important;
-}
-.std-logo img{
-  width:96px!important;
-  height:52px!important;
-  object-fit:contain!important;
-  background:#fff!important;
-  border-radius:9px!important;
-  padding:5px 9px!important;
-  box-shadow:0 2px 8px rgba(0,0,0,.10)!important;
-}
-/* Brand della topbar uniforme al formato di preventivi.html */
-.topbar-brand,.app-topbar-brand,.brand,.header-brand,.main-brand{
-  color:#173459!important;
-  font-size:14px!important;
-  font-weight:900!important;
-  letter-spacing:0!important;
-  line-height:1!important;
-}
-@media(max-width:760px){
-  .std-logo{height:62px!important;min-height:62px!important;padding:6px!important}
-  .std-logo img{width:54px!important;height:46px!important;padding:4px!important}
-}
-</style>
-
-<style id="matrimia-logo-large-override">
-/* Logo MatRi-mIA più grande, senza modificare la struttura delle pagine */
-.std-logo{
-  height:116px!important;
-  min-height:116px!important;
-  padding:10px 12px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-.std-logo img{
-  width:180px!important;
-  max-width:180px!important;
-  height:90px!important;
-  max-height:90px!important;
-  object-fit:contain!important;
-  background:#fff!important;
-  border-radius:11px!important;
-  padding:6px 9px!important;
-  box-sizing:border-box!important;
-  box-shadow:0 5px 18px rgba(0,0,0,.14)!important;
-}
-@media(max-width:760px){
-  .std-logo{height:70px!important;min-height:70px!important;padding:6px!important}
-  .std-logo img{width:56px!important;max-width:56px!important;height:54px!important;max-height:54px!important;padding:4px!important}
-}
-</style>
 </head>
 
 <body>
 
 <div class="app">
 
-<aside class="std-sidebar"><a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a><nav class="std-nav"><div class="std-title">OPERATIVITÀ</div><a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a><a href="pratiche.html" class="std-item"><span class="std-icon">▤</span><span>Pratiche</span></a><a href="nuova-pratica.html" class="std-item"><span class="std-icon">＋</span><span>Nuova pratica</span></a><div class="std-title">AUTOMAZIONI</div><a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a><a href="email-ai.html" class="std-item"><span class="std-icon">✉</span><span>Email AI</span></a><a href="viaggi.html" class="std-item active"><span class="std-icon">↗</span><span>Viaggi</span></a><div class="std-title">COMMERCIALE</div><a href="preventivi.html" class="std-item"><span class="std-icon">€</span><span>Preventivi</span></a><div class="std-title">GESTIONE</div><a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a><a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a><a href="flotta.html" class="std-item"><span class="std-icon">▰</span><span>Flotta</span></a><a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a></nav><div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div></aside>
+<aside class="std-sidebar">
+
+<a class="std-logo" href="dashboard.html">
+<img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+</a>
+
+<nav class="std-nav">
+
+<div class="std-title">OPERATIVITÀ</div>
+
+<a href="dashboard.html" class="std-item">
+<span class="std-icon">▦</span><span>Dashboard</span>
+</a>
+
+<a href="pratiche.html" class="std-item">
+<span class="std-icon">▤</span><span>Pratiche</span>
+</a>
+
+<a href="nuova-pratica.html" class="std-item">
+<span class="std-icon">＋</span><span>Nuova pratica</span>
+</a>
+
+<div class="std-title">AUTOMAZIONI</div>
+
+<a href="assistente-ai.html" class="std-item">
+<span class="std-icon">✦</span><span>Assistente AI</span>
+</a>
+
+<a href="email-ai.html" class="std-item">
+<span class="std-icon">✉</span><span>Email AI</span>
+</a>
+
+<a href="viaggi.html" class="std-item active">
+<span class="std-icon">↗</span><span>Viaggi</span>
+</a>
+
+<div class="std-title">COMMERCIALE</div>
+
+<a href="preventivi.html" class="std-item">
+<span class="std-icon">€</span><span>Preventivi</span>
+</a>
+
+<div class="std-title">GESTIONE</div>
+
+<a href="anagrafiche.html" class="std-item">
+<span class="std-icon">▣</span><span>Anagrafiche</span>
+</a>
+
+<a href="autisti.html" class="std-item">
+<span class="std-icon">♟</span><span>Autisti</span>
+</a>
+
+<a href="flotta.html" class="std-item">
+<span class="std-icon">▰</span><span>Flotta</span>
+</a>
+
+<a href="impostazioni.html" class="std-item">
+<span class="std-icon">⚙</span><span>Impostazioni</span>
+</a>
+
+</nav>
+
+<div class="std-bottom">
+<div id="userEmail" class="std-user">-</div>
+<button id="logoutButton" class="std-logout" type="button">Esci</button>
+</div>
+
+</aside>
 
 
 <div class="main">
@@ -606,27 +643,20 @@ MatRi-mIA Logistics · Viaggi
 Programma un trasporto partendo da una pratica esistente.
 </div>
 
-
 <div id="messageBox" class="message"></div>
 
 
 <section class="practice-card">
 
-<div class="practice-label">
-PRATICA COLLEGATA
-</div>
+<div class="practice-label">PRATICA COLLEGATA</div>
 
 <div id="practiceNumber" class="practice-number">
 Seleziona una pratica
 </div>
 
-<div id="practiceRoute" class="practice-route">
--
-</div>
+<div id="practiceRoute" class="practice-route">-</div>
 
-<div id="practiceClient" class="practice-client">
--
-</div>
+<div id="practiceClient" class="practice-client">-</div>
 
 </section>
 
@@ -646,16 +676,10 @@ Seleziona una pratica
 
 <div class="form-group full">
 
-<label for="practiceSelect">
-Pratica
-</label>
+<label for="practiceSelect">Pratica</label>
 
 <select id="practiceSelect" required>
-
-<option value="">
-Seleziona una pratica...
-</option>
-
+<option value="">Seleziona una pratica...</option>
 </select>
 
 </div>
@@ -672,11 +696,7 @@ Vettore da anagrafica
 <div class="vettore-box">
 
 <select id="vettoreSelect">
-
-<option value="">
-Nessun vettore collegato
-</option>
-
+<option value="">Nessun vettore collegato</option>
 </select>
 
 <input
@@ -694,6 +714,70 @@ Apri anagrafica vettore →
 Seleziona un vettore registrato oppure inserisci manualmente il nome.
 </div>
 
+</div>
+
+</div>
+
+
+<!-- MEZZO -->
+
+<div class="vehicle-panel">
+
+<div class="vehicle-title">
+MEZZO DALLA FLOTTA
+</div>
+
+<div class="vehicle-grid">
+
+<div class="form-group">
+
+<label for="mezzoSelect">
+Mezzo
+</label>
+
+<select id="mezzoSelect">
+
+<option value="">
+Nessun mezzo selezionato
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Targa
+</label>
+
+<input
+id="targaTrattore"
+type="text"
+placeholder="-">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Costo mezzo €/km
+</label>
+
+<div
+id="costoKmDisplay"
+class="vehicle-cost">
+€ 0,000 / km
+</div>
+
+</div>
+
+</div>
+
+<div class="vehicle-info" id="vehicleInfo">
+Seleziona un mezzo della flotta per collegarlo al viaggio.
 </div>
 
 </div>
@@ -756,17 +840,6 @@ ANNULLATO
 
 <div class="form-group">
 
-<label for="targaTrattore">
-Targa trattore
-</label>
-
-<input id="targaTrattore" type="text">
-
-</div>
-
-
-<div class="form-group">
-
 <label for="targaRimorchio">
 Targa rimorchio
 </label>
@@ -816,7 +889,7 @@ step="1">
 <div class="form-group">
 
 <label for="costoPrevisto">
-Costo previsto €
+Costo mezzo previsto €
 </label>
 
 <input
@@ -824,6 +897,31 @@ id="costoPrevisto"
 type="number"
 min="0"
 step="0.01">
+
+<div class="field-helper">
+Escluso carburante.
+</div>
+
+</div>
+
+
+<div class="cost-preview">
+
+<div>
+
+<div class="cost-preview-label">
+Costo mezzo del viaggio
+</div>
+
+<div class="cost-preview-sub">
+Km previsti × costo mezzo €/km · carburante escluso
+</div>
+
+</div>
+
+<div id="costPreview" class="cost-preview-value">
+€ 0,00
+</div>
 
 </div>
 
@@ -877,10 +975,6 @@ import { createClient }
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* =========================================================
-   SUPABASE
-   ========================================================= */
-
 const SUPABASE_URL =
 "https://sctzockiurjsxzdkctmy.supabase.co";
 
@@ -894,9 +988,7 @@ createClient(
 );
 
 
-/* =========================================================
-   PARAMETRI
-   ========================================================= */
+/* PARAMETRI */
 
 const params =
 new URLSearchParams(
@@ -907,9 +999,7 @@ const requestedPractice =
 params.get("pratica");
 
 
-/* =========================================================
-   ELEMENTI
-   ========================================================= */
+/* ELEMENTI */
 
 const userEmail =
 document.getElementById("userEmail");
@@ -947,19 +1037,41 @@ document.getElementById("vettore");
 const vettoreRegistryLink =
 document.getElementById("vettoreRegistryLink");
 
+const mezzoSelect =
+document.getElementById("mezzoSelect");
+
+const targaTrattore =
+document.getElementById("targaTrattore");
+
+const costoKmDisplay =
+document.getElementById("costoKmDisplay");
+
+const vehicleInfo =
+document.getElementById("vehicleInfo");
+
+const kmPrevistiInput =
+document.getElementById("kmPrevisti");
+
+const costoPrevistoInput =
+document.getElementById("costoPrevisto");
+
+const costPreview =
+document.getElementById("costPreview");
+
 
 let currentUser = null;
 let currentProfile = null;
 
 let practices = [];
 let vettori = [];
+let mezzi = [];
 
 let selectedVettoreId = null;
+let selectedMezzoId = null;
+let selectedMezzoCostoKm = 0;
 
 
-/* =========================================================
-   UTILITY
-   ========================================================= */
+/* UTILITY */
 
 function emptyToNull(value){
 
@@ -978,6 +1090,48 @@ function normalizeText(value){
   .toLowerCase()
   .normalize("NFD")
   .replace(/[\u0300-\u036f]/g,"");
+
+}
+
+
+function numberValue(value){
+
+  const n =
+  Number(value);
+
+  return Number.isFinite(n)
+    ? n
+    : 0;
+
+}
+
+
+function euro(value){
+
+  return new Intl.NumberFormat(
+    "it-IT",
+    {
+      style:"currency",
+      currency:"EUR",
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
+  ).format(
+    numberValue(value)
+  );
+
+}
+
+
+function euroKm(value){
+
+  return (
+    "€ " +
+    numberValue(value)
+      .toFixed(3)
+      .replace(".",",") +
+    " / km"
+  );
 
 }
 
@@ -1036,9 +1190,7 @@ function toLocalInput(value){
 }
 
 
-/* =========================================================
-   AUTENTICAZIONE
-   ========================================================= */
+/* AUTENTICAZIONE */
 
 async function protectPage(){
 
@@ -1061,7 +1213,6 @@ async function protectPage(){
   currentUser =
   session.user;
 
-
   const {
     data:profile,
     error:profileError
@@ -1076,7 +1227,6 @@ async function protectPage(){
     currentUser.id
   )
   .single();
-
 
   if(
     profileError ||
@@ -1094,30 +1244,24 @@ async function protectPage(){
 
   }
 
-
   currentProfile =
   profile;
-
 
   userEmail.textContent =
   profile.email ||
   currentUser.email ||
   "-";
 
-
   document.body.classList.add(
     "auth-ready"
   );
-
 
   return true;
 
 }
 
 
-/* =========================================================
-   LOGOUT
-   ========================================================= */
+/* LOGOUT */
 
 logoutButton.addEventListener(
 "click",
@@ -1132,9 +1276,7 @@ async ()=>{
 });
 
 
-/* =========================================================
-   CARICA VETTORI DA ANAGRAFICHE
-   ========================================================= */
+/* CARICA VETTORI */
 
 async function loadVettori(){
 
@@ -1166,21 +1308,17 @@ async function loadVettori(){
     {ascending:true}
   );
 
-
   if(error){
     throw error;
   }
 
-
   vettori =
   data || [];
-
 
   vettoreSelect.innerHTML =
   `<option value="">
     Nessun vettore collegato
    </option>`;
-
 
   vettori.forEach(
   vettore=>{
@@ -1205,9 +1343,83 @@ async function loadVettori(){
 }
 
 
-/* =========================================================
-   VETTORE
-   ========================================================= */
+/* CARICA FLOTTA */
+
+async function loadMezzi(){
+
+  const {
+    data,
+    error
+  } =
+  await supabase
+  .from("mezzi")
+  .select(`
+    id,
+    targa,
+    marca,
+    modello,
+    tipo_mezzo,
+    attivo,
+    costo_mezzo_km
+  `)
+  .eq(
+    "azienda_id",
+    currentProfile.azienda_id
+  )
+  .eq(
+    "attivo",
+    true
+  )
+  .order(
+    "targa",
+    {ascending:true}
+  );
+
+  if(error){
+    throw error;
+  }
+
+  mezzi =
+  data || [];
+
+  mezzoSelect.innerHTML =
+  `<option value="">
+    Nessun mezzo selezionato
+   </option>`;
+
+  mezzi.forEach(
+  mezzo=>{
+
+    const option =
+    document.createElement(
+      "option"
+    );
+
+    option.value =
+    mezzo.id;
+
+    const descrizione =
+    [
+      mezzo.targa,
+      mezzo.marca,
+      mezzo.modello
+    ]
+    .filter(Boolean)
+    .join(" · ");
+
+    option.textContent =
+    descrizione || "Mezzo";
+
+    mezzoSelect.appendChild(
+      option
+    );
+
+  });
+
+}
+
+
+/* VETTORE */
 
 function findVettore(id){
 
@@ -1286,10 +1498,8 @@ function applyVettoreById(
 
   }
 
-
   const vettore =
   findVettore(id);
-
 
   if(vettore){
 
@@ -1305,12 +1515,6 @@ function applyVettoreById(
   }
   else{
 
-    /*
-     * L'ID potrebbe riferirsi a
-     * un'anagrafica oggi disattivata.
-     * Manteniamo comunque il nome.
-     */
-
     selectedVettoreId =
     id;
 
@@ -1321,7 +1525,6 @@ function applyVettoreById(
     fallbackName || "";
 
   }
-
 
   setVettoreLink();
 
@@ -1334,7 +1537,6 @@ function tryMatchVettoreByName(){
   normalizeText(
     vettoreInput.value
   );
-
 
   if(!name){
 
@@ -1350,7 +1552,6 @@ function tryMatchVettoreByName(){
 
   }
 
-
   const match =
   vettori.find(
     item =>
@@ -1358,7 +1559,6 @@ function tryMatchVettoreByName(){
       item.ragione_sociale
     ) === name
   );
-
 
   if(match){
 
@@ -1379,13 +1579,10 @@ function tryMatchVettoreByName(){
 
   }
 
-
   setVettoreLink();
 
 }
 
-
-/* CAMBIO SELECT */
 
 vettoreSelect.addEventListener(
 "change",
@@ -1395,7 +1592,6 @@ function(){
   findVettore(
     vettoreSelect.value
   );
-
 
   if(!vettore){
 
@@ -1408,7 +1604,6 @@ function(){
 
   }
 
-
   selectedVettoreId =
   vettore.id;
 
@@ -1420,8 +1615,6 @@ function(){
 });
 
 
-/* MODIFICA MANUALE */
-
 vettoreInput.addEventListener(
 "input",
 function(){
@@ -1430,12 +1623,10 @@ function(){
     return;
   }
 
-
   const vettore =
   findVettore(
     selectedVettoreId
   );
-
 
   if(
     !vettore ||
@@ -1466,16 +1657,149 @@ tryMatchVettoreByName
 );
 
 
-/* =========================================================
-   CARICA PRATICHE
-   ========================================================= */
+/* MEZZO */
 
-async function loadPractices(){
+function findMezzo(id){
+
+  return mezzi.find(
+    mezzo =>
+    String(mezzo.id) ===
+    String(id)
+  ) || null;
+
+}
+
+
+function clearMezzo(){
+
+  selectedMezzoId =
+  null;
+
+  selectedMezzoCostoKm =
+  0;
+
+  mezzoSelect.value =
+  "";
+
+  targaTrattore.value =
+  "";
+
+  costoKmDisplay.textContent =
+  euroKm(0);
+
+  vehicleInfo.textContent =
+  "Seleziona un mezzo della flotta per collegarlo al viaggio.";
+
+  calculateVehicleCost();
+
+}
+
+
+function applyMezzo(){
+
+  const mezzo =
+  findMezzo(
+    mezzoSelect.value
+  );
+
+  if(!mezzo){
+
+    clearMezzo();
+    return;
+
+  }
+
+  selectedMezzoId =
+  mezzo.id;
+
+  selectedMezzoCostoKm =
+  numberValue(
+    mezzo.costo_mezzo_km
+  );
+
+  targaTrattore.value =
+  mezzo.targa || "";
+
+  costoKmDisplay.textContent =
+  euroKm(
+    selectedMezzoCostoKm
+  );
+
+  const description =
+  [
+    mezzo.tipo_mezzo,
+    mezzo.marca,
+    mezzo.modello
+  ]
+  .filter(Boolean)
+  .join(" · ");
+
+  vehicleInfo.textContent =
+  description ||
+  "Mezzo collegato alla flotta.";
+
+  calculateVehicleCost();
+
+}
+
+
+function calculateVehicleCost(){
+
+  const km =
+  numberValue(
+    kmPrevistiInput.value
+  );
+
+  const total =
+  km *
+  selectedMezzoCostoKm;
+
+  costPreview.textContent =
+  euro(total);
 
   /*
-   * Recuperiamo prima i viaggi già esistenti.
-   * Una pratica può avere un solo viaggio.
+   * Se abbiamo un mezzo selezionato,
+   * aggiorniamo automaticamente
+   * il costo previsto.
    */
+
+  if(selectedMezzoId){
+
+    costoPrevistoInput.value =
+    total > 0
+      ? total.toFixed(2)
+      : "";
+
+  }
+
+}
+
+
+mezzoSelect.addEventListener(
+"change",
+applyMezzo
+);
+
+
+kmPrevistiInput.addEventListener(
+"input",
+calculateVehicleCost
+);
+
+
+/*
+ * La targa resta modificabile per
+ * compatibilità con la struttura
+ * precedente del viaggio.
+ *
+ * Il vero collegamento con la flotta
+ * è comunque mezzo_id.
+ */
+
+
+/* CARICA PRATICHE */
+
+async function loadPractices(){
 
   const {
     data:existingTrips,
@@ -1487,11 +1811,9 @@ async function loadPractices(){
     "pratica_id"
   );
 
-
   if(tripError){
     throw tripError;
   }
-
 
   const usedIds =
   new Set(
@@ -1501,13 +1823,6 @@ async function loadPractices(){
       viaggio.pratica_id
     )
   );
-
-
-  /*
-   * IMPORTANTE:
-   * carichiamo anche vettore e vettore_id
-   * dalla pratica.
-   */
 
   const {
     data,
@@ -1531,11 +1846,9 @@ async function loadPractices(){
     {ascending:false}
   );
 
-
   if(error){
     throw error;
   }
-
 
   practices =
   (data || [])
@@ -1546,12 +1859,10 @@ async function loadPractices(){
     )
   );
 
-
   practiceSelect.innerHTML =
   `<option value="">
     Seleziona una pratica...
    </option>`;
-
 
   practices.forEach(
   pratica=>{
@@ -1561,10 +1872,8 @@ async function loadPractices(){
       "option"
     );
 
-
     option.value =
     pratica.id;
-
 
     option.textContent =
     (
@@ -1582,19 +1891,11 @@ async function loadPractices(){
       "-"
     );
 
-
     practiceSelect.appendChild(
       option
     );
 
   });
-
-
-  /*
-   * Se arriviamo da dettaglio-pratica.html
-   * preselezioniamo automaticamente
-   * la pratica.
-   */
 
   if(requestedPractice){
 
@@ -1608,7 +1909,6 @@ async function loadPractices(){
       ) ===
       String(requestedPractice)
     );
-
 
     if(found){
 
@@ -1631,9 +1931,7 @@ async function loadPractices(){
 }
 
 
-/* =========================================================
-   AGGIORNA PRATICA
-   ========================================================= */
+/* AGGIORNA PRATICA */
 
 function updatePracticeCard(){
 
@@ -1645,7 +1943,6 @@ function updatePracticeCard(){
       practiceSelect.value
     )
   );
-
 
   if(!pratica){
 
@@ -1664,11 +1961,9 @@ function updatePracticeCard(){
 
   }
 
-
   practiceNumber.textContent =
   pratica.numero_pratica ||
   "-";
-
 
   practiceRoute.textContent =
   (
@@ -1681,24 +1976,12 @@ function updatePracticeCard(){
     "-"
   );
 
-
   practiceClient.textContent =
   "Cliente: " +
   (
     pratica.cliente ||
     "-"
   );
-
-
-  /*
-   * VETTORE
-   *
-   * Se la pratica ha vettore_id:
-   * usiamo direttamente l'anagrafica.
-   *
-   * Se ha soltanto il vecchio campo
-   * testuale, proviamo a riconoscerlo.
-   */
 
   if(pratica.vettore_id){
 
@@ -1728,11 +2011,6 @@ function updatePracticeCard(){
 
   }
 
-
-  /*
-   * DATE
-   */
-
   const dataPartenzaInput =
   document.getElementById(
     "dataPartenza"
@@ -1743,22 +2021,12 @@ function updatePracticeCard(){
     "dataArrivo"
   );
 
-
-  /*
-   * Quando cambiamo pratica,
-   * impostiamo le date della pratica.
-   * In questo modo non rimangono
-   * accidentalmente quelle della
-   * pratica precedente.
-   */
-
   dataPartenzaInput.value =
   pratica.ritiro
   ? toLocalInput(
       pratica.ritiro
     )
   : "";
-
 
   dataArrivoInput.value =
   pratica.consegna
@@ -1769,10 +2037,6 @@ function updatePracticeCard(){
 
 }
 
-
-/* =========================================================
-   CAMBIO PRATICA
-   ========================================================= */
 
 practiceSelect.addEventListener(
 "change",
@@ -1785,9 +2049,7 @@ function(){
 });
 
 
-/* =========================================================
-   CREA VIAGGIO
-   ========================================================= */
+/* CREA VIAGGIO */
 
 tripForm.addEventListener(
 "submit",
@@ -1797,10 +2059,8 @@ async event=>{
 
   hideMessage();
 
-
   const praticaId =
   practiceSelect.value;
-
 
   if(!praticaId){
 
@@ -1812,15 +2072,7 @@ async event=>{
 
   }
 
-
-  /*
-   * Prima del salvataggio facciamo
-   * un ultimo tentativo di associare
-   * il nome scritto a un'anagrafica.
-   */
-
   tryMatchVettoreByName();
-
 
   const dataPartenza =
   emptyToNull(
@@ -1829,14 +2081,12 @@ async event=>{
     ).value
   );
 
-
   const dataArrivo =
   emptyToNull(
     document.getElementById(
       "dataArrivo"
     ).value
   );
-
 
   if(
     dataPartenza &&
@@ -1853,13 +2103,11 @@ async event=>{
 
   }
 
-
   saveButton.disabled =
   true;
 
   saveButton.textContent =
   "Creazione...";
-
 
   try{
 
@@ -1876,12 +2124,6 @@ async event=>{
         "stato"
       ).value,
 
-      /*
-       * Manteniamo entrambi:
-       * - nome leggibile
-       * - UUID anagrafica
-       */
-
       vettore:
       emptyToNull(
         vettoreInput.value
@@ -1889,6 +2131,13 @@ async event=>{
 
       vettore_id:
       selectedVettoreId,
+
+      /*
+       * Collegamento reale alla flotta.
+       */
+
+      mezzo_id:
+      selectedMezzoId,
 
       autista:
       emptyToNull(
@@ -1904,11 +2153,14 @@ async event=>{
         ).value
       ),
 
+      /*
+       * Manteniamo anche la targa
+       * testuale per compatibilità.
+       */
+
       targa_trattore:
       emptyToNull(
-        document.getElementById(
-          "targaTrattore"
-        ).value
+        targaTrattore.value
       ),
 
       targa_rimorchio:
@@ -1926,16 +2178,18 @@ async event=>{
 
       km_previsti:
       emptyToNull(
-        document.getElementById(
-          "kmPrevisti"
-        ).value
+        kmPrevistiInput.value
       ),
+
+      /*
+       * Per ora questo valore è
+       * SOLO il costo mezzo.
+       * Carburante escluso.
+       */
 
       costo_previsto:
       emptyToNull(
-        document.getElementById(
-          "costoPrevisto"
-        ).value
+        costoPrevistoInput.value
       ),
 
       note:
@@ -1953,7 +2207,6 @@ async event=>{
 
     };
 
-
     const {
       data,
       error
@@ -1966,11 +2219,9 @@ async event=>{
     )
     .single();
 
-
     if(error){
       throw error;
     }
-
 
     window.location.href =
     "dettaglio-viaggio.html?id=" +
@@ -1982,7 +2233,6 @@ async event=>{
   catch(error){
 
     console.error(error);
-
 
     if(
       error.code === "23505"
@@ -2002,7 +2252,6 @@ async event=>{
 
     }
 
-
     saveButton.disabled =
     false;
 
@@ -2014,9 +2263,7 @@ async event=>{
 });
 
 
-/* =========================================================
-   AVVIO
-   ========================================================= */
+/* AVVIO */
 
 async function start(){
 
@@ -2025,22 +2272,20 @@ async function start(){
     const authenticated =
     await protectPage();
 
-
     if(!authenticated){
       return;
     }
 
-
     /*
-     * Prima carichiamo i vettori,
-     * poi le pratiche.
-     *
-     * Così quando viene preselezionata
-     * una pratica possiamo riconoscere
-     * subito il relativo vettore.
+     * Ordine:
+     * 1. vettori
+     * 2. flotta
+     * 3. pratiche
      */
 
     await loadVettori();
+
+    await loadMezzi();
 
     await loadPractices();
 
@@ -2058,28 +2303,9 @@ async function start(){
 
 }
 
-
 start();
 
 </script>
 
-
-<!-- Sincronizzazione utente sidebar -->
-<script type="module">
-  import { createClient as createSidebarClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  const sidebarUserEmail = document.getElementById("userEmail");
-  if (sidebarUserEmail) {
-    try {
-      const sidebarSupabase = createSidebarClient(
-        "https://sctzockiurjsxzdkctmy.supabase.co",
-        "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"
-      );
-      const { data: { session } } = await sidebarSupabase.auth.getSession();
-      if (session?.user?.email) sidebarUserEmail.textContent = session.user.email;
-    } catch (error) {
-      console.error("Errore visualizzazione utente sidebar:", error);
-    }
-  }
-</script>
 </body>
 </html>
