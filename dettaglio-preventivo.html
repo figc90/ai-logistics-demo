@@ -96,9 +96,12 @@
 <div class="field"><span>PESO</span><strong id="peso">-</strong></div><div class="field"><span>VOLUME</span><strong id="volume">-</strong></div>
 </div></section>
 <section class="card section"><h2>Dettaglio costi</h2><div class="costs">
-<div class="cost"><span>KM PREVISTI</span><strong id="km">0</strong></div><div class="cost"><span>CARBURANTE</span><strong id="fuel">€ 0,00</strong></div>
-<div class="cost"><span>COSTO MEZZO</span><strong id="vehicle">€ 0,00</strong></div><div class="cost"><span>PEDAGGI</span><strong id="tolls">€ 0,00</strong></div>
-<div class="cost"><span>AUTISTA</span><strong id="driver">€ 0,00</strong></div><div class="cost"><span>ALTRI COSTI</span><strong id="other">€ 0,00</strong></div>
+<div class="cost"><span>KM PREVISTI</span><strong id="km">0</strong></div><div class="cost"><span>CONSUMO</span><strong id="consumption">-</strong></div>
+<div class="cost"><span>CARBURANTE €/L</span><strong id="fuelPrice">-</strong></div><div class="cost"><span>CARBURANTE</span><strong id="fuel">€ 0,00</strong></div>
+<div class="cost"><span>COSTO MEZZO €/KM</span><strong id="vehicleRate">-</strong></div><div class="cost"><span>COSTO MEZZO</span><strong id="vehicle">€ 0,00</strong></div>
+<div class="cost"><span>ORE AUTISTA</span><strong id="driverHours">-</strong></div><div class="cost"><span>AUTISTA €/ORA</span><strong id="driverRate">-</strong></div>
+<div class="cost"><span>COSTO AUTISTA</span><strong id="driver">€ 0,00</strong></div><div class="cost"><span>PEDAGGI</span><strong id="tolls">€ 0,00</strong></div>
+<div class="cost"><span>ALTRI COSTI</span><strong id="other">€ 0,00</strong></div><div class="cost"><span>MARGINE OBIETTIVO</span><strong id="targetMargin">-</strong></div>
 <div class="cost highlight"><span>COSTO TOTALE</span><strong id="total">€ 0,00</strong></div><div class="cost highlight"><span>PREZZO SUGGERITO</span><strong id="suggested">€ 0,00</strong></div>
 </div></section>
 <section class="card section"><h2>Note e condizioni</h2><div class="data-grid"><div class="field full"><span>CONDIZIONI</span><strong id="conditions">-</strong></div><div class="field full"><span>NOTE</span><strong id="notes">-</strong></div></div></section>
@@ -148,14 +151,14 @@ function render(){
  $("cliente").textContent=item.cliente;$("statusBox").innerHTML=`<span class="status ${item.stato}">${item.stato.replaceAll("_"," ")}</span>`;$("route").textContent=item.partenza+" → "+item.destinazione;
  $("pickup").textContent=[item.indirizzo_ritiro,item.cap_ritiro].filter(Boolean).join(" · ")||"-";$("delivery").textContent=[item.indirizzo_consegna,item.cap_consegna].filter(Boolean).join(" · ")||"-";
  $("merce").textContent=val(item.tipo_merce);$("colli").textContent=val(item.colli);$("peso").textContent=item.peso_kg!=null?item.peso_kg+" kg":"-";$("volume").textContent=item.volume_m3!=null?item.volume_m3+" m³":"-";
- $("km").textContent=Number(item.km_previsti||0).toLocaleString("it-IT")+" km";$("fuel").textContent=eur(item.costo_carburante);$("vehicle").textContent=eur(item.costo_mezzo);$("tolls").textContent=eur(item.pedaggi);$("driver").textContent=eur(item.costo_autista);$("other").textContent=eur(item.altri_costi);$("total").textContent=eur(item.costo_totale);$("suggested").textContent=eur(item.prezzo_suggerito);
+ $("km").textContent=Number(item.km_previsti||0).toLocaleString("it-IT")+" km";$("consumption").textContent=item.consumo_l_100km!=null?Number(item.consumo_l_100km).toLocaleString("it-IT")+" L/100 km":"-";$("fuelPrice").textContent=item.prezzo_carburante_l!=null?Number(item.prezzo_carburante_l).toLocaleString("it-IT")+" €/L":"-";$("fuel").textContent=eur(item.costo_carburante);$("vehicleRate").textContent=item.costo_mezzo_km!=null?Number(item.costo_mezzo_km).toLocaleString("it-IT")+" €/km":"-";$("vehicle").textContent=eur(item.costo_mezzo);$("driverHours").textContent=item.ore_autista!=null?Number(item.ore_autista).toLocaleString("it-IT")+" h":"-";$("driverRate").textContent=item.costo_autista_ora!=null?Number(item.costo_autista_ora).toLocaleString("it-IT")+" €/ora":"-";$("tolls").textContent=eur(item.pedaggi);$("driver").textContent=eur(item.costo_autista);$("other").textContent=eur(item.altri_costi);$("targetMargin").textContent=Number(item.margine_percentuale||0).toLocaleString("it-IT")+"%";$("total").textContent=eur(item.costo_totale);$("suggested").textContent=eur(item.prezzo_suggerito);
  $("conditions").textContent=val(item.condizioni);$("notes").textContent=val(item.note);$("state").value=item.stato;$("finalPrice").value=Number(item.prezzo_finale||0).toFixed(2);effectiveMargin();
 }
 async function loadQuoteDocuments(){
  if(!item?.id)return;
  const box=$("quoteDocuments");
  if(!box)return;
- const {data,error}=await supabase.from("documenti")
+ const {data,error}=await sb.from("documenti")
    .select("id,nome_file,created_at,storage_path")
    .eq("preventivo_id",item.id)
    .eq("tipo","PREVENTIVO")
@@ -164,7 +167,7 @@ async function loadQuoteDocuments(){
  if(!data?.length){box.innerHTML='<div class="empty">Nessun PDF generato.</div>';return;}
  const rows=[];
  for(const doc of data){
-   const {data:signed}=await supabase.storage.from("documenti").createSignedUrl(doc.storage_path,600);
+   const {data:signed}=await sb.storage.from("documenti").createSignedUrl(doc.storage_path,600);
    const url=signed?.signedUrl||"#";
    rows.push(`<div class="history-item"><div><strong>${esc(doc.nome_file||"Preventivo PDF")}</strong><div class="small">${new Date(doc.created_at).toLocaleString("it-IT")}</div></div><a class="btn secondary" href="${url}" target="_blank" rel="noopener">Apri PDF</a></div>`);
  }

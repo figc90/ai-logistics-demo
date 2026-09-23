@@ -106,14 +106,15 @@ label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6
 <section class="card" style="margin-top:16px"><h2 class="section-title">Calcolo economico</h2><div class="form-grid">
 <div><label>Km previsti</label><input class="economic" id="km" type="number" min="0" step=".1"></div><div><label>Consumo mezzo (L/100 km)</label><input class="economic" id="consumo" type="number" min="0" step=".1"></div>
 <div><label>Prezzo carburante €/L</label><input class="economic" id="carburante" type="number" min="0" step=".001"></div><div><label>Costo mezzo €/km</label><input class="economic" id="mezzoKm" type="number" min="0" step=".001" value="0"></div>
-<div><label>Pedaggi €</label><input class="economic" id="pedaggi" type="number" min="0" step=".01" value="0"></div><div><label>Costo autista €</label><input class="economic" id="autista" type="number" min="0" step=".01" value="0"></div>
-<div><label>Altri costi €</label><input class="economic" id="altri" type="number" min="0" step=".01" value="0"></div><div><label>Margine obiettivo %</label><input class="economic" id="margine" type="number" min="0" max="99.9" step=".1" value="20"></div>
+<div><label>Ore autista stimate</label><input class="economic" id="oreAutista" type="number" min="0" step=".25" value="0"></div><div><label>Costo autista €/ora</label><input class="economic" id="autistaOra" type="number" min="0" step=".01" value="0"></div>
+<div><label>Pedaggi €</label><input class="economic" id="pedaggi" type="number" min="0" step=".01" value="0"></div><div><label>Altri costi €</label><input class="economic" id="altri" type="number" min="0" step=".01" value="0"></div>
+<div><label>Margine obiettivo %</label><input class="economic" id="margine" type="number" min="0" max="99.9" step=".1" value="20"></div>
 <div class="full"><label>Prezzo finale €</label><input id="prezzoFinale" type="number" min="0" step=".01"><div class="help">Puoi modificare il prezzo proposto prima di salvare.</div></div>
 </div></section>
 <section class="card" style="margin-top:16px"><h2 class="section-title">Condizioni</h2><div class="form-grid"><div><label>Data preventivo</label><input id="data" type="date"></div><div><label>Valido fino al</label><input id="validita" type="date"></div><div class="full"><label>Condizioni commerciali</label><textarea id="condizioni" rows="3"></textarea></div><div class="full"><label>Note</label><textarea id="note" rows="3"></textarea></div></div></section>
 <div class="actions"><a class="btn btn-secondary" href="preventivi.html">Annulla</a><button id="save" class="btn btn-primary" type="submit">Crea preventivo</button></div>
 </form></div>
-<aside><section class="card"><h2 class="section-title">Calcolo MatRi-mIA</h2><div class="calc-grid"><div class="calc"><span>CARBURANTE</span><strong id="cFuel">€ 0,00</strong></div><div class="calc"><span>COSTO MEZZO</span><strong id="cVehicle">€ 0,00</strong></div><div class="calc"><span>COSTO TOTALE</span><strong id="cTotal">€ 0,00</strong></div><div class="calc suggested"><span>PREZZO SUGGERITO</span><strong id="cSuggested">€ 0,00</strong></div></div><p class="help" style="margin-top:12px">Il prezzo suggerito usa il margine sul prezzo di vendita: costo ÷ (1 − margine).</p></section>
+<aside><section class="card"><h2 class="section-title">Calcolo MatRi-mIA</h2><div class="calc-grid"><div class="calc"><span>CARBURANTE</span><strong id="cFuel">€ 0,00</strong></div><div class="calc"><span>COSTO MEZZO</span><strong id="cVehicle">€ 0,00</strong></div><div class="calc"><span>AUTISTA</span><strong id="cDriver">€ 0,00</strong></div><div class="calc"><span>COSTO TOTALE</span><strong id="cTotal">€ 0,00</strong></div><div class="calc suggested"><span>PREZZO SUGGERITO</span><strong id="cSuggested">€ 0,00</strong></div></div><p class="help" style="margin-top:12px">Il prezzo suggerito usa il margine sul prezzo di vendita: costo ÷ (1 − margine).</p></section>
 <section class="card" style="margin-top:16px"><h2 class="section-title">Storico tratta</h2><div id="history" class="muted">Inserisci partenza e destinazione.</div></section></aside></div>
 </main></div></div>
 <script type="module">
@@ -125,9 +126,9 @@ function show(t,type="error"){$("message").textContent=t;$("message").className=
 function isoToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
 function calc(){
  const km=n("km"),cons=n("consumo"),fuel=n("carburante"),mkm=n("mezzoKm"),margin=n("margine");
- const cf=km*cons/100*fuel,cm=km*mkm,total=cf+cm+n("pedaggi")+n("autista")+n("altri");
+ const cf=km*cons/100*fuel,cm=km*mkm,ca=n("oreAutista")*n("autistaOra"),total=cf+cm+ca+n("pedaggi")+n("altri");
  const suggested=margin>=100?total:total/(1-margin/100);lastSuggested=Math.round(suggested*100)/100;
- $("cFuel").textContent=eur(cf);$("cVehicle").textContent=eur(cm);$("cTotal").textContent=eur(total);$("cSuggested").textContent=eur(lastSuggested);
+ $("cFuel").textContent=eur(cf);$("cVehicle").textContent=eur(cm);$("cDriver").textContent=eur(ca);$("cTotal").textContent=eur(total);$("cSuggested").textContent=eur(lastSuggested);
  if(!prezzoTouched||!$("prezzoFinale").value)$("prezzoFinale").value=lastSuggested.toFixed(2);
 }
 function findCliente(){const q=$("cliente").value.trim().toLowerCase();selectedCliente=clienti.find(x=>String(x.ragione_sociale||"").trim().toLowerCase()===q)||null}
@@ -142,6 +143,14 @@ async function boot(){
  const {data:{session}}=await supabase.auth.getSession();if(!session)return location.replace("login.html");
  const {data:p,error}=await supabase.from("profiles").select("azienda_id,ruolo,email").eq("id",session.user.id).single();if(error||!p?.azienda_id)return location.replace("login.html");if(String(p.ruolo||"").toLowerCase()==="autista")return location.replace("area-autista.html");
  $("userEmail").textContent=session.user.email||p.email||"-";document.body.classList.add("auth-ready");$("data").value=isoToday();
+ const {data:azienda}=await supabase.from("aziende").select("preventivi_consumo_l_100km,preventivi_prezzo_carburante_l,preventivi_costo_mezzo_km,preventivi_costo_autista,preventivi_margine_percentuale").eq("id",p.azienda_id).single();
+ if(azienda){
+  if(azienda.preventivi_consumo_l_100km!=null)$("consumo").value=azienda.preventivi_consumo_l_100km;
+  if(azienda.preventivi_prezzo_carburante_l!=null)$("carburante").value=azienda.preventivi_prezzo_carburante_l;
+  if(azienda.preventivi_costo_mezzo_km!=null)$("mezzoKm").value=azienda.preventivi_costo_mezzo_km;
+  if(azienda.preventivi_costo_autista!=null)$("autistaOra").value=azienda.preventivi_costo_autista;
+  if(azienda.preventivi_margine_percentuale!=null)$("margine").value=azienda.preventivi_margine_percentuale;
+ }
  const d=new Date();d.setDate(d.getDate()+15);$("validita").value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
  const {data,error:ce}=await supabase.from("anagrafiche").select("id,ragione_sociale,tipo,attiva").eq("attiva",true).in("tipo",["CLIENTE","CLIENTE_VETTORE"]).order("ragione_sociale");
  if(!ce){clienti=data||[];$("clientiList").innerHTML=clienti.map(x=>`<option value="${String(x.ragione_sociale||"").replaceAll('"',"&quot;")}"></option>`).join("")}
@@ -150,7 +159,7 @@ async function boot(){
 document.querySelectorAll(".economic").forEach(x=>x.addEventListener("input",calc));$("prezzoFinale").addEventListener("input",()=>prezzoTouched=true);$("cliente").addEventListener("change",findCliente);
 let timer;$("partenza").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});$("destinazione").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});
 $("form").addEventListener("submit",async e=>{e.preventDefault();findCliente();const btn=$("save");btn.disabled=true;btn.textContent="Creazione...";
- const args={p_cliente:$("cliente").value.trim(),p_partenza:$("partenza").value.trim(),p_destinazione:$("destinazione").value.trim(),p_cliente_id:selectedCliente?.id||null,p_pratica_id:null,p_data_preventivo:$("data").value||null,p_validita_fino_al:$("validita").value||null,p_tipo_merce:$("tipoMerce").value.trim()||null,p_colli:$("colli").value?Number($("colli").value):null,p_peso_kg:$("peso").value?Number($("peso").value):null,p_volume_m3:$("volume").value?Number($("volume").value):null,p_indirizzo_ritiro:$("indirizzoRitiro").value.trim()||null,p_cap_ritiro:$("capRitiro").value.trim()||null,p_indirizzo_consegna:$("indirizzoConsegna").value.trim()||null,p_cap_consegna:$("capConsegna").value.trim()||null,p_km_previsti:$("km").value?Number($("km").value):null,p_consumo_l_100km:$("consumo").value?Number($("consumo").value):null,p_prezzo_carburante_l:$("carburante").value?Number($("carburante").value):null,p_costo_mezzo_km:n("mezzoKm"),p_pedaggi:n("pedaggi"),p_costo_autista:n("autista"),p_altri_costi:n("altri"),p_margine_percentuale:n("margine"),p_prezzo_finale:$("prezzoFinale").value?Number($("prezzoFinale").value):lastSuggested,p_note:$("note").value.trim()||null,p_condizioni:$("condizioni").value.trim()||null};
+ const args={p_cliente:$("cliente").value.trim(),p_partenza:$("partenza").value.trim(),p_destinazione:$("destinazione").value.trim(),p_cliente_id:selectedCliente?.id||null,p_pratica_id:null,p_data_preventivo:$("data").value||null,p_validita_fino_al:$("validita").value||null,p_tipo_merce:$("tipoMerce").value.trim()||null,p_colli:$("colli").value?Number($("colli").value):null,p_peso_kg:$("peso").value?Number($("peso").value):null,p_volume_m3:$("volume").value?Number($("volume").value):null,p_indirizzo_ritiro:$("indirizzoRitiro").value.trim()||null,p_cap_ritiro:$("capRitiro").value.trim()||null,p_indirizzo_consegna:$("indirizzoConsegna").value.trim()||null,p_cap_consegna:$("capConsegna").value.trim()||null,p_km_previsti:$("km").value?Number($("km").value):null,p_consumo_l_100km:$("consumo").value?Number($("consumo").value):null,p_prezzo_carburante_l:$("carburante").value?Number($("carburante").value):null,p_costo_mezzo_km:n("mezzoKm"),p_pedaggi:n("pedaggi"),p_ore_autista:n("oreAutista"),p_costo_autista_ora:n("autistaOra"),p_altri_costi:n("altri"),p_margine_percentuale:n("margine"),p_prezzo_finale:$("prezzoFinale").value?Number($("prezzoFinale").value):lastSuggested,p_note:$("note").value.trim()||null,p_condizioni:$("condizioni").value.trim()||null};
  const {data,error}=await supabase.rpc("crea_preventivo",args);if(error){show(error.message);btn.disabled=false;btn.textContent="Crea preventivo";return}show("Preventivo creato correttamente.","success");setTimeout(()=>location.href="preventivi.html",650);
 });
 $("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};boot();
