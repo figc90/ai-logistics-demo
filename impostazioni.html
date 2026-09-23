@@ -112,53 +112,42 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
 </style>
 
 
-<style id="preventivi-settings-clean">
+
+<style id="preventivi-settings-lock-ui">
 #preventiviSettingsCard.settings-wide-section{
-  grid-column:1/-1;
-  width:100%;
-  box-sizing:border-box;
-  background:#fff;
-  border:1px solid #e1e8f0;
-  border-radius:16px;
-  padding:22px 24px 24px;
-  box-shadow:0 4px 16px rgba(22,48,80,.035);
+  grid-column:1/-1;width:100%;box-sizing:border-box;background:#fff;
+  border:1px solid #e1e8f0;border-radius:16px;padding:22px 24px 24px;
+  box-shadow:0 4px 16px rgba(22,48,80,.035)
 }
-.settings-wide-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
+.settings-wide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:20px}
 .settings-wide-head h2{margin:3px 0 5px;font-size:20px;color:#152d4d}
 .settings-wide-head p{margin:0;max-width:760px;color:#718198;font-size:12px;line-height:1.45}
-.preventivi-compact-grid{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:16px 18px;
+.preventivi-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.preventivi-lock-state{padding:9px 12px;border-radius:9px;background:#f2f6fa;color:#60728a;font-size:11px;font-weight:800}
+.preventivi-edit-btn,.preventivi-save-btn,.preventivi-cancel-btn{
+  border:0;border-radius:9px;padding:10px 15px;font-size:12px;font-weight:800;cursor:pointer
 }
+.preventivi-edit-btn,.preventivi-save-btn{background:#174f87;color:#fff}
+.preventivi-cancel-btn{background:#fff;color:#334d6a;border:1px solid #d7e0e9}
+.preventivi-compact-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 18px}
 .preventivi-compact-grid .field{min-width:0;margin:0}
 .preventivi-compact-grid label{display:block;margin-bottom:7px;font-size:11px;font-weight:800;color:#52657b}
-.input-unit{
-  height:42px;
-  display:flex;
-  align-items:center;
-  border:1px solid #d8e1eb;
-  border-radius:10px;
-  background:#fff;
-  overflow:hidden;
-}
+.input-unit{height:42px;display:flex;align-items:center;border:1px solid #d8e1eb;border-radius:10px;background:#fff;overflow:hidden}
 .input-unit:focus-within{border-color:#2ca7d4;box-shadow:0 0 0 3px rgba(44,167,212,.10)}
 .input-unit input{
   min-width:0;width:100%;height:100%;border:0!important;outline:0!important;
   box-shadow:none!important;background:transparent!important;padding:0 10px!important;
-  font-size:13px!important;color:#183451!important;
+  font-size:13px!important;color:#183451!important
 }
-.input-unit span{
-  align-self:stretch;display:flex;align-items:center;padding:0 10px;
-  background:#f5f8fb;border-left:1px solid #e3e9ef;color:#6b7b90;
-  font-size:10px;font-weight:800;white-space:nowrap;
-}
+.input-unit input::-webkit-outer-spin-button,.input-unit input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.input-unit input[type=number]{-moz-appearance:textfield;appearance:textfield}
+.input-unit span{align-self:stretch;display:flex;align-items:center;padding:0 10px;background:#f5f8fb;border-left:1px solid #e3e9ef;color:#6b7b90;font-size:10px;font-weight:800;white-space:nowrap}
+#preventiviSettingsCard.preventivi-locked .input-unit{background:#f7f9fb;border-color:#e2e8ef}
+#preventiviSettingsCard.preventivi-locked .input-unit input{pointer-events:none;color:#173459!important;font-weight:800}
+#preventiviSettingsCard.preventivi-locked .input-unit span{background:#f0f4f8}
 @media(max-width:1200px){.preventivi-compact-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:900px){.preventivi-compact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:620px){
- #preventiviSettingsCard.settings-wide-section{padding:18px}
- .preventivi-compact-grid{grid-template-columns:1fr}
-}
+@media(max-width:900px){.preventivi-compact-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.settings-wide-head{flex-direction:column}}
+@media(max-width:620px){#preventiviSettingsCard.settings-wide-section{padding:18px}.preventivi-compact-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -179,6 +168,12 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
       <div class="eyebrow">PREVENTIVI INTELLIGENTI</div>
       <h2>Parametri preventivi</h2>
       <p>Valori economici predefiniti utilizzati come base nei nuovi preventivi. Potrai modificarli in ogni singolo preventivo.</p>
+    </div>
+    <div class="preventivi-actions">
+      <span class="preventivi-lock-state" id="preventiviLockState">Valori bloccati</span>
+      <button type="button" class="preventivi-edit-btn" id="preventiviEditBtn">Modifica</button>
+      <button type="button" class="preventivi-cancel-btn" id="preventiviCancelBtn" hidden>Annulla</button>
+      <button type="button" class="preventivi-save-btn" id="preventiviSaveBtn" hidden>Salva e blocca</button>
     </div>
   </div>
 
@@ -410,5 +405,61 @@ async function loadPreventiviSettingsFallback(){
  }catch(e){console.warn("Parametri preventivi:",e)}
 }
 document.addEventListener("DOMContentLoaded",()=>setTimeout(loadPreventiviSettingsFallback,250));
-</script></body>
+</script>
+<script id="preventivi-settings-lock-js">
+document.addEventListener("DOMContentLoaded",()=>{
+ const card=document.getElementById("preventiviSettingsCard");
+ if(!card)return;
+ const ids=["preventivi_consumo_l_100km","preventivi_prezzo_carburante_l","preventivi_costo_mezzo_km","preventivi_costo_autista","preventivi_pedaggi","preventivi_altri_costi","preventivi_margine_percentuale"];
+ const edit=document.getElementById("preventiviEditBtn"),save=document.getElementById("preventiviSaveBtn"),cancel=document.getElementById("preventiviCancelBtn"),state=document.getElementById("preventiviLockState");
+ let snapshot={};
+
+ const lock=()=>{
+   card.classList.add("preventivi-locked");
+   ids.forEach(id=>{const e=document.getElementById(id);if(e){e.readOnly=true;e.tabIndex=-1;}});
+   edit.hidden=false;save.hidden=true;cancel.hidden=true;state.textContent="Valori bloccati";
+ };
+ const unlock=()=>{
+   snapshot={};ids.forEach(id=>{const e=document.getElementById(id);if(e){snapshot[id]=e.value;e.readOnly=false;e.tabIndex=0;}});
+   card.classList.remove("preventivi-locked");
+   edit.hidden=true;save.hidden=false;cancel.hidden=false;state.textContent="Modifica in corso";
+ };
+ edit?.addEventListener("click",unlock);
+ cancel?.addEventListener("click",()=>{ids.forEach(id=>{const e=document.getElementById(id);if(e)e.value=snapshot[id]??"";});lock();});
+ save?.addEventListener("click",async()=>{
+   save.disabled=true;save.textContent="Salvataggio...";
+   try{
+     const n=id=>{const e=document.getElementById(id);if(!e||e.value.trim()==="")return null;const v=Number(e.value.replace(",","."));return Number.isFinite(v)?v:null};
+     const {data,error}=await supabase.rpc("aggiorna_mia_azienda_completa",{
+       p_ragione_sociale:document.getElementById("ragione_sociale")?.value||null,
+       p_partita_iva:document.getElementById("partita_iva")?.value||null,
+       p_codice_fiscale:document.getElementById("codice_fiscale")?.value||null,
+       p_indirizzo:document.getElementById("indirizzo")?.value||null,
+       p_cap:document.getElementById("cap")?.value||null,
+       p_citta:document.getElementById("citta")?.value||null,
+       p_provincia:document.getElementById("provincia")?.value||null,
+       p_nazione:document.getElementById("nazione")?.value||null,
+       p_email:document.getElementById("email")?.value||null,
+       p_telefono:document.getElementById("telefono")?.value||null,
+       p_pec:document.getElementById("pec")?.value||null,
+       p_sito_web:document.getElementById("sito_web")?.value||null,
+       p_logo_path:null,
+       p_preventivi_consumo_l_100km:n("preventivi_consumo_l_100km"),
+       p_preventivi_prezzo_carburante_l:n("preventivi_prezzo_carburante_l"),
+       p_preventivi_costo_mezzo_km:n("preventivi_costo_mezzo_km"),
+       p_preventivi_costo_autista:n("preventivi_costo_autista"),
+       p_preventivi_pedaggi:n("preventivi_pedaggi"),
+       p_preventivi_altri_costi:n("preventivi_altri_costi"),
+       p_preventivi_margine_percentuale:n("preventivi_margine_percentuale")
+     });
+     if(error)throw error;
+     if(data)setPreventiviSettings(Array.isArray(data)?data[0]:data);
+     lock();
+   }catch(e){alert("Errore nel salvataggio dei parametri preventivi: "+(e?.message||e));}
+   finally{save.disabled=false;save.textContent="Salva e blocca";}
+ });
+ lock();
+});
+</script>
+</body>
 </html>
