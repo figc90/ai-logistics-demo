@@ -181,9 +181,7 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
     <div class="field"><label for="preventivi_consumo_l_100km">Consumo medio</label><div class="input-unit"><input id="preventivi_consumo_l_100km" type="number" min="0" step="0.01" placeholder="30"><span>L/100 km</span></div></div>
     <div class="field"><label for="preventivi_prezzo_carburante_l">Prezzo carburante</label><div class="input-unit"><input id="preventivi_prezzo_carburante_l" type="number" min="0" step="0.001" placeholder="1,70"><span>€/L</span></div></div>
     <div class="field"><label for="preventivi_costo_mezzo_km">Costo mezzo</label><div class="input-unit"><input id="preventivi_costo_mezzo_km" type="number" min="0" step="0.01" placeholder="0,45"><span>€/km</span></div></div>
-    <div class="field"><label for="preventivi_costo_autista">Costo autista</label><div class="input-unit"><input id="preventivi_costo_autista" type="number" min="0" step="0.01" placeholder="0,00"><span>€</span></div></div>
-    <div class="field"><label for="preventivi_pedaggi">Pedaggi</label><div class="input-unit"><input id="preventivi_pedaggi" type="number" min="0" step="0.01" placeholder="0,00"><span>€</span></div></div>
-    <div class="field"><label for="preventivi_altri_costi">Altri costi</label><div class="input-unit"><input id="preventivi_altri_costi" type="number" min="0" step="0.01" placeholder="0,00"><span>€</span></div></div>
+    <div class="field"><label for="preventivi_costo_autista">Costo autista orario</label><div class="input-unit"><input id="preventivi_costo_autista" type="number" min="0" step="0.01" placeholder="0,00"><span>€/ora</span></div></div>
     <div class="field"><label for="preventivi_margine_percentuale">Margine</label><div class="input-unit"><input id="preventivi_margine_percentuale" type="number" min="0" max="99.99" step="0.01" placeholder="20"><span>%</span></div></div>
   </div>
 </section>
@@ -255,6 +253,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL="https://sctzockiurjsxzdkctmy.supabase.co";
 const SUPABASE_KEY="sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
 const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
+window.matrimiaSupabase=supabase;
 
 let currentUser=null,currentProfile=null,currentCompany=null,currentModelType="DDT";
 const $=id=>document.getElementById(id);
@@ -276,7 +275,7 @@ async function protect(){
 
 
 function setPreventiviSettings(a){
- const ids=["preventivi_consumo_l_100km","preventivi_prezzo_carburante_l","preventivi_costo_mezzo_km","preventivi_costo_autista","preventivi_pedaggi","preventivi_altri_costi","preventivi_margine_percentuale"];
+ const ids=["preventivi_consumo_l_100km","preventivi_prezzo_carburante_l","preventivi_costo_mezzo_km","preventivi_costo_autista","preventivi_margine_percentuale"];
  ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value=a?.[id]??"";});
 }
 function numOrNull(id){
@@ -410,7 +409,7 @@ document.addEventListener("DOMContentLoaded",()=>setTimeout(loadPreventiviSettin
 document.addEventListener("DOMContentLoaded",()=>{
  const card=document.getElementById("preventiviSettingsCard");
  if(!card)return;
- const ids=["preventivi_consumo_l_100km","preventivi_prezzo_carburante_l","preventivi_costo_mezzo_km","preventivi_costo_autista","preventivi_pedaggi","preventivi_altri_costi","preventivi_margine_percentuale"];
+ const ids=["preventivi_consumo_l_100km","preventivi_prezzo_carburante_l","preventivi_costo_mezzo_km","preventivi_costo_autista","preventivi_margine_percentuale"];
  const edit=document.getElementById("preventiviEditBtn"),save=document.getElementById("preventiviSaveBtn"),cancel=document.getElementById("preventiviCancelBtn"),state=document.getElementById("preventiviLockState");
  let snapshot={};
 
@@ -430,7 +429,9 @@ document.addEventListener("DOMContentLoaded",()=>{
    save.disabled=true;save.textContent="Salvataggio...";
    try{
      const n=id=>{const e=document.getElementById(id);if(!e||e.value.trim()==="")return null;const v=Number(e.value.replace(",","."));return Number.isFinite(v)?v:null};
-     const {data,error}=await supabase.rpc("aggiorna_mia_azienda_completa",{
+     const client=window.matrimiaSupabase;
+     if(!client)throw new Error("Connessione Supabase non disponibile");
+     const {data,error}=await client.rpc("aggiorna_mia_azienda_completa",{
        p_ragione_sociale:document.getElementById("ragione_sociale")?.value||null,
        p_partita_iva:document.getElementById("partita_iva")?.value||null,
        p_codice_fiscale:document.getElementById("codice_fiscale")?.value||null,
