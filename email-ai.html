@@ -642,6 +642,29 @@ tbody tr:hover{
   .std-logo img{width:54px!important;height:46px!important;padding:4px!important}
 }
 </style>
+
+<style id="matrimia-premium-shell-css">
+/* Logo più grande e leggibile */
+.std-logo{height:116px!important;min-height:116px!important;padding:12px 14px!important}
+.std-logo img{width:178px!important;height:88px!important;object-fit:contain!important;background:#fff!important;border-radius:11px!important;padding:7px 10px!important;box-shadow:0 5px 18px rgba(0,0,0,.15)!important}
+
+/* Topbar unificata */
+.mia-topbar{height:70px;background:#fff;border-bottom:1px solid #e3e9f0;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:relative;z-index:20}
+.mia-brand{font-size:18px;font-weight:900;color:#173459;letter-spacing:-.35px;white-space:nowrap}
+.mia-brand .ia{color:#16a7e0}
+.mia-top-actions{display:flex;align-items:center;gap:13px}
+.mia-bell{width:38px;height:38px;border:1px solid #e4eaf0;border-radius:10px;background:#fff;color:#173459;display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;cursor:default}
+.mia-bell-dot{position:absolute;right:7px;top:7px;width:7px;height:7px;background:#ff5b35;border:2px solid #fff;border-radius:50%}
+.mia-user{display:flex;align-items:center;gap:9px;color:#173459;font-size:12px;font-weight:800}
+.mia-avatar{width:34px;height:34px;border-radius:50%;background:#173f6c;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
+.mia-user-name{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mia-welcome{margin:0 0 8px;color:#179fd1;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+@media(max-width:760px){
+ .std-logo{height:70px!important;min-height:70px!important;padding:7px!important}
+ .std-logo img{width:54px!important;height:52px!important;padding:4px!important}
+ .mia-topbar{padding:0 14px}.mia-brand{font-size:14px}.mia-user-name{display:none}.mia-bell{width:34px;height:34px}
+}
+</style>
 </head>
 
 <body>
@@ -650,7 +673,12 @@ tbody tr:hover{
 
 <aside class="std-sidebar"><a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a><nav class="std-nav"><div class="std-title">OPERATIVITÀ</div><a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a><a href="pratiche.html" class="std-item"><span class="std-icon">▤</span><span>Pratiche</span></a><a href="nuova-pratica.html" class="std-item"><span class="std-icon">＋</span><span>Nuova pratica</span></a><div class="std-title">AUTOMAZIONI</div><a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a><a href="email-ai.html" class="std-item active"><span class="std-icon">✉</span><span>Email AI</span></a><a href="viaggi.html" class="std-item"><span class="std-icon">↗</span><span>Viaggi</span></a><div class="std-title">COMMERCIALE</div><a href="preventivi.html" class="std-item"><span class="std-icon">€</span><span>Preventivi</span></a><div class="std-title">GESTIONE</div><a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a><a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a><a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a></nav><div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div></aside>
 
-<div class="main">
+<div class="main"><header class="mia-topbar">
+<div class="mia-brand">MatRi-m<span class="ia">IA</span> Logistics</div>
+<div class="mia-top-actions">
+<div class="mia-bell" title="Notifiche">&#128276;<span class="mia-bell-dot"></span></div>
+<div class="mia-user"><div class="mia-avatar">U</div><span class="mia-user-name">Utente</span></div>
+</div></header>
 
 <header class="topbar">
 
@@ -1620,5 +1648,21 @@ start();
 
 </script>
 
+
+<script id="matrimia-premium-shell-js">
+(function(){
+ function initials(v){return (v||"U").split(/[\s@._-]+/).filter(Boolean).slice(0,2).map(x=>x[0].toUpperCase()).join("")||"U"}
+ function pretty(v){if(!v)return "Utente";const local=v.split("@")[0];return local.split(/[._-]+/).filter(Boolean).map(x=>x.charAt(0).toUpperCase()+x.slice(1)).join(" ")||v}
+ function update(){
+   const side=document.getElementById("userEmail");
+   const email=(side?.textContent||"").trim();
+   if(!email||email==="-"||email.toLowerCase()==="utente") return;
+   document.querySelectorAll(".mia-user-name").forEach(x=>x.textContent=pretty(email));
+   document.querySelectorAll(".mia-avatar").forEach(x=>x.textContent=initials(email));
+ }
+ new MutationObserver(update).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
+ document.addEventListener("DOMContentLoaded",()=>{update();setTimeout(update,300);setTimeout(update,1000)});
+})();
+</script>
 </body>
 </html>
