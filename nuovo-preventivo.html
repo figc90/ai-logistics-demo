@@ -62,6 +62,34 @@ label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6
   .std-logo img{width:54px!important;height:46px!important;padding:4px!important}
 }
 </style>
+
+<style id="matrimia-logo-large-override">
+/* Logo MatRi-mIA più grande, senza modificare la struttura delle pagine */
+.std-logo{
+  height:116px!important;
+  min-height:116px!important;
+  padding:10px 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.std-logo img{
+  width:180px!important;
+  max-width:180px!important;
+  height:90px!important;
+  max-height:90px!important;
+  object-fit:contain!important;
+  background:#fff!important;
+  border-radius:11px!important;
+  padding:6px 9px!important;
+  box-sizing:border-box!important;
+  box-shadow:0 5px 18px rgba(0,0,0,.14)!important;
+}
+@media(max-width:760px){
+  .std-logo{height:70px!important;min-height:70px!important;padding:6px!important}
+  .std-logo img{width:56px!important;max-width:56px!important;height:54px!important;max-height:54px!important;padding:4px!important}
+}
+</style>
 </head><body><div class="app">
 <aside class="std-sidebar"><a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a><nav class="std-nav"><div class="std-title">OPERATIVITÀ</div><a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a><a href="pratiche.html" class="std-item"><span class="std-icon">▤</span><span>Pratiche</span></a><a href="nuova-pratica.html" class="std-item"><span class="std-icon">＋</span><span>Nuova pratica</span></a><div class="std-title">AUTOMAZIONI</div><a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a><a href="email-ai.html" class="std-item"><span class="std-icon">✉</span><span>Email AI</span></a><a href="viaggi.html" class="std-item"><span class="std-icon">↗</span><span>Viaggi</span></a><div class="std-title">COMMERCIALE</div><a href="preventivi.html" class="std-item active"><span class="std-icon">€</span><span>Preventivi</span></a><div class="std-title">GESTIONE</div><a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a><a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a><a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a></nav><div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div></aside>
 <div class="main"><header class="topbar"><div class="brand">MatRi-mIA Logistics</div><div class="top-actions"><a class="btn btn-secondary" href="preventivi.html">Preventivi</a></div></header><main class="page">
