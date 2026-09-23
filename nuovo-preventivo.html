@@ -1,0 +1,103 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nuovo preventivo | MatRi-mIA Logistics</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#172033;min-height:100vh;visibility:hidden}
+body.auth-ready{visibility:visible}a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}
+.app{min-height:100vh}.sidebar{width:225px;height:100vh;height:100dvh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;display:flex;flex-direction:column;overflow:hidden;z-index:100}
+.sidebar-logo{padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.08);font-size:18px;font-weight:900}.sidebar-logo small{display:block;color:#82d5d1;font-size:10px;letter-spacing:1.4px;margin-top:3px}
+.sidebar-nav{padding:14px 11px;flex:1;min-height:0;overflow-y:auto}.nav-title{font-size:9px;font-weight:900;letter-spacing:1.2px;color:#7891aa;margin:15px 9px 7px}
+.nav-item{display:flex;align-items:center;gap:10px;color:#d9e4ef;padding:10px 11px;border-radius:9px;font-size:13px;font-weight:700;margin:2px 0}.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.10);color:#fff}.nav-icon{width:18px;text-align:center}
+.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex:0 0 auto;background:#0d2d50}.user-card{background:rgba(255,255,255,.06);border-radius:9px;padding:9px;margin-bottom:8px}.user-label{font-size:8px;color:#89a1b8;font-weight:900}.user-email{font-size:10px;font-weight:700;word-break:break-all;margin-top:3px}.logout{width:100%;min-height:38px;border:1px solid rgba(255,255,255,.13);border-radius:8px;background:rgba(255,255,255,.04);color:#fff;font-weight:800;cursor:pointer}
+.main{margin-left:225px;min-height:100vh}.topbar{height:64px;background:#fff;border-bottom:1px solid #e3e9ef;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:30}.brand{font-weight:900;color:#173459}.top-actions{display:flex;gap:9px}
+.btn{border:0;border-radius:10px;min-height:40px;padding:0 15px;font-weight:850;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn-primary{background:linear-gradient(135deg,#ec4f32,#ff7b1f);color:#fff}.btn-secondary{background:#eaf0f6;color:#173459}.btn-danger{background:#fff1f0;color:#b42318}
+.page{max-width:1280px;margin:0 auto;padding:30px}.eyebrow{font-size:10px;font-weight:900;letter-spacing:1.3px;color:#18a7a0;margin-bottom:8px}.heading{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}.heading h1{font-size:30px;color:#102d4f}.heading p{color:#6c7b8d;margin-top:7px;line-height:1.5}
+.card{background:#fff;border:1px solid #e2e8ef;border-radius:15px;box-shadow:0 8px 24px rgba(24,59,99,.05);padding:20px}.message{display:none;padding:12px 14px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:700}.message.error{display:block;background:#fff1f0;color:#b42318}.message.success{display:block;background:#ecfdf3;color:#027a48}
+input,select,textarea{width:100%;border:1px solid #d8e0e8;border-radius:9px;padding:10px 11px;background:#fff;color:#172033;outline:none}input:focus,select:focus,textarea:focus{border-color:#18a7a0;box-shadow:0 0 0 3px rgba(24,167,160,.10)}
+label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6px}.muted{color:#758399;font-size:12px}.money{font-variant-numeric:tabular-nums}
+.status{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:900;letter-spacing:.3px;background:#eef3f8;color:#40536a}.status.ACCETTATO{background:#e9f9ef;color:#137a3d}.status.RIFIUTATO,.status.ANNULLATO{background:#fff0ef;color:#b42318}.status.INVIATO{background:#eef4ff;color:#3159a6}.status.DA_INVIARE{background:#fff7e8;color:#a15c00}
+@media(max-width:800px){.sidebar{width:70px}.sidebar-logo{font-size:11px;padding:15px 7px;text-align:center}.sidebar-logo small,.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center}.main{margin-left:70px}.page{padding:20px 14px}.topbar{padding:0 14px}.heading{flex-direction:column}}
+
+.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(310px,.75fr);gap:18px}.section-title{font-size:15px;color:#173459;margin-bottom:14px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.calc{background:#f7fafc;border:1px solid #e3eaf0;border-radius:11px;padding:13px}.calc span{font-size:9px;font-weight:900;color:#718095}.calc strong{display:block;font-size:19px;color:#173459;margin-top:5px}.suggested{background:#edf9f8;border-color:#b9e7e3}.suggested strong{color:#087d77}.history-item{padding:11px 0;border-bottom:1px solid #edf1f5}.history-item:last-child{border:0}.history-route{font-weight:800;color:#173459}.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}.help{font-size:10px;color:#8290a0;margin-top:5px;line-height:1.4}@media(max-width:1050px){.layout{grid-template-columns:1fr}}@media(max-width:700px){.form-grid,.calc-grid{grid-template-columns:1fr}.full{grid-column:auto}}
+</style></head><body><div class="app">
+<aside class="sidebar">
+ <div class="sidebar-logo">MatRi-mIA<small>LOGISTICS</small></div>
+ <nav class="sidebar-nav">
+  <div class="nav-title">OPERATIVITÀ</div>
+  <a class="nav-item" href="dashboard.html"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+  <a class="nav-item" href="pratiche.html"><span class="nav-icon">▤</span><span>Pratiche</span></a>
+  <a class="nav-item" href="nuova-pratica.html"><span class="nav-icon">＋</span><span>Nuova pratica</span></a>
+  <div class="nav-title">AUTOMAZIONI</div>
+  <a class="nav-item" href="assistente-ai.html"><span class="nav-icon">✦</span><span>Assistente AI</span></a>
+  <a class="nav-item" href="email-ai.html"><span class="nav-icon">✉</span><span>Email AI</span></a>
+  <a class="nav-item" href="viaggi.html"><span class="nav-icon">↗</span><span>Viaggi</span></a>
+  <div class="nav-title">COMMERCIALE</div>
+  <a class="nav-item active" href="preventivi.html"><span class="nav-icon">€</span><span>Preventivi</span></a>
+  <div class="nav-title">GESTIONE</div>
+  <a class="nav-item" href="anagrafiche.html"><span class="nav-icon">▣</span><span>Anagrafiche</span></a>
+  <a class="nav-item" href="autisti.html"><span class="nav-icon">♟</span><span>Autisti</span></a>
+  <a class="nav-item" href="impostazioni.html"><span class="nav-icon">⚙</span><span>Impostazioni</span></a>
+ </nav>
+ <div class="sidebar-bottom"><div class="user-card"><div class="user-label">UTENTE</div><div id="userEmail" class="user-email">-</div></div><button id="logoutButton" class="logout">Esci</button></div>
+</aside>
+<div class="main"><header class="topbar"><div class="brand">MatRi-mIA Logistics</div><div class="top-actions"><a class="btn btn-secondary" href="preventivi.html">Preventivi</a></div></header><main class="page">
+<div class="heading"><div><div class="eyebrow">MATRI-MIA · PREVENTIVO INTELLIGENTE</div><h1>Nuovo preventivo</h1><p>Inserisci i dati del trasporto. MatRi-mIA calcola costi, margine e prezzo consigliato.</p></div></div><div id="message" class="message"></div>
+<div class="layout"><div>
+<form id="form">
+<section class="card"><h2 class="section-title">Cliente e tratta</h2><div class="form-grid">
+<div class="full"><label>Cliente *</label><input id="cliente" list="clientiList" required placeholder="Seleziona o scrivi il cliente"><datalist id="clientiList"></datalist></div>
+<div><label>Partenza *</label><input id="partenza" required placeholder="es. Palermo"></div><div><label>Destinazione *</label><input id="destinazione" required placeholder="es. Marsala"></div>
+<div><label>Indirizzo ritiro</label><input id="indirizzoRitiro"></div><div><label>CAP ritiro</label><input id="capRitiro"></div>
+<div><label>Indirizzo consegna</label><input id="indirizzoConsegna"></div><div><label>CAP consegna</label><input id="capConsegna"></div>
+</div></section>
+<section class="card" style="margin-top:16px"><h2 class="section-title">Merce</h2><div class="form-grid"><div><label>Tipo merce</label><input id="tipoMerce"></div><div><label>Colli</label><input id="colli" type="number" min="0"></div><div><label>Peso kg</label><input id="peso" type="number" min="0" step=".01"></div><div><label>Volume m³</label><input id="volume" type="number" min="0" step=".001"></div></div></section>
+<section class="card" style="margin-top:16px"><h2 class="section-title">Calcolo economico</h2><div class="form-grid">
+<div><label>Km previsti</label><input class="economic" id="km" type="number" min="0" step=".1"></div><div><label>Consumo mezzo (L/100 km)</label><input class="economic" id="consumo" type="number" min="0" step=".1"></div>
+<div><label>Prezzo carburante €/L</label><input class="economic" id="carburante" type="number" min="0" step=".001"></div><div><label>Costo mezzo €/km</label><input class="economic" id="mezzoKm" type="number" min="0" step=".001" value="0"></div>
+<div><label>Pedaggi €</label><input class="economic" id="pedaggi" type="number" min="0" step=".01" value="0"></div><div><label>Costo autista €</label><input class="economic" id="autista" type="number" min="0" step=".01" value="0"></div>
+<div><label>Altri costi €</label><input class="economic" id="altri" type="number" min="0" step=".01" value="0"></div><div><label>Margine obiettivo %</label><input class="economic" id="margine" type="number" min="0" max="99.9" step=".1" value="20"></div>
+<div class="full"><label>Prezzo finale €</label><input id="prezzoFinale" type="number" min="0" step=".01"><div class="help">Puoi modificare il prezzo proposto prima di salvare.</div></div>
+</div></section>
+<section class="card" style="margin-top:16px"><h2 class="section-title">Condizioni</h2><div class="form-grid"><div><label>Data preventivo</label><input id="data" type="date"></div><div><label>Valido fino al</label><input id="validita" type="date"></div><div class="full"><label>Condizioni commerciali</label><textarea id="condizioni" rows="3"></textarea></div><div class="full"><label>Note</label><textarea id="note" rows="3"></textarea></div></div></section>
+<div class="actions"><a class="btn btn-secondary" href="preventivi.html">Annulla</a><button id="save" class="btn btn-primary" type="submit">Crea preventivo</button></div>
+</form></div>
+<aside><section class="card"><h2 class="section-title">Calcolo MatRi-mIA</h2><div class="calc-grid"><div class="calc"><span>CARBURANTE</span><strong id="cFuel">€ 0,00</strong></div><div class="calc"><span>COSTO MEZZO</span><strong id="cVehicle">€ 0,00</strong></div><div class="calc"><span>COSTO TOTALE</span><strong id="cTotal">€ 0,00</strong></div><div class="calc suggested"><span>PREZZO SUGGERITO</span><strong id="cSuggested">€ 0,00</strong></div></div><p class="help" style="margin-top:12px">Il prezzo suggerito usa il margine sul prezzo di vendita: costo ÷ (1 − margine).</p></section>
+<section class="card" style="margin-top:16px"><h2 class="section-title">Storico tratta</h2><div id="history" class="muted">Inserisci partenza e destinazione.</div></section></aside></div>
+</main></div></div>
+<script type="module">
+import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+const supabase=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G");
+const $=id=>document.getElementById(id);let clienti=[];let selectedCliente=null;let lastSuggested=0;let prezzoTouched=false;
+const n=id=>Number($(id).value||0);const eur=x=>new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"}).format(Number(x||0));
+function show(t,type="error"){$("message").textContent=t;$("message").className="message "+type;window.scrollTo({top:0,behavior:"smooth"})}
+function isoToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function calc(){
+ const km=n("km"),cons=n("consumo"),fuel=n("carburante"),mkm=n("mezzoKm"),margin=n("margine");
+ const cf=km*cons/100*fuel,cm=km*mkm,total=cf+cm+n("pedaggi")+n("autista")+n("altri");
+ const suggested=margin>=100?total:total/(1-margin/100);lastSuggested=Math.round(suggested*100)/100;
+ $("cFuel").textContent=eur(cf);$("cVehicle").textContent=eur(cm);$("cTotal").textContent=eur(total);$("cSuggested").textContent=eur(lastSuggested);
+ if(!prezzoTouched||!$("prezzoFinale").value)$("prezzoFinale").value=lastSuggested.toFixed(2);
+}
+function findCliente(){const q=$("cliente").value.trim().toLowerCase();selectedCliente=clienti.find(x=>String(x.ragione_sociale||"").trim().toLowerCase()===q)||null}
+async function history(){
+ const a=$("partenza").value.trim(),b=$("destinazione").value.trim();if(!a||!b){$("history").textContent="Inserisci partenza e destinazione.";return}
+ const {data,error}=await supabase.from("preventivi").select("numero_preventivo,data_preventivo,cliente,prezzo_finale,costo_totale,margine_percentuale,stato").ilike("partenza",a).ilike("destinazione",b).order("created_at",{ascending:false}).limit(5);
+ if(error){$("history").textContent="Storico non disponibile.";return} if(!data?.length){$("history").innerHTML="<span class='muted'>Nessun precedente per questa tratta.</span>";return}
+ const avg=data.reduce((s,x)=>s+Number(x.prezzo_finale||0),0)/data.length;
+ $("history").innerHTML=`<div style="margin-bottom:10px"><span class="muted">MEDIA ULTIMI ${data.length}</span><div style="font-size:22px;font-weight:900;color:#173459">${eur(avg)}</div></div>`+data.map(x=>`<div class="history-item"><div class="history-route">${x.numero_preventivo} · ${x.cliente}</div><div class="muted">${new Date(x.data_preventivo+"T12:00:00").toLocaleDateString("it-IT")} · ${eur(x.prezzo_finale)} · ${Number(x.margine_percentuale||0).toFixed(1)}%</div></div>`).join("");
+}
+async function boot(){
+ const {data:{session}}=await supabase.auth.getSession();if(!session)return location.replace("login.html");
+ const {data:p,error}=await supabase.from("profiles").select("azienda_id,ruolo,email").eq("id",session.user.id).single();if(error||!p?.azienda_id)return location.replace("login.html");if(String(p.ruolo||"").toLowerCase()==="autista")return location.replace("area-autista.html");
+ $("userEmail").textContent=session.user.email||p.email||"-";document.body.classList.add("auth-ready");$("data").value=isoToday();
+ const d=new Date();d.setDate(d.getDate()+15);$("validita").value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+ const {data,error:ce}=await supabase.from("anagrafiche").select("id,ragione_sociale,tipo,attiva").eq("attiva",true).in("tipo",["CLIENTE","CLIENTE_VETTORE"]).order("ragione_sociale");
+ if(!ce){clienti=data||[];$("clientiList").innerHTML=clienti.map(x=>`<option value="${String(x.ragione_sociale||"").replaceAll('"',"&quot;")}"></option>`).join("")}
+ calc();
+}
+document.querySelectorAll(".economic").forEach(x=>x.addEventListener("input",calc));$("prezzoFinale").addEventListener("input",()=>prezzoTouched=true);$("cliente").addEventListener("change",findCliente);
+let timer;$("partenza").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});$("destinazione").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});
+$("form").addEventListener("submit",async e=>{e.preventDefault();findCliente();const btn=$("save");btn.disabled=true;btn.textContent="Creazione...";
+ const args={p_cliente:$("cliente").value.trim(),p_partenza:$("partenza").value.trim(),p_destinazione:$("destinazione").value.trim(),p_cliente_id:selectedCliente?.id||null,p_pratica_id:null,p_data_preventivo:$("data").value||null,p_validita_fino_al:$("validita").value||null,p_tipo_merce:$("tipoMerce").value.trim()||null,p_colli:$("colli").value?Number($("colli").value):null,p_peso_kg:$("peso").value?Number($("peso").value):null,p_volume_m3:$("volume").value?Number($("volume").value):null,p_indirizzo_ritiro:$("indirizzoRitiro").value.trim()||null,p_cap_ritiro:$("capRitiro").value.trim()||null,p_indirizzo_consegna:$("indirizzoConsegna").value.trim()||null,p_cap_consegna:$("capConsegna").value.trim()||null,p_km_previsti:$("km").value?Number($("km").value):null,p_consumo_l_100km:$("consumo").value?Number($("consumo").value):null,p_prezzo_carburante_l:$("carburante").value?Number($("carburante").value):null,p_costo_mezzo_km:n("mezzoKm"),p_pedaggi:n("pedaggi"),p_costo_autista:n("autista"),p_altri_costi:n("altri"),p_margine_percentuale:n("margine"),p_prezzo_finale:$("prezzoFinale").value?Number($("prezzoFinale").value):lastSuggested,p_note:$("note").value.trim()||null,p_condizioni:$("condizioni").value.trim()||null};
+ const {data,error}=await supabase.rpc("crea_preventivo",args);if(error){show(error.message);btn.disabled=false;btn.textContent="Crea preventivo";return}show("Preventivo creato correttamente.","success");setTimeout(()=>location.href="preventivi.html",650);
+});
+$("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};boot();
+</script></body></html>
