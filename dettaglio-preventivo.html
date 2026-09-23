@@ -108,7 +108,12 @@
 </div><aside>
 <section class="card section"><h2>Gestione preventivo</h2><label>Stato</label><select id="state"><option>BOZZA</option><option>DA_INVIARE</option><option>INVIATO</option><option>ACCETTATO</option><option>RIFIUTATO</option><option>ANNULLATO</option></select>
 <label>Prezzo finale €</label><input id="finalPrice" type="number" min="0" step=".01">
-<div class="price"><span>PREZZO FINALE</span><strong id="priceBig">€ 0,00</strong><div id="realMargin" class="muted" style="color:#c6d5e3;margin-top:6px"></div></div>
+<div class="price"><span>IMPONIBILE</span><strong id="priceBig">€ 0,00</strong><div id="realMargin" class="muted" style="color:#c6d5e3;margin-top:6px"></div></div>
+<div class="data-grid" style="margin-top:12px">
+ <div class="field"><span>TRATTAMENTO IVA</span><strong id="vatTreatment">-</strong></div>
+ <div class="field"><span>IVA</span><strong id="vatAmount">€ 0,00</strong></div>
+ <div class="field full"><span>TOTALE CLIENTE</span><strong id="customerTotal" style="font-size:22px;color:#173459">€ 0,00</strong></div>
+</div>
 <button id="save" class="btn primary" style="width:100%;margin-top:12px">Salva modifiche</button></section>
 <section class="card section"><h2>Pratica collegata</h2>
 <div id="practiceLinkArea">
@@ -152,7 +157,9 @@ function render(){
  $("pickup").textContent=[item.indirizzo_ritiro,item.cap_ritiro].filter(Boolean).join(" · ")||"-";$("delivery").textContent=[item.indirizzo_consegna,item.cap_consegna].filter(Boolean).join(" · ")||"-";
  $("merce").textContent=val(item.tipo_merce);$("colli").textContent=val(item.colli);$("peso").textContent=item.peso_kg!=null?item.peso_kg+" kg":"-";$("volume").textContent=item.volume_m3!=null?item.volume_m3+" m³":"-";
  $("km").textContent=Number(item.km_previsti||0).toLocaleString("it-IT")+" km";$("consumption").textContent=item.consumo_l_100km!=null?Number(item.consumo_l_100km).toLocaleString("it-IT")+" L/100 km":"-";$("fuelPrice").textContent=item.prezzo_carburante_l!=null?Number(item.prezzo_carburante_l).toLocaleString("it-IT")+" €/L":"-";$("fuel").textContent=eur(item.costo_carburante);$("vehicleRate").textContent=item.costo_mezzo_km!=null?Number(item.costo_mezzo_km).toLocaleString("it-IT")+" €/km":"-";$("vehicle").textContent=eur(item.costo_mezzo);$("driverHours").textContent=item.ore_autista!=null?Number(item.ore_autista).toLocaleString("it-IT")+" h":"-";$("driverRate").textContent=item.costo_autista_ora!=null?Number(item.costo_autista_ora).toLocaleString("it-IT")+" €/ora":"-";$("tolls").textContent=eur(item.pedaggi);$("driver").textContent=eur(item.costo_autista);$("other").textContent=eur(item.altri_costi);$("targetMargin").textContent=Number(item.margine_percentuale||0).toLocaleString("it-IT")+"%";$("total").textContent=eur(item.costo_totale);$("suggested").textContent=eur(item.prezzo_suggerito);
- $("conditions").textContent=val(item.condizioni);$("notes").textContent=val(item.note);$("state").value=item.stato;$("finalPrice").value=Number(item.prezzo_finale||0).toFixed(2);effectiveMargin();
+ $("conditions").textContent=val(item.condizioni);$("notes").textContent=val(item.note);$("state").value=item.stato;$("finalPrice").value=Number(item.prezzo_finale||0).toFixed(2);
+ $("vatTreatment").textContent=item.trattamento_iva==="NON_IMPONIBILE"?"Non imponibile":`IVA ${Number(item.iva_aliquota||22).toLocaleString("it-IT")}%`;
+ $("vatAmount").textContent=eur(item.iva_importo);$("customerTotal").textContent=eur(item.totale_cliente);effectiveMargin();
 }
 async function loadQuoteDocuments(){
  if(!item?.id)return;

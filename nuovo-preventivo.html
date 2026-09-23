@@ -99,8 +99,9 @@ label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6
 <section class="card"><h2 class="section-title">Cliente e tratta</h2><div class="form-grid">
 <div class="full"><label>Cliente *</label><input id="cliente" list="clientiList" required placeholder="Seleziona o scrivi il cliente"><datalist id="clientiList"></datalist></div>
 <div><label>Partenza *</label><input id="partenza" required placeholder="es. Palermo"></div><div><label>Destinazione *</label><input id="destinazione" required placeholder="es. Marsala"></div>
-<div><label>Indirizzo ritiro</label><input id="indirizzoRitiro"></div><div><label>CAP ritiro</label><input id="capRitiro"></div>
-<div><label>Indirizzo consegna</label><input id="indirizzoConsegna"></div><div><label>CAP consegna</label><input id="capConsegna"></div>
+<div><label>Indirizzo ritiro</label><input id="indirizzoRitiro"></div><div><label>CAP ritiro</label><input id="capRitiro" inputmode="numeric" maxlength="5"></div>
+<div><label>Indirizzo consegna</label><input id="indirizzoConsegna"></div><div><label>CAP consegna</label><input id="capConsegna" inputmode="numeric" maxlength="5"></div>
+<div class="full"><div id="routeStatus" class="help">Inserisci CAP ritiro e CAP consegna: i km stradali verranno calcolati automaticamente.</div></div>
 </div></section>
 <section class="card" style="margin-top:16px"><h2 class="section-title">Merce</h2><div class="form-grid"><div><label>Tipo merce</label><input id="tipoMerce"></div><div><label>Colli</label><input id="colli" type="number" min="0"></div><div><label>Peso kg</label><input id="peso" type="number" min="0" step=".01"></div><div><label>Volume m³</label><input id="volume" type="number" min="0" step=".001"></div></div></section>
 <section class="card" style="margin-top:16px"><h2 class="section-title">Calcolo economico</h2><div class="form-grid">
@@ -109,12 +110,16 @@ label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6
 <div><label>Ore autista stimate</label><input class="economic" id="oreAutista" type="number" min="0" step=".25" value="0"></div><div><label>Costo autista €/ora</label><input class="economic" id="autistaOra" type="number" min="0" step=".01" value="0"></div>
 <div><label>Pedaggi €</label><input class="economic" id="pedaggi" type="number" min="0" step=".01" value="0"></div><div><label>Altri costi €</label><input class="economic" id="altri" type="number" min="0" step=".01" value="0"></div>
 <div><label>Margine obiettivo %</label><input class="economic" id="margine" type="number" min="0" max="99.9" step=".1" value="20"></div>
-<div class="full"><label>Prezzo finale €</label><input id="prezzoFinale" type="number" min="0" step=".01"><div class="help">Puoi modificare il prezzo proposto prima di salvare.</div></div>
+<div class="full"><label>Prezzo finale / imponibile €</label><input id="prezzoFinale" class="economic" type="number" min="0" step=".01"><div class="help">Puoi modificare il prezzo proposto prima di salvare.</div></div>
+<div><label>Trattamento IVA</label><select id="trattamentoIva" class="economic"><option value="IVA">IVA 22%</option><option value="NON_IMPONIBILE">Non imponibile</option></select></div>
+<div><label>Aliquota IVA</label><input id="aliquotaIva" type="number" value="22" readonly><div class="help">Per ora viene applicata l'aliquota ordinaria del 22%.</div></div>
 </div></section>
 <section class="card" style="margin-top:16px"><h2 class="section-title">Condizioni</h2><div class="form-grid"><div><label>Data preventivo</label><input id="data" type="date"></div><div><label>Valido fino al</label><input id="validita" type="date"></div><div class="full"><label>Condizioni commerciali</label><textarea id="condizioni" rows="3"></textarea></div><div class="full"><label>Note</label><textarea id="note" rows="3"></textarea></div></div></section>
 <div class="actions"><a class="btn btn-secondary" href="preventivi.html">Annulla</a><button id="save" class="btn btn-primary" type="submit">Crea preventivo</button></div>
 </form></div>
-<aside><section class="card"><h2 class="section-title">Calcolo MatRi-mIA</h2><div class="calc-grid"><div class="calc"><span>CARBURANTE</span><strong id="cFuel">€ 0,00</strong></div><div class="calc"><span>COSTO MEZZO</span><strong id="cVehicle">€ 0,00</strong></div><div class="calc"><span>AUTISTA</span><strong id="cDriver">€ 0,00</strong></div><div class="calc"><span>COSTO TOTALE</span><strong id="cTotal">€ 0,00</strong></div><div class="calc suggested"><span>PREZZO SUGGERITO</span><strong id="cSuggested">€ 0,00</strong></div></div><p class="help" style="margin-top:12px">Il prezzo suggerito usa il margine sul prezzo di vendita: costo ÷ (1 − margine).</p></section>
+<aside><section class="card"><h2 class="section-title">Calcolo MatRi-mIA</h2><div class="calc-grid"><div class="calc"><span>CARBURANTE</span><strong id="cFuel">€ 0,00</strong></div><div class="calc"><span>COSTO MEZZO</span><strong id="cVehicle">€ 0,00</strong></div><div class="calc"><span>AUTISTA</span><strong id="cDriver">€ 0,00</strong></div><div class="calc"><span>COSTO TOTALE</span><strong id="cTotal">€ 0,00</strong></div><div class="calc suggested"><span>PREZZO SUGGERITO / IMPONIBILE</span><strong id="cSuggested">€ 0,00</strong></div>
+<div class="calc"><span>IVA</span><strong id="cIva">€ 0,00</strong></div>
+<div class="calc suggested"><span>TOTALE CLIENTE</span><strong id="cTotaleCliente">€ 0,00</strong></div></div><p class="help" style="margin-top:12px">Il prezzo suggerito usa il margine sul prezzo di vendita: costo ÷ (1 − margine).</p></section>
 <section class="card" style="margin-top:16px"><h2 class="section-title">Storico tratta</h2><div id="history" class="muted">Inserisci partenza e destinazione.</div></section></aside></div>
 </main></div></div>
 <script type="module">
@@ -130,7 +135,39 @@ function calc(){
  const suggested=margin>=100?total:total/(1-margin/100);lastSuggested=Math.round(suggested*100)/100;
  $("cFuel").textContent=eur(cf);$("cVehicle").textContent=eur(cm);$("cDriver").textContent=eur(ca);$("cTotal").textContent=eur(total);$("cSuggested").textContent=eur(lastSuggested);
  if(!prezzoTouched||!$("prezzoFinale").value)$("prezzoFinale").value=lastSuggested.toFixed(2);
+ const imponibile=Number($("prezzoFinale").value||lastSuggested||0);
+ const nonImp=$("trattamentoIva").value==="NON_IMPONIBILE";
+ $("aliquotaIva").value=nonImp?"0":"22";
+ const iva=nonImp?0:imponibile*.22;
+ $("cIva").textContent=eur(iva);
+ $("cTotaleCliente").textContent=eur(imponibile+iva);
 }
+let routeTimer=null,routeBusy=false;
+async function autoRoute(){
+ const capR=$("capRitiro").value.trim(),capC=$("capConsegna").value.trim();
+ if(!/^\d{5}$/.test(capR)||!/^\d{5}$/.test(capC)){
+   $("routeStatus").textContent="Inserisci due CAP italiani di 5 cifre per calcolare automaticamente i km.";
+   return;
+ }
+ if(routeBusy)return;
+ routeBusy=true;$("routeStatus").textContent="Calcolo percorso stradale per mezzo pesante...";
+ try{
+   const {data,error}=await supabase.functions.invoke("calcola-percorso",{body:{
+     cap_ritiro:capR,cap_consegna:capC,
+     partenza:$("partenza").value.trim(),destinazione:$("destinazione").value.trim(),
+     indirizzo_ritiro:$("indirizzoRitiro").value.trim(),indirizzo_consegna:$("indirizzoConsegna").value.trim()
+   }});
+   if(error)throw error;
+   if(data?.error)throw new Error(data.error);
+   $("km").value=Number(data.km||0).toFixed(1);
+   const h=Math.floor(Number(data.durata_minuti||0)/60),m=Number(data.durata_minuti||0)%60;
+   $("routeStatus").textContent=`Percorso calcolato: ${Number(data.km||0).toLocaleString("it-IT")} km · circa ${h}h ${m}min. I km restano modificabili manualmente.`;
+   calc();
+ }catch(e){
+   $("routeStatus").textContent="Calcolo automatico non riuscito. Puoi inserire i km manualmente. "+(e?.message||"");
+ }finally{routeBusy=false}
+}
+function scheduleRoute(){clearTimeout(routeTimer);routeTimer=setTimeout(autoRoute,550)}
 function findCliente(){const q=$("cliente").value.trim().toLowerCase();selectedCliente=clienti.find(x=>String(x.ragione_sociale||"").trim().toLowerCase()===q)||null}
 async function history(){
  const a=$("partenza").value.trim(),b=$("destinazione").value.trim();if(!a||!b){$("history").textContent="Inserisci partenza e destinazione.";return}
@@ -156,10 +193,15 @@ async function boot(){
  if(!ce){clienti=data||[];$("clientiList").innerHTML=clienti.map(x=>`<option value="${String(x.ragione_sociale||"").replaceAll('"',"&quot;")}"></option>`).join("")}
  calc();
 }
-document.querySelectorAll(".economic").forEach(x=>x.addEventListener("input",calc));$("prezzoFinale").addEventListener("input",()=>prezzoTouched=true);$("cliente").addEventListener("change",findCliente);
+document.querySelectorAll(".economic").forEach(x=>x.addEventListener("input",calc));
+$("prezzoFinale").addEventListener("input",()=>{prezzoTouched=true;calc()});
+$("trattamentoIva").addEventListener("change",calc);
+["capRitiro","capConsegna","partenza","destinazione","indirizzoRitiro","indirizzoConsegna"].forEach(id=>$(id).addEventListener("change",scheduleRoute));
+$("capRitiro").addEventListener("input",scheduleRoute);$("capConsegna").addEventListener("input",scheduleRoute);
+$("cliente").addEventListener("change",findCliente);
 let timer;$("partenza").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});$("destinazione").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});
 $("form").addEventListener("submit",async e=>{e.preventDefault();findCliente();const btn=$("save");btn.disabled=true;btn.textContent="Creazione...";
- const args={p_cliente:$("cliente").value.trim(),p_partenza:$("partenza").value.trim(),p_destinazione:$("destinazione").value.trim(),p_cliente_id:selectedCliente?.id||null,p_pratica_id:null,p_data_preventivo:$("data").value||null,p_validita_fino_al:$("validita").value||null,p_tipo_merce:$("tipoMerce").value.trim()||null,p_colli:$("colli").value?Number($("colli").value):null,p_peso_kg:$("peso").value?Number($("peso").value):null,p_volume_m3:$("volume").value?Number($("volume").value):null,p_indirizzo_ritiro:$("indirizzoRitiro").value.trim()||null,p_cap_ritiro:$("capRitiro").value.trim()||null,p_indirizzo_consegna:$("indirizzoConsegna").value.trim()||null,p_cap_consegna:$("capConsegna").value.trim()||null,p_km_previsti:$("km").value?Number($("km").value):null,p_consumo_l_100km:$("consumo").value?Number($("consumo").value):null,p_prezzo_carburante_l:$("carburante").value?Number($("carburante").value):null,p_costo_mezzo_km:n("mezzoKm"),p_pedaggi:n("pedaggi"),p_ore_autista:n("oreAutista"),p_costo_autista_ora:n("autistaOra"),p_altri_costi:n("altri"),p_margine_percentuale:n("margine"),p_prezzo_finale:$("prezzoFinale").value?Number($("prezzoFinale").value):lastSuggested,p_note:$("note").value.trim()||null,p_condizioni:$("condizioni").value.trim()||null};
+ const args={p_cliente:$("cliente").value.trim(),p_partenza:$("partenza").value.trim(),p_destinazione:$("destinazione").value.trim(),p_cliente_id:selectedCliente?.id||null,p_pratica_id:null,p_data_preventivo:$("data").value||null,p_validita_fino_al:$("validita").value||null,p_tipo_merce:$("tipoMerce").value.trim()||null,p_colli:$("colli").value?Number($("colli").value):null,p_peso_kg:$("peso").value?Number($("peso").value):null,p_volume_m3:$("volume").value?Number($("volume").value):null,p_indirizzo_ritiro:$("indirizzoRitiro").value.trim()||null,p_cap_ritiro:$("capRitiro").value.trim()||null,p_indirizzo_consegna:$("indirizzoConsegna").value.trim()||null,p_cap_consegna:$("capConsegna").value.trim()||null,p_km_previsti:$("km").value?Number($("km").value):null,p_consumo_l_100km:$("consumo").value?Number($("consumo").value):null,p_prezzo_carburante_l:$("carburante").value?Number($("carburante").value):null,p_costo_mezzo_km:n("mezzoKm"),p_pedaggi:n("pedaggi"),p_ore_autista:n("oreAutista"),p_costo_autista_ora:n("autistaOra"),p_altri_costi:n("altri"),p_margine_percentuale:n("margine"),p_prezzo_finale:$("prezzoFinale").value?Number($("prezzoFinale").value):lastSuggested,p_trattamento_iva:$("trattamentoIva").value,p_iva_aliquota:Number($("aliquotaIva").value||0),p_note:$("note").value.trim()||null,p_condizioni:$("condizioni").value.trim()||null};
  const {data,error}=await supabase.rpc("crea_preventivo",args);if(error){show(error.message);btn.disabled=false;btn.textContent="Crea preventivo";return}show("Preventivo creato correttamente.","success");setTimeout(()=>location.href="preventivi.html",650);
 });
 $("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};boot();
