@@ -184,11 +184,6 @@ button,input,select,textarea{
   padding:13px;
 }
 
-.field.actual{
-  background:#f0fdf4;
-  border-color:#bbf7d0;
-}
-
 .field.full{
   grid-column:1/-1;
 }
@@ -202,68 +197,12 @@ button,input,select,textarea{
   margin-bottom:5px;
 }
 
-.field.actual .label{
-  color:#15803d;
-}
-
 .value{
   color:#334155;
   font-size:13px;
   font-weight:700;
   line-height:1.45;
   overflow-wrap:anywhere;
-}
-
-.field.actual .value{
-  color:#166534;
-}
-
-/* AVANZAMENTO */
-
-.trip-actions{
-  margin-top:16px;
-  padding-top:16px;
-  border-top:1px solid #eef2f7;
-}
-
-.trip-action-info{
-  color:#64748b;
-  font-size:11px;
-  line-height:1.5;
-  margin-bottom:12px;
-}
-
-.btn-status{
-  width:100%;
-  min-height:52px;
-  border:0;
-  border-radius:11px;
-  padding:0 16px;
-  font-size:14px;
-  font-weight:800;
-  cursor:pointer;
-  background:#2563eb;
-  color:#fff;
-}
-
-.btn-status:hover{
-  background:#1d4ed8;
-}
-
-.btn-status:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
-.trip-completed{
-  background:#ecfdf5;
-  border:1px solid #bbf7d0;
-  color:#166534;
-  border-radius:11px;
-  padding:14px;
-  font-size:12px;
-  font-weight:800;
-  text-align:center;
 }
 
 /* DOCUMENTI */
@@ -469,11 +408,9 @@ textarea:focus{
 <body>
 
 <header class="header">
-
   <div class="header-inner">
 
     <div class="top">
-
       <div class="brand">
         MatRi-m<span class="ia">IA</span>
       </div>
@@ -481,27 +418,19 @@ textarea:focus{
       <a href="autista.html" class="back">
         ← I miei viaggi
       </a>
-
     </div>
 
     <div class="trip-heading">
-
       <div class="eyebrow">
         AREA AUTISTA · VIAGGIO
       </div>
 
-      <h1 id="numeroViaggio">
-        Viaggio
-      </h1>
+      <h1 id="numeroViaggio">Viaggio</h1>
 
-      <div id="route" class="route">
-        -
-      </div>
-
+      <div id="route" class="route">-</div>
     </div>
 
   </div>
-
 </header>
 
 
@@ -510,13 +439,10 @@ textarea:focus{
   <div id="messageBox" class="message"></div>
 
   <div class="security-note">
-
     <span>✓</span>
-
     <div>
       Stai visualizzando un viaggio assegnato al tuo account autista.
     </div>
-
   </div>
 
 
@@ -525,7 +451,6 @@ textarea:focus{
   <section class="card">
 
     <div class="card-header">
-
       <h2>Dati viaggio</h2>
 
       <div
@@ -533,146 +458,40 @@ textarea:focus{
         class="badge status-default">
         -
       </div>
-
     </div>
-
 
     <div class="card-body">
 
       <div class="fields">
 
         <div class="field">
-
-          <div class="label">
-            Partenza prevista
-          </div>
-
-          <div
-            id="vPartenza"
-            class="value">
-            -
-          </div>
-
+          <div class="label">Partenza prevista</div>
+          <div id="vPartenza" class="value">-</div>
         </div>
-
-
-        <div class="field actual">
-
-          <div class="label">
-            Partenza effettiva
-          </div>
-
-          <div
-            id="vPartenzaEffettiva"
-            class="value">
-            -
-          </div>
-
-        </div>
-
 
         <div class="field">
-
-          <div class="label">
-            Arrivo previsto
-          </div>
-
-          <div
-            id="vArrivo"
-            class="value">
-            -
-          </div>
-
+          <div class="label">Arrivo previsto</div>
+          <div id="vArrivo" class="value">-</div>
         </div>
-
-
-        <div class="field actual">
-
-          <div class="label">
-            Consegna effettiva
-          </div>
-
-          <div
-            id="vConsegnaEffettiva"
-            class="value">
-            -
-          </div>
-
-        </div>
-
 
         <div class="field">
-
-          <div class="label">
-            Targa trattore
-          </div>
-
-          <div
-            id="vTrattore"
-            class="value">
-            -
-          </div>
-
+          <div class="label">Targa trattore</div>
+          <div id="vTrattore" class="value">-</div>
         </div>
-
 
         <div class="field">
-
-          <div class="label">
-            Targa rimorchio
-          </div>
-
-          <div
-            id="vRimorchio"
-            class="value">
-            -
-          </div>
-
+          <div class="label">Targa rimorchio</div>
+          <div id="vRimorchio" class="value">-</div>
         </div>
-
 
         <div class="field full">
-
-          <div class="label">
-            Note operative
-          </div>
-
-          <div
-            id="vNote"
-            class="value">
-            -
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="trip-actions">
-
-        <div
-          id="tripActionInfo"
-          class="trip-action-info">
-        </div>
-
-        <button
-          id="statusButton"
-          class="btn-status"
-          type="button"
-          style="display:none">
-        </button>
-
-        <div
-          id="tripCompleted"
-          class="trip-completed"
-          style="display:none">
-          ✓ Viaggio consegnato
+          <div class="label">Note operative</div>
+          <div id="vNote" class="value">-</div>
         </div>
 
       </div>
 
     </div>
-
   </section>
 
 
@@ -681,9 +500,8 @@ textarea:focus{
   <section class="card">
 
     <div class="card-header">
-      <h2>Documenti viaggio</h2>
+      <h2>Documenti della pratica</h2>
     </div>
-
 
     <div class="card-body">
 
@@ -692,7 +510,6 @@ textarea:focus{
         <div class="upload-grid">
 
           <div class="form-group">
-
             <label for="documentType">
               Tipo documento
             </label>
@@ -703,12 +520,9 @@ textarea:focus{
               <option value="DDT">DDT</option>
               <option value="ALTRO">Foto / Altro</option>
             </select>
-
           </div>
 
-
           <div class="form-group">
-
             <label for="documentFile">
               File o foto
             </label>
@@ -718,24 +532,20 @@ textarea:focus{
               type="file"
               accept=".pdf,.jpg,.jpeg,.png,.webp,image/*"
             >
-
           </div>
 
         </div>
 
-
         <div class="form-group">
-
           <label for="documentNote">
             Nota
           </label>
 
           <textarea
             id="documentNote"
-            placeholder="Nota facoltativa"></textarea>
-
+            placeholder="Nota facoltativa">
+          </textarea>
         </div>
-
 
         <button
           id="uploadButton"
@@ -745,11 +555,8 @@ textarea:focus{
           Carica documento
         </button>
 
-
         <div class="upload-info">
-          Puoi caricare CMR, POD, DDT, fotografie della merce
-          o altri documenti relativi a questo viaggio.
-          Dimensione massima 20 MB.
+          Qui trovi i documenti che l'azienda ha condiviso con te. I documenti che carichi (POD, CMR/DDT firmati, foto) vengono archiviati direttamente nella pratica. Dimensione massima 20 MB.
         </div>
 
       </div>
@@ -791,7 +598,6 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
 "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
-
 
 const supabase =
 createClient(
@@ -836,15 +642,6 @@ document.getElementById("documentsEmpty");
 
 const documentsList =
 document.getElementById("documentsList");
-
-const statusButton =
-document.getElementById("statusButton");
-
-const tripActionInfo =
-document.getElementById("tripActionInfo");
-
-const tripCompleted =
-document.getElementById("tripCompleted");
 
 
 /* =========================
@@ -1005,7 +802,10 @@ function formatBytes(bytes){
   }
 
   if(value < 1024 * 1024){
-    return (value / 1024).toFixed(1) + " KB";
+
+    return (
+      value / 1024
+    ).toFixed(1) + " KB";
   }
 
   return (
@@ -1190,6 +990,14 @@ async function loadTrip(){
   }
 
 
+  /*
+   * IMPORTANTE:
+   * oltre all'ID del viaggio controlliamo
+   * anche autista_id.
+   *
+   * Quindi l'autista non può aprire
+   * semplicemente un altro ID nell'URL.
+   */
   const {
     data,
     error
@@ -1207,8 +1015,6 @@ async function loadTrip(){
       targa_rimorchio,
       data_partenza,
       data_arrivo,
-      data_partenza_effettiva,
-      data_consegna_effettiva,
       note,
       pratiche (
         id,
@@ -1293,25 +1099,9 @@ function renderTrip(){
 
 
   text(
-    "vPartenzaEffettiva",
-    formatDate(
-      viaggio.data_partenza_effettiva
-    )
-  );
-
-
-  text(
     "vArrivo",
     formatDate(
       viaggio.data_arrivo
-    )
-  );
-
-
-  text(
-    "vConsegnaEffettiva",
-    formatDate(
-      viaggio.data_consegna_effettiva
     )
   );
 
@@ -1354,228 +1144,7 @@ function renderTrip(){
   badge.className =
   "badge " +
   statusClass(status);
-
-
-  renderStatusAction();
 }
-
-
-/* =========================
-   STATO VIAGGIO
-========================= */
-
-function renderStatusAction(){
-
-  const status =
-  normalizeStatus(
-    viaggio?.stato ||
-    "DA PROGRAMMARE"
-  );
-
-
-  statusButton.style.display =
-  "none";
-
-  tripCompleted.style.display =
-  "none";
-
-  tripActionInfo.textContent =
-  "";
-
-
-  if(status === "PROGRAMMATO"){
-
-    tripActionInfo.textContent =
-    "Quando inizi il viaggio, aggiorna lo stato. La data e l'ora effettive di partenza verranno registrate automaticamente.";
-
-    statusButton.textContent =
-    "▶ Inizia viaggio";
-
-    statusButton.dataset.nextStatus =
-    "IN CORSO";
-
-    statusButton.style.display =
-    "block";
-
-    return;
-  }
-
-
-  if(status === "IN CORSO"){
-
-    tripActionInfo.textContent =
-    "Quando hai completato la consegna, confermala. La data e l'ora effettive verranno registrate automaticamente.";
-
-    statusButton.textContent =
-    "✓ Conferma consegna";
-
-    statusButton.dataset.nextStatus =
-    "CONSEGNATO";
-
-    statusButton.style.display =
-    "block";
-
-    return;
-  }
-
-
-  if(status === "CONSEGNATO"){
-
-    tripCompleted.style.display =
-    "block";
-
-    return;
-  }
-
-
-  if(status === "ANNULLATO"){
-
-    tripActionInfo.textContent =
-    "Questo viaggio è stato annullato.";
-
-    return;
-  }
-
-
-  tripActionInfo.textContent =
-  "Lo stato del viaggio non consente aggiornamenti da parte dell'autista.";
-}
-
-
-async function updateTripStatus(){
-
-  const newStatus =
-  statusButton.dataset.nextStatus;
-
-
-  if(!newStatus){
-    return;
-  }
-
-
-  let confirmationText =
-  "";
-
-
-  if(newStatus === "IN CORSO"){
-
-    confirmationText =
-    "Confermi l'inizio del viaggio? Verranno registrate automaticamente data e ora effettive di partenza.";
-
-  }
-  else if(newStatus === "CONSEGNATO"){
-
-    confirmationText =
-    "Confermi che la consegna è stata completata? Verranno registrate automaticamente data e ora effettive di consegna.";
-
-  }
-
-
-  if(
-    confirmationText &&
-    !window.confirm(confirmationText)
-  ){
-    return;
-  }
-
-
-  hideMessage();
-
-  statusButton.disabled =
-  true;
-
-  const originalText =
-  statusButton.textContent;
-
-  statusButton.textContent =
-  "Aggiornamento...";
-
-
-  try{
-
-    const {
-      error
-    } =
-    await supabase.rpc(
-      "autista_aggiorna_stato_viaggio",
-      {
-        p_viaggio_id:
-        viaggio.id,
-
-        p_nuovo_stato:
-        newStatus
-      }
-    );
-
-
-    if(error){
-      throw error;
-    }
-
-
-    /*
-     * Rileggiamo il viaggio dal database.
-     * In questo modo recuperiamo anche l'orario
-     * effettivo registrato dalla RPC con now().
-     */
-    const refreshed =
-    await loadTrip();
-
-
-    if(!refreshed){
-
-      throw new Error(
-        "Stato aggiornato, ma non è stato possibile ricaricare il viaggio."
-      );
-    }
-
-
-    if(newStatus === "IN CORSO"){
-
-      showSuccess(
-        "Viaggio iniziato. Data e ora effettive di partenza registrate."
-      );
-
-    }
-    else if(newStatus === "CONSEGNATO"){
-
-      showSuccess(
-        "Consegna confermata. Data e ora effettive di consegna registrate."
-      );
-
-    }
-
-  }
-  catch(error){
-
-    console.error(
-      "Errore aggiornamento stato:",
-      error
-    );
-
-
-    showError(
-      "Impossibile aggiornare lo stato del viaggio: " +
-      error.message
-    );
-
-
-    statusButton.textContent =
-    originalText;
-
-  }
-  finally{
-
-    statusButton.disabled =
-    false;
-  }
-}
-
-
-statusButton.addEventListener(
-  "click",
-  updateTripStatus
-);
 
 
 /* =========================
@@ -1611,12 +1180,18 @@ async function loadDocuments(){
       mime_type,
       dimensione_bytes,
       note,
+      visibile_autista,
+      origine,
       created_by,
       created_at
     `)
     .eq(
-      "viaggio_id",
-      viaggio.id
+      "pratica_id",
+      viaggio.pratica_id
+    )
+    .eq(
+      "visibile_autista",
+      true
     )
     .eq(
       "azienda_id",
@@ -1739,6 +1314,7 @@ function renderDocuments(){
       meta.textContent =
       [
         documento.tipo,
+        documento.origine === "AUTISTA" ? "CARICATO DA TE" : "DALL'AZIENDA",
         formatBytes(
           documento.dimensione_bytes
         ),
@@ -1815,7 +1391,6 @@ async function openDocument(
 
   hideMessage();
 
-
   try{
 
     const {
@@ -1865,7 +1440,7 @@ async function openDocument(
 
 
 /* =========================
-   UPLOAD DOCUMENTO
+   UPLOAD
 ========================= */
 
 async function uploadDocument(){
@@ -1943,11 +1518,15 @@ async function uploadDocument(){
     safeName;
 
 
+    /*
+     * Percorso dedicato agli upload
+     * effettuati dall'Area Autista.
+     */
     const storagePath =
     currentProfile.azienda_id +
-    "/autisti/" +
-    viaggio.id +
-    "/" +
+    "/pratiche/" +
+    praticaId +
+    "/autista/" +
     uniqueName;
 
 
@@ -1993,7 +1572,13 @@ async function uploadDocument(){
         praticaId,
 
         viaggio_id:
-        viaggio.id,
+        null,
+
+        visibile_autista:
+        true,
+
+        origine:
+        "AUTISTA",
 
         tipo:
         documentType.value,

@@ -1568,6 +1568,10 @@ footer strong{
               <label for="documentNote">Nota</label>
               <textarea id="documentNote" class="document-note" placeholder="Nota facoltativa sul documento"></textarea>
             </div>
+            <label style="display:flex;align-items:center;gap:9px;margin-top:12px;font-size:12px;font-weight:700;color:#334155">
+              <input id="documentVisibleDriver" type="checkbox" style="width:auto">
+              Condividi questo documento con l'autista
+            </label>
             <button id="uploadDocumentButton" type="button" class="save-edit" style="margin-top:12px">Carica documento</button>
             <div class="documents-help" style="margin-top:9px">
               Archivio unico della pratica: i documenti caricati qui sono quelli usati anche dal viaggio collegato.
@@ -1727,6 +1731,7 @@ const documentType = document.getElementById("documentType");
 const documentFile = document.getElementById("documentFile");
 const documentNote = document.getElementById("documentNote");
 const uploadDocumentButton = document.getElementById("uploadDocumentButton");
+const documentVisibleDriver = document.getElementById("documentVisibleDriver");
 
 
 let currentUser = null;
@@ -3564,6 +3569,8 @@ async function uploadPracticeDocument(){
       azienda_id:currentProfile.azienda_id,
       pratica_id:currentPractice.id,
       viaggio_id:null,
+      visibile_autista:Boolean(documentVisibleDriver?.checked),
+      origine:"UFFICIO",
       tipo:documentType?.value || "ALTRO",
       nome_file:file.name,
       storage_path:storagePath,
@@ -3578,6 +3585,7 @@ async function uploadPracticeDocument(){
     documentFile.value="";
     documentNote.value="";
     documentType.value="CMR";
+    if(documentVisibleDriver) documentVisibleDriver.checked=false;
     showMessage("success","Documento caricato nell'archivio della pratica.");
     await loadPracticeDocuments();
   }catch(error){
@@ -3604,7 +3612,7 @@ async function loadPracticeDocuments(){
     const { data:documents, error } =
       await supabase
         .from("documenti")
-        .select("id,tipo,nome_file,storage_path,mime_type,dimensione_bytes,note,created_at,viaggio_id")
+        .select("id,tipo,nome_file,storage_path,mime_type,dimensione_bytes,note,created_at,viaggio_id,visibile_autista,origine")
         .eq("pratica_id",currentPractice.id)
         .order("created_at",{ascending:false});
 
@@ -3638,7 +3646,8 @@ async function loadPracticeDocuments(){
       meta.appendChild(type);
 
       const details = [];
-      details.push("archivio pratica");
+      details.push(documentItem.origine === "AUTISTA" ? "caricato dall'autista" : "ufficio");
+      if(documentItem.visibile_autista){ details.push("condiviso con autista"); }
       const size = formatFileSize(documentItem.dimensione_bytes);
       if(size){ details.push(size); }
       const date = formatDocumentDate(documentItem.created_at);
@@ -3669,6 +3678,31 @@ async function loadPracticeDocuments(){
         openPracticeDocument(documentItem.storage_path);
       });
 
+      const shareButton = document.createElement("button");
+      shareButton.type = "button";
+      shareButton.className = "document-open";
+      shareButton.textContent = documentItem.visibile_autista ? "✓ Autista" : "Condividi";
+      shareButton.title = documentItem.visibile_autista
+        ? "Rimuovi dalla visibilità dell'autista"
+        : "Condividi con l'autista";
+      shareButton.addEventListener("click",async()=>{
+        shareButton.disabled=true;
+        try{
+          const newValue=!Boolean(documentItem.visibile_autista);
+          const {error}=await supabase.from("documenti")
+            .update({visibile_autista:newValue,updated_at:new Date().toISOString()})
+            .eq("id",documentItem.id);
+          if(error) throw error;
+          documentItem.visibile_autista=newValue;
+          showMessage("success",newValue
+            ? "Documento condiviso con l'autista."
+            : "Documento rimosso dalla visibilità dell'autista.");
+          await loadPracticeDocuments();
+        }catch(error){
+          showMessage("error","Impossibile aggiornare la condivisione: "+error.message);
+        }finally{shareButton.disabled=false;}
+      });
+
       const deleteDocumentButton = document.createElement("button");
       deleteDocumentButton.type = "button";
       deleteDocumentButton.className = "document-delete";
@@ -3686,6 +3720,7 @@ async function loadPracticeDocuments(){
       });
 
       actions.appendChild(openButton);
+      actions.appendChild(shareButton);
       actions.appendChild(deleteDocumentButton);
 
       row.appendChild(main);

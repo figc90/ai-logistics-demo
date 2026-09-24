@@ -3453,6 +3453,8 @@ async function loadDocuments(){
       mime_type,
       dimensione_bytes,
       note,
+      visibile_autista,
+      origine,
       created_by,
       created_at,
       updated_at
@@ -3573,6 +3575,8 @@ function renderDocuments(){
       meta.textContent =
       [
         documento.tipo,
+        documento.origine === "AUTISTA" ? "AUTISTA" : "UFFICIO",
+        documento.visibile_autista ? "CONDIVISO" : null,
         formatBytes(
           documento.dimensione_bytes
         ),
