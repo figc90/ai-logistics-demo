@@ -105,9 +105,12 @@ label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6
 </div></section>
 <section class="card" style="margin-top:16px"><h2 class="section-title">Merce</h2><div class="form-grid"><div><label>Tipo merce</label><input id="tipoMerce"></div><div><label>Colli</label><input id="colli" type="number" min="0"></div><div><label>Peso kg</label><input id="peso" type="number" min="0" step=".01"></div><div><label>Volume m³</label><input id="volume" type="number" min="0" step=".001"></div></div></section>
 <section class="card" style="margin-top:16px"><h2 class="section-title">Calcolo economico</h2><div class="form-grid">
-<div><label>Km previsti</label><input class="economic" id="km" type="number" min="0" step=".1"></div><div><label>Consumo standard aziendale (L/100 km)</label><input class="economic" id="consumo" type="number" min="0" step=".1" readonly></div>
-<div><label>Prezzo carburante standard €/L</label><input class="economic" id="carburante" type="number" min="0" step=".001" readonly></div><div><label>Costo medio/prudenziale mezzo €/km</label><input class="economic" id="mezzoKm" type="number" min="0" step=".001" value="0" readonly></div>
-<div><label>Ore autista stimate</label><input class="economic" id="oreAutista" type="number" min="0" step=".25" value="0"></div><div><label>Costo medio/prudenziale autista €/ora</label><input class="economic" id="autistaOra" type="number" min="0" step=".01" value="0" readonly></div><div class="full"><div class="help">Consumo, carburante, costo mezzo e costo autista provengono dai parametri aziendali in Impostazioni: il preventivo non dipende dal camion o dall’autista che verranno assegnati successivamente.</div></div>
+<div><label>Km tratta</label><input id="kmTratta" type="number" min="0" step=".1"></div><div><label>Km totali considerati</label><input class="economic" id="km" type="number" min="0" step=".1" readonly></div>
+<div class="full"><label style="display:flex;align-items:center;gap:10px;font-weight:800"><input id="ritornoVuoto" type="checkbox" style="width:auto"> Ritorno a vuoto</label><div class="help">Se attivo, MatRi-mIA aggiunge al preventivo anche km e tempo di guida del ritorno.</div></div>
+<div><label>Tempo guida andata</label><input id="tempoAndata" type="text" value="-" readonly></div><div><label>Tempo guida ritorno</label><input id="tempoRitorno" type="text" value="-" readonly></div>
+<div><label>Tempo scarico / operazioni (min)</label><input id="minutiOperazioni" type="number" min="0" step="5" value="0"></div><div><label>Ore autista previste</label><input class="economic" id="oreAutista" type="number" min="0" step=".01" value="0" readonly></div>
+<div><label>Consumo standard aziendale (L/100 km)</label><input class="economic" id="consumo" type="number" min="0" step=".1" readonly></div><div><label>Prezzo carburante standard €/L</label><input class="economic" id="carburante" type="number" min="0" step=".001" readonly></div>
+<div><label>Costo medio/prudenziale mezzo €/km</label><input class="economic" id="mezzoKm" type="number" min="0" step=".001" value="0" readonly></div><div><label>Costo medio/prudenziale autista €/ora</label><input class="economic" id="autistaOra" type="number" min="0" step=".01" value="0" readonly></div><div class="full"><div class="help">Consumo, carburante, costo mezzo e costo autista provengono dai parametri aziendali in Impostazioni. Le ore autista sono: guida andata + eventuale ritorno + scarico/operazioni.</div></div>
 <div><label>Pedaggi €</label><input class="economic" id="pedaggi" type="number" min="0" step=".01" value="0"></div><div><label>Altri costi €</label><input class="economic" id="altri" type="number" min="0" step=".01" value="0"></div>
 <div><label>Margine obiettivo %</label><input class="economic" id="margine" type="number" min="0" max="99.9" step=".1" value="20"></div>
 <div class="full"><label>Prezzo finale / imponibile €</label><input id="prezzoFinale" class="economic" type="number" min="0" step=".01"><div class="help">Puoi modificare il prezzo proposto prima di salvare.</div></div>
@@ -125,10 +128,21 @@ label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6
 <script type="module">
 import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 const supabase=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G");
-const $=id=>document.getElementById(id);let clienti=[];let selectedCliente=null;let lastSuggested=0;let prezzoTouched=false;
+const $=id=>document.getElementById(id);let clienti=[];let selectedCliente=null;let lastSuggested=0;let prezzoTouched=false;let kmAndata=0,kmRitorno=0,minAndata=0,minRitorno=0;
 const n=id=>Number($(id).value||0);const eur=x=>new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"}).format(Number(x||0));
 function show(t,type="error"){$("message").textContent=t;$("message").className="message "+type;window.scrollTo({top:0,behavior:"smooth"})}
 function isoToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function fmtMin(v){v=Math.max(0,Math.round(Number(v||0)));return `${Math.floor(v/60)}h ${String(v%60).padStart(2,"0")}min`}
+function recalcOperational(){
+ kmAndata=Number($("kmTratta").value||0);
+ const back=$("ritornoVuoto").checked?(kmRitorno>0?kmRitorno:kmAndata):0;
+ $("km").value=(kmAndata+back).toFixed(1);
+ $("tempoAndata").value=minAndata?fmtMin(minAndata):"-";
+ $("tempoRitorno").value=$("ritornoVuoto").checked?(minRitorno?fmtMin(minRitorno):(minAndata?fmtMin(minAndata):"-")):"-";
+ const minuti=minAndata+($("ritornoVuoto").checked?(minRitorno||minAndata):0)+Number($("minutiOperazioni").value||0);
+ $("oreAutista").value=(minuti/60).toFixed(2);
+ calc();
+}
 function calc(){
  const km=n("km"),cons=n("consumo"),fuel=n("carburante"),mkm=n("mezzoKm"),margin=n("margine");
  const cf=km*cons/100*fuel,cm=km*mkm,ca=n("oreAutista")*n("autistaOra"),total=cf+cm+ca+n("pedaggi")+n("altri");
@@ -159,13 +173,29 @@ async function autoRoute(){
    }});
    if(error)throw error;
    if(data?.error)throw new Error(data.error);
-   $("km").value=Number(data.km||0).toFixed(1);
-   const h=Math.floor(Number(data.durata_minuti||0)/60),m=Number(data.durata_minuti||0)%60;
-   $("routeStatus").textContent=`Percorso calcolato: ${Number(data.km||0).toLocaleString("it-IT")} km · circa ${h}h ${m}min. I km restano modificabili manualmente.`;
-   calc();
+   kmAndata=Number(data.km||0); minAndata=Number(data.durata_minuti||0);
+   $("kmTratta").value=kmAndata.toFixed(1);
+   kmRitorno=0; minRitorno=0;
+   $("routeStatus").textContent=`Andata calcolata: ${kmAndata.toLocaleString("it-IT")} km · ${fmtMin(minAndata)}.`;
+   recalcOperational();
+   if($("ritornoVuoto").checked) await calcReturnRoute();
  }catch(e){
    $("routeStatus").textContent="Calcolo automatico non riuscito. Puoi inserire i km manualmente. "+(e?.message||"");
  }finally{routeBusy=false}
+}
+
+async function calcReturnRoute(){
+ if(!$("ritornoVuoto").checked){kmRitorno=0;minRitorno=0;recalcOperational();return}
+ const capR=$("capRitiro").value.trim(),capC=$("capConsegna").value.trim();
+ if(!/^\d{5}$/.test(capR)||!/^\d{5}$/.test(capC)){kmRitorno=kmAndata;minRitorno=minAndata;recalcOperational();return}
+ $("routeStatus").textContent="Calcolo anche il percorso di ritorno a vuoto...";
+ try{
+  const {data,error}=await supabase.functions.invoke("calcola-percorso",{body:{cap_ritiro:capC,cap_consegna:capR,partenza:$("destinazione").value.trim(),destinazione:$("partenza").value.trim(),indirizzo_ritiro:$("indirizzoConsegna").value.trim(),indirizzo_consegna:$("indirizzoRitiro").value.trim()}});
+  if(error)throw error;if(data?.error)throw new Error(data.error);
+  kmRitorno=Number(data.km||0);minRitorno=Number(data.durata_minuti||0);
+  $("routeStatus").textContent=`Andata ${kmAndata.toLocaleString("it-IT")} km (${fmtMin(minAndata)}) · ritorno ${kmRitorno.toLocaleString("it-IT")} km (${fmtMin(minRitorno)}).`;
+ }catch(e){kmRitorno=kmAndata;minRitorno=minAndata;$("routeStatus").textContent=`Ritorno non calcolabile separatamente: uso la stessa distanza e durata dell'andata. ${(e?.message||"")}`;}
+ recalcOperational();
 }
 function scheduleRoute(){clearTimeout(routeTimer);routeTimer=setTimeout(autoRoute,550)}
 function findCliente(){const q=$("cliente").value.trim().toLowerCase();selectedCliente=clienti.find(x=>String(x.ragione_sociale||"").trim().toLowerCase()===q)||null}
@@ -194,6 +224,9 @@ async function boot(){
  calc();
 }
 document.querySelectorAll(".economic").forEach(x=>x.addEventListener("input",calc));
+$("kmTratta").addEventListener("input",()=>{kmRitorno=0;recalcOperational()});
+$("minutiOperazioni").addEventListener("input",recalcOperational);
+$("ritornoVuoto").addEventListener("change",async()=>{if($("ritornoVuoto").checked)await calcReturnRoute();else{kmRitorno=0;minRitorno=0;recalcOperational()}});
 $("prezzoFinale").addEventListener("input",()=>{prezzoTouched=true;calc()});
 $("trattamentoIva").addEventListener("change",calc);
 ["capRitiro","capConsegna","partenza","destinazione","indirizzoRitiro","indirizzoConsegna"].forEach(id=>$(id).addEventListener("change",scheduleRoute));
@@ -202,7 +235,10 @@ $("cliente").addEventListener("change",findCliente);
 let timer;$("partenza").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});$("destinazione").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});
 $("form").addEventListener("submit",async e=>{e.preventDefault();findCliente();const btn=$("save");btn.disabled=true;btn.textContent="Creazione...";
  const args={p_cliente:$("cliente").value.trim(),p_partenza:$("partenza").value.trim(),p_destinazione:$("destinazione").value.trim(),p_cliente_id:selectedCliente?.id||null,p_pratica_id:null,p_data_preventivo:$("data").value||null,p_validita_fino_al:$("validita").value||null,p_tipo_merce:$("tipoMerce").value.trim()||null,p_colli:$("colli").value?Number($("colli").value):null,p_peso_kg:$("peso").value?Number($("peso").value):null,p_volume_m3:$("volume").value?Number($("volume").value):null,p_indirizzo_ritiro:$("indirizzoRitiro").value.trim()||null,p_cap_ritiro:$("capRitiro").value.trim()||null,p_indirizzo_consegna:$("indirizzoConsegna").value.trim()||null,p_cap_consegna:$("capConsegna").value.trim()||null,p_km_previsti:$("km").value?Number($("km").value):null,p_consumo_l_100km:$("consumo").value?Number($("consumo").value):null,p_prezzo_carburante_l:$("carburante").value?Number($("carburante").value):null,p_costo_mezzo_km:n("mezzoKm"),p_pedaggi:n("pedaggi"),p_ore_autista:n("oreAutista"),p_costo_autista_ora:n("autistaOra"),p_altri_costi:n("altri"),p_margine_percentuale:n("margine"),p_prezzo_finale:$("prezzoFinale").value?Number($("prezzoFinale").value):lastSuggested,p_trattamento_iva:$("trattamentoIva").value,p_iva_aliquota:Number($("aliquotaIva").value||0),p_note:$("note").value.trim()||null,p_condizioni:$("condizioni").value.trim()||null};
- const {data,error}=await supabase.rpc("crea_preventivo",args);if(error){show(error.message);btn.disabled=false;btn.textContent="Crea preventivo";return}show("Preventivo creato correttamente.","success");setTimeout(()=>location.href="preventivi.html",650);
+ const {data,error}=await supabase.rpc("crea_preventivo",args);if(error){show(error.message);btn.disabled=false;btn.textContent="Crea preventivo";return}
+ const created=Array.isArray(data)?data[0]:data;
+ if(created?.id){const {error:metaError}=await supabase.from("preventivi").update({km_tratta:kmAndata,ritorno_vuoto:$("ritornoVuoto").checked,durata_andata_minuti:Math.round(minAndata),durata_ritorno_minuti:$("ritornoVuoto").checked?Math.round(minRitorno||minAndata):0,minuti_operazioni:Math.round(Number($("minutiOperazioni").value||0))}).eq("id",created.id);if(metaError){show("Preventivo creato, ma non è stato possibile salvare i dettagli operativi: "+metaError.message);btn.disabled=false;btn.textContent="Crea preventivo";return}}
+ show("Preventivo creato correttamente.","success");setTimeout(()=>location.href="preventivi.html",650);
 });
 $("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};boot();
 </script></body></html>
