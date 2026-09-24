@@ -167,7 +167,7 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
     <div>
       <div class="eyebrow">PREVENTIVI INTELLIGENTI</div>
       <h2>Parametri preventivi</h2>
-      <p>Valori economici predefiniti utilizzati come base nei nuovi preventivi. Potrai modificarli in ogni singolo preventivo.</p>
+      <p>Parametri economici standard aziendali usati per tutti i nuovi preventivi, indipendentemente dal mezzo che verrà poi assegnato al viaggio. Si modificano qui per mantenere una base commerciale coerente.</p>
     </div>
     <div class="preventivi-actions">
       <span class="preventivi-lock-state" id="preventiviLockState">Valori bloccati</span>
@@ -178,10 +178,10 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
   </div>
 
   <div class="preventivi-compact-grid">
-    <div class="field"><label for="preventivi_consumo_l_100km">Consumo medio</label><div class="input-unit"><input id="preventivi_consumo_l_100km" type="number" min="0" step="0.01" placeholder="30"><span>L/100 km</span></div></div>
-    <div class="field"><label for="preventivi_prezzo_carburante_l">Prezzo carburante</label><div class="input-unit"><input id="preventivi_prezzo_carburante_l" type="number" min="0" step="0.001" placeholder="1,70"><span>€/L</span></div></div>
-    <div class="field"><label for="preventivi_costo_mezzo_km">Costo mezzo</label><div class="input-unit"><input id="preventivi_costo_mezzo_km" type="number" min="0" step="0.01" placeholder="0,45"><span>€/km</span></div></div>
-    <div class="field"><label for="preventivi_costo_autista">Costo autista</label><div class="input-unit"><input id="preventivi_costo_autista" type="number" min="0" step="0.01" placeholder="0,00"><span>€/ora</span></div></div>
+    <div class="field"><label for="preventivi_consumo_l_100km">Consumo standard preventivi</label><div class="input-unit"><input id="preventivi_consumo_l_100km" type="number" min="0" step="0.01" placeholder="30"><span>L/100 km</span></div></div>
+    <div class="field"><label for="preventivi_prezzo_carburante_l">Prezzo carburante standard</label><div class="input-unit"><input id="preventivi_prezzo_carburante_l" type="number" min="0" step="0.001" placeholder="1,70"><span>€/L</span></div></div>
+    <div class="field"><label for="preventivi_costo_mezzo_km">Costo medio/prudenziale mezzo</label><div class="input-unit"><input id="preventivi_costo_mezzo_km" type="number" min="0" step="0.01" placeholder="0,45"><span>€/km</span></div></div>
+    <div class="field"><label for="preventivi_costo_autista">Costo medio/prudenziale autista</label><div class="input-unit"><input id="preventivi_costo_autista" type="number" min="0" step="0.01" placeholder="0,00"><span>€/ora</span></div></div>
     <div class="field"><label for="preventivi_margine_percentuale">Margine</label><div class="input-unit"><input id="preventivi_margine_percentuale" type="number" min="0" max="99.99" step="0.01" placeholder="20"><span>%</span></div></div>
   </div>
 </section>
