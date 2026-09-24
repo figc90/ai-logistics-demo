@@ -1084,6 +1084,17 @@ footer strong{
 
     <div class="nav-section">
 
+      <div class="nav-title">COMMERCIALE</div>
+
+      <a href="preventivi.html" class="nav-item">
+        <span class="nav-icon">€</span>
+        <span>Preventivi</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
       <div class="nav-title">GESTIONE</div>
 
       <a href="anagrafiche.html" class="nav-item">
@@ -1200,6 +1211,13 @@ footer strong{
     type="button"
     class="edit-button">
     Programma viaggio
+  </button>
+
+  <button
+    id="quoteButton"
+    type="button"
+    class="edit-button">
+    Crea preventivo
   </button>
 
   <button
@@ -1685,6 +1703,9 @@ const userInfo =
 const tripButton =
   document.getElementById("tripButton");
 
+const quoteButton =
+  document.getElementById("quoteButton");
+
 const editButton =
   document.getElementById("editButton");
 
@@ -1737,6 +1758,38 @@ const documentVisibleDriver = document.getElementById("documentVisibleDriver");
 let currentUser = null;
 let currentProfile = null;
 let currentPractice = null;
+
+
+/* ============================
+   CREA PREVENTIVO DALLA PRATICA
+============================ */
+
+quoteButton.addEventListener(
+  "click",
+  function(){
+
+    if(!currentPractice?.id){
+      showMessage("error","Pratica non disponibile.");
+      return;
+    }
+
+    try{
+      localStorage.setItem(
+        "matrimia_preventivo_da_pratica",
+        JSON.stringify({
+          pratica_id:currentPractice.id,
+          saved_at:new Date().toISOString()
+        })
+      );
+    }catch(error){
+      console.warn("Impossibile salvare il collegamento preventivo:",error);
+    }
+
+    window.location.href =
+      "nuovo-preventivo.html?pratica_id=" +
+      encodeURIComponent(currentPractice.id);
+  }
+);
 
 
 /* ============================
