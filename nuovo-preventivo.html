@@ -129,6 +129,9 @@ label{display:block;font-size:11px;font-weight:900;color:#42536a;margin-bottom:6
 import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 const supabase=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G");
 const $=id=>document.getElementById(id);let clienti=[];let selectedCliente=null;let lastSuggested=0;let prezzoTouched=false;let kmAndata=0,kmRitorno=0,minAndata=0,minRitorno=0;
+const queryParams=new URLSearchParams(location.search);
+const praticaId=queryParams.get("pratica")||queryParams.get("pratica_id")||null;
+let linkedPractice=null;
 const n=id=>Number($(id).value||0);const eur=x=>new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"}).format(Number(x||0));
 function show(t,type="error"){$("message").textContent=t;$("message").className="message "+type;window.scrollTo({top:0,behavior:"smooth"})}
 function isoToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
@@ -206,6 +209,33 @@ async function history(){
  const avg=data.reduce((s,x)=>s+Number(x.prezzo_finale||0),0)/data.length;
  $("history").innerHTML=`<div style="margin-bottom:10px"><span class="muted">MEDIA ULTIMI ${data.length}</span><div style="font-size:22px;font-weight:900;color:#173459">${eur(avg)}</div></div>`+data.map(x=>`<div class="history-item"><div class="history-route">${x.numero_preventivo} · ${x.cliente}</div><div class="muted">${new Date(x.data_preventivo+"T12:00:00").toLocaleDateString("it-IT")} · ${eur(x.prezzo_finale)} · ${Number(x.margine_percentuale||0).toFixed(1)}%</div></div>`).join("");
 }
+async function loadLinkedPractice(){
+ if(!praticaId)return;
+ const {data:existing,error:existingError}=await supabase.from("preventivi").select("id").eq("pratica_id",praticaId).order("created_at",{ascending:false}).limit(1).maybeSingle();
+ if(existingError)throw existingError;
+ if(existing?.id){location.replace("dettaglio-preventivo.html?id="+encodeURIComponent(existing.id));return;}
+ const {data:pratica,error}=await supabase.from("pratiche").select("*").eq("id",praticaId).single();
+ if(error||!pratica)throw error||new Error("Pratica non trovata");
+ linkedPractice=pratica;
+ $("cliente").value=pratica.cliente||"";
+ $("partenza").value=pratica.partenza||"";
+ $("destinazione").value=pratica.destinazione||"";
+ $("indirizzoRitiro").value=pratica.indirizzo_ritiro||"";
+ $("capRitiro").value=pratica.cap_ritiro||"";
+ $("indirizzoConsegna").value=pratica.indirizzo_consegna||"";
+ $("capConsegna").value=pratica.cap_consegna||"";
+ $("tipoMerce").value=pratica.tipo_merce||"";
+ $("colli").value=pratica.colli??"";
+ $("peso").value=pratica.peso_kg??"";
+ $("volume").value=pratica.volume_m3??"";
+ findCliente();
+ const title=document.querySelector(".page-title h1");
+ if(title) title.textContent="Nuovo preventivo da pratica "+(pratica.numero_pratica||"");
+ const subtitle=document.querySelector(".page-title p");
+ if(subtitle) subtitle.textContent="Dati trasporto precompilati dalla pratica. Completa ritorno, operazioni e condizioni commerciali.";
+ await autoRoute();
+ await history();
+}
 async function boot(){
  const {data:{session}}=await supabase.auth.getSession();if(!session)return location.replace("login.html");
  const {data:p,error}=await supabase.from("profiles").select("azienda_id,ruolo,email").eq("id",session.user.id).single();if(error||!p?.azienda_id)return location.replace("login.html");if(String(p.ruolo||"").toLowerCase()==="autista")return location.replace("autista.html");
@@ -221,6 +251,7 @@ async function boot(){
  const d=new Date();d.setDate(d.getDate()+15);$("validita").value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
  const {data,error:ce}=await supabase.from("anagrafiche").select("id,ragione_sociale,tipo,attiva").eq("attiva",true).in("tipo",["CLIENTE","CLIENTE_VETTORE"]).order("ragione_sociale");
  if(!ce){clienti=data||[];$("clientiList").innerHTML=clienti.map(x=>`<option value="${String(x.ragione_sociale||"").replaceAll('"',"&quot;")}"></option>`).join("")}
+ try{await loadLinkedPractice()}catch(e){show("Impossibile caricare la pratica collegata: "+(e?.message||""));}
  calc();
 }
 document.querySelectorAll(".economic").forEach(x=>x.addEventListener("input",calc));
@@ -234,11 +265,11 @@ $("capRitiro").addEventListener("input",scheduleRoute);$("capConsegna").addEvent
 $("cliente").addEventListener("change",findCliente);
 let timer;$("partenza").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});$("destinazione").addEventListener("input",()=>{clearTimeout(timer);timer=setTimeout(history,400)});
 $("form").addEventListener("submit",async e=>{e.preventDefault();findCliente();const btn=$("save");btn.disabled=true;btn.textContent="Creazione...";
- const args={p_cliente:$("cliente").value.trim(),p_partenza:$("partenza").value.trim(),p_destinazione:$("destinazione").value.trim(),p_cliente_id:selectedCliente?.id||null,p_pratica_id:null,p_data_preventivo:$("data").value||null,p_validita_fino_al:$("validita").value||null,p_tipo_merce:$("tipoMerce").value.trim()||null,p_colli:$("colli").value?Number($("colli").value):null,p_peso_kg:$("peso").value?Number($("peso").value):null,p_volume_m3:$("volume").value?Number($("volume").value):null,p_indirizzo_ritiro:$("indirizzoRitiro").value.trim()||null,p_cap_ritiro:$("capRitiro").value.trim()||null,p_indirizzo_consegna:$("indirizzoConsegna").value.trim()||null,p_cap_consegna:$("capConsegna").value.trim()||null,p_km_previsti:$("km").value?Number($("km").value):null,p_consumo_l_100km:$("consumo").value?Number($("consumo").value):null,p_prezzo_carburante_l:$("carburante").value?Number($("carburante").value):null,p_costo_mezzo_km:n("mezzoKm"),p_pedaggi:n("pedaggi"),p_ore_autista:n("oreAutista"),p_costo_autista_ora:n("autistaOra"),p_altri_costi:n("altri"),p_margine_percentuale:n("margine"),p_prezzo_finale:$("prezzoFinale").value?Number($("prezzoFinale").value):lastSuggested,p_trattamento_iva:$("trattamentoIva").value,p_iva_aliquota:Number($("aliquotaIva").value||0),p_note:$("note").value.trim()||null,p_condizioni:$("condizioni").value.trim()||null};
+ const args={p_cliente:$("cliente").value.trim(),p_partenza:$("partenza").value.trim(),p_destinazione:$("destinazione").value.trim(),p_cliente_id:selectedCliente?.id||null,p_pratica_id:praticaId,p_data_preventivo:$("data").value||null,p_validita_fino_al:$("validita").value||null,p_tipo_merce:$("tipoMerce").value.trim()||null,p_colli:$("colli").value?Number($("colli").value):null,p_peso_kg:$("peso").value?Number($("peso").value):null,p_volume_m3:$("volume").value?Number($("volume").value):null,p_indirizzo_ritiro:$("indirizzoRitiro").value.trim()||null,p_cap_ritiro:$("capRitiro").value.trim()||null,p_indirizzo_consegna:$("indirizzoConsegna").value.trim()||null,p_cap_consegna:$("capConsegna").value.trim()||null,p_km_previsti:$("km").value?Number($("km").value):null,p_consumo_l_100km:$("consumo").value?Number($("consumo").value):null,p_prezzo_carburante_l:$("carburante").value?Number($("carburante").value):null,p_costo_mezzo_km:n("mezzoKm"),p_pedaggi:n("pedaggi"),p_ore_autista:n("oreAutista"),p_costo_autista_ora:n("autistaOra"),p_altri_costi:n("altri"),p_margine_percentuale:n("margine"),p_prezzo_finale:$("prezzoFinale").value?Number($("prezzoFinale").value):lastSuggested,p_trattamento_iva:$("trattamentoIva").value,p_iva_aliquota:Number($("aliquotaIva").value||0),p_note:$("note").value.trim()||null,p_condizioni:$("condizioni").value.trim()||null};
  const {data,error}=await supabase.rpc("crea_preventivo",args);if(error){show(error.message);btn.disabled=false;btn.textContent="Crea preventivo";return}
  const created=Array.isArray(data)?data[0]:data;
  if(created?.id){const {error:metaError}=await supabase.from("preventivi").update({km_tratta:kmAndata,ritorno_vuoto:$("ritornoVuoto").checked,durata_andata_minuti:Math.round(minAndata),durata_ritorno_minuti:$("ritornoVuoto").checked?Math.round(minRitorno||minAndata):0,minuti_operazioni:Math.round(Number($("minutiOperazioni").value||0))}).eq("id",created.id);if(metaError){show("Preventivo creato, ma non è stato possibile salvare i dettagli operativi: "+metaError.message);btn.disabled=false;btn.textContent="Crea preventivo";return}}
- show("Preventivo creato correttamente.","success");setTimeout(()=>location.href="preventivi.html",650);
+ show("Preventivo creato correttamente.","success");setTimeout(()=>location.href=created?.id?("dettaglio-preventivo.html?id="+encodeURIComponent(created.id)):"preventivi.html",650);
 });
 $("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};boot();
 </script></body></html>

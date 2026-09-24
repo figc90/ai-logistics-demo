@@ -1188,7 +1188,7 @@ footer strong{
   </div>
 
 
-  <section id="linkedQuoteCard" class="preventivo-pratica-card" style="display:none"><div class="preventivo-pratica-row"><div><div class="preventivo-pratica-label">PREVENTIVO COLLEGATO</div><div id="linkedQuoteTitle" class="preventivo-pratica-title">-</div><div id="linkedQuoteMeta" class="preventivo-pratica-meta"></div></div><a id="linkedQuoteOpen" class="preventivo-pratica-link" href="#">Apri preventivo</a></div></section>
+  <section id="linkedQuoteCard" class="preventivo-pratica-card"><div class="preventivo-pratica-row"><div><div class="preventivo-pratica-label">PREVENTIVO</div><div id="linkedQuoteTitle" class="preventivo-pratica-title">Controllo preventivo...</div><div id="linkedQuoteMeta" class="preventivo-pratica-meta">Verifico se esiste già un preventivo collegato alla pratica.</div></div><a id="linkedQuoteOpen" class="preventivo-pratica-link" href="#">Attendi...</a></div></section>
 <div
     id="practiceLayout"
     class="layout">
@@ -3672,16 +3672,34 @@ deleteButton.addEventListener(
 
 async function loadLinkedQuote(){
   if(!currentPractice?.id) return;
-  const {data,error}=await supabase.from("preventivi").select("id,numero_preventivo,data_preventivo,stato,prezzo_finale").eq("pratica_id",currentPractice.id).order("created_at",{ascending:false}).limit(1).maybeSingle();
-  if(error){console.warn("Preventivo collegato:",error);return;}
   const card=document.getElementById("linkedQuoteCard");
-  if(!data){if(card)card.style.display="none";return;}
-  document.getElementById("linkedQuoteTitle").textContent=data.numero_preventivo;
-  const prezzo=Number(data.prezzo_finale||0).toLocaleString("it-IT",{style:"currency",currency:"EUR"});
-  document.getElementById("linkedQuoteMeta").textContent=(data.stato||"").replaceAll("_"," ")+" · "+prezzo;
-  document.getElementById("linkedQuoteOpen").href="dettaglio-preventivo.html?id="+encodeURIComponent(data.id);
-  card.style.display="block";
+  const title=document.getElementById("linkedQuoteTitle");
+  const meta=document.getElementById("linkedQuoteMeta");
+  const action=document.getElementById("linkedQuoteOpen");
+  if(card)card.style.display="block";
+  const {data,error}=await supabase.from("preventivi").select("id,numero_preventivo,data_preventivo,stato,prezzo_finale").eq("pratica_id",currentPractice.id).order("created_at",{ascending:false}).limit(1).maybeSingle();
+  if(error){
+    console.warn("Preventivo collegato:",error);
+    title.textContent="Preventivo non disponibile";
+    meta.textContent="Non è stato possibile verificare il preventivo collegato.";
+    action.textContent="Crea preventivo";
+    action.href="nuovo-preventivo.html?pratica="+encodeURIComponent(currentPractice.id);
+    return;
+  }
+  if(data){
+    title.textContent=data.numero_preventivo||"Preventivo collegato";
+    const prezzo=Number(data.prezzo_finale||0).toLocaleString("it-IT",{style:"currency",currency:"EUR"});
+    meta.textContent=(data.stato||"").replaceAll("_"," ")+" · "+prezzo;
+    action.textContent="Apri preventivo";
+    action.href="dettaglio-preventivo.html?id="+encodeURIComponent(data.id);
+  }else{
+    title.textContent="Nessun preventivo collegato";
+    meta.textContent="Crea il preventivo usando automaticamente i dati di questa pratica.";
+    action.textContent="Crea preventivo";
+    action.href="nuovo-preventivo.html?pratica="+encodeURIComponent(currentPractice.id);
+  }
 }
+
 
 async function loadPractice(){
 
@@ -3740,6 +3758,7 @@ content.style.display =
   "block";
 
 await configureTripButton();
+await loadLinkedQuote();
 await loadPracticeDocuments();
 
   }
