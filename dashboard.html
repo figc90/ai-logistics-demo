@@ -1573,7 +1573,7 @@ tbody tr:hover{
   <section class="economic-panel">
     <div class="economic-panel-head"><div><div class="economic-panel-title">Sintesi marginalità</div><div id="economicRankingSub" class="economic-panel-sub">Viaggi del periodo selezionato</div></div></div>
     <div class="economic-table-wrap">
-      <table class="economic-table"><thead><tr><th>Viaggio</th><th>Cliente / tratta</th><th class="num">Ricavo</th><th class="num">Marg. previsto</th><th class="num">Marg. effettivo</th><th class="num">Scostamento</th></tr></thead><tbody id="economicRankingBody"></tbody></table>
+      <table class="economic-table"><thead><tr><th>Viaggio</th><th>Cliente / tratta</th><th class="num">Ricavo</th><th class="num">Marg. previsto</th><th class="num">Marg. effettivo</th><th class="num">Scost.</th></tr></thead><tbody id="economicRankingBody"></tbody></table>
     </div>
   </section>
 </div>
@@ -3211,19 +3211,60 @@ function renderEconomicRanking(rows){
   }).join("");
 }
 function renderEconomicTrend(rows){
-  const canvas=document.getElementById("economicTrendChart");if(!canvas)return;
-  const rect=canvas.getBoundingClientRect(); if(rect.width<20||rect.height<20)return;
-  const dpr=window.devicePixelRatio||1;canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);
-  const ctx=canvas.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);const W=rect.width,H=rect.height;ctx.clearRect(0,0,W,H);
+  const canvas=document.getElementById("economicTrendChart"); if(!canvas) return;
+  const rect=canvas.getBoundingClientRect(); if(rect.width<20||rect.height<20) return;
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=Math.round(rect.width*dpr); canvas.height=Math.round(rect.height*dpr);
+  const ctx=canvas.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0);
+  const W=rect.width,H=rect.height; ctx.clearRect(0,0,W,H);
+
   const now=new Date(),months=[];
-  for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push({y:d.getFullYear(),m:d.getMonth(),label:d.toLocaleDateString("it-IT",{month:"short"}),planned:0,actual:0,hasActual:false});}
-  rows.forEach(r=>{if(!r.date)return;const x=months.find(m=>m.y===r.date.getFullYear()&&m.m===r.date.getMonth());if(x){x.planned+=r.margin;if(r.actualMargin!==null){x.actual+=r.actualMargin;x.hasActual=true;}}});
-  const max=Math.max(1,...months.flatMap(m=>[Math.max(0,m.planned),Math.max(0,m.actual)]));
-  const pad={l:48,r:12,t:12,b:34},cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
-  ctx.font="10px Arial";ctx.fillStyle="#8290a3";ctx.strokeStyle="#e8edf3";ctx.lineWidth=1;
-  for(let i=0;i<=4;i++){const y=pad.t+ch*i/4;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();ctx.fillText(new Intl.NumberFormat("it-IT",{notation:"compact",maximumFractionDigits:1}).format(max*(1-i/4)),4,y+3);}
-  const group=cw/months.length,bw=Math.min(18,group/4),colors=["#183b66","#d98b2b"];
-  months.forEach((m,i)=>{const cx=pad.l+group*i+group/2;[[m.planned,true],[m.actual,m.hasActual]].forEach(([val,show],j)=>{if(!show)return;const h=Math.max(0,val)/max*ch;ctx.fillStyle=colors[j];ctx.fillRect(cx+(j-.5)*bw-bw/2,pad.t+ch-h,bw-2,h);});ctx.fillStyle="#68798d";ctx.textAlign="center";ctx.fillText(m.label,cx,H-10);});ctx.textAlign="left";
+  for(let i=5;i>=0;i--){
+    const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+    months.push({y:d.getFullYear(),m:d.getMonth(),label:d.toLocaleDateString("it-IT",{month:"short"}),planned:0,actual:0,hasActual:false});
+  }
+  rows.forEach(r=>{
+    if(!r.date)return;
+    const x=months.find(m=>m.y===r.date.getFullYear()&&m.m===r.date.getMonth());
+    if(!x)return;
+    x.planned+=r.margin;
+    if(r.actualMargin!==null){x.actual+=r.actualMargin;x.hasActual=true;}
+  });
+
+  const max=Math.max(1,...months.flatMap(m=>[Math.max(0,m.planned),m.hasActual?Math.max(0,m.actual):0]));
+  const pad={l:50,r:12,t:30,b:38},cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
+  ctx.font="10px Arial";ctx.strokeStyle="#e3eaf2";ctx.lineWidth=1;ctx.fillStyle="#708198";
+  for(let i=0;i<=4;i++){
+    const y=pad.t+ch*i/4;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+    ctx.textAlign="left";
+    ctx.fillText(new Intl.NumberFormat("it-IT",{maximumFractionDigits:1}).format(max*(1-i/4)),4,y+3);
+  }
+
+  const group=cw/months.length;
+  const bw=Math.min(24,Math.max(10,group*.24));
+  const euroShort=v=>new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(v);
+  months.forEach((m,i)=>{
+    const cx=pad.l+group*i+group/2;
+    const bars=[
+      {v:Math.max(0,m.planned),show:true,color:"#183b66"},
+      {v:Math.max(0,m.actual),show:m.hasActual,color:"#d98b2b"}
+    ];
+    bars.forEach((b,j)=>{
+      if(!b.show)return;
+      const h=b.v/max*ch;
+      const x=cx+(j===0?-bw-2:2);
+      ctx.fillStyle=b.color;
+      ctx.fillRect(x,pad.t+ch-h,bw,h);
+      if(b.v>0){
+        ctx.fillStyle="#53657c";ctx.textAlign="center";ctx.font="9px Arial";
+        ctx.fillText(euroShort(b.v),x+bw/2,Math.max(10,pad.t+ch-h-5));
+      }
+    });
+    ctx.fillStyle="#68798d";ctx.textAlign="center";ctx.font="10px Arial";
+    ctx.fillText(m.label,cx,H-10);
+  });
+  ctx.textAlign="left";
 }
 function setupEconomicDashboard(viaggi,preventivi){
   const select=document.getElementById("economicPeriod");if(!select)return;
@@ -3801,3 +3842,25 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </body>
 </html>
+
+<style id="matrimia-economic-v3-fix">
+.economic-table-wrap{overflow-x:visible!important}
+.economic-table{width:100%;table-layout:fixed}
+.economic-table th,.economic-table td{padding-left:8px!important;padding-right:8px!important}
+.economic-table th:nth-child(1){width:15%}
+.economic-table th:nth-child(2){width:27%}
+.economic-table th:nth-child(3){width:13%}
+.economic-table th:nth-child(4){width:15%}
+.economic-table th:nth-child(5){width:15%}
+.economic-table th:nth-child(6){width:15%}
+.economic-table td{white-space:normal}
+@media(max-width:900px){
+ .economic-table-wrap{overflow-x:auto!important}
+ .economic-table{min-width:760px;table-layout:auto}
+}
+</style>
+
+<style id="matrimia-economic-legend-v3">
+.economic-legend span:first-child::before{background:#183b66!important}
+.economic-legend span.cost::before{background:#d98b2b!important}
+</style>
