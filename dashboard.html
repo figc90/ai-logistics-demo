@@ -1235,6 +1235,78 @@ tbody tr:hover{
 .economic-table-wrap{overflow:auto;max-height:330px}.economic-table{width:100%;border-collapse:collapse;min-width:700px}.economic-table th{position:sticky;top:0;background:#f7f9fc;color:#69798e;font-size:10px;text-align:left;padding:10px 9px;border-bottom:1px solid #e5ebf2;z-index:1}.economic-table td{font-size:11px;color:#26384d;padding:10px 9px;border-bottom:1px solid #edf1f5;white-space:nowrap}.economic-table tr:last-child td{border-bottom:0}.economic-table .num{text-align:right;font-variant-numeric:tabular-nums}.economic-table .good{color:#147a55;font-weight:800}.economic-table .bad{color:#b43b3b;font-weight:800}.economic-empty{padding:24px;text-align:center;color:#8a98aa;font-size:12px}
 @media(max-width:1100px){.economic-v2-grid{grid-template-columns:1fr}}@media(max-width:700px){.economic-panel{padding:15px}.economic-chart{height:230px}}
 
+
+/* ============================
+   DASHBOARD PERSONALIZZABILE
+============================ */
+.dashboard-head-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.dashboard-customize-btn{
+  border:1px solid #d7e0ea;background:#fff;color:#17304f;border-radius:12px;
+  padding:10px 14px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(15,23,42,.06)
+}
+.dashboard-customize-btn:hover{background:#f8fafc}
+.dashboard-source{display:none}
+.dashboard-widgets{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px;align-items:start
+}
+.dashboard-widget{
+  grid-column:span 12;min-width:0;position:relative;
+}
+.dashboard-widget.half{grid-column:span 6}
+.dashboard-widget.third{grid-column:span 4}
+.dashboard-widget.dragging{opacity:.45}
+.dashboard-widget.drop-target{outline:2px dashed #4f7cff;outline-offset:6px;border-radius:18px}
+.widget-toolbar{
+  display:none;align-items:center;justify-content:space-between;gap:10px;
+  margin:0 0 8px;padding:8px 10px;border:1px dashed #b8c5d6;border-radius:12px;background:#f8fafc
+}
+.dashboard-editing .widget-toolbar{display:flex}
+.widget-drag{cursor:grab;font-weight:800;color:#17304f;user-select:none}
+.widget-hide-btn{border:0;background:transparent;cursor:pointer;color:#64748b;font-weight:800}
+.dashboard-editing .dashboard-widget{cursor:grab}
+.dashboard-editing .dashboard-widget>.section-title:first-of-type{margin-top:0}
+.dashboard-widget .dashboard-grid{display:contents}
+.dashboard-widget .economic-v2-grid{display:contents}
+.dashboard-widget .economic-panel{height:100%}
+.dashboard-widget .card,.dashboard-widget .ai-card{margin-bottom:0;height:100%}
+.dashboard-widget.widget-practices .kpi-grid,
+.dashboard-widget.widget-trips .kpi-grid,
+.dashboard-widget.widget-profit .kpi-grid{margin-bottom:0}
+.dashboard-widget.widget-profit .economic-note{margin-bottom:0}
+.dashboard-customizer-backdrop{
+  position:fixed;inset:0;background:rgba(7,27,53,.48);z-index:9998;display:none;align-items:center;justify-content:center;padding:20px
+}
+.dashboard-customizer-backdrop.open{display:flex}
+.dashboard-customizer{
+  width:min(620px,100%);max-height:85vh;overflow:auto;background:#fff;border-radius:20px;
+  box-shadow:0 24px 70px rgba(2,12,27,.28);padding:22px
+}
+.dashboard-customizer-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:16px}
+.dashboard-customizer-head h2{font-size:22px;color:#102a46}
+.dashboard-customizer-head p{margin-top:5px;color:#64748b;font-size:13px}
+.dashboard-close{border:0;background:#eef3f8;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:18px}
+.dashboard-option-list{display:grid;gap:8px}
+.dashboard-option{
+  display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff
+}
+.dashboard-option input{width:18px;height:18px}
+.dashboard-option span{font-weight:700;color:#243b55}
+.dashboard-customizer-actions{display:flex;gap:10px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
+.dashboard-customizer-actions button{border-radius:11px;padding:10px 14px;font-weight:800;cursor:pointer}
+.dashboard-reset{border:1px solid #d7e0ea;background:#fff;color:#475569}
+.dashboard-done{border:0;background:#173b67;color:#fff}
+.dashboard-edit-hint{
+  display:none;margin:0 0 16px;padding:12px 14px;border-radius:12px;background:#eef5ff;color:#24486f;font-size:13px;font-weight:700
+}
+.dashboard-editing .dashboard-edit-hint{display:block}
+@media(max-width:900px){
+  .dashboard-widget.half,.dashboard-widget.third{grid-column:span 12}
+}
+@media(max-width:760px){
+  .dashboard-head-actions{justify-content:flex-start}
+  .dashboard-customize-btn{width:100%}
+}
+
 </style>
 
 <script type="module" src="js/admin-role-guard.js"></script>
@@ -1350,13 +1422,16 @@ tbody tr:hover{
 
   </div>
 
-  <div
-    id="updatedTime"
-    class="updated">
+  <div class="dashboard-head-actions">
+    <div id="updatedTime" class="updated"></div>
+    <button id="customizeDashboardBtn" class="dashboard-customize-btn" type="button">⚙ Personalizza dashboard</button>
   </div>
 
 </div>
 
+<div id="dashboardWidgets" class="dashboard-widgets"></div>
+
+<div id="dashboardSource" class="dashboard-source">
 <!-- ============================
      KPI PRATICHE
 ============================ -->
@@ -1656,6 +1731,9 @@ tbody tr:hover{
 </section>
 
 </div>
+
+</div>
+
 
 </div>
 
@@ -3515,6 +3593,199 @@ document.addEventListener("DOMContentLoaded",()=>{
   });
   makeLink(document.querySelector(".ai-card"),"assistente-ai.html","Apri Assistente AI");
 });
+
+/* ============================
+   DASHBOARD PERSONALIZZABILE
+============================ */
+(function(){
+  const STORAGE_KEY="matrimia_dashboard_layout_v1";
+  const widgetsHost=document.getElementById("dashboardWidgets");
+  const source=document.getElementById("dashboardSource");
+  if(!widgetsHost || !source) return;
+
+  const definitions=[
+    {id:"practices",label:"Pratiche",size:"full"},
+    {id:"trips",label:"Viaggi",size:"full"},
+    {id:"profit",label:"Redditività viaggi",size:"full"},
+    {id:"trend",label:"Andamento economico",size:"half"},
+    {id:"ranking",label:"Sintesi marginalità",size:"half"},
+    {id:"recentPracticesWidget",label:"Ultime pratiche",size:"half"},
+    {id:"recentTripsWidget",label:"Ultimi viaggi",size:"half"},
+    {id:"attentionWidget",label:"Richiedono attenzione",size:"half"},
+    {id:"aiWidget",label:"Situazione operativa AI",size:"half"},
+    {id:"quickWidget",label:"Azioni rapide",size:"half"}
+  ];
+
+  function takeRange(startNode,endNodeExclusive){
+    const frag=document.createDocumentFragment();
+    let n=startNode;
+    while(n && n!==endNodeExclusive){
+      const next=n.nextSibling; frag.appendChild(n); n=next;
+    }
+    return frag;
+  }
+  function commentContaining(textValue){
+    return [...source.childNodes].find(n=>n.nodeType===8 && n.nodeValue.includes(textValue));
+  }
+  function makeWidget(def,fragment){
+    const w=document.createElement("div");
+    w.className="dashboard-widget widget-"+def.id+(def.size==="half"?" half":"");
+    w.dataset.widgetId=def.id;
+    w.draggable=false;
+    const bar=document.createElement("div");
+    bar.className="widget-toolbar";
+    bar.innerHTML='<span class="widget-drag">☰ '+def.label+'</span><button type="button" class="widget-hide-btn">Nascondi</button>';
+    bar.querySelector(".widget-hide-btn").addEventListener("click",()=>{ setVisible(def.id,false); save(); renderOptions(); });
+    w.appendChild(bar); w.appendChild(fragment); return w;
+  }
+
+  // Build the widgets from the existing dashboard without changing IDs/data logic.
+  const cPract=commentContaining("KPI PRATICHE");
+  const cTrips=commentContaining("KPI VIAGGI");
+  const cProfit=commentContaining("REDDITIVITÀ VIAGGI");
+  const cMain=commentContaining("CONTENUTO PRINCIPALE");
+  const dashboardGrid=source.querySelector(".dashboard-grid");
+  const econGrid=source.querySelector(".economic-v2-grid");
+
+  const built={};
+  if(cPract&&cTrips) built.practices=makeWidget(definitions[0],takeRange(cPract,cTrips));
+  if(cTrips&&cProfit) built.trips=makeWidget(definitions[1],takeRange(cTrips,cProfit));
+
+  // Profit header + KPI + note, stopping before economic grid.
+  if(cProfit&&econGrid) built.profit=makeWidget(definitions[2],takeRange(cProfit,econGrid));
+
+  if(econGrid){
+    const panels=[...econGrid.querySelectorAll(":scope > .economic-panel")];
+    if(panels[0]) built.trend=makeWidget(definitions[3],panels[0]);
+    if(panels[1]) built.ranking=makeWidget(definitions[4],panels[1]);
+    econGrid.remove();
+  }
+
+  if(dashboardGrid){
+    const columns=[...dashboardGrid.children];
+    if(columns[0]){
+      const cards=[...columns[0].querySelectorAll(":scope > .card")];
+      if(cards[0]) built.recentPracticesWidget=makeWidget(definitions[5],cards[0]);
+      if(cards[1]) built.recentTripsWidget=makeWidget(definitions[6],cards[1]);
+      if(cards[2]) built.attentionWidget=makeWidget(definitions[7],cards[2]);
+    }
+    if(columns[1]){
+      const ai=columns[1].querySelector(":scope > .ai-card");
+      const quick=columns[1].querySelector(":scope > .card");
+      if(ai) built.aiWidget=makeWidget(definitions[8],ai);
+      if(quick) built.quickWidget=makeWidget(definitions[9],quick);
+    }
+    dashboardGrid.remove();
+  }
+
+  let state={order:definitions.map(x=>x.id),hidden:[]};
+  try{
+    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||"null");
+    if(saved){
+      const valid=definitions.map(x=>x.id);
+      state.order=[...(saved.order||[]).filter(x=>valid.includes(x)),...valid.filter(x=>!(saved.order||[]).includes(x))];
+      state.hidden=(saved.hidden||[]).filter(x=>valid.includes(x));
+    }
+  }catch(e){}
+
+  function save(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }
+  function setVisible(id,visible){
+    state.hidden=state.hidden.filter(x=>x!==id);
+    if(!visible) state.hidden.push(id);
+    const w=built[id]; if(w) w.style.display=visible?"":"none";
+  }
+  function apply(){
+    state.order.forEach(id=>{ if(built[id]) widgetsHost.appendChild(built[id]); });
+    definitions.forEach(d=>setVisible(d.id,!state.hidden.includes(d.id)));
+  }
+  apply();
+
+  // Edit hint
+  const hint=document.createElement("div");
+  hint.className="dashboard-edit-hint";
+  hint.textContent="Modalità modifica attiva: trascina i riquadri usando ☰. La disposizione viene salvata automaticamente su questo dispositivo.";
+  widgetsHost.parentNode.insertBefore(hint,widgetsHost);
+
+  const backdrop=document.getElementById("dashboardCustomizerBackdrop");
+  const optionList=document.getElementById("dashboardOptionList");
+  let editing=false,dragged=null;
+
+  function renderOptions(){
+    optionList.innerHTML="";
+    state.order.forEach(id=>{
+      const d=definitions.find(x=>x.id===id); if(!d) return;
+      const row=document.createElement("label"); row.className="dashboard-option";
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!state.hidden.includes(id);
+      cb.addEventListener("change",()=>{setVisible(id,cb.checked);save();});
+      const span=document.createElement("span"); span.textContent=d.label;
+      row.append(cb,span); optionList.appendChild(row);
+    });
+  }
+  function openCustomizer(){renderOptions();backdrop.classList.add("open");backdrop.setAttribute("aria-hidden","false");}
+  function closeCustomizer(){backdrop.classList.remove("open");backdrop.setAttribute("aria-hidden","true");}
+
+  document.getElementById("customizeDashboardBtn")?.addEventListener("click",openCustomizer);
+  document.getElementById("dashboardCustomizerClose")?.addEventListener("click",closeCustomizer);
+  backdrop?.addEventListener("click",e=>{if(e.target===backdrop) closeCustomizer();});
+
+  function setEditing(value){
+    editing=value;
+    document.body.classList.toggle("dashboard-editing",editing);
+    Object.values(built).forEach(w=>w.draggable=editing);
+    const b=document.getElementById("dashboardEditModeBtn");
+    if(b) b.textContent=editing?"Fine modifica":"Sposta riquadri";
+    if(editing) closeCustomizer();
+  }
+  document.getElementById("dashboardEditModeBtn")?.addEventListener("click",()=>setEditing(!editing));
+
+  document.getElementById("dashboardResetBtn")?.addEventListener("click",()=>{
+    state={order:definitions.map(x=>x.id),hidden:[]}; save(); apply(); renderOptions();
+  });
+
+  widgetsHost.addEventListener("dragstart",e=>{
+    if(!editing) return;
+    const w=e.target.closest(".dashboard-widget"); if(!w) return;
+    dragged=w; w.classList.add("dragging");
+    e.dataTransfer.effectAllowed="move";
+  });
+  widgetsHost.addEventListener("dragend",()=>{
+    if(dragged) dragged.classList.remove("dragging");
+    widgetsHost.querySelectorAll(".drop-target").forEach(x=>x.classList.remove("drop-target"));
+    dragged=null;
+    state.order=[...widgetsHost.querySelectorAll(".dashboard-widget")].map(x=>x.dataset.widgetId);
+    save();
+  });
+  widgetsHost.addEventListener("dragover",e=>{
+    if(!editing||!dragged) return;
+    e.preventDefault();
+    const target=e.target.closest(".dashboard-widget");
+    if(!target||target===dragged) return;
+    widgetsHost.querySelectorAll(".drop-target").forEach(x=>x.classList.remove("drop-target"));
+    target.classList.add("drop-target");
+    const rect=target.getBoundingClientRect();
+    const before=e.clientY < rect.top+rect.height/2 || (Math.abs(e.clientY-(rect.top+rect.height/2))<20 && e.clientX<rect.left+rect.width/2);
+    widgetsHost.insertBefore(dragged,before?target:target.nextSibling);
+  });
+})();
+
 </script>
+
+<div id="dashboardCustomizerBackdrop" class="dashboard-customizer-backdrop" aria-hidden="true">
+  <div class="dashboard-customizer" role="dialog" aria-modal="true" aria-labelledby="dashboardCustomizerTitle">
+    <div class="dashboard-customizer-head">
+      <div>
+        <h2 id="dashboardCustomizerTitle">Personalizza dashboard</h2>
+        <p>Scegli cosa visualizzare. Attiva la modifica per trascinare i riquadri nell'ordine che preferisci.</p>
+      </div>
+      <button id="dashboardCustomizerClose" class="dashboard-close" type="button">×</button>
+    </div>
+    <div id="dashboardOptionList" class="dashboard-option-list"></div>
+    <div class="dashboard-customizer-actions">
+      <button id="dashboardResetBtn" class="dashboard-reset" type="button">Ripristina disposizione</button>
+      <button id="dashboardEditModeBtn" class="dashboard-done" type="button">Sposta riquadri</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
