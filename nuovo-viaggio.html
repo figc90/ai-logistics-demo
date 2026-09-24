@@ -817,17 +817,26 @@ Seleziona un mezzo della flotta per collegarlo al viaggio.
 
 <div class="form-group">
 
-<label for="autistaId">Autista</label>
-<select id="autistaId">
+<label for="autistaSelect">Autista assegnato</label>
+
+<select id="autistaSelect">
 <option value="">Nessun autista assegnato</option>
 </select>
+
+<div class="hint">
+Sono mostrati solamente gli autisti attivi della tua azienda.
+</div>
 
 </div>
 
 <div class="form-group">
 
 <label for="telefonoAutista">Telefono autista</label>
-<input id="telefonoAutista" type="tel" readonly placeholder="Compilato automaticamente">
+<input id="telefonoAutista" type="tel" readonly>
+
+<div class="hint">
+Compilato automaticamente dall'anagrafica dell'autista.
+</div>
 
 </div>
 
@@ -1121,6 +1130,7 @@ let autisti = [];
 let selectedVettoreId = null;
 let selectedMezzoId = null;
 let selectedMezzoCostoKm = 0;
+let selectedAutistaId = null;
 
 function emptyToNull(value){
 
@@ -1356,7 +1366,6 @@ async function loadVettori(){
     ragione_sociale,
     attiva
   `)
-  .eq("azienda_id", currentProfile.azienda_id)
   .eq("attiva",true)
   .in(
     "tipo",
@@ -1612,39 +1621,132 @@ $("vettore").addEventListener(
 tryMatchVettoreByName
 );
 
-/* FLOTTA */
+/* AUTISTI */
 
 async function loadAutisti(){
-  const {data,error} = await supabase
-    .from("autisti")
-    .select("id,nome,cognome,telefono,email,targa_mezzo,attivo")
-    .eq("azienda_id", currentProfile.azienda_id)
-    .eq("attivo", true)
-    .order("cognome", {ascending:true})
-    .order("nome", {ascending:true});
-  if(error){ throw error; }
+
+  const { data, error } =
+  await supabase
+  .from("autisti")
+  .select(`
+    id,
+    nome,
+    cognome,
+    telefono,
+    email,
+    targa_mezzo,
+    user_id,
+    attivo
+  `)
+  .eq(
+    "azienda_id",
+    currentProfile.azienda_id
+  )
+  .eq(
+    "attivo",
+    true
+  )
+  .order(
+    "cognome",
+    {ascending:true}
+  )
+  .order(
+    "nome",
+    {ascending:true}
+  );
+
+  if(error){
+    throw error;
+  }
+
   autisti = data || [];
-  const select = $("autistaId");
-  select.innerHTML = '<option value="">Nessun autista assegnato</option>';
+
+  const select =
+  $("autistaSelect");
+
+  select.innerHTML =
+  `<option value="">Nessun autista assegnato</option>`;
+
   autisti.forEach(autista=>{
-    const option = document.createElement("option");
-    option.value = autista.id;
-    const nome = ((autista.nome || "") + " " + (autista.cognome || "")).trim();
-    option.textContent = nome + (autista.targa_mezzo ? " · " + autista.targa_mezzo : "");
+
+    const option =
+    document.createElement("option");
+
+    option.value =
+    autista.id;
+
+    let label =
+    (
+      (autista.nome || "") +
+      " " +
+      (autista.cognome || "")
+    ).trim();
+
+    if(autista.targa_mezzo){
+      label +=
+      " · " +
+      autista.targa_mezzo;
+    }
+
+    option.textContent =
+    label || "Autista";
+
     select.appendChild(option);
+
   });
+
 }
 
-function selectedAutista(){
-  return autisti.find(a => String(a.id) === String($("autistaId").value)) || null;
+function findAutista(id){
+
+  return autisti.find(
+    item =>
+    String(item.id) ===
+    String(id)
+  ) || null;
+
 }
 
-function syncAutista(){
-  const autista = selectedAutista();
-  $("telefonoAutista").value = autista?.telefono || "";
+function getAutistaName(autista){
+
+  if(!autista){
+    return null;
+  }
+
+  return (
+    (
+      (autista.nome || "") +
+      " " +
+      (autista.cognome || "")
+    ).trim() ||
+    null
+  );
+
 }
 
-$("autistaId").addEventListener("change", syncAutista);
+function syncAutistaFields(){
+
+  const autista =
+  findAutista(
+    $("autistaSelect").value
+  );
+
+  selectedAutistaId =
+  autista
+  ? autista.id
+  : null;
+
+  $("telefonoAutista").value =
+  autista?.telefono || "";
+
+}
+
+$("autistaSelect").addEventListener(
+  "change",
+  syncAutistaFields
+);
+
+/* FLOTTA */
 
 async function loadMezzi(){
 
@@ -1915,8 +2017,7 @@ async function loadPractices(){
   } =
   await supabase
   .from("viaggi")
-  .select("pratica_id")
-  .eq("azienda_id", currentProfile.azienda_id);
+  .select("pratica_id");
 
   if(tripError){
     throw tripError;
@@ -1948,7 +2049,6 @@ async function loadPractices(){
     vettore,
     vettore_id
   `)
-  .eq("azienda_id", currentProfile.azienda_id)
   .order(
     "created_at",
     {ascending:false}
@@ -2252,19 +2352,19 @@ async event=>{
       selectedMezzoId,
 
       autista_id:
-      selectedAutista()
-        ? selectedAutista().id
-        : null,
+      selectedAutistaId,
 
       autista:
-      selectedAutista()
-        ? emptyToNull(((selectedAutista().nome || "") + " " + (selectedAutista().cognome || "")).trim())
-        : null,
+      getAutistaName(
+        findAutista(
+          selectedAutistaId
+        )
+      ),
 
       telefono_autista:
-      selectedAutista()
-        ? emptyToNull(selectedAutista().telefono)
-        : null,
+      emptyToNull(
+        $("telefonoAutista").value
+      ),
 
       targa_trattore:
       emptyToNull(
@@ -2417,11 +2517,9 @@ async function start(){
       return;
     }
 
-    await Promise.all([
-      loadVettori(),
-      loadMezzi(),
-      loadAutisti()
-    ]);
+    await loadVettori();
+    await loadAutisti();
+    await loadMezzi();
     await loadPractices();
 
   }
