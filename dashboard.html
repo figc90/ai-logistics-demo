@@ -3574,6 +3574,24 @@ startDashboard();
   }
 </script>
 
+<div id="dashboardCustomizerBackdrop" class="dashboard-customizer-backdrop" aria-hidden="true">
+  <div class="dashboard-customizer" role="dialog" aria-modal="true" aria-labelledby="dashboardCustomizerTitle">
+    <div class="dashboard-customizer-head">
+      <div>
+        <h2 id="dashboardCustomizerTitle">Personalizza dashboard</h2>
+        <p>Scegli cosa visualizzare. Attiva la modifica per trascinare i riquadri nell'ordine che preferisci.</p>
+      </div>
+      <button id="dashboardCustomizerClose" class="dashboard-close" type="button">×</button>
+    </div>
+    <div id="dashboardOptionList" class="dashboard-option-list"></div>
+    <div class="dashboard-customizer-actions">
+      <button id="dashboardResetBtn" class="dashboard-reset" type="button">Ripristina disposizione</button>
+      <button id="dashboardEditModeBtn" class="dashboard-done" type="button">Sposta riquadri</button>
+    </div>
+  </div>
+</div>
+
+
 <script id="matrimia-dashboard-card-links">
 document.addEventListener("DOMContentLoaded",()=>{
   const makeLink=(el,url,label)=>{
@@ -3770,22 +3788,6 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </script>
 
-<div id="dashboardCustomizerBackdrop" class="dashboard-customizer-backdrop" aria-hidden="true">
-  <div class="dashboard-customizer" role="dialog" aria-modal="true" aria-labelledby="dashboardCustomizerTitle">
-    <div class="dashboard-customizer-head">
-      <div>
-        <h2 id="dashboardCustomizerTitle">Personalizza dashboard</h2>
-        <p>Scegli cosa visualizzare. Attiva la modifica per trascinare i riquadri nell'ordine che preferisci.</p>
-      </div>
-      <button id="dashboardCustomizerClose" class="dashboard-close" type="button">×</button>
-    </div>
-    <div id="dashboardOptionList" class="dashboard-option-list"></div>
-    <div class="dashboard-customizer-actions">
-      <button id="dashboardResetBtn" class="dashboard-reset" type="button">Ripristina disposizione</button>
-      <button id="dashboardEditModeBtn" class="dashboard-done" type="button">Sposta riquadri</button>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
