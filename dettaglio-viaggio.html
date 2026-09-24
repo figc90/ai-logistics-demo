@@ -1418,7 +1418,8 @@ input:disabled{
     <div class="field"><div class="label">Costo km extra</div><div id="aCostoMezzo" class="value">-</div></div>
     <div class="field"><div class="label">Costo carburante extra</div><div id="aCostoCarburante" class="value">-</div></div>
     <div class="field"><div class="label">Costo autista extra</div><div id="aCostoAutista" class="value">-</div></div>
-    <div class="field"><div class="label">Costo totale effettivo</div><div id="aCostoTotale" class="value">-</div></div>
+    <div class="field"><div class="label">Costo extra a consuntivo</div><div id="aCostoTotale" class="value">-</div></div>
+    <div class="field"><div class="label">Costo finale viaggio</div><div id="aCostoFinale" class="value">-</div></div>
     <div class="field"><div class="label">Scostamento dal previsto</div><div id="aScostamento" class="value">-</div></div>
     <div class="field"><div class="label">Margine reale €</div><div id="aMargine" class="value">-</div></div>
     <div class="field"><div class="label">Margine reale %</div><div id="aMarginePct" class="value">-</div></div>
@@ -2481,7 +2482,9 @@ function renderActualCost(){
   text("aCostoMezzo", eur(n.extraMezzo));
   text("aCostoCarburante", eur(n.extraCarburante));
   text("aCostoAutista", eur(n.extraAutista));
-  text("aCostoTotale", eur(n.totale));
+  const extraTotale = n.extraMezzo + n.extraCarburante + n.extraAutista + n.extra;
+  text("aCostoTotale", eur(extraTotale));
+  text("aCostoFinale", eur(n.totale));
   text("aScostamento", (scostamento >= 0 ? "+" : "") + eur(scostamento));
   text("aMargine", margine == null ? "-" : eur(margine));
   text("aMarginePct", marginePct == null ? "-" : marginePct.toLocaleString("it-IT", {minimumFractionDigits:1,maximumFractionDigits:1}) + " %");
