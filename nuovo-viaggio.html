@@ -906,23 +906,22 @@ Arrivo previsto
 Ore autista previste
 </label>
 
-<input
-id="oreAutista"
-type="number"
-min="0"
-step="0.25"
-placeholder="Calcolate da partenza/arrivo">
-
-<div class="field-helper">
-Calcolate automaticamente dalle date previste. Puoi correggerle se necessario.
+<input id="oreAutista" type="number" min="0" step="0.01" readonly placeholder="Calcolo automatico">
+<div class="field-helper">Somma automatica di guida andata + eventuale ritorno + tempo scarico/operazioni.</div>
 </div>
+
+<div class="form-group">
+<label for="tempoOperazioni">Tempo scarico / operazioni (ore)</label>
+<input id="tempoOperazioni" type="number" min="0" step="0.25" value="0" placeholder="Es. 1.50">
+<div class="field-helper">Inserisci il tempo previsto per scarico, attese e altre operazioni. Viene sommato alle ore di guida.</div>
+<div id="driverTimeStatus" class="field-helper"><strong>Ore autista:</strong> in attesa del calcolo percorso.</div>
 
 </div>
 
 <div class="form-group">
 
 <label for="kmPrevisti">
-Km previsti
+Km tratta (andata)
 </label>
 
 <input
@@ -1970,68 +1969,62 @@ applyMezzo
 
 /* CALCOLO COSTI */
 
-function calculatePlannedDriverHours(){
-  const partenza = $("dataPartenza").value;
-  const arrivo = $("dataArrivo").value;
-  if(!partenza || !arrivo) return;
-  const start = new Date(partenza);
-  const end = new Date(arrivo);
-  const hours = (end - start) / 3600000;
-  if(Number.isFinite(hours) && hours >= 0){
-    $("oreAutista").value = (Math.round(hours * 4) / 4).toFixed(2);
-  }
-}
-
+let durataGuidaAndataMinuti = 0;
+let durataGuidaRitornoMinuti = 0;
 let routeBusy = false;
 
+function minutesToText(min){
+  const v=Math.max(0,Math.round(Number(min)||0));
+  return `${Math.floor(v/60)}h ${v%60}min`;
+}
+function updateDriverHours(){
+  const operazioniOre=numberValue($("tempoOperazioni").value);
+  const operazioniMin=operazioniOre*60;
+  const ritorno=$("ritornoVuoto").checked ? durataGuidaRitornoMinuti : 0;
+  const totaleMin=durataGuidaAndataMinuti+ritorno+operazioniMin;
+  $("oreAutista").value=totaleMin>0 ? (totaleMin/60).toFixed(2) : "";
+  const status=$("driverTimeStatus");
+  if(status) status.textContent=`Guida andata ${minutesToText(durataGuidaAndataMinuti)}${$("ritornoVuoto").checked ? ` + ritorno ${minutesToText(durataGuidaRitornoMinuti)}` : ""} + operazioni ${minutesToText(operazioniMin)} = ${minutesToText(totaleMin)}.`;
+}
+function setTripArrivalFromForwardDuration(){
+  const departure=$("dataPartenza").value;
+  if(!departure||durataGuidaAndataMinuti<=0) return;
+  const d=new Date(departure); d.setMinutes(d.getMinutes()+durataGuidaAndataMinuti);
+  const pad=n=>String(n).padStart(2,"0");
+  $("dataArrivo").value=`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+async function invokeRoute(pratica, reverse=false){
+  const body=reverse ? {
+    cap_ritiro:String(pratica.cap_consegna||"").trim(), cap_consegna:String(pratica.cap_ritiro||"").trim(),
+    partenza:pratica.destinazione||"", destinazione:pratica.partenza||"",
+    indirizzo_ritiro:pratica.indirizzo_consegna||"", indirizzo_consegna:pratica.indirizzo_ritiro||""
+  } : {
+    cap_ritiro:String(pratica.cap_ritiro||"").trim(), cap_consegna:String(pratica.cap_consegna||"").trim(),
+    partenza:pratica.partenza||"", destinazione:pratica.destinazione||"",
+    indirizzo_ritiro:pratica.indirizzo_ritiro||"", indirizzo_consegna:pratica.indirizzo_consegna||""
+  };
+  const {data,error}=await supabase.functions.invoke("calcola-percorso",{body});
+  if(error) throw error; if(data?.error) throw new Error(data.error); return data;
+}
 async function calculateRouteFromPractice(pratica){
-  if(!pratica || routeBusy) return;
-
-  const capR = String(pratica.cap_ritiro || "").trim();
-  const capC = String(pratica.cap_consegna || "").trim();
-  const status = $("routeStatus");
-
-  if(!/^\d{5}$/.test(capR) || !/^\d{5}$/.test(capC)){
-    if(status) status.textContent = "CAP di ritiro/consegna mancanti nella pratica: inserisci i km manualmente.";
-    return;
-  }
-
-  routeBusy = true;
-  if(status) status.textContent = "Calcolo automatico del percorso in corso...";
-
+  if(!pratica||routeBusy) return;
+  const capR=String(pratica.cap_ritiro||"").trim(),capC=String(pratica.cap_consegna||"").trim(),status=$("routeStatus");
+  if(!/^\d{5}$/.test(capR)||!/^\d{5}$/.test(capC)){if(status)status.textContent="CAP mancanti: inserisci i km manualmente.";return}
+  routeBusy=true; if(status)status.textContent="Calcolo automatico percorso e tempi...";
   try{
-    const {data,error} = await supabase.functions.invoke("calcola-percorso", {
-      body:{
-        cap_ritiro: capR,
-        cap_consegna: capC,
-        partenza: pratica.partenza || "",
-        destinazione: pratica.destinazione || "",
-        indirizzo_ritiro: pratica.indirizzo_ritiro || "",
-        indirizzo_consegna: pratica.indirizzo_consegna || ""
-      }
-    });
-
-    if(error) throw error;
-    if(data?.error) throw new Error(data.error);
-
-    const km = Number(data?.km || 0);
-    if(km > 0){
-      $("kmPrevisti").value = km.toFixed(1);
-      if(status){
-        const minuti = Number(data?.durata_minuti || 0);
-        const h = Math.floor(minuti / 60);
-        const m = Math.round(minuti % 60);
-        status.textContent = `Percorso calcolato: ${km.toLocaleString("it-IT")} km${minuti > 0 ? ` · circa ${h}h ${m}min` : ""}. I km restano modificabili manualmente.`;
-      }
-      calculateCosts();
-    }else{
-      throw new Error("distanza non disponibile");
+    const forward=await invokeRoute(pratica,false);
+    const km=Number(forward?.km||0); durataGuidaAndataMinuti=Number(forward?.durata_minuti||0);
+    if(km<=0) throw new Error("distanza non disponibile");
+    $("kmPrevisti").value=km.toFixed(1); setTripArrivalFromForwardDuration();
+    durataGuidaRitornoMinuti=0;
+    if($("ritornoVuoto").checked){
+      try{const back=await invokeRoute(pratica,true); durataGuidaRitornoMinuti=Number(back?.durata_minuti||0)}
+      catch{durataGuidaRitornoMinuti=durataGuidaAndataMinuti}
     }
-  }catch(error){
-    if(status) status.textContent = "Calcolo automatico dei km non riuscito. Puoi inserirli manualmente. " + (error?.message || "");
-  }finally{
-    routeBusy = false;
-  }
+    if(status)status.textContent=`Andata: ${km.toLocaleString("it-IT")} km · ${minutesToText(durataGuidaAndataMinuti)}. I km restano modificabili manualmente.`;
+    updateDriverHours(); calculateCosts();
+  }catch(error){if(status)status.textContent="Calcolo automatico non riuscito. Puoi inserire i km manualmente. "+(error?.message||"")}
+  finally{routeBusy=false}
 }
 
 function calculateCosts(){
@@ -2118,15 +2111,21 @@ function calculateCosts(){
 
 }
 
-$("dataPartenza").addEventListener("change", ()=>{ calculatePlannedDriverHours(); calculateCosts(); });
-$("dataArrivo").addEventListener("change", ()=>{ calculatePlannedDriverHours(); calculateCosts(); });
-$("oreAutista").addEventListener("input", calculateCosts);
+$("dataPartenza").addEventListener("change", ()=>{ setTripArrivalFromForwardDuration(); updateDriverHours(); calculateCosts(); });
+$("dataArrivo").addEventListener("change", calculateCosts);
+$("tempoOperazioni").addEventListener("input", ()=>{ updateDriverHours(); calculateCosts(); });
 
 $("kmPrevisti").addEventListener(
 "input",
 calculateCosts
 );
-$("ritornoVuoto").addEventListener("change", calculateCosts);
+$("ritornoVuoto").addEventListener("change", async ()=>{
+  const pratica=practices.find(p=>String(p.id)===String($("practiceSelect").value));
+  if($("ritornoVuoto").checked && pratica && durataGuidaRitornoMinuti<=0){
+    try{const back=await invokeRoute(pratica,true);durataGuidaRitornoMinuti=Number(back?.durata_minuti||0)}catch{durataGuidaRitornoMinuti=durataGuidaAndataMinuti}
+  }
+  updateDriverHours(); calculateCosts();
+});
 
 $("consumoViaggio").addEventListener(
 "input",
@@ -2357,7 +2356,6 @@ function updatePracticeCard(){
 
   // I valori arrivano dalla pratica via JavaScript: il browser non genera
   // automaticamente gli eventi change, quindi avviamo esplicitamente i calcoli.
-  calculatePlannedDriverHours();
   calculateCosts();
   calculateRouteFromPractice(pratica);
 
@@ -2529,6 +2527,9 @@ async event=>{
       km_previsti: kmTratta > 0 ? kmTratta : null,
       ritorno_vuoto: ritornoVuoto,
       km_totali_previsti: km > 0 ? Number(km.toFixed(2)) : null,
+      durata_guida_andata_minuti: durataGuidaAndataMinuti > 0 ? Math.round(durataGuidaAndataMinuti) : null,
+      durata_guida_ritorno_minuti: ritornoVuoto && durataGuidaRitornoMinuti > 0 ? Math.round(durataGuidaRitornoMinuti) : null,
+      tempo_operazioni_minuti: Math.round(numberValue($("tempoOperazioni").value) * 60),
 
       /*
        * Compatibilità con

@@ -712,13 +712,14 @@ Puoi selezionare un cliente registrato oppure mantenere un nome ricevuto dall'Em
 </div>
 
 <div class="form-group">
-<label for="ritiro">Data e ora ritiro</label>
+<label for="ritiro">Partenza prevista</label>
 <input id="ritiro" type="datetime-local">
 </div>
 
 <div class="form-group">
-<label for="consegna">Data e ora consegna</label>
+<label for="consegna">Arrivo previsto</label>
 <input id="consegna" type="datetime-local">
+<div id="routePracticeStatus" class="helper">L’arrivo viene calcolato automaticamente dal percorso quando sono presenti CAP, località e partenza prevista. Rimane modificabile.</div>
 </div>
 
 <div class="form-group">
@@ -1913,6 +1914,54 @@ function formatDateTimeLocal(value){
 
 }
 
+
+/* CALCOLO PERCORSO E ARRIVO PREVISTO */
+let practiceRouteTimer = null;
+let practiceRouteBusy = false;
+
+function setArrivalFromMinutes(minutes){
+  const departure = document.getElementById("ritiro").value;
+  if(!departure || !Number.isFinite(Number(minutes)) || Number(minutes) <= 0) return;
+  const d = new Date(departure);
+  d.setMinutes(d.getMinutes() + Number(minutes));
+  const pad = n => String(n).padStart(2,"0");
+  document.getElementById("consegna").value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+async function calculatePracticeRoute(){
+  if(practiceRouteBusy) return;
+  const capR=document.getElementById("capRitiro").value.trim();
+  const capC=document.getElementById("capConsegna").value.trim();
+  const status=document.getElementById("routePracticeStatus");
+  if(!/^\d{5}$/.test(capR)||!/^\d{5}$/.test(capC)){
+    status.textContent="Inserisci i due CAP per calcolare automaticamente percorso e arrivo previsto.";
+    return;
+  }
+  practiceRouteBusy=true;
+  status.textContent="Calcolo percorso e arrivo previsto...";
+  try{
+    const {data,error}=await supabase.functions.invoke("calcola-percorso",{body:{
+      cap_ritiro:capR, cap_consegna:capC,
+      partenza:document.getElementById("partenza").value.trim(),
+      destinazione:document.getElementById("destinazione").value.trim(),
+      indirizzo_ritiro:document.getElementById("indirizzoRitiro").value.trim(),
+      indirizzo_consegna:document.getElementById("indirizzoConsegna").value.trim()
+    }});
+    if(error) throw error;
+    if(data?.error) throw new Error(data.error);
+    const km=Number(data?.km||0), min=Number(data?.durata_minuti||0);
+    if(min>0) setArrivalFromMinutes(min);
+    const h=Math.floor(min/60),m=Math.round(min%60);
+    status.textContent=`Percorso stimato: ${km.toLocaleString("it-IT")} km · ${h}h ${m}min. Arrivo previsto aggiornato automaticamente.`;
+  }catch(e){
+    status.textContent="Calcolo automatico non riuscito. Puoi inserire l’arrivo manualmente. "+(e?.message||"");
+  }finally{practiceRouteBusy=false}
+}
+function schedulePracticeRoute(){clearTimeout(practiceRouteTimer);practiceRouteTimer=setTimeout(calculatePracticeRoute,550)}
+["ritiro","partenza","destinazione","indirizzoRitiro","capRitiro","indirizzoConsegna","capConsegna"].forEach(id=>{
+  document.getElementById(id)?.addEventListener("change",schedulePracticeRoute);
+  if(id!=="ritiro") document.getElementById(id)?.addEventListener("input",schedulePracticeRoute);
+});
 
 /* DATI FORM */
 
