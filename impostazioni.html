@@ -340,10 +340,10 @@ async function loadModel(type){
  if(error){showMessage($("modelMessage"),"error","Impossibile caricare il modello. Verifica le policy RLS.");return}
  $("modelTitle").value=data?.titolo||defaults[type];$("modelHeader").value=data?.intestazione||"";$("modelFooter").value=data?.pie_pagina||"";$("defaultNotes").value=data?.note_predefinite||"";
  $("modelActive").checked=data?.attivo!==false;$("modelLogo").checked=data?.mostra_logo!==false;$("modelCompany").checked=data?.mostra_dati_azienda!==false;
- const p=data?.colore_primario||"#183B63",s=data?.colore_secondario||"#18A7A0",t=data?.colore_testo_primario||"#FFFFFF";$("primaryColor").value=p;$("primaryColorPicker").value=validHex(p)?p:"#183B63";$("secondaryColor").value=s;$("secondaryColorPicker").value=validHex(s)?s:"#18A7A0";$("primaryTextColor").value=t;$("primaryTextColorPicker").value=validHex(t)?t:"#FFFFFF";
  $("saveModelButton").textContent="Salva modello "+type.replaceAll("_"," ");
 }
 document.querySelectorAll(".doc-tab").forEach(b=>b.addEventListener("click",()=>loadModel(b.dataset.type)));
+
 $("modelForm").addEventListener("submit",async e=>{
  e.preventDefault();clearMessage($("modelMessage"));
  $("saveModelButton").disabled=true;
