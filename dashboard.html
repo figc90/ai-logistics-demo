@@ -433,6 +433,22 @@ h1{
 }
 
 /* ============================
+   REDDITIVITÀ
+============================ */
+
+.economic-toolbar{
+  display:flex;align-items:center;gap:10px;
+}
+.economic-filter{
+  min-height:36px;padding:0 11px;border:1px solid #dce3eb;border-radius:9px;
+  background:#fff;color:#53647a;font-size:10px;font-weight:800;outline:none;
+}
+.kpi-revenue::before{background:#29a9d2}.kpi-cost::before{background:#f1a51b}.kpi-margin::before{background:#2fb878}.kpi-marginpct::before{background:#173f69}
+.kpi-revenue .kpi-icon{background:#e9f7fb;color:#167fa5}.kpi-cost .kpi-icon{background:#fff4dd;color:#a46700}.kpi-margin .kpi-icon{background:#e9f8f1;color:#23784f}.kpi-marginpct .kpi-icon{background:#edf2f8;color:#173f69}
+.economic-note{color:#9aa6b6;font-size:10px;margin-top:-8px;margin-bottom:20px}
+@media(max-width:700px){.economic-toolbar{width:100%}.economic-filter{width:100%}}
+
+/* ============================
    GRID
 ============================ */
 
@@ -1416,6 +1432,51 @@ tbody tr:hover{
   </div>
 
 </div>
+
+<!-- ============================
+     REDDITIVITÀ VIAGGI
+============================ -->
+
+<div class="section-title">
+  <div>
+    <h2>Redditività viaggi</h2>
+  </div>
+  <div class="economic-toolbar">
+    <select id="economicPeriod" class="economic-filter" aria-label="Periodo redditività">
+      <option value="month">Mese corrente</option>
+      <option value="year">Anno corrente</option>
+      <option value="all">Tutto</option>
+    </select>
+  </div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi-card kpi-revenue">
+    <div class="kpi-icon">€</div>
+    <div class="kpi-label">RICAVI</div>
+    <div id="economicRevenue" class="kpi-number">€ 0</div>
+    <div class="kpi-description">Preventivi collegati ai viaggi</div>
+  </div>
+  <div class="kpi-card kpi-cost">
+    <div class="kpi-icon">−</div>
+    <div class="kpi-label">COSTI VIAGGI</div>
+    <div id="economicCosts" class="kpi-number">€ 0</div>
+    <div class="kpi-description">Costi operativi previsti</div>
+  </div>
+  <div class="kpi-card kpi-margin">
+    <div class="kpi-icon">+</div>
+    <div class="kpi-label">MARGINE</div>
+    <div id="economicMargin" class="kpi-number">€ 0</div>
+    <div class="kpi-description">Ricavi meno costi previsti</div>
+  </div>
+  <div class="kpi-card kpi-marginpct">
+    <div class="kpi-icon">%</div>
+    <div class="kpi-label">MARGINE %</div>
+    <div id="economicMarginPct" class="kpi-number">0%</div>
+    <div class="kpi-description">Margine sui ricavi</div>
+  </div>
+</div>
+<div id="economicNote" class="economic-note">I valori economici sono calcolati sui costi previsti dei viaggi.</div>
 
 <!-- ============================
      CONTENUTO PRINCIPALE
@@ -2680,7 +2741,8 @@ async function loadDashboard(){
 
     const [
       praticheResult,
-      viaggiResult
+      viaggiResult,
+      preventiviResult
     ] =
       await Promise.all([
 
@@ -2711,6 +2773,12 @@ async function loadDashboard(){
             stato,
             vettore,
             data_partenza,
+            pratica_id,
+            costo_totale_previsto,
+            costo_mezzo_previsto,
+            costo_previsto,
+            costo_carburante_previsto,
+            costo_autista_previsto,
             created_at,
             pratiche (
               id,
@@ -2725,7 +2793,13 @@ async function loadDashboard(){
             {
               ascending:false
             }
-          )
+          ),
+
+        supabase
+          .from("preventivi")
+          .select("id,pratica_id,prezzo_finale,stato,created_at")
+          .not("pratica_id","is",null)
+          .order("created_at",{ascending:false})
 
       ]);
 
@@ -2737,9 +2811,14 @@ async function loadDashboard(){
       throw viaggiResult.error;
     }
 
+    if(preventiviResult.error){
+      throw preventiviResult.error;
+    }
+
     renderDashboard(
       praticheResult.data || [],
-      viaggiResult.data || []
+      viaggiResult.data || [],
+      preventiviResult.data || []
     );
 
   }
@@ -2763,7 +2842,8 @@ async function loadDashboard(){
 
 function renderDashboard(
   pratiche,
-  viaggi
+  viaggi,
+  preventivi
 ){
 
   const total =
@@ -2850,6 +2930,8 @@ function renderDashboard(
 
   tripDoneCount.textContent =
     tripDone;
+
+  setupEconomicDashboard(viaggi, preventivi);
 
   let summary = "";
 
@@ -2963,6 +3045,70 @@ function renderDashboard(
 /* ============================
    ULTIME PRATICHE
 ============================ */
+
+
+function euroDashboard(value){
+  return new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(Number(value)||0);
+}
+
+function tripDateForEconomic(v){
+  const raw=v.data_partenza || v.created_at;
+  if(!raw) return null;
+  const d=new Date(raw.length===10 ? raw+"T12:00:00" : raw);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function setupEconomicDashboard(viaggi, preventivi){
+  const select=document.getElementById("economicPeriod");
+  if(!select) return;
+
+  const acceptedByPractice=new Map();
+  const fallbackByPractice=new Map();
+  (preventivi||[]).forEach(p=>{
+    if(!p.pratica_id || Number(p.prezzo_finale||0)<=0) return;
+    if(!fallbackByPractice.has(p.pratica_id)) fallbackByPractice.set(p.pratica_id,p);
+    if(String(p.stato||"").toUpperCase()==="ACCETTATO" && !acceptedByPractice.has(p.pratica_id)){
+      acceptedByPractice.set(p.pratica_id,p);
+    }
+  });
+
+  const render=()=>{
+    const now=new Date();
+    const period=select.value;
+    const filtered=(viaggi||[]).filter(v=>{
+      if(period==="all") return true;
+      const d=tripDateForEconomic(v);
+      if(!d) return false;
+      if(period==="year") return d.getFullYear()===now.getFullYear();
+      return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth();
+    });
+
+    let revenue=0,costs=0,withRevenue=0;
+    filtered.forEach(v=>{
+      const pid=v.pratica_id || v.pratiche?.id;
+      const quote=acceptedByPractice.get(pid) || fallbackByPractice.get(pid);
+      if(quote){ revenue += Number(quote.prezzo_finale)||0; withRevenue++; }
+      const total=Number(v.costo_totale_previsto);
+      costs += Number.isFinite(total) && total>0 ? total :
+        (Number(v.costo_mezzo_previsto ?? v.costo_previsto)||0) +
+        (Number(v.costo_carburante_previsto)||0) +
+        (Number(v.costo_autista_previsto)||0);
+    });
+
+    const margin=revenue-costs;
+    const pct=revenue>0 ? margin/revenue*100 : 0;
+    document.getElementById("economicRevenue").textContent=euroDashboard(revenue);
+    document.getElementById("economicCosts").textContent=euroDashboard(costs);
+    document.getElementById("economicMargin").textContent=euroDashboard(margin);
+    document.getElementById("economicMarginPct").textContent=pct.toLocaleString("it-IT",{minimumFractionDigits:1,maximumFractionDigits:1})+"%";
+    document.getElementById("economicNote").textContent=filtered.length
+      ? `Periodo: ${filtered.length} viaggi · ${withRevenue} con ricavo collegato. Costi basati sui valori previsti.`
+      : "Nessun viaggio nel periodo selezionato.";
+  };
+
+  select.onchange=render;
+  render();
+}
 
 function renderRecent(pratiche){
 
