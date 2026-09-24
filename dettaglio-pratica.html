@@ -1313,6 +1313,14 @@ footer strong{
 
 
             <div class="field">
+              <span class="label">Nazione Ritiro</span>
+              <div id="nazioneRitiroValue" class="value">-</div>
+              <select id="nazioneRitiroInput" class="edit-input">
+                <option value="Italia">Italia</option><option value="Austria">Austria</option><option value="Belgio">Belgio</option><option value="Francia">Francia</option><option value="Germania">Germania</option><option value="Lussemburgo">Lussemburgo</option><option value="Paesi Bassi">Paesi Bassi</option><option value="Polonia">Polonia</option><option value="Repubblica Ceca">Repubblica Ceca</option><option value="Slovacchia">Slovacchia</option><option value="Slovenia">Slovenia</option><option value="Spagna">Spagna</option><option value="Svizzera">Svizzera</option><option value="Ungheria">Ungheria</option><option value="Altro">Altro</option>
+              </select>
+            </div>
+
+            <div class="field">
 
               <span class="label">CAP Ritiro</span>
 
@@ -1342,6 +1350,14 @@ footer strong{
 
             </div>
 
+
+            <div class="field">
+              <span class="label">Nazione Consegna</span>
+              <div id="nazioneConsegnaValue" class="value">-</div>
+              <select id="nazioneConsegnaInput" class="edit-input">
+                <option value="Italia">Italia</option><option value="Austria">Austria</option><option value="Belgio">Belgio</option><option value="Francia">Francia</option><option value="Germania">Germania</option><option value="Lussemburgo">Lussemburgo</option><option value="Paesi Bassi">Paesi Bassi</option><option value="Polonia">Polonia</option><option value="Repubblica Ceca">Repubblica Ceca</option><option value="Slovacchia">Slovacchia</option><option value="Slovenia">Slovenia</option><option value="Spagna">Spagna</option><option value="Svizzera">Svizzera</option><option value="Ungheria">Ungheria</option><option value="Altro">Altro</option>
+              </select>
+            </div>
 
             <div class="field">
 
@@ -2303,6 +2319,7 @@ function renderPractice(pratica){
     "capRitiroValue",
     pratica.cap_ritiro
   );
+  text("nazioneRitiroValue", pratica.nazione_ritiro || "Italia");
 
   setText(
     "indirizzoConsegnaValue",
@@ -2313,6 +2330,7 @@ function renderPractice(pratica){
     "capConsegnaValue",
     pratica.cap_consegna
   );
+  text("nazioneConsegnaValue", pratica.nazione_consegna || "Italia");
 
   setText(
     "vettoreValue",
@@ -2390,12 +2408,14 @@ function populateEditFields(){
 
   document.getElementById("capRitiroInput").value =
     currentPractice.cap_ritiro || "";
+  document.getElementById("nazioneRitiroInput").value = currentPractice.nazione_ritiro || "Italia";
 
   document.getElementById("indirizzoConsegnaInput").value =
     currentPractice.indirizzo_consegna || "";
 
   document.getElementById("capConsegnaInput").value =
     currentPractice.cap_consegna || "";
+  document.getElementById("nazioneConsegnaInput").value = currentPractice.nazione_consegna || "Italia";
 
   document.getElementById("vettoreInput").value =
     currentPractice.vettore || "";
@@ -2537,6 +2557,8 @@ function getUpdatedData(){
         ).value
       ),
 
+    nazione_ritiro: document.getElementById("nazioneRitiroInput").value || "Italia",
+
     indirizzo_consegna:
       emptyToNull(
         document.getElementById(
@@ -2550,6 +2572,8 @@ function getUpdatedData(){
           "capConsegnaInput"
         ).value
       ),
+
+    nazione_consegna: document.getElementById("nazioneConsegnaInput").value || "Italia",
 
     vettore:
       emptyToNull(

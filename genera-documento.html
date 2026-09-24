@@ -25,15 +25,22 @@ button.primary:disabled{opacity:.55;cursor:not-allowed}.preview{font-size:14px;l
 <body>
 <header><div class="brand">MatRi-m<span>IA</span> Logistics</div><div id="userInfo" class="user"></div></header>
 <main>
-<div class="top"><div><h1>Genera documento</h1><div class="sub">Template professionali per DDT, CMR internazionale, POD, Transport Order e Quotation.</div></div><button class="back" onclick="history.back()">← Indietro</button></div>
+<div class="top"><div><h1>Genera documento</h1><div class="sub">Template Logistics moderno con riconoscimento automatico del trasporto nazionale o internazionale.</div></div><button class="back" onclick="history.back()">← Indietro</button></div>
 <div id="message" class="msg"></div>
 <div class="grid">
 <section class="card">
 <h2>Documento</h2>
 <div class="field"><label for="practice">Pratica</label><select id="practice"><option value="">Caricamento...</option></select></div>
 <div class="field"><label for="type">Tipo documento</label><select id="type">
-<option value="DDT">DDT</option><option value="CMR">CMR internazionale</option><option value="POD">POD / Proof of Delivery</option><option value="ORDINE_TRASPORTO">Transport Order / Ordine di trasporto</option><option value="PREVENTIVO">Quotation / Preventivo</option>
+<option value="DDT">Documento di trasporto / CMR automatico</option><option value="CMR">CMR internazionale (forza CMR)</option><option value="POD">POD / Proof of Delivery</option><option value="ORDINE_TRASPORTO">Transport Order / Ordine di trasporto</option><option value="PREVENTIVO">Quotation / Preventivo</option>
 </select></div>
+
+<div id="transportScopeBox" style="margin:10px 0 16px;padding:12px;border:1px solid #d8e2ec;border-radius:10px;background:#f7fafc">
+<label style="display:block;font-weight:800;margin-bottom:8px">TIPO DI TRASPORTO / TRANSPORT TYPE</label>
+<label style="margin-right:18px"><input type="radio" name="transportScope" id="scopeDomestic" value="NAZIONALE"> Nazionale / Domestic</label>
+<label><input type="radio" name="transportScope" id="scopeInternational" value="INTERNAZIONALE"> Internazionale / International</label>
+<div id="scopeHint" style="font-size:12px;color:#607086;margin-top:8px">Rilevato automaticamente dalle nazioni della pratica. Puoi modificarlo prima di generare il PDF.</div>
+</div>
 
 <div id="ddtFields" class="extra show">
 <div class="field"><label>Causale trasporto</label><input id="causale" value="Trasporto merci"></div>
@@ -123,7 +130,7 @@ async function loadPractices(){
  }
 
  const {data,error}=await supabase.from("pratiche")
- .select("id,numero_pratica,cliente,partenza,destinazione,ritiro,consegna,tipo_merce,colli,peso_kg,volume_m3,vettore,stato")
+ .select("id,numero_pratica,cliente,partenza,destinazione,ritiro,consegna,indirizzo_ritiro,cap_ritiro,nazione_ritiro,indirizzo_consegna,cap_consegna,nazione_consegna,tipo_merce,colli,peso_kg,volume_m3,vettore,stato")
  .order("created_at",{ascending:false});
  if(error)throw error;
  practices=data||[];
@@ -139,6 +146,18 @@ async function loadPractices(){
  }
  renderPreview();
 }
+function detectTransportScope(p){
+ const nr=String(p?.nazione_ritiro||"Italia").trim().toLowerCase();
+ const nc=String(p?.nazione_consegna||"Italia").trim().toLowerCase();
+ return (nr==="italia" && nc==="italia") ? "NAZIONALE" : "INTERNAZIONALE";
+}
+function syncTransportScope(p){
+ const scope=detectTransportScope(p);
+ $("scopeDomestic").checked=scope==="NAZIONALE";
+ $("scopeInternational").checked=scope==="INTERNAZIONALE";
+ $("scopeHint").textContent=`Rilevato: ${scope==="NAZIONALE"?"Nazionale / Domestic":"Internazionale / International"} · ${p?.nazione_ritiro||"Italia"} → ${p?.nazione_consegna||"Italia"}. Puoi modificarlo manualmente.`;
+}
+
 function renderPreview(){
  if(standaloneQuote){
    const q=standaloneQuote;
@@ -154,10 +173,12 @@ function renderPreview(){
  }
  const p=practices.find(x=>x.id===$("practice").value);
  if(!p){$("preview").innerHTML="Seleziona una pratica.";$("returnPractice").style.display="none";return;}
+ syncTransportScope(p);
  $("preview").innerHTML=
  row("Pratica",p.numero_pratica)+row("Cliente",p.cliente)+row("Stato",p.stato)+
  row("Ritiro",`${p.partenza||"-"} · ${p.ritiro?new Date(p.ritiro).toLocaleString("it-IT"):"-"}`)+
  row("Consegna",`${p.destinazione||"-"} · ${p.consegna?new Date(p.consegna).toLocaleString("it-IT"):"-"}`)+
+ row("Tipo trasporto",detectTransportScope(p)==="NAZIONALE"?"Nazionale / Domestic":"Internazionale / International")+
  row("Merce",p.tipo_merce)+row("Colli",p.colli)+row("Peso kg",p.peso_kg)+row("Volume m³",p.volume_m3)+row("Vettore",p.vettore);
  $("returnPractice").href="dettaglio-pratica.html?id="+encodeURIComponent(p.id);
 }
@@ -174,7 +195,7 @@ function changeType(){
 
 function extras(){
  const t=$("type").value;
- const common={note:$("note").value.trim()||null};
+ const common={note:$("note").value.trim()||null,transport_scope:document.querySelector('input[name="transportScope"]:checked')?.value||null};
  if(t==="DDT")return {...common,causale:$("causale").value.trim()||null,aspetto_beni:$("aspetto").value.trim()||null,porto:$("porto").value.trim()||null};
  if(t==="CMR")return {...common,mittente:$("mittente").value.trim()||null,destinatario:$("destinatario").value.trim()||null};
  if(t==="POD")return {...common,ricevente:$("ricevente").value.trim()||null,riserve:$("riserve").value.trim()||null};

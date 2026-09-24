@@ -742,6 +742,13 @@ Destinazione <span class="required">*</span>
 </div>
 
 <div class="form-group">
+<label for="nazioneRitiro">Nazione ritiro</label>
+<select id="nazioneRitiro">
+<option value="Italia" selected>Italia</option><option value="Austria">Austria</option><option value="Belgio">Belgio</option><option value="Francia">Francia</option><option value="Germania">Germania</option><option value="Lussemburgo">Lussemburgo</option><option value="Paesi Bassi">Paesi Bassi</option><option value="Polonia">Polonia</option><option value="Repubblica Ceca">Repubblica Ceca</option><option value="Slovacchia">Slovacchia</option><option value="Slovenia">Slovenia</option><option value="Spagna">Spagna</option><option value="Svizzera">Svizzera</option><option value="Ungheria">Ungheria</option><option value="Altro">Altro</option>
+</select>
+</div>
+
+<div class="form-group">
 <label for="capRitiro">CAP ritiro</label>
 <input
   id="capRitiro"
@@ -755,6 +762,13 @@ Destinazione <span class="required">*</span>
 <div class="form-group">
 <label for="indirizzoConsegna">Indirizzo consegna</label>
 <input id="indirizzoConsegna" type="text">
+</div>
+
+<div class="form-group">
+<label for="nazioneConsegna">Nazione consegna</label>
+<select id="nazioneConsegna">
+<option value="Italia" selected>Italia</option><option value="Austria">Austria</option><option value="Belgio">Belgio</option><option value="Francia">Francia</option><option value="Germania">Germania</option><option value="Lussemburgo">Lussemburgo</option><option value="Paesi Bassi">Paesi Bassi</option><option value="Polonia">Polonia</option><option value="Repubblica Ceca">Repubblica Ceca</option><option value="Slovacchia">Slovacchia</option><option value="Slovenia">Slovenia</option><option value="Spagna">Spagna</option><option value="Svizzera">Svizzera</option><option value="Ungheria">Ungheria</option><option value="Altro">Altro</option>
+</select>
 </div>
 
 <div class="form-group">
@@ -2007,6 +2021,9 @@ function getPracticeData(){
         document.getElementById("capRitiro").value
       ),
 
+    nazione_ritiro:
+      emptyToNull(document.getElementById("nazioneRitiro").value) || "Italia",
+
     destinazione:
       emptyToNull(
         document.getElementById("destinazione").value
@@ -2021,6 +2038,9 @@ function getPracticeData(){
       emptyToNull(
         document.getElementById("capConsegna").value
       ),
+
+    nazione_consegna:
+      emptyToNull(document.getElementById("nazioneConsegna").value) || "Italia",
 
     vettore:
       emptyToNull(
@@ -2113,6 +2133,7 @@ function validateForm(){
 
   if(
     data.cap_ritiro &&
+    data.nazione_ritiro === "Italia" &&
     !/^\d{5}$/.test(data.cap_ritiro)
   ){
 
@@ -2126,6 +2147,7 @@ function validateForm(){
 
   if(
     data.cap_consegna &&
+    data.nazione_consegna === "Italia" &&
     !/^\d{5}$/.test(data.cap_consegna)
   ){
 
