@@ -934,6 +934,7 @@ step="1">
 <div class="field-helper" id="routeStatus">
 I km vengono calcolati automaticamente dai dati di ritiro e consegna della pratica. Restano modificabili manualmente.
 </div>
+<div style="margin-top:14px;display:flex;align-items:center;gap:10px;"><input id="ritornoVuoto" type="checkbox" style="width:auto;"><label for="ritornoVuoto" style="margin:0;font-weight:700;">Ritorno a vuoto</label></div><div class="field-helper">Se selezionato, mezzo e carburante vengono calcolati sul doppio dei km della tratta.</div><div class="field-helper"><strong>Km totali viaggio:</strong> <span id="kmTotaliDisplay">0,0 km</span></div>
 
 </div>
 
@@ -2035,10 +2036,10 @@ async function calculateRouteFromPractice(pratica){
 
 function calculateCosts(){
 
-  const km =
-  numberValue(
-    $("kmPrevisti").value
-  );
+  const kmTratta = numberValue($("kmPrevisti").value);
+  const ritornoVuoto = $("ritornoVuoto").checked;
+  const km = ritornoVuoto ? kmTratta * 2 : kmTratta;
+  $("kmTotaliDisplay").textContent = km.toLocaleString("it-IT", {minimumFractionDigits:1, maximumFractionDigits:1}) + " km";
 
   const costoMezzo =
   km *
@@ -2125,6 +2126,7 @@ $("kmPrevisti").addEventListener(
 "input",
 calculateCosts
 );
+$("ritornoVuoto").addEventListener("change", calculateCosts);
 
 $("consumoViaggio").addEventListener(
 "input",
@@ -2420,10 +2422,9 @@ async event=>{
 
   }
 
-  const km =
-  numberValue(
-    $("kmPrevisti").value
-  );
+  const kmTratta = numberValue($("kmPrevisti").value);
+  const ritornoVuoto = $("ritornoVuoto").checked;
+  const km = ritornoVuoto ? kmTratta * 2 : kmTratta;
 
   const consumo =
   numberValue(
@@ -2525,10 +2526,9 @@ async event=>{
       data_arrivo:
       dataArrivo,
 
-      km_previsti:
-      numberOrNull(
-        $("kmPrevisti").value
-      ),
+      km_previsti: kmTratta > 0 ? kmTratta : null,
+      ritorno_vuoto: ritornoVuoto,
+      km_totali_previsti: km > 0 ? Number(km.toFixed(2)) : null,
 
       /*
        * Compatibilità con

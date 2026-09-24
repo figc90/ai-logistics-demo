@@ -1063,6 +1063,9 @@ input:disabled{
     <div class="label">Km previsti</div>
 
     <div id="vKm" class="value">-</div>
+  </div>
+  <div class="field"><div class="label">Ritorno a vuoto</div><div id="vRitornoVuoto" class="value">-</div></div>
+  <div class="field"><div class="label">Km totali viaggio</div><div id="vKmTotali" class="value">-</div>
 
   </div>
 
@@ -1240,6 +1243,7 @@ input:disabled{
       id="eKm"
       type="number"
       min="0">
+<div style="margin-top:12px;display:flex;align-items:center;gap:10px;"><input id="eRitornoVuoto" type="checkbox" style="width:auto;"><label for="eRitornoVuoto" style="margin:0;font-weight:700;">Ritorno a vuoto</label></div>
 
   </div>
 
@@ -2298,6 +2302,8 @@ function render(){
     "vKm",
     viaggio.km_previsti
   );
+  text("vRitornoVuoto", viaggio.ritorno_vuoto ? "Sì" : "No");
+  text("vKmTotali", (viaggio.km_totali_previsti ?? viaggio.km_previsti) != null ? Number(viaggio.km_totali_previsti ?? viaggio.km_previsti).toLocaleString("it-IT") + " km" : "-");
 
   text(
     "vCosto",
@@ -2476,6 +2482,7 @@ function openEditor(){
     .value =
     viaggio.km_previsti ??
     "";
+  document.getElementById("eRitornoVuoto").checked = Boolean(viaggio.ritorno_vuoto);
 
   document
     .getElementById("eCosto")
@@ -2598,8 +2605,17 @@ async ()=>{
   const oreAutista = Number(document.getElementById("eOreAutista").value) || 0;
   const costoAutistaOra = Number(viaggio.costo_autista_ora) || 0;
   const costoAutistaPrevisto = oreAutista * costoAutistaOra;
-  const costoMezzoPrevisto = Number(document.getElementById("eCosto").value) || 0;
-  const costoCarburantePrevisto = Number(viaggio.costo_carburante_previsto) || 0;
+  const kmTratta = Number(document.getElementById("eKm").value) || 0;
+  const ritornoVuoto = document.getElementById("eRitornoVuoto").checked;
+  const kmTotali = ritornoVuoto ? kmTratta * 2 : kmTratta;
+  const vecchiKmTotali = Number(viaggio.km_totali_previsti ?? viaggio.km_previsti) || 0;
+  const vecchioCostoMezzo = Number(viaggio.costo_mezzo_previsto ?? viaggio.costo_previsto) || 0;
+  const costoMezzoKm = vecchiKmTotali > 0 ? vecchioCostoMezzo / vecchiKmTotali : 0;
+  const costoMezzoPrevisto = costoMezzoKm > 0 ? kmTotali * costoMezzoKm : Number(document.getElementById("eCosto").value) || 0;
+  const consumo = Number(viaggio.consumo_km_l) || 0;
+  const prezzoCarburante = Number(viaggio.prezzo_carburante_l) || 0;
+  const litriPrevisti = kmTotali > 0 && consumo > 0 ? kmTotali / consumo : 0;
+  const costoCarburantePrevisto = litriPrevisti * prezzoCarburante;
   const costoTotalePrevisto = costoMezzoPrevisto + costoCarburantePrevisto + costoAutistaPrevisto;
 
   const payload = {
@@ -2654,12 +2670,9 @@ async ()=>{
     data_arrivo:
     arrival,
 
-    km_previsti:
-    emptyToNull(
-      document
-        .getElementById("eKm")
-        .value
-    ),
+    km_previsti: kmTratta > 0 ? kmTratta : null,
+    ritorno_vuoto: ritornoVuoto,
+    km_totali_previsti: kmTotali > 0 ? Number(kmTotali.toFixed(2)) : null,
 
     costo_previsto:
     emptyToNull(
@@ -2668,6 +2681,8 @@ async ()=>{
         .value
     ),
 
+    litri_previsti: litriPrevisti > 0 ? Number(litriPrevisti.toFixed(2)) : null,
+    costo_carburante_previsto: costoCarburantePrevisto > 0 ? Number(costoCarburantePrevisto.toFixed(2)) : null,
     costo_mezzo_previsto: costoMezzoPrevisto > 0 ? Number(costoMezzoPrevisto.toFixed(2)) : null,
     ore_autista_previste: oreAutista > 0 ? oreAutista : null,
     costo_autista_ora: costoAutistaOra > 0 ? costoAutistaOra : null,
