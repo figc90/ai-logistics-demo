@@ -1518,6 +1518,35 @@ input:disabled{
 </div>
 </section>
 
+
+<!-- =========================
+     CHIUSURA VIAGGIO
+========================= -->
+<section class="card" id="closureCard">
+  <div class="card-header">
+    <div>
+      <h2>Chiusura viaggio</h2>
+      <p>Verifica i dati finali e blocca economicamente il viaggio.</p>
+    </div>
+    <span id="closureBadge" class="badge badge-plan">APERTO</span>
+  </div>
+  <div class="card-body">
+    <div class="fields">
+      <div class="field"><div class="label">Stato consegna</div><div id="closeCheckStatus" class="value">-</div></div>
+      <div class="field"><div class="label">Consuntivo</div><div id="closeCheckActual" class="value">-</div></div>
+      <div class="field"><div class="label">Documento finale</div><div id="closeCheckDocs" class="value">-</div></div>
+      <div class="field"><div class="label">Chiuso il</div><div id="closeDate" class="value">-</div></div>
+    </div>
+    <div class="field-hint" style="margin-top:14px">
+      Per chiudere il viaggio deve risultare CONSEGNATO, il consuntivo deve essere salvato e deve essere presente almeno un POD, DDT o CMR.
+    </div>
+    <div class="actions" style="margin-top:18px">
+      <button id="closeTripButton" class="btn btn-primary" type="button">Chiudi viaggio</button>
+      <button id="reopenTripButton" class="btn" type="button" style="display:none">Riapri viaggio</button>
+    </div>
+  </div>
+</section>
+
 <!-- =========================
      DOCUMENTI
 ========================= -->
@@ -2557,6 +2586,7 @@ function fillActualCost(){
 }
 
 async function saveActualCost(){
+  if(viaggio?.chiuso){showError("Il viaggio è chiuso. Riaprilo prima di modificare il consuntivo.");return;}
   const button = document.getElementById("saveActualButton");
   const n = actualNumbers();
   button.disabled = true;
@@ -2578,6 +2608,7 @@ async function saveActualCost(){
     viaggio = {...viaggio, ...data};
     showSuccess("Consuntivo viaggio salvato correttamente.");
     fillActualCost();
+    renderClosure();
   }catch(error){
     showError("Impossibile salvare il consuntivo: " + error.message);
   }finally{
@@ -2585,6 +2616,88 @@ async function saveActualCost(){
     button.textContent = "Salva consuntivo";
   }
 }
+
+
+function hasFinalDocument(){
+  return (currentDocuments || []).some(d =>
+    ["POD","DDT","CMR"].includes(String(d.tipo || "").toUpperCase())
+  );
+}
+
+function renderClosure(){
+  if(!viaggio) return;
+  const delivered = String(viaggio.stato || "").toUpperCase() === "CONSEGNATO";
+  const actualSaved = viaggio.costo_totale_effettivo !== null && viaggio.costo_totale_effettivo !== undefined;
+  const finalDoc = hasFinalDocument();
+  const closed = Boolean(viaggio.chiuso);
+
+  text("closeCheckStatus", delivered ? "✓ Consegnato" : "Da consegnare");
+  text("closeCheckActual", actualSaved ? "✓ Salvato" : "Da salvare");
+  text("closeCheckDocs", finalDoc ? "✓ Presente" : "Manca POD / DDT / CMR");
+  text("closeDate", closed && viaggio.chiuso_at ? formatDate(viaggio.chiuso_at) : "-");
+
+  const badgeEl=document.getElementById("closureBadge");
+  if(badgeEl){
+    badgeEl.textContent=closed?"CHIUSO":"APERTO";
+    badgeEl.className=closed?"badge badge-done":"badge badge-plan";
+  }
+
+  const closeBtn=document.getElementById("closeTripButton");
+  const reopenBtn=document.getElementById("reopenTripButton");
+  if(closeBtn){
+    closeBtn.style.display=closed?"none":"inline-flex";
+    closeBtn.disabled=!(delivered && actualSaved && finalDoc);
+  }
+  if(reopenBtn) reopenBtn.style.display=closed?"inline-flex":"none";
+
+  const editBtn=document.getElementById("editButton");
+  const actualBtn=document.getElementById("saveActualButton");
+  if(editBtn) editBtn.disabled=closed;
+  if(actualBtn) actualBtn.disabled=closed;
+
+  const inputs=["aKm","aLitri","aOre","aExtra","aNote"];
+  inputs.forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=closed;});
+}
+
+async function closeTrip(){
+  hideMessage();
+  const delivered=String(viaggio?.stato||"").toUpperCase()==="CONSEGNATO";
+  const actualSaved=viaggio?.costo_totale_effettivo!==null && viaggio?.costo_totale_effettivo!==undefined;
+  const finalDoc=hasFinalDocument();
+  if(!delivered){showError("Prima di chiudere il viaggio imposta lo stato su CONSEGNATO.");return;}
+  if(!actualSaved){showError("Prima di chiudere il viaggio salva il consuntivo, anche con tutti gli extra a 0.");return;}
+  if(!finalDoc){showError("Prima di chiudere il viaggio carica almeno un documento finale: POD, DDT o CMR.");return;}
+
+  const btn=document.getElementById("closeTripButton");
+  btn.disabled=true; btn.textContent="Chiusura...";
+  try{
+    const payload={chiuso:true,chiuso_at:new Date().toISOString(),chiuso_by:currentUser.id,updated_by:currentUser.id};
+    const {data,error}=await supabase.from("viaggi").update(payload).eq("id",viaggio.id).select().single();
+    if(error)throw error;
+    viaggio={...viaggio,...data};
+    renderClosure();
+    showSuccess("Viaggio chiuso correttamente. Dati operativi e consuntivo sono ora bloccati.");
+  }catch(error){showError("Impossibile chiudere il viaggio: "+error.message);}
+  finally{btn.textContent="Chiudi viaggio";renderClosure();}
+}
+
+async function reopenTrip(){
+  hideMessage();
+  const btn=document.getElementById("reopenTripButton");
+  btn.disabled=true; btn.textContent="Riapertura...";
+  try{
+    const payload={chiuso:false,chiuso_at:null,chiuso_by:null,updated_by:currentUser.id};
+    const {data,error}=await supabase.from("viaggi").update(payload).eq("id",viaggio.id).select().single();
+    if(error)throw error;
+    viaggio={...viaggio,...data};
+    renderClosure();
+    showSuccess("Viaggio riaperto. Puoi modificare nuovamente dati e consuntivo.");
+  }catch(error){showError("Impossibile riaprire il viaggio: "+error.message);}
+  finally{btn.disabled=false;btn.textContent="Riapri viaggio";}
+}
+
+document.getElementById("closeTripButton")?.addEventListener("click",closeTrip);
+document.getElementById("reopenTripButton")?.addEventListener("click",reopenTrip);
 
 /* =========================
    VISUALIZZAZIONE
@@ -2834,6 +2947,10 @@ function render(){
 function openEditor(){
 
   hideMessage();
+  if(viaggio?.chiuso){
+    showError("Il viaggio è chiuso. Riaprilo prima di modificare i dati operativi.");
+    return;
+  }
 
   document
     .getElementById("viewMode")
@@ -3416,6 +3533,7 @@ async function loadDocuments(){
   data || [];
 
   renderDocuments();
+  renderClosure();
 }
 
 
