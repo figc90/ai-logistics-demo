@@ -1067,11 +1067,28 @@ input:disabled{
   </div>
 
   <div class="field">
-
-    <div class="label">Costo previsto</div>
-
+    <div class="label">Costo mezzo previsto</div>
     <div id="vCosto" class="value">-</div>
+  </div>
 
+  <div class="field">
+    <div class="label">Costo carburante previsto</div>
+    <div id="vCostoCarburante" class="value">-</div>
+  </div>
+
+  <div class="field">
+    <div class="label">Ore autista previste</div>
+    <div id="vOreAutista" class="value">-</div>
+  </div>
+
+  <div class="field">
+    <div class="label">Costo autista previsto</div>
+    <div id="vCostoAutista" class="value">-</div>
+  </div>
+
+  <div class="field">
+    <div class="label">Costo totale viaggio</div>
+    <div id="vCostoTotale" class="value">-</div>
   </div>
 
   <div class="field full">
@@ -1238,6 +1255,11 @@ input:disabled{
       min="0"
       step="0.01">
 
+  </div>
+
+  <div class="form-group">
+    <label for="eOreAutista">Ore autista previste</label>
+    <input id="eOreAutista" type="number" min="0" step="0.25">
   </div>
 
   <div class="form-group full">
@@ -2293,6 +2315,15 @@ function render(){
       : "-"
   );
 
+  const euroValue = value => value != null
+    ? Number(value).toLocaleString("it-IT", {style:"currency", currency:"EUR"})
+    : "-";
+
+  text("vCostoCarburante", euroValue(viaggio.costo_carburante_previsto));
+  text("vOreAutista", viaggio.ore_autista_previste != null ? Number(viaggio.ore_autista_previste).toLocaleString("it-IT") + " h" : "-");
+  text("vCostoAutista", euroValue(viaggio.costo_autista_previsto));
+  text("vCostoTotale", euroValue(viaggio.costo_totale_previsto));
+
   text(
     "vNote",
     viaggio.note
@@ -2452,6 +2483,8 @@ function openEditor(){
     viaggio.costo_previsto ??
     "";
 
+  document.getElementById("eOreAutista").value = viaggio.ore_autista_previste ?? "";
+
   document
     .getElementById("eNote")
     .value =
@@ -2562,6 +2595,13 @@ async ()=>{
       )
     : null;
 
+  const oreAutista = Number(document.getElementById("eOreAutista").value) || 0;
+  const costoAutistaOra = Number(viaggio.costo_autista_ora) || 0;
+  const costoAutistaPrevisto = oreAutista * costoAutistaOra;
+  const costoMezzoPrevisto = Number(document.getElementById("eCosto").value) || 0;
+  const costoCarburantePrevisto = Number(viaggio.costo_carburante_previsto) || 0;
+  const costoTotalePrevisto = costoMezzoPrevisto + costoCarburantePrevisto + costoAutistaPrevisto;
+
   const payload = {
 
     vettore:
@@ -2627,6 +2667,12 @@ async ()=>{
         .getElementById("eCosto")
         .value
     ),
+
+    costo_mezzo_previsto: costoMezzoPrevisto > 0 ? Number(costoMezzoPrevisto.toFixed(2)) : null,
+    ore_autista_previste: oreAutista > 0 ? oreAutista : null,
+    costo_autista_ora: costoAutistaOra > 0 ? costoAutistaOra : null,
+    costo_autista_previsto: costoAutistaPrevisto > 0 ? Number(costoAutistaPrevisto.toFixed(2)) : null,
+    costo_totale_previsto: costoTotalePrevisto > 0 ? Number(costoTotalePrevisto.toFixed(2)) : null,
 
     note:
     emptyToNull(

@@ -902,6 +902,25 @@ Arrivo previsto
 
 <div class="form-group">
 
+<label for="oreAutista">
+Ore autista previste
+</label>
+
+<input
+id="oreAutista"
+type="number"
+min="0"
+step="0.25"
+placeholder="Calcolate da partenza/arrivo">
+
+<div class="field-helper">
+Calcolate automaticamente dalle date previste. Puoi correggerle se necessario.
+</div>
+
+</div>
+
+<div class="form-group">
+
 <label for="kmPrevisti">
 Km previsti
 </label>
@@ -1032,6 +1051,22 @@ Litri previsti × prezzo €/l
 
 </div>
 
+<div class="cost-box">
+
+<div class="cost-label">
+Costo autista
+</div>
+
+<div id="costoAutistaDisplay" class="cost-value">
+€ 0,00
+</div>
+
+<div class="cost-note" id="costoAutistaNote">
+Costo standard aziendale × ore previste
+</div>
+
+</div>
+
 <div class="cost-box total">
 
 <div class="cost-label">
@@ -1045,7 +1080,7 @@ class="cost-value">
 </div>
 
 <div class="cost-note">
-Mezzo + carburante · autista escluso
+Mezzo + carburante + autista
 </div>
 
 </div>
@@ -1131,6 +1166,7 @@ let selectedVettoreId = null;
 let selectedMezzoId = null;
 let selectedMezzoCostoKm = 0;
 let selectedAutistaId = null;
+let costoAutistaAziendale = 0;
 
 function emptyToNull(value){
 
@@ -1329,6 +1365,18 @@ async function protectPage(){
   profile.email ||
   currentUser.email ||
   "-";
+
+  const { data:aziendaCosti, error:aziendaCostiError } = await supabase
+    .from("aziende")
+    .select("preventivi_costo_autista")
+    .eq("id", profile.azienda_id)
+    .single();
+
+  if(aziendaCostiError){
+    console.warn("Costo autista aziendale non disponibile:", aziendaCostiError);
+  }
+
+  costoAutistaAziendale = numberValue(aziendaCosti?.preventivi_costo_autista);
 
   document.body.classList.add(
     "auth-ready"
@@ -1917,6 +1965,18 @@ applyMezzo
 
 /* CALCOLO COSTI */
 
+function calculatePlannedDriverHours(){
+  const partenza = $("dataPartenza").value;
+  const arrivo = $("dataArrivo").value;
+  if(!partenza || !arrivo) return;
+  const start = new Date(partenza);
+  const end = new Date(arrivo);
+  const hours = (end - start) / 3600000;
+  if(Number.isFinite(hours) && hours >= 0){
+    $("oreAutista").value = (Math.round(hours * 4) / 4).toFixed(2);
+  }
+}
+
 function calculateCosts(){
 
   const km =
@@ -1954,9 +2014,13 @@ function calculateCosts(){
   litri *
   prezzoCarburante;
 
+  const oreAutista = numberValue($("oreAutista").value);
+  const costoAutista = oreAutista * costoAutistaAziendale;
+
   const costoTotale =
   costoMezzo +
-  costoCarburante;
+  costoCarburante +
+  costoAutista;
 
   /*
    * Manteniamo costo_previsto
@@ -1986,11 +2050,20 @@ function calculateCosts(){
   .textContent =
   euro(costoCarburante);
 
+  $("costoAutistaDisplay").textContent = euro(costoAutista);
+  $("costoAutistaNote").textContent =
+    "€ " + costoAutistaAziendale.toFixed(2).replace(".", ",") + " /h × " +
+    oreAutista.toFixed(2).replace(".", ",") + " h";
+
   $("costoTotaleDisplay")
   .textContent =
   euro(costoTotale);
 
 }
+
+$("dataPartenza").addEventListener("change", ()=>{ calculatePlannedDriverHours(); calculateCosts(); });
+$("dataArrivo").addEventListener("change", ()=>{ calculatePlannedDriverHours(); calculateCosts(); });
+$("oreAutista").addEventListener("input", calculateCosts);
 
 $("kmPrevisti").addEventListener(
 "input",
@@ -2314,9 +2387,13 @@ async event=>{
   const costoCarburante =
   litri * prezzo;
 
+  const oreAutista = numberValue($("oreAutista").value);
+  const costoAutista = oreAutista * costoAutistaAziendale;
+
   const costoTotale =
   costoMezzo +
-  costoCarburante;
+  costoCarburante +
+  costoAutista;
 
   const saveButton =
   $("saveButton");
@@ -2438,6 +2515,15 @@ async event=>{
           costoTotale.toFixed(2)
         )
       : null,
+
+      ore_autista_previste:
+      oreAutista > 0 ? Number(oreAutista.toFixed(2)) : null,
+
+      costo_autista_ora:
+      costoAutistaAziendale > 0 ? Number(costoAutistaAziendale.toFixed(2)) : null,
+
+      costo_autista_previsto:
+      costoAutista > 0 ? Number(costoAutista.toFixed(2)) : null,
 
       note:
       emptyToNull(
