@@ -228,12 +228,15 @@ async function loadLinkedPractice(){
  $("colli").value=pratica.colli??"";
  $("peso").value=pratica.peso_kg??"";
  $("volume").value=pratica.volume_m3??"";
+ // Eredita automaticamente dalla pratica il ritorno a vuoto.
+ $("ritornoVuoto").checked=Boolean(pratica.ritorno_vuoto);
  findCliente();
  const title=document.querySelector(".page-title h1");
  if(title) title.textContent="Nuovo preventivo da pratica "+(pratica.numero_pratica||"");
  const subtitle=document.querySelector(".page-title p");
  if(subtitle) subtitle.textContent="Dati trasporto precompilati dalla pratica. Completa ritorno, operazioni e condizioni commerciali.";
  await autoRoute();
+ if($("ritornoVuoto").checked) await calcReturnRoute();
  await history();
 }
 async function boot(){
