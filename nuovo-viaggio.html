@@ -817,15 +817,17 @@ Seleziona un mezzo della flotta per collegarlo al viaggio.
 
 <div class="form-group">
 
-<label for="autista">Autista</label>
-<input id="autista" type="text">
+<label for="autistaId">Autista</label>
+<select id="autistaId">
+<option value="">Nessun autista assegnato</option>
+</select>
 
 </div>
 
 <div class="form-group">
 
 <label for="telefonoAutista">Telefono autista</label>
-<input id="telefonoAutista" type="tel">
+<input id="telefonoAutista" type="tel" readonly placeholder="Compilato automaticamente">
 
 </div>
 
@@ -1114,6 +1116,7 @@ let currentProfile = null;
 let practices = [];
 let vettori = [];
 let mezzi = [];
+let autisti = [];
 
 let selectedVettoreId = null;
 let selectedMezzoId = null;
@@ -1353,6 +1356,7 @@ async function loadVettori(){
     ragione_sociale,
     attiva
   `)
+  .eq("azienda_id", currentProfile.azienda_id)
   .eq("attiva",true)
   .in(
     "tipo",
@@ -1609,6 +1613,38 @@ tryMatchVettoreByName
 );
 
 /* FLOTTA */
+
+async function loadAutisti(){
+  const {data,error} = await supabase
+    .from("autisti")
+    .select("id,nome,cognome,telefono,email,targa_mezzo,attivo")
+    .eq("azienda_id", currentProfile.azienda_id)
+    .eq("attivo", true)
+    .order("cognome", {ascending:true})
+    .order("nome", {ascending:true});
+  if(error){ throw error; }
+  autisti = data || [];
+  const select = $("autistaId");
+  select.innerHTML = '<option value="">Nessun autista assegnato</option>';
+  autisti.forEach(autista=>{
+    const option = document.createElement("option");
+    option.value = autista.id;
+    const nome = ((autista.nome || "") + " " + (autista.cognome || "")).trim();
+    option.textContent = nome + (autista.targa_mezzo ? " · " + autista.targa_mezzo : "");
+    select.appendChild(option);
+  });
+}
+
+function selectedAutista(){
+  return autisti.find(a => String(a.id) === String($("autistaId").value)) || null;
+}
+
+function syncAutista(){
+  const autista = selectedAutista();
+  $("telefonoAutista").value = autista?.telefono || "";
+}
+
+$("autistaId").addEventListener("change", syncAutista);
 
 async function loadMezzi(){
 
@@ -1879,7 +1915,8 @@ async function loadPractices(){
   } =
   await supabase
   .from("viaggi")
-  .select("pratica_id");
+  .select("pratica_id")
+  .eq("azienda_id", currentProfile.azienda_id);
 
   if(tripError){
     throw tripError;
@@ -1911,6 +1948,7 @@ async function loadPractices(){
     vettore,
     vettore_id
   `)
+  .eq("azienda_id", currentProfile.azienda_id)
   .order(
     "created_at",
     {ascending:false}
@@ -2213,15 +2251,20 @@ async event=>{
       mezzo_id:
       selectedMezzoId,
 
+      autista_id:
+      selectedAutista()
+        ? selectedAutista().id
+        : null,
+
       autista:
-      emptyToNull(
-        $("autista").value
-      ),
+      selectedAutista()
+        ? emptyToNull(((selectedAutista().nome || "") + " " + (selectedAutista().cognome || "")).trim())
+        : null,
 
       telefono_autista:
-      emptyToNull(
-        $("telefonoAutista").value
-      ),
+      selectedAutista()
+        ? emptyToNull(selectedAutista().telefono)
+        : null,
 
       targa_trattore:
       emptyToNull(
@@ -2374,8 +2417,11 @@ async function start(){
       return;
     }
 
-    await loadVettori();
-    await loadMezzi();
+    await Promise.all([
+      loadVettori(),
+      loadMezzi(),
+      loadAutisti()
+    ]);
     await loadPractices();
 
   }

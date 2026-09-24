@@ -1,0 +1,69 @@
+MATRI-MIA LOGISTICS - AUDIT COMPLETO FRONTEND
+Data: 24/09/2026
+
+AMBITO CONTROLLATO
+- Tutti i file HTML e JavaScript presenti nello ZIP consegnato.
+- Collegamenti interni tra pagine.
+- Autenticazione e instradamento ruolo autista nel frontend.
+- Pratiche, viaggi, preventivi, anagrafiche, autisti, flotta, impostazioni, documenti e AI lato frontend.
+- Coerenza dei riferimenti a Supabase e delle principali relazioni usate dal frontend.
+
+CORREZIONI APPLICATE
+1. NUOVO VIAGGIO - AUTISTA
+   - Sostituito il campo autista manuale con selezione degli autisti attivi dell'azienda.
+   - Il telefono viene compilato automaticamente dall'anagrafica autista.
+   - Il viaggio salva ora autista_id oltre ai campi testuali autista e telefono_autista mantenuti per compatibilità.
+   - La logica è stata allineata a dettaglio-viaggio.html e all'Area Autista.
+
+2. NUOVO VIAGGIO - SEPARAZIONE AZIENDA
+   - Il caricamento vettori è ora esplicitamente filtrato per azienda_id.
+   - Il controllo delle pratiche già associate a viaggi è ora filtrato per azienda_id.
+   - Il caricamento delle pratiche disponibili è ora esplicitamente filtrato per azienda_id.
+   - Mezzi e autisti sono caricati per azienda_id e solo se attivi.
+
+3. AREA AUTISTA - LINK OBSOLETI
+   - Corrette tre pagine Preventivi che rimandavano a area-autista.html, file inesistente.
+   - Ora il ruolo autista viene rimandato a autista.html, coerentemente con il resto dell'app.
+
+4. PROTEZIONE PAGINE AMMINISTRATIVE
+   - Aggiunto admin-role-guard.js alle pagine amministrative che ne erano prive e che non devono essere usate dall'autista:
+     flotta.html
+     dettaglio-mezzo.html
+     nuovo-mezzo.html
+     impostazioni.html
+     genera-documento.html
+     preventivi.html
+     nuovo-preventivo.html
+     dettaglio-preventivo.html
+
+5. COLLEGAMENTI INTERNI
+   - Verificati i riferimenti a pagine HTML presenti nel progetto.
+   - Dopo le correzioni non risultano riferimenti interni a pagine HTML inesistenti.
+   - Non risultano ID HTML duplicati nei file analizzati.
+
+COERENZE CONFERMATE
+- dettaglio-viaggio.html utilizza autista_id e mantiene i campi testuali legacy per compatibilità.
+- autista.html e viaggio-autista.html lavorano sulla relazione viaggi.autista_id.
+- nuovo-viaggio.html utilizza mezzo_id e i campi snapshot dei costi/consumi già introdotti.
+- costo_previsto resta compatibile con il costo mezzo; i campi dedicati gestiscono carburante e totale.
+- dettaglio-pratica.html usa la Edge Function analizza-pratica.
+- genera-documento.html usa la Edge Function genera-documento.
+- nuovo-preventivo.html usa la Edge Function calcola-percorso.
+
+ELEMENTI DA NON CONSIDERARE VERIFICATI DAL SOLO ZIP
+Lo ZIP contiene il frontend ma non contiene lo schema SQL completo del progetto Supabase, tutte le RLS policies, i GRANT, i trigger/funzioni DB e il codice di tutte le Edge Functions. Pertanto l'audit può verificare come il frontend le usa, ma non può certificare la configurazione backend non inclusa nello ZIP.
+
+In particolare, alcune pagine elenco si affidano apparentemente alle RLS per la separazione aziendale invece di aggiungere sempre .eq("azienda_id", ...). Questo può essere corretto se le RLS sono configurate come previsto, ma va verificato direttamente sul database prima di considerare concluso l'audit di sicurezza multi-tenant.
+
+TEST CONSIGLIATI DOPO IL DEPLOY
+1. Login amministratore.
+2. Nuovo viaggio: verificare menu Autista e compilazione automatica telefono.
+3. Creare viaggio e verificare autista_id in dettaglio viaggio/Area Autista.
+4. Verificare selezione mezzo, km, costo mezzo, consumo, carburante e totale.
+5. Verificare Pratiche -> Dettaglio -> AI -> Genera documento.
+6. Verificare Preventivi e calcolo percorso.
+7. Login con account autista e tentare accesso diretto alle pagine amministrative: deve tornare ad autista.html.
+8. Verificare che un utente di un'azienda non possa leggere/modificare record di un'altra azienda (test RLS backend).
+
+NOTA
+Non sono state effettuate riscritture grafiche o cambiamenti ai flussi che non fossero necessari per correggere incongruenze ad alta confidenza. Le funzionalità esistenti sono state mantenute.
