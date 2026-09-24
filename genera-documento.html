@@ -25,14 +25,14 @@ button.primary:disabled{opacity:.55;cursor:not-allowed}.preview{font-size:14px;l
 <body>
 <header><div class="brand">MatRi-m<span>IA</span> Logistics</div><div id="userInfo" class="user"></div></header>
 <main>
-<div class="top"><div><h1>Genera documento</h1><div class="sub">Un unico motore per DDT, CMR, ordine di trasporto e preventivo.</div></div><button class="back" onclick="history.back()">← Indietro</button></div>
+<div class="top"><div><h1>Genera documento</h1><div class="sub">Template professionali per DDT, CMR internazionale, POD, Transport Order e Quotation.</div></div><button class="back" onclick="history.back()">← Indietro</button></div>
 <div id="message" class="msg"></div>
 <div class="grid">
 <section class="card">
 <h2>Documento</h2>
 <div class="field"><label for="practice">Pratica</label><select id="practice"><option value="">Caricamento...</option></select></div>
 <div class="field"><label for="type">Tipo documento</label><select id="type">
-<option value="DDT">DDT</option><option value="CMR">CMR</option><option value="ORDINE_TRASPORTO">Ordine di trasporto</option><option value="PREVENTIVO">Preventivo</option>
+<option value="DDT">DDT</option><option value="CMR">CMR internazionale</option><option value="POD">POD / Proof of Delivery</option><option value="ORDINE_TRASPORTO">Transport Order / Ordine di trasporto</option><option value="PREVENTIVO">Quotation / Preventivo</option>
 </select></div>
 
 <div id="ddtFields" class="extra show">
@@ -44,6 +44,11 @@ button.primary:disabled{opacity:.55;cursor:not-allowed}.preview{font-size:14px;l
 <div id="cmrFields" class="extra">
 <div class="field"><label>Mittente (facoltativo)</label><input id="mittente" placeholder="Se vuoto usa l'azienda"></div>
 <div class="field"><label>Destinatario (facoltativo)</label><input id="destinatario" placeholder="Se vuoto usa il cliente"></div>
+</div>
+
+<div id="podFields" class="extra">
+<div class="field"><label>Nome ricevente / Receiver name</label><input id="ricevente" placeholder="Facoltativo"></div>
+<div class="field"><label>Riserve / Exceptions</label><textarea id="riserve" placeholder="Es. merce integra, imballo danneggiato..."></textarea></div>
 </div>
 
 <div id="orderFields" class="extra">
@@ -129,7 +134,7 @@ async function loadPractices(){
    if(found){$("practice").value=found.id;}
  }
  const requestedType=q.get("tipo");
- if(requestedType && ["DDT","CMR","ORDINE_TRASPORTO","PREVENTIVO"].includes(requestedType)){
+ if(requestedType && ["DDT","CMR","POD","ORDINE_TRASPORTO","PREVENTIVO"].includes(requestedType)){
    $("type").value=requestedType; changeType();
  }
  renderPreview();
@@ -158,10 +163,11 @@ function renderPreview(){
 }
 
 function changeType(){
- ["ddtFields","cmrFields","orderFields","quoteFields"].forEach(id=>$(id).classList.remove("show"));
+ ["ddtFields","cmrFields","podFields","orderFields","quoteFields"].forEach(id=>$(id).classList.remove("show"));
  const t=$("type").value;
  if(t==="DDT")$("ddtFields").classList.add("show");
  if(t==="CMR")$("cmrFields").classList.add("show");
+ if(t==="POD")$("podFields").classList.add("show");
  if(t==="ORDINE_TRASPORTO")$("orderFields").classList.add("show");
  if(t==="PREVENTIVO")$("quoteFields").classList.add("show");
 }
@@ -171,6 +177,7 @@ function extras(){
  const common={note:$("note").value.trim()||null};
  if(t==="DDT")return {...common,causale:$("causale").value.trim()||null,aspetto_beni:$("aspetto").value.trim()||null,porto:$("porto").value.trim()||null};
  if(t==="CMR")return {...common,mittente:$("mittente").value.trim()||null,destinatario:$("destinatario").value.trim()||null};
+ if(t==="POD")return {...common,ricevente:$("ricevente").value.trim()||null,riserve:$("riserve").value.trim()||null};
  if(t==="ORDINE_TRASPORTO")return {...common,riferimento:$("riferimento").value.trim()||null,istruzioni:$("istruzioni").value.trim()||null};
  if(t==="PREVENTIVO")return {...common,prezzo:$("prezzo").value.trim(),validita:$("validita").value.trim()||null,condizioni:$("condizioni").value.trim()||null};
  return common;
