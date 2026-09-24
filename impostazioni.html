@@ -234,11 +234,6 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
 </div>
 <div>
 <div class="check-row"><label class="check"><input id="modelActive" type="checkbox" checked> Modello attivo</label><label class="check"><input id="modelLogo" type="checkbox" checked> Mostra logo aziendale</label><label class="check"><input id="modelCompany" type="checkbox" checked> Mostra dati azienda</label></div>
-<div class="color-row">
-<div class="form-group"><label>COLORE PRIMARIO</label><div class="color-input"><input id="primaryColorPicker" type="color" value="#183B63"><input id="primaryColor" value="#183B63"></div></div>
-<div class="form-group"><label>COLORE SECONDARIO</label><div class="color-input"><input id="secondaryColorPicker" type="color" value="#18A7A0"><input id="secondaryColor" value="#18A7A0"></div></div>
-<div class="form-group"><label>COLORE TESTO SU PRIMARIO</label><div class="color-input"><input id="primaryTextColorPicker" type="color" value="#FFFFFF"><input id="primaryTextColor" value="#FFFFFF"></div><div class="hint">Usato su intestazioni e fasce con il colore primario. Esempio: bianco su blu/navy, nero su colori molto chiari.</div></div>
-</div>
 <div class="form-group"><label>NOTE PREDEFINITE</label><textarea id="defaultNotes" placeholder="Testo inserito automaticamente nel documento"></textarea></div>
 <div class="helper">Ogni tipo di documento ha una configurazione separata. I dati sono salvati per la tua azienda.</div>
 </div>
@@ -264,7 +259,6 @@ function clearMessage(el){el.className="message";el.textContent=""}
 function escapeHtml(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 function providerLabel(p){p=String(p||"").toLowerCase();return p==="google"?"Gmail":p==="microsoft"?"Outlook / Microsoft":p||"Email"}
 function empty(v){v=String(v??"").trim();return v||null}
-function validHex(v){return /^#[0-9a-fA-F]{6}$/.test(v)}
 
 async function protect(){
  const {data:{session},error}=await supabase.auth.getSession();
@@ -350,15 +344,11 @@ async function loadModel(type){
  $("saveModelButton").textContent="Salva modello "+type.replaceAll("_"," ");
 }
 document.querySelectorAll(".doc-tab").forEach(b=>b.addEventListener("click",()=>loadModel(b.dataset.type)));
-$("primaryColorPicker").oninput=e=>$("primaryColor").value=e.target.value;$("secondaryColorPicker").oninput=e=>$("secondaryColor").value=e.target.value;$("primaryTextColorPicker").oninput=e=>$("primaryTextColor").value=e.target.value;
-$("primaryColor").oninput=e=>{if(validHex(e.target.value))$("primaryColorPicker").value=e.target.value};$("secondaryColor").oninput=e=>{if(validHex(e.target.value))$("secondaryColorPicker").value=e.target.value};$("primaryTextColor").oninput=e=>{if(validHex(e.target.value))$("primaryTextColorPicker").value=e.target.value};
-
 $("modelForm").addEventListener("submit",async e=>{
  e.preventDefault();clearMessage($("modelMessage"));
- if(!validHex($("primaryColor").value)||!validHex($("secondaryColor").value)||!validHex($("primaryTextColor").value)){showMessage($("modelMessage"),"error","I colori devono essere nel formato #RRGGBB.");return}
  $("saveModelButton").disabled=true;
  try{
-  const payload={azienda_id:currentProfile.azienda_id,tipo:currentModelType,attivo:$("modelActive").checked,titolo:empty($("modelTitle").value),mostra_logo:$("modelLogo").checked,mostra_dati_azienda:$("modelCompany").checked,intestazione:empty($("modelHeader").value),pie_pagina:empty($("modelFooter").value),colore_primario:$("primaryColor").value.toUpperCase(),colore_secondario:$("secondaryColor").value.toUpperCase(),colore_testo_primario:$("primaryTextColor").value.toUpperCase(),note_predefinite:empty($("defaultNotes").value),updated_at:new Date().toISOString()};
+  const payload={azienda_id:currentProfile.azienda_id,tipo:currentModelType,attivo:$("modelActive").checked,titolo:empty($("modelTitle").value),mostra_logo:$("modelLogo").checked,mostra_dati_azienda:$("modelCompany").checked,intestazione:empty($("modelHeader").value),pie_pagina:empty($("modelFooter").value),note_predefinite:empty($("defaultNotes").value),updated_at:new Date().toISOString()};
   const {error}=await supabase.from("modelli_documenti").upsert(payload,{onConflict:"azienda_id,tipo"});if(error)throw error;
   showMessage($("modelMessage"),"success","Modello "+currentModelType.replaceAll("_"," ")+" salvato correttamente.");
  }catch(err){console.error(err);showMessage($("modelMessage"),"error","Salvataggio modello non riuscito: "+err.message)}finally{$("saveModelButton").disabled=false}
