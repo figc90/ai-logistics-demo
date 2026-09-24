@@ -9,6 +9,31 @@ const SUPABASE_URL="https://sctzockiurjsxzdkctmy.supabase.co";const SUPABASE_KEY
 const $=id=>document.getElementById(id);let profile=null,company=null;
 function csv(rows){if(!rows?.length)return "";const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];const q=v=>{if(v===null||v===undefined)return "";let s=typeof v==="object"?JSON.stringify(v):String(v);return /[\",\n\r;]/.test(s)?'"'+s.replaceAll('"','""')+'"':s};return keys.map(q).join(";")+"\n"+rows.map(r=>keys.map(k=>q(r[k])).join(";")).join("\n")}
 function safe(s){return String(s||"file").replace(/[\\/:*?"<>|]/g,"_").slice(0,140)}
+function makeWorkbook(rows,sheetName="Dati"){
+  const data=Array.isArray(rows)?rows:[];
+  const normalized=data.map(row=>{const out={};for(const [k,v] of Object.entries(row||{})){out[k]=(v&&typeof v==="object")?JSON.stringify(v):v}return out});
+  const ws=XLSX.utils.json_to_sheet(normalized.length?normalized:[{}],{skipHeader:false});
+  const range=XLSX.utils.decode_range(ws["!ref"]||"A1:A1");
+  ws["!autofilter"]={ref:XLSX.utils.encode_range({s:{r:0,c:0},e:{r:Math.max(0,range.e.r),c:range.e.c}})};
+  const keys=normalized.length?Object.keys(normalized[0]):[];
+  ws["!cols"]=(keys.length?keys:["Dati"]).map((k,idx)=>{
+    let max=String(k).length;
+    for(const r of normalized.slice(0,500)){const v=Object.values(r)[idx];max=Math.max(max,String(v??"").length)}
+    return {wch:Math.min(Math.max(max+2,12),45)};
+  });
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,safe(sheetName).slice(0,31)||"Dati");
+  return XLSX.write(wb,{bookType:"xlsx",type:"array"});
+}
+function uniqueFileName(folder,name,used){
+  const clean=safe(name||"documento");
+  const dot=clean.lastIndexOf(".");
+  const base=dot>0?clean.slice(0,dot):clean;
+  const ext=dot>0?clean.slice(dot):"";
+  let candidate=clean,n=2,key=`${folder}/${candidate}`.toLowerCase();
+  while(used.has(key)){candidate=`${base} (${n++})${ext}`;key=`${folder}/${candidate}`.toLowerCase()}
+  used.add(key);return candidate;
+}
 function log(name,count,status="ok"){const box=$("log");box.style.display="block";const d=document.createElement("div");d.className="log-row";d.innerHTML=`<span>${name}</span><strong class="${status}">${count}</strong>`;box.appendChild(d)}
 async function getTable(table,filter=true){let q=sb.from(table).select("*");if(filter)q=q.eq("azienda_id",profile.azienda_id);const {data,error}=await q;if(error)throw error;return data||[]}
 async function init(){const {data:{session}}=await sb.auth.getSession();if(!session){location.href="login.html";return}$("userEmail").textContent=session.user.email||"";const {data:p,error}=await sb.from("profiles").select("id,email,ruolo,azienda_id").eq("id",session.user.id).single();if(error||!p){location.href="login.html";return}if(String(p.ruolo||"").toLowerCase()==="autista"){location.href="autista.html";return}profile=p;const {data:a}=await sb.from("aziende").select("*").eq("id",p.azienda_id).single();company=a||null;document.body.style.visibility="visible"}
