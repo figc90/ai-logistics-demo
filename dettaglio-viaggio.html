@@ -1308,6 +1308,29 @@ input:disabled{
 </section>
 
 <!-- =========================
+     REDDITIVITÀ VIAGGIO
+========================= -->
+
+<section class="card" id="profitabilityCard">
+<div class="card-header">
+  <h2>Redditività viaggio</h2>
+  <a id="profitQuoteLink" href="#" class="registry-link" style="display:none">Apri preventivo →</a>
+</div>
+<div class="card-body">
+  <div class="fields">
+    <div class="field"><div class="label">Ricavo cliente</div><div id="profitRevenue" class="value">-</div></div>
+    <div class="field"><div class="label">Costo mezzo</div><div id="profitVehicle" class="value">-</div></div>
+    <div class="field"><div class="label">Costo carburante</div><div id="profitFuel" class="value">-</div></div>
+    <div class="field"><div class="label">Costo autista</div><div id="profitDriver" class="value">-</div></div>
+    <div class="field"><div class="label">Costo totale viaggio</div><div id="profitTotalCost" class="value">-</div></div>
+    <div class="field"><div class="label">Margine €</div><div id="profitMarginEuro" class="value">-</div></div>
+    <div class="field"><div class="label">Margine %</div><div id="profitMarginPercent" class="value">-</div></div>
+    <div class="field full"><div class="label">Origine ricavo</div><div id="profitSource" class="value">Verifica preventivo collegato...</div></div>
+  </div>
+</div>
+</section>
+
+<!-- =========================
      DOCUMENTI
 ========================= -->
 
@@ -2146,9 +2169,79 @@ async function load(){
 
   render();
 
+  await loadProfitability();
   await loadDocuments();
 }
 
+
+/* =========================
+   REDDITIVITÀ VIAGGIO
+========================= */
+
+async function loadProfitability(){
+  const eur = value => Number(value || 0).toLocaleString("it-IT", {style:"currency", currency:"EUR"});
+  const link = document.getElementById("profitQuoteLink");
+  link.style.display = "none";
+  link.removeAttribute("href");
+
+  const costoMezzo = Number(viaggio?.costo_mezzo_previsto ?? viaggio?.costo_previsto ?? 0);
+  const costoCarburante = Number(viaggio?.costo_carburante_previsto ?? 0);
+  const costoAutista = Number(viaggio?.costo_autista_previsto ?? 0);
+  const costoTotaleSalvato = Number(viaggio?.costo_totale_previsto ?? 0);
+  const costoTotale = costoTotaleSalvato > 0 ? costoTotaleSalvato : costoMezzo + costoCarburante + costoAutista;
+
+  text("profitVehicle", eur(costoMezzo));
+  text("profitFuel", eur(costoCarburante));
+  text("profitDriver", eur(costoAutista));
+  text("profitTotalCost", eur(costoTotale));
+
+  if(!viaggio?.pratica_id){
+    text("profitRevenue", "-");
+    text("profitMarginEuro", "-");
+    text("profitMarginPercent", "-");
+    text("profitSource", "Viaggio non collegato a una pratica: ricavo non disponibile.");
+    return;
+  }
+
+  const {data, error} = await supabase
+    .from("preventivi")
+    .select("id,numero_preventivo,stato,prezzo_finale,created_at")
+    .eq("pratica_id", viaggio.pratica_id)
+    .order("created_at", {ascending:false});
+
+  if(error){
+    console.warn("Redditività viaggio:", error);
+    text("profitRevenue", "-");
+    text("profitMarginEuro", "-");
+    text("profitMarginPercent", "-");
+    text("profitSource", "Impossibile leggere il preventivo collegato.");
+    return;
+  }
+
+  const preventivi = data || [];
+  const quote = preventivi.find(q => String(q.stato || "").toUpperCase() === "ACCETTATO" && q.prezzo_finale != null)
+    || preventivi.find(q => q.prezzo_finale != null);
+
+  if(!quote){
+    text("profitRevenue", "-");
+    text("profitMarginEuro", "-");
+    text("profitMarginPercent", "-");
+    text("profitSource", "Nessun preventivo con prezzo finale collegato alla pratica.");
+    return;
+  }
+
+  const ricavo = Number(quote.prezzo_finale || 0);
+  const margineEuro = ricavo - costoTotale;
+  const marginePercent = ricavo > 0 ? (margineEuro / ricavo) * 100 : null;
+
+  text("profitRevenue", eur(ricavo));
+  text("profitMarginEuro", eur(margineEuro));
+  text("profitMarginPercent", marginePercent == null ? "-" : marginePercent.toLocaleString("it-IT", {minimumFractionDigits:1, maximumFractionDigits:1}) + " %");
+  text("profitSource", (quote.numero_preventivo || "Preventivo") + " · " + String(quote.stato || "").replaceAll("_", " "));
+
+  link.href = "dettaglio-preventivo.html?id=" + encodeURIComponent(quote.id);
+  link.style.display = "inline-flex";
+}
 
 /* =========================
    VISUALIZZAZIONE
@@ -2761,6 +2854,7 @@ async ()=>{
     closeEditor();
 
     render();
+    await loadProfitability();
 
     showSuccess(
       selectedAutista
