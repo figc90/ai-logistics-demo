@@ -1415,9 +1415,9 @@ input:disabled{
   </div>
 
   <div class="fields" style="margin-top:18px">
-    <div class="field"><div class="label">Costo mezzo consuntivo</div><div id="aCostoMezzo" class="value">-</div></div>
-    <div class="field"><div class="label">Costo carburante consuntivo</div><div id="aCostoCarburante" class="value">-</div></div>
-    <div class="field"><div class="label">Costo autista consuntivo</div><div id="aCostoAutista" class="value">-</div></div>
+    <div class="field"><div class="label">Costo km extra</div><div id="aCostoMezzo" class="value">-</div></div>
+    <div class="field"><div class="label">Costo carburante extra</div><div id="aCostoCarburante" class="value">-</div></div>
+    <div class="field"><div class="label">Costo autista extra</div><div id="aCostoAutista" class="value">-</div></div>
     <div class="field"><div class="label">Costo totale effettivo</div><div id="aCostoTotale" class="value">-</div></div>
     <div class="field"><div class="label">Scostamento dal previsto</div><div id="aScostamento" class="value">-</div></div>
     <div class="field"><div class="label">Margine reale €</div><div id="aMargine" class="value">-</div></div>
@@ -2478,9 +2478,9 @@ function renderActualCost(){
   const margine = currentRevenue == null ? null : currentRevenue - n.totale;
   const marginePct = currentRevenue > 0 && margine != null ? (margine / currentRevenue) * 100 : null;
 
-  text("aCostoMezzo", eur(n.mezzo));
-  text("aCostoCarburante", eur(n.carburante));
-  text("aCostoAutista", eur(n.autista));
+  text("aCostoMezzo", eur(n.extraMezzo));
+  text("aCostoCarburante", eur(n.extraCarburante));
+  text("aCostoAutista", eur(n.extraAutista));
   text("aCostoTotale", eur(n.totale));
   text("aScostamento", (scostamento >= 0 ? "+" : "") + eur(scostamento));
   text("aMargine", margine == null ? "-" : eur(margine));
