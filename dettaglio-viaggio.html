@@ -1407,17 +1407,17 @@ input:disabled{
 </div>
 <div class="card-body">
   <div class="form-grid">
-    <div class="form-group"><label for="aKm">Km effettivi</label><input id="aKm" type="number" min="0" step="0.1"></div>
-    <div class="form-group"><label for="aLitri">Litri carburante effettivi</label><input id="aLitri" type="number" min="0" step="0.01"></div>
-    <div class="form-group"><label for="aOre">Ore autista effettive</label><input id="aOre" type="number" min="0" step="0.01"></div>
-    <div class="form-group"><label for="aExtra">Costi extra effettivi €</label><input id="aExtra" type="number" min="0" step="0.01" value="0"></div>
+    <div class="form-group"><label for="aKm">Km extra</label><input id="aKm" type="number" min="0" step="0.1" value="0"><div class="field-hint">Solo km oltre quelli previsti. Se non ci sono, lascia 0.</div></div>
+    <div class="form-group"><label for="aLitri">Litri carburante extra</label><input id="aLitri" type="number" min="0" step="0.01" value="0"><div class="field-hint">Solo carburante aggiuntivo rispetto al previsto.</div></div>
+    <div class="form-group"><label for="aOre">Ore autista extra</label><input id="aOre" type="number" min="0" step="0.01" value="0"><div class="field-hint">Solo ore aggiuntive rispetto al previsto.</div></div>
+    <div class="form-group"><label for="aExtra">Altri costi extra €</label><input id="aExtra" type="number" min="0" step="0.01" value="0"><div class="field-hint">Pedaggi, attese, deviazioni o altre spese non previste.</div></div>
     <div class="form-group full"><label for="aNote">Note consuntivo</label><textarea id="aNote" rows="3" placeholder="Pedaggi extra, attese, deviazioni, spese impreviste..."></textarea></div>
   </div>
 
   <div class="fields" style="margin-top:18px">
-    <div class="field"><div class="label">Costo mezzo effettivo</div><div id="aCostoMezzo" class="value">-</div></div>
-    <div class="field"><div class="label">Costo carburante effettivo</div><div id="aCostoCarburante" class="value">-</div></div>
-    <div class="field"><div class="label">Costo autista effettivo</div><div id="aCostoAutista" class="value">-</div></div>
+    <div class="field"><div class="label">Costo mezzo consuntivo</div><div id="aCostoMezzo" class="value">-</div></div>
+    <div class="field"><div class="label">Costo carburante consuntivo</div><div id="aCostoCarburante" class="value">-</div></div>
+    <div class="field"><div class="label">Costo autista consuntivo</div><div id="aCostoAutista" class="value">-</div></div>
     <div class="field"><div class="label">Costo totale effettivo</div><div id="aCostoTotale" class="value">-</div></div>
     <div class="field"><div class="label">Scostamento dal previsto</div><div id="aScostamento" class="value">-</div></div>
     <div class="field"><div class="label">Margine reale €</div><div id="aMargine" class="value">-</div></div>
@@ -2439,22 +2439,34 @@ async function loadProfitability(){
 ========================= */
 
 function actualNumbers(){
-  const km = Number(document.getElementById("aKm")?.value) || 0;
-  const litri = Number(document.getElementById("aLitri")?.value) || 0;
-  const ore = Number(document.getElementById("aOre")?.value) || 0;
+  const extraKm = Number(document.getElementById("aKm")?.value) || 0;
+  const extraLitri = Number(document.getElementById("aLitri")?.value) || 0;
+  const extraOre = Number(document.getElementById("aOre")?.value) || 0;
   const extra = Number(document.getElementById("aExtra")?.value) || 0;
 
   const kmPrevisti = Number(viaggio?.km_totali_previsti ?? viaggio?.km_previsti) || 0;
   const costoMezzoPrevisto = Number(viaggio?.costo_mezzo_previsto ?? viaggio?.costo_previsto) || 0;
+  const costoCarburantePrevisto = Number(viaggio?.costo_carburante_previsto) || 0;
+  const costoAutistaPrevisto = Number(viaggio?.costo_autista_previsto) || 0;
+
   const costoKm = kmPrevisti > 0 ? costoMezzoPrevisto / kmPrevisti : 0;
   const prezzoCarburante = Number(viaggio?.prezzo_carburante_l) || 0;
   const costoAutistaOra = Number(viaggio?.costo_autista_ora) || 0;
 
-  const mezzo = km * costoKm;
-  const carburante = litri * prezzoCarburante;
-  const autista = ore * costoAutistaOra;
+  const extraMezzo = extraKm * costoKm;
+  const extraCarburante = extraLitri * prezzoCarburante;
+  const extraAutista = extraOre * costoAutistaOra;
+
+  const mezzo = costoMezzoPrevisto + extraMezzo;
+  const carburante = costoCarburantePrevisto + extraCarburante;
+  const autista = costoAutistaPrevisto + extraAutista;
   const totale = mezzo + carburante + autista + extra;
-  return {km, litri, ore, extra, mezzo, carburante, autista, totale};
+
+  return {
+    km:extraKm, litri:extraLitri, ore:extraOre, extra,
+    extraMezzo, extraCarburante, extraAutista,
+    mezzo, carburante, autista, totale
+  };
 }
 
 function renderActualCost(){
@@ -2533,9 +2545,9 @@ function renderPlannedVsActual(){
 }
 
 function fillActualCost(){
-  document.getElementById("aKm").value = viaggio.km_effettivi ?? "";
-  document.getElementById("aLitri").value = viaggio.litri_effettivi ?? "";
-  document.getElementById("aOre").value = viaggio.ore_autista_effettive ?? "";
+  document.getElementById("aKm").value = viaggio.extra_km ?? 0;
+  document.getElementById("aLitri").value = viaggio.extra_litri ?? 0;
+  document.getElementById("aOre").value = viaggio.extra_ore_autista ?? 0;
   document.getElementById("aExtra").value = viaggio.costi_extra_effettivi ?? 0;
   document.getElementById("aNote").value = viaggio.note_consuntivo ?? "";
   renderActualCost();
@@ -2544,15 +2556,13 @@ function fillActualCost(){
 async function saveActualCost(){
   const button = document.getElementById("saveActualButton");
   const n = actualNumbers();
-  if(n.km <= 0){ showError("Inserisci i km effettivi del viaggio."); return; }
-
   button.disabled = true;
   button.textContent = "Salvataggio...";
   try{
     const payload = {
-      km_effettivi: Number(n.km.toFixed(2)),
-      litri_effettivi: n.litri > 0 ? Number(n.litri.toFixed(2)) : null,
-      ore_autista_effettive: n.ore > 0 ? Number(n.ore.toFixed(2)) : null,
+      extra_km: Number(n.km.toFixed(2)),
+      extra_litri: Number(n.litri.toFixed(2)),
+      extra_ore_autista: Number(n.ore.toFixed(2)),
       costi_extra_effettivi: Number(n.extra.toFixed(2)),
       costo_mezzo_effettivo: Number(n.mezzo.toFixed(2)),
       costo_carburante_effettivo: Number(n.carburante.toFixed(2)),

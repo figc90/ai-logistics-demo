@@ -1558,11 +1558,11 @@ tbody tr:hover{
   <div class="kpi-card kpi-marginpct">
     <div class="kpi-icon">%</div>
     <div class="kpi-label">MARGINE EFFETTIVO</div>
-    <div id="economicMarginPct" class="kpi-number">-</div>
+    <div id="economicMarginPct" class="kpi-number">0%</div>
     <div class="kpi-description">Solo viaggi con consuntivo salvato</div>
   </div>
 </div>
-<div id="economicNote" class="economic-note">Il margine effettivo considera solo i viaggi con un consuntivo salvato.</div>
+<div id="economicNote" class="economic-note">Il margine effettivo considera solo i viaggi con consuntivo salvato.</div>
 
 <div class="economic-v2-grid">
   <section class="economic-panel">
@@ -2883,16 +2883,15 @@ async function loadDashboard(){
             costo_previsto,
             costo_carburante_previsto,
             costo_autista_previsto,
-            km_effettivi,
-            litri_effettivi,
-            ore_autista_effettive,
+            extra_km,
+            extra_litri,
+            extra_ore_autista,
             costi_extra_effettivi,
             costo_mezzo_effettivo,
             costo_carburante_effettivo,
             costo_autista_effettivo,
             costo_totale_effettivo,
-            consuntivo_note,
-            consuntivo_updated_at,
+            note_consuntivo,
             created_at,
             pratiche (
               id,
@@ -3180,17 +3179,8 @@ function economicTripCost(v){
     (Number(v.costo_autista_previsto)||0);
 }
 
-function actualTripCost(v){
-  const saved=Number(v?.costo_totale_effettivo);
-  if(Number.isFinite(saved) && v?.consuntivo_updated_at) return saved;
-
-  // A consuntivo is considered real only after it has been explicitly saved.
-  return null;
-}
-
 function buildEconomicRows(viaggi, preventivi){
-  const acceptedByPractice=new Map();
-  const fallbackByPractice=new Map();
+  const acceptedByPractice=new Map(), fallbackByPractice=new Map();
   (preventivi||[]).forEach(p=>{
     if(!p.pratica_id || Number(p.prezzo_finale||0)<=0) return;
     if(!fallbackByPractice.has(p.pratica_id)) fallbackByPractice.set(p.pratica_id,p);
@@ -3198,103 +3188,60 @@ function buildEconomicRows(viaggi, preventivi){
   });
   return (viaggi||[]).map(v=>{
     const pid=v.pratica_id || v.pratiche?.id;
-    const quote=acceptedByPractice.get(pid) || fallbackByPractice.get(pid);
-    const revenue=quote ? Number(quote.prezzo_finale)||0 : 0;
+    const quote=acceptedByPractice.get(pid)||fallbackByPractice.get(pid);
+    const revenue=quote?Number(quote.prezzo_finale)||0:0;
     const plannedCost=economicTripCost(v);
-    const actualCost=actualTripCost(v);
+    const actualCost=(v.costo_totale_effettivo===null || v.costo_totale_effettivo===undefined) ? null : Number(v.costo_totale_effettivo);
     const plannedMargin=revenue-plannedCost;
-    const actualMargin=actualCost==null ? null : revenue-actualCost;
-    return {
-      v,date:tripDateForEconomic(v),quote,revenue,
-      cost:plannedCost,margin:plannedMargin,pct:revenue>0?plannedMargin/revenue*100:0,
-      actualCost,actualMargin,
-      actualPct:(actualMargin!=null && revenue>0)?actualMargin/revenue*100:null,
-      marginDelta:actualMargin==null?null:actualMargin-plannedMargin
-    };
+    const actualMargin=actualCost===null?null:revenue-actualCost;
+    return {v,date:tripDateForEconomic(v),quote,revenue,cost:plannedCost,margin:plannedMargin,pct:revenue>0?plannedMargin/revenue*100:0,actualCost,actualMargin,marginDelta:actualMargin===null?null:actualMargin-plannedMargin};
   });
 }
-
 function renderEconomicRanking(rows){
-  const body=document.getElementById("economicRankingBody");
-  if(!body) return;
-  const ranked=rows.filter(r=>r.quote).sort((a,b)=>{
-    if(a.actualMargin!=null && b.actualMargin!=null) return b.actualMargin-a.actualMargin;
-    if(a.actualMargin!=null) return -1;
-    if(b.actualMargin!=null) return 1;
-    return b.margin-a.margin;
-  });
-  const realCount=ranked.filter(r=>r.actualMargin!=null).length;
-  document.getElementById("economicRankingSub").textContent=`${ranked.length} viaggi con ricavo · ${realCount} con consuntivo`;
-  if(!ranked.length){ body.innerHTML='<tr><td colspan="6" class="economic-empty">Nessun viaggio con ricavo nel periodo selezionato.</td></tr>'; return; }
+  const body=document.getElementById("economicRankingBody"); if(!body)return;
+  const ranked=rows.filter(r=>r.quote).sort((a,b)=>(b.actualMargin??b.margin)-(a.actualMargin??a.margin));
+  const realCount=ranked.filter(r=>r.actualMargin!==null).length;
+  document.getElementById("economicRankingSub").textContent=`${ranked.length} viaggi con ricavo · ${realCount} consuntivati`;
+  if(!ranked.length){body.innerHTML='<tr><td colspan="6" class="economic-empty">Nessun viaggio con ricavo nel periodo selezionato.</td></tr>';return;}
   body.innerHTML=ranked.map(r=>{
-    const p=r.v.pratiche||{};
-    const route=[p.partenza,p.destinazione].filter(Boolean).join(" → ") || "-";
-    const client=p.cliente || "-";
-    const plannedCls=r.margin>=0?"good":"bad";
-    const actualCls=r.actualMargin==null?"":(r.actualMargin>=0?"good":"bad");
-    const deltaCls=r.marginDelta==null?"":(r.marginDelta>=0?"good":"bad");
-    const actualText=r.actualMargin==null?'<span style="color:#8a98aa">Da consuntivare</span>':euroDashboard(r.actualMargin);
-    const deltaText=r.marginDelta==null?"-":((r.marginDelta>0?"+":"")+euroDashboard(r.marginDelta));
-    return `<tr><td><strong>${r.v.numero_viaggio||"-"}</strong></td><td><strong>${client}</strong><br><span style="color:#8a98aa">${route}</span></td><td class="num">${euroDashboard(r.revenue)}</td><td class="num ${plannedCls}">${euroDashboard(r.margin)}</td><td class="num ${actualCls}">${actualText}</td><td class="num ${deltaCls}">${deltaText}</td></tr>`;
+    const p=r.v.pratiche||{},route=[p.partenza,p.destinazione].filter(Boolean).join(" → ")||"-",client=p.cliente||"-";
+    const actual=r.actualMargin===null?'<span style="color:#8a98aa">Da consuntivare</span>':euroDashboard(r.actualMargin);
+    const delta=r.marginDelta===null?"-":(r.marginDelta>0?"+":"")+euroDashboard(r.marginDelta);
+    return `<tr><td><strong>${r.v.numero_viaggio||"-"}</strong></td><td><strong>${client}</strong><br><span style="color:#8a98aa">${route}</span></td><td class="num">${euroDashboard(r.revenue)}</td><td class="num">${euroDashboard(r.margin)}</td><td class="num">${actual}</td><td class="num">${delta}</td></tr>`;
   }).join("");
 }
-
 function renderEconomicTrend(rows){
-  const canvas=document.getElementById("economicTrendChart"); if(!canvas) return;
-  const rect=canvas.getBoundingClientRect(), dpr=window.devicePixelRatio||1;
-  canvas.width=Math.max(300,Math.round(rect.width*dpr)); canvas.height=Math.max(200,Math.round(rect.height*dpr));
-  const ctx=canvas.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); const W=rect.width,H=rect.height; ctx.clearRect(0,0,W,H);
-  const now=new Date(), months=[];
-  for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1); months.push({y:d.getFullYear(),m:d.getMonth(),label:d.toLocaleDateString("it-IT",{month:"short"}),planned:0,actual:0,actualCount:0});}
-  rows.forEach(r=>{
-    if(!r.date)return;
-    const x=months.find(m=>m.y===r.date.getFullYear()&&m.m===r.date.getMonth());
-    if(x){
-      x.planned+=r.margin;
-      if(r.actualMargin!=null){x.actual+=r.actualMargin;x.actualCount++;}
-    }
-  });
-  const values=months.flatMap(m=>[Math.abs(m.planned),Math.abs(m.actual)]);
-  const max=Math.max(1,...values);
-  const pad={l:48,r:12,t:12,b:34}, cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
-  const zeroY=pad.t+ch;
-  ctx.font="10px Arial"; ctx.fillStyle="#8290a3"; ctx.strokeStyle="#e8edf3"; ctx.lineWidth=1;
-  for(let i=0;i<=4;i++){const y=pad.t+ch*i/4;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();const val=max*(1-i/4);ctx.fillText(new Intl.NumberFormat("it-IT",{notation:"compact",maximumFractionDigits:1}).format(val),4,y+3);}
-  const group=cw/months.length, bw=Math.min(18,group/4), colors=["#183b66","#d98b2b"];
-  months.forEach((m,i)=>{
-    const cx=pad.l+group*i+group/2;
-    const vals=[Math.max(0,m.planned),Math.max(0,m.actual)];
-    vals.forEach((val,j)=>{
-      if(j===1 && !m.actualCount) return;
-      const h=val/max*ch;ctx.fillStyle=colors[j];ctx.fillRect(cx+(j-.5)*bw-bw/2,zeroY-h,bw-2,h);
-    });
-    ctx.fillStyle="#68798d";ctx.textAlign="center";ctx.fillText(m.label,cx,H-10);
-  }); ctx.textAlign="left";
+  const canvas=document.getElementById("economicTrendChart");if(!canvas)return;
+  const rect=canvas.getBoundingClientRect(); if(rect.width<20||rect.height<20)return;
+  const dpr=window.devicePixelRatio||1;canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);
+  const ctx=canvas.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);const W=rect.width,H=rect.height;ctx.clearRect(0,0,W,H);
+  const now=new Date(),months=[];
+  for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push({y:d.getFullYear(),m:d.getMonth(),label:d.toLocaleDateString("it-IT",{month:"short"}),planned:0,actual:0,hasActual:false});}
+  rows.forEach(r=>{if(!r.date)return;const x=months.find(m=>m.y===r.date.getFullYear()&&m.m===r.date.getMonth());if(x){x.planned+=r.margin;if(r.actualMargin!==null){x.actual+=r.actualMargin;x.hasActual=true;}}});
+  const max=Math.max(1,...months.flatMap(m=>[Math.max(0,m.planned),Math.max(0,m.actual)]));
+  const pad={l:48,r:12,t:12,b:34},cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
+  ctx.font="10px Arial";ctx.fillStyle="#8290a3";ctx.strokeStyle="#e8edf3";ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=pad.t+ch*i/4;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();ctx.fillText(new Intl.NumberFormat("it-IT",{notation:"compact",maximumFractionDigits:1}).format(max*(1-i/4)),4,y+3);}
+  const group=cw/months.length,bw=Math.min(18,group/4),colors=["#183b66","#d98b2b"];
+  months.forEach((m,i)=>{const cx=pad.l+group*i+group/2;[[m.planned,true],[m.actual,m.hasActual]].forEach(([val,show],j)=>{if(!show)return;const h=Math.max(0,val)/max*ch;ctx.fillStyle=colors[j];ctx.fillRect(cx+(j-.5)*bw-bw/2,pad.t+ch-h,bw-2,h);});ctx.fillStyle="#68798d";ctx.textAlign="center";ctx.fillText(m.label,cx,H-10);});ctx.textAlign="left";
 }
-
-function setupEconomicDashboard(viaggi, preventivi){
-  const select=document.getElementById("economicPeriod"); if(!select) return;
+function setupEconomicDashboard(viaggi,preventivi){
+  const select=document.getElementById("economicPeriod");if(!select)return;
   const rows=buildEconomicRows(viaggi,preventivi);
   const render=()=>{
     const now=new Date(),period=select.value;
-    const filtered=rows.filter(r=>{if(period==="all")return true;if(!r.date)return false;if(period==="year")return r.date.getFullYear()===now.getFullYear();return r.date.getFullYear()===now.getFullYear()&&r.date.getMonth()===now.getMonth();});
-    const revenue=filtered.reduce((a,r)=>a+r.revenue,0);
-    const plannedCosts=filtered.reduce((a,r)=>a+r.cost,0);
-    const plannedMargin=revenue-plannedCosts;
-    const realRows=filtered.filter(r=>r.quote && r.actualMargin!=null);
-    const actualMargin=realRows.reduce((a,r)=>a+r.actualMargin,0);
-    const withRevenue=filtered.filter(r=>r.quote).length;
+    const filtered=rows.filter(r=>period==="all"||r.date&&(period==="year"?r.date.getFullYear()===now.getFullYear():r.date.getFullYear()===now.getFullYear()&&r.date.getMonth()===now.getMonth()));
+    const revenue=filtered.reduce((a,r)=>a+r.revenue,0),plannedCosts=filtered.reduce((a,r)=>a+r.cost,0),plannedMargin=revenue-plannedCosts;
+    const realRows=filtered.filter(r=>r.quote&&r.actualMargin!==null),actualMargin=realRows.reduce((a,r)=>a+r.actualMargin,0);
     document.getElementById("economicRevenue").textContent=euroDashboard(revenue);
     document.getElementById("economicCosts").textContent=euroDashboard(plannedCosts);
     document.getElementById("economicMargin").textContent=euroDashboard(plannedMargin);
     document.getElementById("economicMarginPct").textContent=realRows.length?euroDashboard(actualMargin):"-";
-    document.getElementById("economicNote").textContent=filtered.length
-      ?`Periodo: ${filtered.length} viaggi · ${withRevenue} con ricavo · ${realRows.length} consuntivati. Il margine effettivo usa esclusivamente i consuntivi salvati.`
-      :"Nessun viaggio nel periodo selezionato.";
-    renderEconomicRanking(filtered); renderEconomicTrend(rows);
+    document.getElementById("economicNote").textContent=filtered.length?`Periodo: ${filtered.length} viaggi · ${filtered.filter(r=>r.quote).length} con ricavo · ${realRows.length} consuntivati.`:"Nessun viaggio nel periodo selezionato.";
+    renderEconomicRanking(filtered);requestAnimationFrame(()=>renderEconomicTrend(rows));
   };
-  select.onchange=render; render();
-  window.addEventListener("resize",()=>renderEconomicTrend(rows));
+  select.onchange=render;render();
+  window.addEventListener("resize",()=>requestAnimationFrame(()=>renderEconomicTrend(rows)));
 }
 
 function renderRecent(pratiche){
@@ -3797,7 +3744,7 @@ document.addEventListener("DOMContentLoaded",()=>{
       const d=definitions.find(x=>x.id===id); if(!d) return;
       const row=document.createElement("label"); row.className="dashboard-option";
       const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=!state.hidden.includes(id);
-      cb.addEventListener("change",()=>{setVisible(id,cb.checked);save();});
+      cb.addEventListener("change",()=>{setVisible(id,cb.checked);save(); if(cb.checked) setTimeout(()=>window.dispatchEvent(new Event("resize")),50);});
       const span=document.createElement("span"); span.textContent=d.label;
       row.append(cb,span); optionList.appendChild(row);
     });
