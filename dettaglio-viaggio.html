@@ -1554,85 +1554,33 @@ input:disabled{
 <section class="card">
 
 <div class="card-header">
-  <h2>Documenti viaggio</h2>
+  <h2>Documenti della pratica</h2>
 </div>
 
 <div class="card-body">
 
-<div class="documents-upload">
+<div class="documents-info" style="margin:0 0 14px 0;font-size:11px">
+  Archivio unico: tutti i documenti di trasporto sono conservati nella pratica collegata.
+  Da qui puoi consultarli; per aggiungere o gestire documenti apri la pratica.
+</div>
 
-  <div class="documents-upload-grid">
-
-    <div class="document-field">
-
-      <label for="documentType">
-        Tipo documento
-      </label>
-
-      <select id="documentType">
-
-        <option value="CMR">CMR</option>
-        <option value="POD">POD</option>
-        <option value="DDT">DDT</option>
-        <option value="FATTURA">Fattura</option>
-        <option value="ALTRO">Altro</option>
-
-      </select>
-
-    </div>
-
-    <div class="document-field">
-
-      <label for="documentFile">
-        File
-      </label>
-
-      <input
-        id="documentFile"
-        type="file"
-        accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx">
-
-    </div>
-
-  </div>
-
-  <div class="document-field">
-
-    <label for="documentNote">
-      Nota
-    </label>
-
-    <textarea
-      id="documentNote"
-      class="document-note"
-      placeholder="Nota facoltativa sul documento"></textarea>
-
-  </div>
-
-  <button
-    id="uploadDocumentButton"
-    class="btn btn-primary document-upload-button"
-    type="button">
-    Carica documento
-  </button>
-
-  <div class="documents-info">
-    Il documento viene collegato automaticamente sia al viaggio sia alla pratica.
-  </div>
-
+<div style="margin-bottom:16px">
+  <a id="openPracticeDocumentsButton" class="btn btn-primary" href="#">
+    Apri documenti pratica
+  </a>
 </div>
 
 <div
   id="documentsLoading"
   class="documents-empty">
-  Caricamento documenti...
+  Caricamento documenti della pratica...
 </div>
 
 <div
   id="documentsEmpty"
   class="documents-empty"
   style="display:none">
-  Nessun documento collegato a questo viaggio.
+  Nessun documento collegato alla pratica.
 </div>
 
 <div
@@ -1751,17 +1699,8 @@ document.getElementById("vettoreLink");
 const saveButton =
 document.getElementById("saveButton");
 
-const documentType =
-document.getElementById("documentType");
-
-const documentFile =
-document.getElementById("documentFile");
-
-const documentNote =
-document.getElementById("documentNote");
-
-const uploadDocumentButton =
-document.getElementById("uploadDocumentButton");
+const openPracticeDocumentsButton =
+document.getElementById("openPracticeDocumentsButton");
 
 const documentsLoading =
 document.getElementById("documentsLoading");
@@ -3469,6 +3408,25 @@ async function loadDocuments(){
     return;
   }
 
+  const praticaId =
+    viaggio.pratiche?.id ||
+    viaggio.pratica_id ||
+    null;
+
+  if(!praticaId){
+    documentsLoading.style.display="none";
+    documentsEmpty.textContent="Viaggio non collegato a una pratica.";
+    documentsEmpty.style.display="block";
+    return;
+  }
+
+  if(openPracticeDocumentsButton){
+    openPracticeDocumentsButton.href =
+      "dettaglio-pratica.html?id=" +
+      encodeURIComponent(praticaId) +
+      "#documentsCard";
+  }
+
   documentsLoading.style.display =
   "block";
 
@@ -3500,8 +3458,8 @@ async function loadDocuments(){
       updated_at
     `)
     .eq(
-      "viaggio_id",
-      viaggio.id
+      "pratica_id",
+      praticaId
     )
     .order(
       "created_at",
@@ -3549,7 +3507,7 @@ function renderDocuments(){
   if(!currentDocuments.length){
 
     documentsEmpty.textContent =
-    "Nessun documento collegato a questo viaggio.";
+    "Nessun documento collegato alla pratica.";
 
     documentsEmpty.style.display =
     "block";
@@ -3690,32 +3648,11 @@ function renderDocuments(){
         documento
       );
 
-      const removeButton =
-      document.createElement(
-        "button"
-      );
-
-      removeButton.type =
-      "button";
-
-      removeButton.className =
-      "document-btn document-delete";
-
-      removeButton.textContent =
-      "Elimina";
-
-      removeButton.onclick =
-      ()=>deleteDocument(
-        documento
-      );
 
       actions.appendChild(
         openButton
       );
 
-      actions.appendChild(
-        removeButton
-      );
 
       item.appendChild(
         icon
@@ -3795,249 +3732,6 @@ async function openDocument(
     );
   }
 }
-
-
-/* =========================
-   UPLOAD DOCUMENTO
-========================= */
-
-async function uploadDocument(){
-
-  if(
-    !viaggio?.id ||
-    !currentProfile?.azienda_id
-  ){
-
-    showError(
-      "Viaggio o azienda non disponibile."
-    );
-
-    return;
-  }
-
-  const praticaId =
-  viaggio.pratiche?.id ||
-  viaggio.pratica_id ||
-  null;
-
-  if(!praticaId){
-
-    showError(
-      "Il viaggio non risulta collegato a una pratica. Impossibile caricare il documento."
-    );
-
-    return;
-  }
-
-  const file =
-  documentFile.files?.[0];
-
-  if(!file){
-
-    showError(
-      "Seleziona prima un file."
-    );
-
-    return;
-  }
-
-  const MAX_FILE_SIZE =
-  20 * 1024 * 1024;
-
-  if(file.size > MAX_FILE_SIZE){
-
-    showError(
-      "Il file supera il limite di 20 MB."
-    );
-
-    return;
-  }
-
-  hideMessage();
-
-  uploadDocumentButton.disabled =
-  true;
-
-  uploadDocumentButton.textContent =
-  "Caricamento...";
-
-  let uploadedPath =
-  null;
-
-  try{
-
-    const safeName =
-    sanitizeFileName(
-      file.name
-    );
-
-    const uniqueName =
-    Date.now() +
-    "_" +
-    crypto.randomUUID() +
-    "_" +
-    safeName;
-
-    const storagePath =
-    currentProfile.azienda_id +
-    "/viaggi/" +
-    viaggio.id +
-    "/" +
-    uniqueName;
-
-    const {
-      error:uploadError
-    } =
-    await supabase.storage
-      .from("documenti")
-      .upload(
-        storagePath,
-        file,
-        {
-          cacheControl:"3600",
-          upsert:false,
-          contentType:
-            file.type ||
-            undefined
-        }
-      );
-
-    if(uploadError){
-      throw uploadError;
-    }
-
-    uploadedPath =
-    storagePath;
-
-    const {
-      data:documentRow,
-      error:insertError
-    } =
-    await supabase
-      .from("documenti")
-      .insert({
-
-        azienda_id:
-        currentProfile.azienda_id,
-
-        pratica_id:
-        praticaId,
-
-        viaggio_id:
-        viaggio.id,
-
-        tipo:
-        documentType.value,
-
-        nome_file:
-        file.name,
-
-        storage_path:
-        storagePath,
-
-        mime_type:
-        file.type ||
-        null,
-
-        dimensione_bytes:
-        file.size,
-
-        note:
-        emptyToNull(
-          documentNote.value
-        ),
-
-        created_by:
-        currentUser.id,
-
-        updated_at:
-        new Date().toISOString()
-
-      })
-      .select()
-      .single();
-
-    if(insertError){
-
-      await supabase.storage
-        .from("documenti")
-        .remove([
-          storagePath
-        ]);
-
-      uploadedPath =
-      null;
-
-      throw insertError;
-    }
-
-    currentDocuments.unshift(
-      documentRow
-    );
-
-    renderDocuments();
-
-    documentFile.value =
-    "";
-
-    documentNote.value =
-    "";
-
-    documentType.value =
-    "CMR";
-
-    showSuccess(
-      "Documento caricato e collegato al viaggio e alla pratica."
-    );
-
-  }
-  catch(error){
-
-    console.error(
-      "Errore upload documento:",
-      error
-    );
-
-    if(uploadedPath){
-
-      try{
-
-        await supabase.storage
-          .from("documenti")
-          .remove([
-            uploadedPath
-          ]);
-
-      }
-      catch(cleanupError){
-
-        console.error(
-          "Errore pulizia file:",
-          cleanupError
-        );
-      }
-    }
-
-    showError(
-      "Errore durante il caricamento del documento: " +
-      error.message
-    );
-
-  }
-  finally{
-
-    uploadDocumentButton.disabled =
-    false;
-
-    uploadDocumentButton.textContent =
-    "Carica documento";
-  }
-}
-
-uploadDocumentButton.addEventListener(
-  "click",
-  uploadDocument
-);
 
 
 /* =========================

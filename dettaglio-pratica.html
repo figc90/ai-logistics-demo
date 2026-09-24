@@ -998,80 +998,14 @@ footer strong{
 
 <script type="module" src="js/admin-role-guard.js"></script>
 
-<style id="matrimia-standard-sidebar-css">
-.std-sidebar{width:225px;height:100vh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;display:flex;flex-direction:column;z-index:1000;font-family:Arial,Helvetica,sans-serif}
-.std-logo{height:62px;min-height:62px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #ffffff15;padding:5px 10px}
-.std-logo img{display:block;width:50px;height:46px;object-fit:contain}
-.std-nav{padding:7px 10px 10px;flex:1;overflow-y:auto;overflow-x:hidden}
-.std-title{font-size:9px;color:#7891aa;font-weight:900;letter-spacing:1.15px;margin:11px 9px 5px}
-.std-item{display:flex;align-items:center;gap:10px;min-height:37px;padding:7px 10px;border-radius:9px;color:#d9e4ef!important;font-size:13px;font-weight:700;margin:1px 0;text-decoration:none!important}
-.std-item:hover,.std-item.active{background:#ffffff19;color:#fff!important}
-.std-icon{width:18px;text-align:center;flex:0 0 18px}
-.std-bottom{padding:9px 10px;border-top:1px solid #ffffff15}
-.std-user{font-size:10px;word-break:break-all;background:#ffffff10;padding:7px 9px;border-radius:8px;margin-bottom:7px;color:#fff}
-.std-logout{width:100%;height:34px;border:1px solid #ffffff22;background:#ffffff09;color:#fff;border-radius:8px;font-weight:800;cursor:pointer}
-@media(max-width:760px){.std-sidebar{width:70px}.std-logo{padding:5px}.std-logo img{width:44px;height:42px}.std-title,.std-item span:not(.std-icon),.std-user{display:none}.std-item{justify-content:center;padding:8px 0}.std-bottom{padding:8px}.std-logout{font-size:11px}}
-</style>
-<style id="preventivo-pratica-css">
-.preventivo-pratica-card{background:#fff;border:1px solid #e2e8ef;border-radius:14px;padding:16px 18px;margin:0 0 18px;box-shadow:0 7px 22px rgba(24,59,99,.06)}
-.preventivo-pratica-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.preventivo-pratica-label{font-size:10px;font-weight:900;letter-spacing:.7px;color:#7b8999;margin-bottom:5px}.preventivo-pratica-title{font-size:17px;font-weight:900;color:#173459}.preventivo-pratica-meta{font-size:12px;color:#6f7f91;margin-top:4px}.preventivo-pratica-link{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 14px;border-radius:9px;background:#eef3f8;color:#173459!important;text-decoration:none!important;font-size:12px;font-weight:900}
-</style>
-<style id="matrimia-brand-uniform-css">
-.std-logo{
-  height:68px!important;
-  min-height:68px!important;
-  padding:7px 12px!important;
-  background:transparent!important;
-}
-.std-logo img{
-  width:96px!important;
-  height:52px!important;
-  object-fit:contain!important;
-  background:#fff!important;
-  border-radius:9px!important;
-  padding:5px 9px!important;
-  box-shadow:0 2px 8px rgba(0,0,0,.10)!important;
-}
-/* Brand della topbar uniforme al formato di preventivi.html */
-.topbar-brand,.app-topbar-brand,.brand,.header-brand,.main-brand{
-  color:#173459!important;
-  font-size:14px!important;
-  font-weight:900!important;
-  letter-spacing:0!important;
-  line-height:1!important;
-}
-@media(max-width:760px){
-  .std-logo{height:62px!important;min-height:62px!important;padding:6px!important}
-  .std-logo img{width:54px!important;height:46px!important;padding:4px!important}
-}
-</style>
-
-<style id="matrimia-logo-large-override">
-/* Logo MatRi-mIA più grande, senza modificare la struttura delle pagine */
-.std-logo{
-  height:116px!important;
-  min-height:116px!important;
-  padding:10px 12px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-.std-logo img{
-  width:180px!important;
-  max-width:180px!important;
-  height:90px!important;
-  max-height:90px!important;
-  object-fit:contain!important;
-  background:#fff!important;
-  border-radius:11px!important;
-  padding:6px 9px!important;
-  box-sizing:border-box!important;
-  box-shadow:0 5px 18px rgba(0,0,0,.14)!important;
-}
-@media(max-width:760px){
-  .std-logo{height:70px!important;min-height:70px!important;padding:6px!important}
-  .std-logo img{width:56px!important;max-width:56px!important;height:54px!important;max-height:54px!important;padding:4px!important}
-}
+<style id="practice-document-upload-v2">
+.documents-upload{background:#f8fafc;border:1px solid #e1e7ee;border-radius:12px;padding:15px}
+.documents-upload-grid{display:grid;grid-template-columns:170px 1fr;gap:12px;margin-bottom:12px}
+.document-field{display:flex;flex-direction:column;gap:6px}
+.document-field label{color:#526177;font-size:9px;font-weight:900;text-transform:uppercase}
+.document-field select,.document-field input,.document-field textarea{width:100%;border:1px solid #d8e0e8;border-radius:9px;padding:10px;background:#fff;color:#172033}
+.document-note{min-height:70px;resize:vertical}
+@media(max-width:760px){.documents-upload-grid{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -1081,7 +1015,113 @@ footer strong{
 
 <div class="app-shell">
 
-<aside class="std-sidebar"><a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a><nav class="std-nav"><div class="std-title">OPERATIVITÀ</div><a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a><a href="pratiche.html" class="std-item active"><span class="std-icon">▤</span><span>Pratiche</span></a><a href="nuova-pratica.html" class="std-item"><span class="std-icon">＋</span><span>Nuova pratica</span></a><div class="std-title">AUTOMAZIONI</div><a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a><a href="email-ai.html" class="std-item"><span class="std-icon">✉</span><span>Email AI</span></a><a href="viaggi.html" class="std-item"><span class="std-icon">↗</span><span>Viaggi</span></a><div class="std-title">COMMERCIALE</div><a href="preventivi.html" class="std-item"><span class="std-icon">€</span><span>Preventivi</span></a><div class="std-title">GESTIONE</div><a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a><a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a><a href="flotta.html" class="std-item"><span class="std-icon">▰</span><span>Flotta</span></a><a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a></nav><div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div></aside>
+<aside class="sidebar">
+
+  <div class="sidebar-logo">
+
+    <a
+      href="dashboard.html"
+      class="sidebar-logo-link"
+      aria-label="Vai alla Dashboard">
+
+      <img
+        src="matrimia-logo-web.png"
+        alt="MatRi-mIA Logistics">
+
+    </a>
+
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-section">
+
+      <div class="nav-title">OPERATIVITÀ</div>
+
+      <a href="dashboard.html" class="nav-item">
+        <span class="nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pratiche.html" class="nav-item active">
+        <span class="nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
+
+      <a href="nuova-pratica.html" class="nav-item">
+        <span class="nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">AUTOMAZIONI</div>
+
+      <a href="assistente-ai.html" class="nav-item">
+
+
+        <span class="nav-icon">✦</span>
+
+
+        <span>Assistente AI</span>
+
+
+      </a>
+
+
+      <a href="email-ai.html" class="nav-item">
+        <span class="nav-icon">✉</span>
+        <span>Email AI</span>
+      </a>
+<a href="viaggi.html" class="nav-item">
+        <span class="nav-icon">↗</span>
+        <span>Viaggi</span>
+      </a>
+
+    </div>
+
+    <div class="nav-section">
+
+      <div class="nav-title">GESTIONE</div>
+
+      <a href="anagrafiche.html" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Anagrafiche</span>
+      </a>
+<a href="autisti.html" class="nav-item">
+<span class="nav-icon">♟</span>
+<span>Autisti</span>
+</a>
+
+
+<a href="impostazioni.html" class="nav-item">
+<span class="nav-icon">⚙</span>
+<span>Impostazioni</span>
+</a>
+
+    </div>
+
+  </nav>
+
+  <div class="sidebar-bottom">
+
+    <div class="user-card">
+      <div class="user-label">UTENTE</div>
+      <div id="userEmail" class="user-email">-</div>
+    </div>
+
+    <button
+      id="logoutButton"
+      class="logout-btn"
+      type="button">
+      Esci
+    </button>
+
+  </div>
+
+</aside>
 
 <div class="app-main">
 
@@ -1125,7 +1165,9 @@ footer strong{
 
     <div class="heading-main">
 
-      <div class="eyebrow">MATRI-MIA · OPERATIVITÀ</div>
+      <div class="eyebrow">
+        MATRI-MIA · DETTAGLIO PRATICA
+      </div>
 
       <h1 id="practiceId">-</h1>
 
@@ -1188,8 +1230,7 @@ footer strong{
   </div>
 
 
-  <section id="linkedQuoteCard" class="preventivo-pratica-card"><div class="preventivo-pratica-row"><div><div class="preventivo-pratica-label">PREVENTIVO</div><div id="linkedQuoteTitle" class="preventivo-pratica-title">Controllo preventivo...</div><div id="linkedQuoteMeta" class="preventivo-pratica-meta">Verifico se esiste già un preventivo collegato alla pratica.</div></div><a id="linkedQuoteOpen" class="preventivo-pratica-link" href="#">Attendi...</a></div></section>
-<div
+  <div
     id="practiceLayout"
     class="layout">
 
@@ -1242,7 +1283,7 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Partenza prevista</span>
+              <span class="label">Data/Ora Ritiro</span>
 
               <div id="ritiroValue" class="value">-</div>
 
@@ -1256,7 +1297,7 @@ footer strong{
 
             <div class="field">
 
-              <span class="label">Arrivo previsto</span>
+              <span class="label">Data/Ora Consegna</span>
 
               <div id="consegnaValue" class="value">-</div>
 
@@ -1313,14 +1354,6 @@ footer strong{
 
 
             <div class="field">
-              <span class="label">Nazione Ritiro</span>
-              <div id="nazioneRitiroValue" class="value">-</div>
-              <select id="nazioneRitiroInput" class="edit-input">
-                <option value="Italia">Italia</option><option value="Austria">Austria</option><option value="Belgio">Belgio</option><option value="Francia">Francia</option><option value="Germania">Germania</option><option value="Lussemburgo">Lussemburgo</option><option value="Paesi Bassi">Paesi Bassi</option><option value="Polonia">Polonia</option><option value="Repubblica Ceca">Repubblica Ceca</option><option value="Slovacchia">Slovacchia</option><option value="Slovenia">Slovenia</option><option value="Spagna">Spagna</option><option value="Svizzera">Svizzera</option><option value="Ungheria">Ungheria</option><option value="Altro">Altro</option>
-              </select>
-            </div>
-
-            <div class="field">
 
               <span class="label">CAP Ritiro</span>
 
@@ -1350,14 +1383,6 @@ footer strong{
 
             </div>
 
-
-            <div class="field">
-              <span class="label">Nazione Consegna</span>
-              <div id="nazioneConsegnaValue" class="value">-</div>
-              <select id="nazioneConsegnaInput" class="edit-input">
-                <option value="Italia">Italia</option><option value="Austria">Austria</option><option value="Belgio">Belgio</option><option value="Francia">Francia</option><option value="Germania">Germania</option><option value="Lussemburgo">Lussemburgo</option><option value="Paesi Bassi">Paesi Bassi</option><option value="Polonia">Polonia</option><option value="Repubblica Ceca">Repubblica Ceca</option><option value="Slovacchia">Slovacchia</option><option value="Slovenia">Slovenia</option><option value="Spagna">Spagna</option><option value="Svizzera">Svizzera</option><option value="Ungheria">Ungheria</option><option value="Altro">Altro</option>
-              </select>
-            </div>
 
             <div class="field">
 
@@ -1522,12 +1547,38 @@ footer strong{
           </button>
         </div>
         <div class="card-body">
+          <div class="documents-upload" style="margin-bottom:18px">
+            <div class="documents-upload-grid">
+              <div class="document-field">
+                <label for="documentType">Tipo documento</label>
+                <select id="documentType">
+                  <option value="CMR">CMR</option>
+                  <option value="POD">POD</option>
+                  <option value="DDT">DDT</option>
+                  <option value="FATTURA">Fattura</option>
+                  <option value="ALTRO">Altro</option>
+                </select>
+              </div>
+              <div class="document-field">
+                <label for="documentFile">File</label>
+                <input id="documentFile" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx">
+              </div>
+            </div>
+            <div class="document-field">
+              <label for="documentNote">Nota</label>
+              <textarea id="documentNote" class="document-note" placeholder="Nota facoltativa sul documento"></textarea>
+            </div>
+            <button id="uploadDocumentButton" type="button" class="save-edit" style="margin-top:12px">Carica documento</button>
+            <div class="documents-help" style="margin-top:9px">
+              Archivio unico della pratica: i documenti caricati qui sono quelli usati anche dal viaggio collegato.
+            </div>
+          </div>
+
           <div id="documentsList" class="documents-list">
             <div class="documents-empty">Caricamento documenti...</div>
           </div>
           <div class="documents-help">
-            Qui trovi anche i documenti caricati dai viaggi collegati a questa pratica.
-            Il caricamento operativo dei documenti continua ad avvenire dal viaggio.
+            Tutti i documenti della spedizione sono archiviati qui, senza duplicazioni tra pratica e viaggio.
           </div>
         </div>
       </section>
@@ -1596,7 +1647,12 @@ const supabase =
   );
 
 
-/* ANALISI AI TRAMITE SUPABASE EDGE FUNCTION */
+/* ============================
+   MAKE - ANALISI AI
+============================ */
+
+const AI_WEBHOOK_URL =
+  "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
 
 
 /* ============================
@@ -1666,6 +1722,11 @@ const documentsList =
 
 const generateDocumentButton =
   document.getElementById("generateDocumentButton");
+
+const documentType = document.getElementById("documentType");
+const documentFile = document.getElementById("documentFile");
+const documentNote = document.getElementById("documentNote");
+const uploadDocumentButton = document.getElementById("uploadDocumentButton");
 
 
 let currentUser = null;
@@ -2319,7 +2380,6 @@ function renderPractice(pratica){
     "capRitiroValue",
     pratica.cap_ritiro
   );
-  setText("nazioneRitiroValue", pratica.nazione_ritiro || "Italia");
 
   setText(
     "indirizzoConsegnaValue",
@@ -2330,7 +2390,6 @@ function renderPractice(pratica){
     "capConsegnaValue",
     pratica.cap_consegna
   );
-  setText("nazioneConsegnaValue", pratica.nazione_consegna || "Italia");
 
   setText(
     "vettoreValue",
@@ -2408,14 +2467,12 @@ function populateEditFields(){
 
   document.getElementById("capRitiroInput").value =
     currentPractice.cap_ritiro || "";
-  document.getElementById("nazioneRitiroInput").value = currentPractice.nazione_ritiro || "Italia";
 
   document.getElementById("indirizzoConsegnaInput").value =
     currentPractice.indirizzo_consegna || "";
 
   document.getElementById("capConsegnaInput").value =
     currentPractice.cap_consegna || "";
-  document.getElementById("nazioneConsegnaInput").value = currentPractice.nazione_consegna || "Italia";
 
   document.getElementById("vettoreInput").value =
     currentPractice.vettore || "";
@@ -2557,8 +2614,6 @@ function getUpdatedData(){
         ).value
       ),
 
-    nazione_ritiro: document.getElementById("nazioneRitiroInput").value || "Italia",
-
     indirizzo_consegna:
       emptyToNull(
         document.getElementById(
@@ -2572,8 +2627,6 @@ function getUpdatedData(){
           "capConsegnaInput"
         ).value
       ),
-
-    nazione_consegna: document.getElementById("nazioneConsegnaInput").value || "Italia",
 
     vettore:
       emptyToNull(
@@ -2766,7 +2819,7 @@ async function saveChanges(){
 
 
 /* ============================
-   DATI PER ANALISI AI
+   DATI PER MAKE
 ============================ */
 
 function getAIData(){
@@ -2825,7 +2878,7 @@ function getAIData(){
 
     /*
      * Informazioni aggiuntive.
-     * La funzione AI può ignorarle.
+     * Make può ignorarle.
      */
     numeroPratica:
       currentPractice.numero_pratica,
@@ -2879,20 +2932,37 @@ async function reanalyzePractice(){
      * una nuova pratica.
      */
 
-    const { data: responseData, error: analysisError } =
-      await supabase.functions.invoke(
-        "analizza-pratica",
-        { body: getAIData() }
+    const response =
+      await fetch(
+        AI_WEBHOOK_URL,
+        {
+
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(
+              getAIData()
+            )
+
+        }
       );
 
-    if(analysisError){
-      throw analysisError;
+    if(!response.ok){
+
+      throw new Error(
+        "Errore Make HTTP " +
+        response.status
+      );
+
     }
 
     const responseText =
-      typeof responseData === "string"
-        ? responseData
-        : String(responseData?.analysis || responseData?.analisi || responseData?.text || responseData?.message || "");
+      await response.text();
 
     const result =
       parseAIResponse(
@@ -2902,7 +2972,7 @@ async function reanalyzePractice(){
     if(!result.analysis){
 
       throw new Error(
-        "L'AI non ha restituito l'analisi."
+        "Make non ha restituito l'analisi."
       );
 
     }
@@ -3441,13 +3511,88 @@ async function deletePracticeDocument(documentItem){
 
     showMessage("success","Documento eliminato correttamente.");
     await loadPracticeDocuments();
-await loadLinkedQuote();
   }
   catch(error){
     console.error("Errore eliminazione documento:",error);
     showMessage("error","Impossibile eliminare il documento: " + error.message);
   }
 }
+
+
+function sanitizeDocumentFileName(name){
+  return String(name || "documento")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-zA-Z0-9._-]+/g,"_");
+}
+
+async function uploadPracticeDocument(){
+  if(!currentPractice?.id || !currentProfile?.azienda_id){
+    showMessage("error","Pratica o azienda non disponibile.");
+    return;
+  }
+
+  const file=documentFile?.files?.[0];
+  if(!file){
+    showMessage("error","Seleziona prima un file.");
+    return;
+  }
+  if(file.size > 20*1024*1024){
+    showMessage("error","Il file supera il limite di 20 MB.");
+    return;
+  }
+
+  uploadDocumentButton.disabled=true;
+  uploadDocumentButton.textContent="Caricamento...";
+  let uploadedPath=null;
+
+  try{
+    const safeName=sanitizeDocumentFileName(file.name);
+    const uniqueName=Date.now()+"_"+crypto.randomUUID()+"_"+safeName;
+    const storagePath=currentProfile.azienda_id+"/pratiche/"+currentPractice.id+"/"+uniqueName;
+
+    const {error:uploadError}=await supabase.storage
+      .from("documenti")
+      .upload(storagePath,file,{
+        cacheControl:"3600",
+        upsert:false,
+        contentType:file.type||undefined
+      });
+    if(uploadError) throw uploadError;
+    uploadedPath=storagePath;
+
+    const {error:insertError}=await supabase.from("documenti").insert({
+      azienda_id:currentProfile.azienda_id,
+      pratica_id:currentPractice.id,
+      viaggio_id:null,
+      tipo:documentType?.value || "ALTRO",
+      nome_file:file.name,
+      storage_path:storagePath,
+      mime_type:file.type||null,
+      dimensione_bytes:file.size,
+      note:emptyToNull(documentNote?.value),
+      created_by:currentUser.id,
+      updated_at:new Date().toISOString()
+    });
+    if(insertError) throw insertError;
+
+    documentFile.value="";
+    documentNote.value="";
+    documentType.value="CMR";
+    showMessage("success","Documento caricato nell'archivio della pratica.");
+    await loadPracticeDocuments();
+  }catch(error){
+    if(uploadedPath){
+      try{ await supabase.storage.from("documenti").remove([uploadedPath]); }catch(_){}
+    }
+    console.error("Errore upload documento pratica:",error);
+    showMessage("error","Errore durante il caricamento del documento: "+error.message);
+  }finally{
+    uploadDocumentButton.disabled=false;
+    uploadDocumentButton.textContent="Carica documento";
+  }
+}
+
+uploadDocumentButton?.addEventListener("click",uploadPracticeDocument);
 
 async function loadPracticeDocuments(){
   if(!currentPractice || !documentsList){ return; }
@@ -3493,8 +3638,7 @@ async function loadPracticeDocuments(){
       meta.appendChild(type);
 
       const details = [];
-      if(documentItem.viaggio_id){ details.push("collegato al viaggio"); }
-      else{ details.push("archivio pratica"); }
+      details.push("archivio pratica");
       const size = formatFileSize(documentItem.dimensione_bytes);
       if(size){ details.push(size); }
       const date = formatDocumentDate(documentItem.created_at);
@@ -3694,37 +3838,6 @@ deleteButton.addEventListener(
    CARICAMENTO PRATICA
 ============================ */
 
-async function loadLinkedQuote(){
-  if(!currentPractice?.id) return;
-  const card=document.getElementById("linkedQuoteCard");
-  const title=document.getElementById("linkedQuoteTitle");
-  const meta=document.getElementById("linkedQuoteMeta");
-  const action=document.getElementById("linkedQuoteOpen");
-  if(card)card.style.display="block";
-  const {data,error}=await supabase.from("preventivi").select("id,numero_preventivo,data_preventivo,stato,prezzo_finale").eq("pratica_id",currentPractice.id).order("created_at",{ascending:false}).limit(1).maybeSingle();
-  if(error){
-    console.warn("Preventivo collegato:",error);
-    title.textContent="Preventivo non disponibile";
-    meta.textContent="Non è stato possibile verificare il preventivo collegato.";
-    action.textContent="Crea preventivo";
-    action.href="nuovo-preventivo.html?pratica="+encodeURIComponent(currentPractice.id);
-    return;
-  }
-  if(data){
-    title.textContent=data.numero_preventivo||"Preventivo collegato";
-    const prezzo=Number(data.prezzo_finale||0).toLocaleString("it-IT",{style:"currency",currency:"EUR"});
-    meta.textContent=(data.stato||"").replaceAll("_"," ")+" · "+prezzo;
-    action.textContent="Apri preventivo";
-    action.href="dettaglio-preventivo.html?id="+encodeURIComponent(data.id);
-  }else{
-    title.textContent="Nessun preventivo collegato";
-    meta.textContent="Crea il preventivo usando automaticamente i dati di questa pratica.";
-    action.textContent="Crea preventivo";
-    action.href="nuovo-preventivo.html?pratica="+encodeURIComponent(currentPractice.id);
-  }
-}
-
-
 async function loadPractice(){
 
   if(!requestedId){
@@ -3782,7 +3895,6 @@ content.style.display =
   "block";
 
 await configureTripButton();
-await loadLinkedQuote();
 await loadPracticeDocuments();
 
   }
