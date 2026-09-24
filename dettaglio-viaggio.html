@@ -807,6 +807,72 @@ input:disabled{
 .logout-btn:hover{background:rgba(255,255,255,.09);color:#fff}
 @media(max-width:760px){.sidebar{width:72px}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px;border-radius:10px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center;padding:0}.sidebar-bottom{padding:8px}.logout-btn{font-size:0}.logout-btn::after{content:"↪";font-size:18px}}
 
+
+/* =========================
+   PREVISTO VS CONSUNTIVO
+========================= */
+.comparison-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:18px;
+}
+.comparison-kpi{
+  border:1px solid #e2e8f0;
+  border-radius:16px;
+  padding:16px;
+  background:#f8fafc;
+}
+.comparison-kpi .kpi-label{
+  font-size:12px;
+  font-weight:800;
+  color:#64748b;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  margin-bottom:8px;
+}
+.comparison-kpi .kpi-value{
+  font-size:22px;
+  font-weight:900;
+  color:#172033;
+}
+.comparison-table-wrap{overflow-x:auto}
+.comparison-table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  min-width:650px;
+  border:1px solid #e2e8f0;
+  border-radius:14px;
+  overflow:hidden;
+}
+.comparison-table th,
+.comparison-table td{
+  padding:13px 14px;
+  border-bottom:1px solid #e2e8f0;
+  text-align:right;
+}
+.comparison-table th:first-child,
+.comparison-table td:first-child{text-align:left}
+.comparison-table th{
+  background:#f8fafc;
+  color:#64748b;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.comparison-table tr:last-child td{border-bottom:0}
+.comparison-table .total-row td{
+  font-weight:900;
+  background:#fbfdff;
+}
+.delta-positive{color:#b45309 !important}
+.delta-negative{color:#15803d !important}
+.delta-neutral{color:#475569 !important}
+@media(max-width:760px){
+  .comparison-grid{grid-template-columns:1fr}
+}
+
 </style>
 
 <script type="module" src="js/admin-role-guard.js"></script>
@@ -1361,6 +1427,93 @@ input:disabled{
   <div class="actions" style="margin-top:18px">
     <button id="saveActualButton" class="btn btn-primary" type="button">Salva consuntivo</button>
   </div>
+</div>
+</section>
+
+
+<!-- =========================
+     PREVISTO VS CONSUNTIVO
+========================= -->
+
+<section class="card" id="comparisonCard">
+<div class="card-header">
+  <h2>Previsto vs consuntivo</h2>
+  <span class="field-hint">Confronto economico tra la stima iniziale e i dati reali del viaggio.</span>
+</div>
+<div class="card-body">
+
+  <div class="comparison-grid">
+    <div class="comparison-kpi">
+      <div class="kpi-label">Costo previsto</div>
+      <div id="cmpCostPlanned" class="kpi-value">-</div>
+    </div>
+    <div class="comparison-kpi">
+      <div class="kpi-label">Costo consuntivo</div>
+      <div id="cmpCostActual" class="kpi-value">-</div>
+    </div>
+    <div class="comparison-kpi">
+      <div class="kpi-label">Scostamento costo</div>
+      <div id="cmpCostDelta" class="kpi-value">-</div>
+    </div>
+    <div class="comparison-kpi">
+      <div class="kpi-label">Margine previsto</div>
+      <div id="cmpMarginPlanned" class="kpi-value">-</div>
+    </div>
+    <div class="comparison-kpi">
+      <div class="kpi-label">Margine reale</div>
+      <div id="cmpMarginActual" class="kpi-value">-</div>
+    </div>
+    <div class="comparison-kpi">
+      <div class="kpi-label">Variazione margine</div>
+      <div id="cmpMarginDelta" class="kpi-value">-</div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Voce</th>
+          <th>Previsto</th>
+          <th>Consuntivo</th>
+          <th>Scostamento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Costo mezzo</td>
+          <td id="cmpVehiclePlanned">-</td>
+          <td id="cmpVehicleActual">-</td>
+          <td id="cmpVehicleDelta">-</td>
+        </tr>
+        <tr>
+          <td>Carburante</td>
+          <td id="cmpFuelPlanned">-</td>
+          <td id="cmpFuelActual">-</td>
+          <td id="cmpFuelDelta">-</td>
+        </tr>
+        <tr>
+          <td>Autista</td>
+          <td id="cmpDriverPlanned">-</td>
+          <td id="cmpDriverActual">-</td>
+          <td id="cmpDriverDelta">-</td>
+        </tr>
+        <tr>
+          <td>Costi extra</td>
+          <td>-</td>
+          <td id="cmpExtraActual">-</td>
+          <td id="cmpExtraDelta">-</td>
+        </tr>
+        <tr class="total-row">
+          <td>Costo totale</td>
+          <td id="cmpTotalPlanned">-</td>
+          <td id="cmpTotalActual">-</td>
+          <td id="cmpTotalDelta">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
 </section>
 
@@ -2320,6 +2473,63 @@ function renderActualCost(){
   text("aScostamento", (scostamento >= 0 ? "+" : "") + eur(scostamento));
   text("aMargine", margine == null ? "-" : eur(margine));
   text("aMarginePct", marginePct == null ? "-" : marginePct.toLocaleString("it-IT", {minimumFractionDigits:1,maximumFractionDigits:1}) + " %");
+  renderPlannedVsActual();
+}
+
+
+function renderPlannedVsActual(){
+  if(!viaggio) return;
+
+  const eur = value => Number(value || 0).toLocaleString("it-IT", {style:"currency", currency:"EUR"});
+  const plannedVehicle = Number(viaggio?.costo_mezzo_previsto ?? viaggio?.costo_previsto) || 0;
+  const plannedFuel = Number(viaggio?.costo_carburante_previsto) || 0;
+  const plannedDriver = Number(viaggio?.costo_autista_previsto) || 0;
+  const plannedSaved = Number(viaggio?.costo_totale_previsto) || 0;
+  const plannedTotal = plannedSaved > 0 ? plannedSaved : plannedVehicle + plannedFuel + plannedDriver;
+
+  const actual = actualNumbers();
+  const costDelta = actual.totale - plannedTotal;
+
+  const plannedMargin = currentRevenue == null ? null : currentRevenue - plannedTotal;
+  const actualMargin = currentRevenue == null ? null : currentRevenue - actual.totale;
+  const marginDelta = plannedMargin == null || actualMargin == null ? null : actualMargin - plannedMargin;
+
+  const setDelta = (id, value, inverse=false) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = (value > 0 ? "+" : "") + eur(value);
+    el.classList.remove("delta-positive","delta-negative","delta-neutral");
+    if(Math.abs(value) < 0.005) el.classList.add("delta-neutral");
+    else if(inverse ? value > 0 : value < 0) el.classList.add("delta-positive");
+    else el.classList.add("delta-negative");
+  };
+
+  text("cmpCostPlanned", eur(plannedTotal));
+  text("cmpCostActual", eur(actual.totale));
+  setDelta("cmpCostDelta", costDelta, true);
+
+  text("cmpMarginPlanned", plannedMargin == null ? "-" : eur(plannedMargin));
+  text("cmpMarginActual", actualMargin == null ? "-" : eur(actualMargin));
+  if(marginDelta == null) text("cmpMarginDelta", "-");
+  else setDelta("cmpMarginDelta", marginDelta, false);
+
+  const rows = [
+    ["Vehicle", plannedVehicle, actual.mezzo],
+    ["Fuel", plannedFuel, actual.carburante],
+    ["Driver", plannedDriver, actual.autista]
+  ];
+  for(const [key, planned, real] of rows){
+    text("cmp" + key + "Planned", eur(planned));
+    text("cmp" + key + "Actual", eur(real));
+    setDelta("cmp" + key + "Delta", real - planned, true);
+  }
+
+  text("cmpExtraActual", eur(actual.extra));
+  setDelta("cmpExtraDelta", actual.extra, true);
+
+  text("cmpTotalPlanned", eur(plannedTotal));
+  text("cmpTotalActual", eur(actual.totale));
+  setDelta("cmpTotalDelta", costDelta, true);
 }
 
 function fillActualCost(){
