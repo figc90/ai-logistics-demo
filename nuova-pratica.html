@@ -32,14 +32,493 @@ a{
   text-decoration:none;
 }
 
-button,
 input,
 textarea,
-select{
+button{
   font:inherit;
 }
 
-/* APP */
+.top-header{
+  background:#fff;
+  border-bottom:1px solid #e5eaf0;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.top-header-inner{
+  max-width:1280px;
+  margin:auto;
+  padding:8px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.logo{
+  width:175px;
+  height:auto;
+  display:block;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.btn{
+  min-height:42px;
+  padding:0 16px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:800;
+  border:none;
+  cursor:pointer;
+}
+
+.btn-secondary{
+  background:#eef3f8;
+  color:#173459;
+}
+
+.logout-btn{
+  background:#fff1f0;
+  color:#b42318;
+  border:1px solid #ffd4d1;
+}
+
+.page{
+  max-width:1280px;
+  margin:auto;
+  padding:30px 22px 60px;
+}
+
+.back{
+  display:inline-block;
+  color:#2ca9d2;
+  font-size:14px;
+  font-weight:800;
+  margin-bottom:22px;
+}
+
+.heading{
+  margin-bottom:26px;
+}
+
+.eyebrow{
+  color:#2ca9d2;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2.2px;
+  margin-bottom:8px;
+}
+
+h1{
+  color:#10284a;
+  font-size:46px;
+  line-height:1;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  color:#758399;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.user-info{
+  margin-top:8px;
+  color:#8795a8;
+  font-size:12px;
+}
+
+.user-info strong{
+  color:#173459;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(300px,1fr);
+  gap:20px;
+  align-items:start;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e1e7ee;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 12px 32px rgba(19,40,74,.06);
+}
+
+.card + .card{
+  margin-top:20px;
+}
+
+.card-header{
+  padding:20px 22px;
+  border-bottom:1px solid #edf0f4;
+}
+
+.card-header h2{
+  color:#173459;
+  font-size:20px;
+}
+
+.card-header p{
+  margin-top:5px;
+  color:#8795a8;
+  font-size:13px;
+}
+
+.card-body{
+  padding:22px;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.wide{
+  grid-column:1 / -1;
+}
+
+label{
+  color:#65758b;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.4px;
+}
+
+input,
+textarea{
+  width:100%;
+  border:1px solid #dce3eb;
+  background:#f9fbfd;
+  color:#24384f;
+  border-radius:11px;
+  padding:12px 13px;
+  outline:none;
+  transition:.2s ease;
+}
+
+input:focus,
+textarea:focus{
+  border-color:#4ec5e6;
+  box-shadow:0 0 0 3px rgba(78,197,230,.10);
+  background:#fff;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.ai-card{
+  position:sticky;
+  top:78px;
+}
+
+.ai-header{
+  background:linear-gradient(135deg,#0b1d3a,#123b67);
+  padding:20px 22px;
+  color:#fff;
+}
+
+.ai-label{
+  color:#55c9e9;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:6px;
+}
+
+.ai-header h2{
+  font-size:21px;
+}
+
+.ai-content{
+  padding:22px;
+}
+
+.ai-state{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.ai-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#55c9e9;
+  box-shadow:0 0 12px rgba(85,201,233,.7);
+}
+
+.ai-state strong{
+  color:#173459;
+}
+
+.ai-text{
+  color:#5b6a80;
+  font-size:14px;
+  line-height:1.65;
+}
+
+.ai-result{
+  display:none;
+  margin-top:22px;
+  border-top:1px solid #edf0f4;
+  padding-top:20px;
+}
+
+.ai-result-title{
+  color:#8795a8;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  margin-bottom:8px;
+}
+
+.ai-status{
+  display:inline-flex;
+  padding:8px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:14px;
+}
+
+.ai-status-ok{
+  background:#e8f7ef;
+  color:#23784f;
+}
+
+.ai-status-warning{
+  background:#fff2d6;
+  color:#a76600;
+}
+
+.ai-status-error{
+  background:#ffe7e3;
+  color:#b42318;
+}
+
+.ai-status-default{
+  background:#edf1f5;
+  color:#596778;
+}
+
+.confirm-box{
+  display:none;
+  margin-bottom:20px;
+  padding:14px;
+  border-radius:12px;
+  background:#f8fafc;
+  border:1px solid #e4e9ef;
+}
+
+.confirm-note{
+  color:#68778c;
+  font-size:13px;
+  line-height:1.55;
+  margin-bottom:12px;
+}
+
+.ai-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.ai-buttons button{
+  flex:1;
+}
+
+.correct-btn{
+  min-height:48px;
+  border:1px solid #dce3eb;
+  border-radius:11px;
+  background:#f3f6fa;
+  color:#173459;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.correct-btn:hover{
+  background:#e9eef4;
+}
+
+.confirm-btn{
+  min-height:48px;
+  border:none;
+  border-radius:11px;
+  background:linear-gradient(135deg,#163d67,#1d6f9d);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.confirm-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.ai-section{
+  margin-bottom:18px;
+}
+
+.ai-section h3{
+  color:#2ca9d2;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.1px;
+  margin-bottom:6px;
+}
+
+.ai-section p{
+  color:#4d5c72;
+  font-size:14px;
+  line-height:1.6;
+  white-space:pre-wrap;
+}
+
+.actions-bar{
+  margin-top:22px;
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.actions-bar .btn{
+  min-height:50px;
+  padding:0 22px;
+}
+
+.analyze-btn{
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+}
+
+.analyze-btn:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.cancel-btn{
+  background:#edf2f7;
+  color:#173459;
+}
+
+.message{
+  display:none;
+  margin-top:18px;
+  padding:14px 16px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.message-success{
+  display:block;
+  background:#ecf9f2;
+  border:1px solid #ccebd9;
+  color:#1d704c;
+}
+
+.message-error{
+  display:block;
+  background:#fff1f0;
+  border:1px solid #ffd4d1;
+  color:#b42318;
+}
+
+footer{
+  text-align:center;
+  padding:35px 20px 0;
+  color:#8894a5;
+  font-size:13px;
+}
+
+footer strong{
+  color:#173459;
+}
+
+@media(max-width:900px){
+
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .ai-card{
+    position:static;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .top-header-inner{
+    padding:7px 13px;
+  }
+
+  .logo{
+    width:145px;
+  }
+
+  .btn{
+    padding:0 12px;
+    font-size:13px;
+  }
+
+  .page{
+    padding:24px 13px 45px;
+  }
+
+  h1{
+    font-size:36px;
+  }
+
+  .fields{
+    grid-template-columns:1fr;
+  }
+
+  .field.wide{
+    grid-column:auto;
+  }
+
+  .actions-bar{
+    flex-direction:column-reverse;
+  }
+
+  .actions-bar .btn{
+    width:100%;
+  }
+
+  .ai-buttons{
+    flex-direction:column;
+  }
+
+}
+
+
+/* =========================================================
+   AREA RISERVATA MATRI-MIA - LAYOUT UNIFICATO CON DASHBOARD
+   ========================================================= */
 
 .app-shell{
   min-height:100vh;
@@ -58,6 +537,7 @@ select{
   display:flex;
   flex-direction:column;
   z-index:100;
+  border-right:1px solid rgba(255,255,255,.05);
 }
 
 .app-sidebar-logo{
@@ -77,13 +557,22 @@ select{
   align-items:center;
   justify-content:center;
   background:linear-gradient(145deg,#fff,#f4f8fc);
+  border:1px solid rgba(255,255,255,.85);
   border-radius:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+
+.app-sidebar-logo-link:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 28px rgba(0,0,0,.22),0 0 22px rgba(73,193,229,.20);
 }
 
 .app-sidebar-logo-link img{
   width:175px;
   max-width:90%;
   height:auto;
+  display:block;
 }
 
 .app-sidebar-nav{
@@ -114,6 +603,7 @@ select{
   font-size:14px;
   font-weight:700;
   margin-bottom:5px;
+  transition:.18s ease;
 }
 
 .app-nav-item:hover{
@@ -130,6 +620,28 @@ select{
 .app-nav-icon{
   width:18px;
   text-align:center;
+  font-size:16px;
+  opacity:.9;
+}
+
+.app-nav-disabled{
+  opacity:.42;
+  cursor:default;
+}
+
+.app-nav-disabled:hover{
+  background:transparent;
+  color:#c7d3e1;
+}
+
+.app-soon{
+  margin-left:auto;
+  padding:4px 7px;
+  background:rgba(255,255,255,.08);
+  border-radius:999px;
+  color:#8fa5bb;
+  font-size:8px;
+  font-weight:900;
 }
 
 .app-sidebar-bottom{
@@ -146,6 +658,12 @@ select{
   color:#dbe5ef;
   font-weight:800;
   cursor:pointer;
+  transition:.18s ease;
+}
+
+.app-logout-btn:hover{
+  background:rgba(255,255,255,.09);
+  color:#fff;
 }
 
 .app-main{
@@ -161,6 +679,7 @@ select{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:15px;
   padding:0 28px;
   position:sticky;
   top:0;
@@ -173,298 +692,41 @@ select{
   font-weight:700;
 }
 
-.top-button{
+.app-topbar-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.app-topbar-link{
   min-height:40px;
-  padding:0 15px;
+  padding:0 16px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  background:#eef3f8;
-  color:#173459;
   border-radius:10px;
   font-size:13px;
   font-weight:900;
 }
 
-/* PAGE */
+.app-topbar-secondary{
+  background:#eef3f8;
+  color:#173459;
+}
 
-.page{
-  max-width:1180px;
+.app-topbar-primary{
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
+  color:#fff;
+  box-shadow:0 7px 18px rgba(236,79,50,.18);
+}
+
+.app-main > .page{
+  max-width:1360px;
   margin:0 auto;
   padding:32px 30px 55px;
 }
 
-.eyebrow{
-  color:#2ca9d2;
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:2px;
-  margin-bottom:8px;
-}
-
-h1{
-  color:#10284a;
-  font-size:42px;
-  margin-bottom:8px;
-}
-
-.subtitle{
-  color:#758399;
-  font-size:15px;
-  margin-bottom:28px;
-}
-
-.message{
-  display:none;
-  padding:14px 16px;
-  border-radius:11px;
-  margin-bottom:20px;
-  font-size:14px;
-  font-weight:700;
-}
-
-.message-success{
-  display:block;
-  background:#ecf9f2;
-  border:1px solid #ccebd9;
-  color:#1d704c;
-}
-
-.message-error{
-  display:block;
-  background:#fff1f0;
-  border:1px solid #ffd4d1;
-  color:#b42318;
-}
-
-/* CARD */
-
-.card{
-  background:#fff;
-  border:1px solid #e1e7ee;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 12px 32px rgba(19,40,74,.06);
-  margin-bottom:20px;
-}
-
-.card-header{
-  padding:20px 22px;
-  border-bottom:1px solid #edf0f4;
-}
-
-.card-header h2{
-  color:#173459;
-  font-size:20px;
-}
-
-.card-header p{
-  color:#8795a8;
-  margin-top:5px;
-  font-size:13px;
-}
-
-.card-body{
-  padding:22px;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
-.form-group{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.form-group.full{
-  grid-column:1/-1;
-}
-
-label{
-  color:#41536a;
-  font-size:12px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-}
-
-input,
-select,
-textarea{
-  width:100%;
-  border:1px solid #d7e0e9;
-  background:#fff;
-  color:#25384f;
-  border-radius:10px;
-  padding:12px;
-  outline:none;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:#4ec5e6;
-  box-shadow:0 0 0 3px rgba(78,197,230,.10);
-}
-
-textarea{
-  min-height:110px;
-  resize:vertical;
-}
-
-.required{
-  color:#e74c3c;
-}
-
-.helper{
-  font-size:11px;
-  color:#8b98a9;
-  line-height:1.4;
-}
-
-/* ANAGRAFICHE */
-
-.anagrafica-wrapper{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:8px;
-}
-
-.anagrafica-wrapper select{
-  min-width:0;
-}
-
-.anagrafica-button{
-  border:1px solid #d7e0e9;
-  background:#eef3f8;
-  color:#173459;
-  border-radius:10px;
-  padding:0 14px;
-  font-size:12px;
-  font-weight:900;
-  cursor:pointer;
-  white-space:nowrap;
-}
-
-.anagrafica-info{
-  display:none;
-  margin-top:7px;
-  padding:9px 11px;
-  border-radius:9px;
-  background:#edf8fd;
-  border:1px solid #d1ebf5;
-  color:#28647e;
-  font-size:12px;
-}
-
-.manual-field{
-  margin-top:8px;
-}
-
-/* AI */
-
-.ai-card{
-  border:1px solid #cfe9f4;
-}
-
-.ai-card .card-header{
-  background:linear-gradient(135deg,#f0faff,#f8fcff);
-}
-
-.ai-status{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:14px;
-}
-
-.ai-badge{
-  display:inline-flex;
-  padding:8px 11px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:900;
-  background:#edf1f5;
-  color:#647286;
-}
-
-.ai-badge.regolare{
-  background:#e8f7ef;
-  color:#23784f;
-}
-
-.ai-badge.attenzione{
-  background:#fff6df;
-  color:#9a6810;
-}
-
-.ai-badge.problema{
-  background:#fff0ee;
-  color:#b42318;
-}
-
-.ai-result{
-  white-space:pre-wrap;
-  color:#405269;
-  font-size:14px;
-  line-height:1.55;
-  min-height:50px;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:22px;
-}
-
-.button{
-  min-height:46px;
-  padding:0 20px;
-  border:none;
-  border-radius:11px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.button:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-}
-
-.button-primary{
-  background:linear-gradient(135deg,#173f69,#1f729d);
-  color:#fff;
-}
-
-.button-confirm{
-  background:linear-gradient(135deg,#ec4f32,#ff7b1f);
-  color:#fff;
-}
-
-.button-secondary{
-  background:#eef3f8;
-  color:#173459;
-  border:1px solid #dce4ec;
-}
-
-footer{
-  text-align:center;
-  padding:25px 20px 0;
-  color:#8894a5;
-  font-size:13px;
-}
-
-footer strong{
-  color:#173459;
-}
-
 @media(max-width:760px){
-
   .app-sidebar{
     width:72px;
   }
@@ -482,6 +744,7 @@ footer strong{
   .app-sidebar-logo-link{
     width:55px;
     min-height:55px;
+    border-radius:10px;
   }
 
   .app-sidebar-logo-link img{
@@ -489,7 +752,8 @@ footer strong{
   }
 
   .app-nav-title,
-  .app-nav-item span:not(.app-nav-icon){
+  .app-nav-item span:not(.app-nav-icon),
+  .app-soon{
     display:none;
   }
 
@@ -498,431 +762,432 @@ footer strong{
     padding:0;
   }
 
-  .page{
+  .app-sidebar-bottom{
+    padding:8px;
+  }
+
+  .app-logout-btn{
+    font-size:0;
+  }
+
+  .app-logout-btn::after{
+    content:"↪";
+    font-size:18px;
+  }
+
+  .app-topbar{
+    padding:0 14px;
+  }
+
+  .app-topbar-brand{
+    display:none;
+  }
+
+  .app-topbar-actions{
+    margin-left:auto;
+  }
+
+  .app-topbar-link{
+    padding:0 12px;
+    font-size:12px;
+  }
+
+  .app-main > .page{
     padding:24px 13px 45px;
   }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  .form-group.full{
-    grid-column:auto;
-  }
-
-  h1{
-    font-size:34px;
-  }
-
-  .anagrafica-wrapper{
-    grid-template-columns:1fr;
-  }
-
 }
-
-
-/* =========================================================
-   SIDEBAR UNIFICATA - STESSO STILE DASHBOARD
-========================================================= */
-.sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35 0%,#0d2d50 100%);color:#fff;position:fixed;left:0;top:0;bottom:0;display:flex;flex-direction:column;z-index:100;border-right:1px solid rgba(255,255,255,.05)}
-.sidebar-logo{min-height:152px;padding:14px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}
-.sidebar-logo-link{width:100%;max-width:195px;min-height:118px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#fff,#f4f8fc);border:1px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18),0 0 18px rgba(73,193,229,.14);transition:.2s ease}
-.sidebar-logo-link:hover{transform:translateY(-1px)}
-.sidebar-logo img{width:175px;max-width:90%;height:auto;display:block}
-.sidebar-nav{padding:24px 12px;flex:1;overflow-y:auto;min-height:0}
-.nav-section{margin-bottom:28px}
-.nav-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.8px;margin:0 5px 9px}
-.nav-item{min-height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;border-radius:10px;color:#c7d3e1;font-size:14px;font-weight:700;margin-bottom:5px;transition:.18s ease;text-decoration:none}
-.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}
-.nav-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}
-.nav-icon{width:18px;text-align:center;font-size:16px;opacity:.9}
-.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0;background:#0d2d50}
-.user-card{background:rgba(255,255,255,.06);border-radius:10px;padding:11px 12px;margin-bottom:9px}
-.user-label{color:#7994af;font-size:9px;font-weight:900;letter-spacing:1.3px;margin-bottom:4px}
-.user-email{color:#fff;font-size:12px;font-weight:700;overflow-wrap:anywhere}
-.logout-btn{width:100%;min-height:40px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
-.logout-btn:hover{background:rgba(255,255,255,.09);color:#fff}
-@media(max-width:760px){.sidebar{width:72px}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px;border-radius:10px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),.user-card{display:none}.nav-item{justify-content:center;padding:0}.sidebar-bottom{padding:8px}.logout-btn{font-size:0}.logout-btn::after{content:"↪";font-size:18px}}
 
 </style>
 
-<script type="module" src="js/admin-role-guard.js"></script>
-
-<style id="matrimia-standard-sidebar-css">
-.std-sidebar{width:225px;height:100vh;position:fixed;inset:0 auto 0 0;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;display:flex;flex-direction:column;z-index:1000;font-family:Arial,Helvetica,sans-serif}
-.std-logo{height:62px;min-height:62px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #ffffff15;padding:5px 10px}
-.std-logo img{display:block;width:50px;height:46px;object-fit:contain}
-.std-nav{padding:7px 10px 10px;flex:1;overflow-y:auto;overflow-x:hidden}
-.std-title{font-size:9px;color:#7891aa;font-weight:900;letter-spacing:1.15px;margin:11px 9px 5px}
-.std-item{display:flex;align-items:center;gap:10px;min-height:37px;padding:7px 10px;border-radius:9px;color:#d9e4ef!important;font-size:13px;font-weight:700;margin:1px 0;text-decoration:none!important}
-.std-item:hover,.std-item.active{background:#ffffff19;color:#fff!important}
-.std-icon{width:18px;text-align:center;flex:0 0 18px}
-.std-bottom{padding:9px 10px;border-top:1px solid #ffffff15}
-.std-user{font-size:10px;word-break:break-all;background:#ffffff10;padding:7px 9px;border-radius:8px;margin-bottom:7px;color:#fff}
-.std-logout{width:100%;height:34px;border:1px solid #ffffff22;background:#ffffff09;color:#fff;border-radius:8px;font-weight:800;cursor:pointer}
-@media(max-width:760px){.std-sidebar{width:70px}.std-logo{padding:5px}.std-logo img{width:44px;height:42px}.std-title,.std-item span:not(.std-icon),.std-user{display:none}.std-item{justify-content:center;padding:8px 0}.std-bottom{padding:8px}.std-logout{font-size:11px}}
-</style>
-
-<style id="matrimia-brand-uniform-css">
-.std-logo{
-  height:68px!important;
-  min-height:68px!important;
-  padding:7px 12px!important;
-  background:transparent!important;
-}
-.std-logo img{
-  width:96px!important;
-  height:52px!important;
-  object-fit:contain!important;
-  background:#fff!important;
-  border-radius:9px!important;
-  padding:5px 9px!important;
-  box-shadow:0 2px 8px rgba(0,0,0,.10)!important;
-}
-/* Brand della topbar uniforme al formato di preventivi.html */
-.topbar-brand,.app-topbar-brand,.brand,.header-brand,.main-brand{
-  color:#173459!important;
-  font-size:14px!important;
-  font-weight:900!important;
-  letter-spacing:0!important;
-  line-height:1!important;
-}
-@media(max-width:760px){
-  .std-logo{height:62px!important;min-height:62px!important;padding:6px!important}
-  .std-logo img{width:54px!important;height:46px!important;padding:4px!important}
-}
-</style>
-
-<style id="matrimia-logo-large-override">
-/* Logo MatRi-mIA più grande, senza modificare la struttura delle pagine */
-.std-logo{
-  height:116px!important;
-  min-height:116px!important;
-  padding:10px 12px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-.std-logo img{
-  width:180px!important;
-  max-width:180px!important;
-  height:90px!important;
-  max-height:90px!important;
-  object-fit:contain!important;
-  background:#fff!important;
-  border-radius:11px!important;
-  padding:6px 9px!important;
-  box-sizing:border-box!important;
-  box-shadow:0 5px 18px rgba(0,0,0,.14)!important;
-}
-@media(max-width:760px){
-  .std-logo{height:70px!important;min-height:70px!important;padding:6px!important}
-  .std-logo img{width:56px!important;max-width:56px!important;height:54px!important;max-height:54px!important;padding:4px!important}
-}
-</style>
 </head>
 
 <body>
 
+
 <div class="app-shell">
 
-<aside class="std-sidebar"><a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a><nav class="std-nav"><div class="std-title">OPERATIVITÀ</div><a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a><a href="pratiche.html" class="std-item"><span class="std-icon">▤</span><span>Pratiche</span></a><a href="nuova-pratica.html" class="std-item active"><span class="std-icon">＋</span><span>Nuova pratica</span></a><div class="std-title">AUTOMAZIONI</div><a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a><a href="email-ai.html" class="std-item"><span class="std-icon">✉</span><span>Email AI</span></a><a href="viaggi.html" class="std-item"><span class="std-icon">↗</span><span>Viaggi</span></a><div class="std-title">COMMERCIALE</div><a href="preventivi.html" class="std-item"><span class="std-icon">€</span><span>Preventivi</span></a><div class="std-title">GESTIONE</div><a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a><a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a><a href="flotta.html" class="std-item"><span class="std-icon">▰</span><span>Flotta</span></a><a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a></nav><div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div></aside>
+<aside class="app-sidebar">
+
+  <div class="app-sidebar-logo">
+    <a href="dashboard.html" class="app-sidebar-logo-link" aria-label="Vai alla Dashboard">
+      <img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+    </a>
+  </div>
+
+  <nav class="app-sidebar-nav">
+
+    <div class="app-nav-section">
+      <div class="app-nav-title">OPERATIVITÀ</div>
+
+      <a href="dashboard.html" class="app-nav-item">
+        <span class="app-nav-icon">▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="pratiche.html" class="app-nav-item">
+        <span class="app-nav-icon">▤</span>
+        <span>Pratiche</span>
+      </a>
+
+      <a href="nuova-pratica.html" class="app-nav-item active">
+        <span class="app-nav-icon">＋</span>
+        <span>Nuova pratica</span>
+      </a>
+    </div>
+
+    <div class="app-nav-section">
+      <div class="app-nav-title">AUTOMAZIONI</div>
+
+      <div class="app-nav-item app-nav-disabled">
+        <span class="app-nav-icon">✉</span>
+        <span>Email AI</span>
+        <span class="app-soon">PRESTO</span>
+      </div>
+
+      <div class="app-nav-item app-nav-disabled">
+        <span class="app-nav-icon">↗</span>
+        <span>Viaggi</span>
+        <span class="app-soon">PRESTO</span>
+      </div>
+    </div>
+
+    <div class="app-nav-section">
+      <div class="app-nav-title">GESTIONE</div>
+
+      <div class="app-nav-item app-nav-disabled">
+        <span class="app-nav-icon">▣</span>
+        <span>Aziende</span>
+        <span class="app-soon">PRESTO</span>
+      </div>
+    </div>
+
+  </nav>
+
+  <div class="app-sidebar-bottom">
+    <button id="logoutButton" class="app-logout-btn" type="button">Esci</button>
+  </div>
+
+</aside>
 
 <div class="app-main">
 
 <header class="app-topbar">
-
-<div class="app-topbar-brand">
-MatRi-mIA Logistics · Nuova pratica
-</div>
-
-<a href="pratiche.html" class="top-button">
-Pratiche
-</a>
-
+  <div class="app-topbar-brand">MatRi-mIA Logistics</div>
+  <div class="app-topbar-actions">
+    
+      <a href="pratiche.html" class="app-topbar-link app-topbar-secondary">Pratiche</a>
+  </div>
 </header>
+
 
 <main class="page">
 
-<div class="eyebrow">MATRI-MIA · OPERATIVITÀ</div>
+<a href="pratiche.html" class="back">
+  ← Torna alle pratiche
+</a>
 
-<h1>Nuova pratica</h1>
+<div class="heading">
 
-<div class="subtitle">
-Inserisci i dati del trasporto e fai eseguire il controllo preliminare all'AI.
+  <div class="eyebrow">
+    MATRI-MIA · NUOVA PRATICA
+  </div>
+
+  <h1>
+    Nuova pratica
+  </h1>
+
+  <div class="subtitle">
+    Inserisci i dati, analizza la pratica e confermala
+    solo dopo aver verificato il risultato dell’AI.
+  </div>
+
+  <div
+    id="userInfo"
+    class="user-info">
+  </div>
+
 </div>
 
-<div id="messageBox" class="message"></div>
+<form id="practiceForm">
+
+<div class="layout">
+
+<div>
 
 <section class="card">
 
-<div class="card-header">
-<h2>Dati pratica</h2>
-<p>Informazioni principali del trasporto.</p>
-</div>
+  <div class="card-header">
+    <h2>Dati trasporto</h2>
+    <p>Informazioni principali relative a ritiro e consegna.</p>
+  </div>
 
-<div class="card-body">
+  <div class="card-body">
 
-<div class="form-grid">
+    <div class="fields">
 
-<div class="form-group">
-<label for="data">
-Data pratica <span class="required">*</span>
-</label>
-<input id="data" type="date" required>
-</div>
+      <div class="field">
+        <label for="data">Data</label>
+        <input id="data" type="date" required>
+      </div>
 
-<div class="form-group">
+      <div class="field">
+        <label for="cliente">Cliente</label>
+        <input id="cliente" type="text" required>
+      </div>
 
-<label for="clienteSelect">
-Cliente <span class="required">*</span>
-</label>
+      <div class="field">
+        <label for="ritiro">Data/Ora Ritiro</label>
+        <input id="ritiro" type="datetime-local">
+      </div>
 
-<div class="anagrafica-wrapper">
+      <div class="field">
+        <label for="consegna">Data/Ora Consegna</label>
+        <input id="consegna" type="datetime-local">
+      </div>
 
-<select id="clienteSelect">
-<option value="">Seleziona dall'anagrafica...</option>
-</select>
+      <div class="field">
+        <label for="partenza">Partenza</label>
+        <input id="partenza" type="text" required>
+      </div>
 
-<button
-  id="newClienteButton"
-  type="button"
-  class="anagrafica-button">
-+ Cliente
-</button>
+      <div class="field">
+        <label for="destinazione">Destinazione</label>
+        <input id="destinazione" type="text" required>
+      </div>
 
-</div>
+      <div class="field">
+        <label for="indirizzoRitiro">Indirizzo Ritiro</label>
+        <input id="indirizzoRitiro" type="text">
+      </div>
 
-<div id="clienteInfo" class="anagrafica-info"></div>
+      <div class="field">
+        <label for="capRitiro">CAP Ritiro</label>
+        <input
+          id="capRitiro"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          pattern="[0-9]{5}">
+      </div>
 
-<div class="manual-field">
+      <div class="field">
+        <label for="indirizzoConsegna">Indirizzo Consegna</label>
+        <input id="indirizzoConsegna" type="text">
+      </div>
 
-<input
-  id="cliente"
-  type="text"
-  placeholder="Oppure inserisci il cliente manualmente"
-  required>
+      <div class="field">
+        <label for="capConsegna">CAP Consegna</label>
+        <input
+          id="capConsegna"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          pattern="[0-9]{5}">
+      </div>
 
-<div class="helper">
-Puoi selezionare un cliente registrato oppure mantenere un nome ricevuto dall'Email AI.
-</div>
+    </div>
 
-</div>
-
-</div>
-
-<div class="form-group">
-<label for="ritiro">Partenza prevista</label>
-<input id="ritiro" type="datetime-local">
-</div>
-
-<div class="form-group">
-<label for="consegna">Arrivo previsto</label>
-<input id="consegna" type="datetime-local">
-<div id="routePracticeStatus" class="helper">L’arrivo viene calcolato automaticamente dal percorso quando sono presenti CAP, località e partenza prevista. Rimane modificabile.</div>
-</div>
-
-<div class="form-group">
-<label for="partenza">
-Partenza <span class="required">*</span>
-</label>
-<input id="partenza" type="text" required>
-</div>
-
-<div class="form-group">
-<label for="destinazione">
-Destinazione <span class="required">*</span>
-</label>
-<input id="destinazione" type="text" required>
-</div>
-
-<div class="form-group">
-<label for="indirizzoRitiro">Indirizzo ritiro</label>
-<input id="indirizzoRitiro" type="text">
-</div>
-
-<div class="form-group">
-<label for="nazioneRitiro">Nazione ritiro</label>
-<select id="nazioneRitiro">
-<option value="Italia" selected>Italia</option><option value="Austria">Austria</option><option value="Belgio">Belgio</option><option value="Francia">Francia</option><option value="Germania">Germania</option><option value="Lussemburgo">Lussemburgo</option><option value="Paesi Bassi">Paesi Bassi</option><option value="Polonia">Polonia</option><option value="Repubblica Ceca">Repubblica Ceca</option><option value="Slovacchia">Slovacchia</option><option value="Slovenia">Slovenia</option><option value="Spagna">Spagna</option><option value="Svizzera">Svizzera</option><option value="Ungheria">Ungheria</option><option value="Altro">Altro</option>
-</select>
-</div>
-
-<div class="form-group">
-<label for="capRitiro">CAP ritiro</label>
-<input
-  id="capRitiro"
-  type="text"
-  inputmode="numeric"
-  maxlength="5"
-  pattern="[0-9]{5}"
-  placeholder="00000">
-</div>
-
-<div class="form-group">
-<label for="indirizzoConsegna">Indirizzo consegna</label>
-<input id="indirizzoConsegna" type="text">
-</div>
-
-<div class="form-group">
-<label for="nazioneConsegna">Nazione consegna</label>
-<select id="nazioneConsegna">
-<option value="Italia" selected>Italia</option><option value="Austria">Austria</option><option value="Belgio">Belgio</option><option value="Francia">Francia</option><option value="Germania">Germania</option><option value="Lussemburgo">Lussemburgo</option><option value="Paesi Bassi">Paesi Bassi</option><option value="Polonia">Polonia</option><option value="Repubblica Ceca">Repubblica Ceca</option><option value="Slovacchia">Slovacchia</option><option value="Slovenia">Slovenia</option><option value="Spagna">Spagna</option><option value="Svizzera">Svizzera</option><option value="Ungheria">Ungheria</option><option value="Altro">Altro</option>
-</select>
-</div>
-
-<div class="form-group">
-<label for="capConsegna">CAP consegna</label>
-<input
-  id="capConsegna"
-  type="text"
-  inputmode="numeric"
-  maxlength="5"
-  pattern="[0-9]{5}"
-  placeholder="00000">
-</div>
-
-<div class="form-group">
-
-<label for="vettoreSelect">
-Vettore
-</label>
-
-<div class="anagrafica-wrapper">
-
-<select id="vettoreSelect">
-<option value="">Seleziona dall'anagrafica...</option>
-</select>
-
-<button
-  id="newVettoreButton"
-  type="button"
-  class="anagrafica-button">
-+ Vettore
-</button>
-
-</div>
-
-<div id="vettoreInfo" class="anagrafica-info"></div>
-
-<div class="manual-field">
-<input
-  id="vettore"
-  type="text"
-  placeholder="Oppure inserisci il vettore manualmente">
-</div>
-
-</div>
-
-<div class="form-group">
-<label for="tipoMerce">
-Tipo merce <span class="required">*</span>
-</label>
-<input id="tipoMerce" type="text" required>
-</div>
-
-<div class="form-group">
-<label for="colli">Colli</label>
-<input id="colli" type="number" min="0" step="1">
-</div>
-
-<div class="form-group">
-<label for="peso">Peso kg</label>
-<input id="peso" type="number" min="0" step="0.01">
-</div>
-
-<div class="form-group">
-<label for="volume">Volume m³</label>
-<input id="volume" type="number" min="0" step="0.01">
-</div>
-
-<div class="form-group full">
-<label for="note">Note</label>
-<textarea id="note"></textarea>
-</div>
-
-</div>
-
-</div>
+  </div>
 
 </section>
 
-<section class="card ai-card">
+<section class="card">
 
-<div class="card-header">
-<h2>Analisi AI</h2>
-<p>Controllo preliminare dei dati prima della conferma della pratica.</p>
-</div>
+  <div class="card-header">
+    <h2>Merce e vettore</h2>
+    <p>Dati operativi della spedizione.</p>
+  </div>
 
-<div class="card-body">
+  <div class="card-body">
 
-<div class="ai-status">
-<span id="aiBadge" class="ai-badge">
-NON ANALIZZATA
-</span>
-</div>
+    <div class="fields">
 
-<div id="aiResult" class="ai-result">
-Compila i dati e premi “Analizza pratica”.
-</div>
+      <div class="field">
+        <label for="vettore">Vettore</label>
+        <input id="vettore" type="text">
+      </div>
 
-<div class="actions">
+      <div class="field">
+        <label for="tipoMerce">Tipo Merce</label>
+        <input id="tipoMerce" type="text" required>
+      </div>
 
-<button
-  id="analyzeButton"
-  type="button"
-  class="button button-primary">
-Analizza pratica
-</button>
+      <div class="field">
+        <label for="colli">Colli</label>
+        <input id="colli" type="number" min="0" step="1">
+      </div>
 
-<button
-  id="confirmButton"
-  type="button"
-  class="button button-confirm"
-  disabled>
-Conferma pratica
-</button>
+      <div class="field">
+        <label for="peso">Peso kg</label>
+        <input id="peso" type="number" min="0" step="0.01">
+      </div>
 
-<button
-  id="correctButton"
-  type="button"
-  class="button button-secondary"
-  style="display:none">
-Correggi dati
-</button>
+      <div class="field">
+        <label for="volume">Volume m³</label>
+        <input id="volume" type="number" min="0" step="0.01">
+      </div>
 
-</div>
+      <div class="field wide">
+        <label for="note">Note Operative</label>
+        <textarea id="note"></textarea>
+      </div>
 
-</div>
+    </div>
+
+  </div>
 
 </section>
+
+<div id="messageBox" class="message"></div>
+
+<div class="actions-bar">
+
+  <a
+    href="pratiche.html"
+    class="btn cancel-btn">
+    Annulla
+  </a>
+
+  <button
+    id="submitButton"
+    type="submit"
+    class="btn analyze-btn">
+    Analizza pratica
+  </button>
+
+</div>
+
+</div>
+
+<aside class="card ai-card">
+
+  <div class="ai-header">
+
+    <div class="ai-label">
+      MATRI-MIA AI
+    </div>
+
+    <h2>
+      Controllo pratica
+    </h2>
+
+  </div>
+
+  <div class="ai-content">
+
+    <div class="ai-state">
+
+      <div class="ai-dot"></div>
+
+      <strong id="aiStateText">
+        AI pronta
+      </strong>
+
+    </div>
+
+    <div class="ai-text">
+      L’AI analizzerà i dati senza registrare la pratica.
+      Potrai correggere i dati prima della conferma.
+    </div>
+
+    <div id="aiResult" class="ai-result">
+
+      <div class="ai-result-title">
+        RISULTATO ANALISI
+      </div>
+
+      <div
+        id="aiStatus"
+        class="ai-status ai-status-default">
+        -
+      </div>
+
+      <div
+        id="confirmBox"
+        class="confirm-box">
+
+        <div
+          id="confirmNote"
+          class="confirm-note">
+        </div>
+
+        <div class="ai-buttons">
+
+          <button
+            id="correctButton"
+            type="button"
+            class="correct-btn">
+            Correggi dati
+          </button>
+
+          <button
+            id="confirmButton"
+            type="button"
+            class="confirm-btn">
+            Conferma pratica
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="ai-section">
+
+        <h3>
+          MOTIVO
+        </h3>
+
+        <p id="aiReason">-</p>
+
+      </div>
+
+      <div class="ai-section">
+
+        <h3>
+          AZIONE RICHIESTA
+        </h3>
+
+        <p id="aiAction">-</p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</aside>
+
+</div>
+
+</form>
 
 <footer>
-<strong>MatRi-mIA Logistics</strong>
-· AI per trasporti e logistica
+  <strong>MatRi-mIA Logistics</strong>
+  · AI per trasporti e logistica
 </footer>
 
 </main>
 
 </div>
-
 </div>
 
 <script type="module">
 
-import { createClient }
+import {
+  createClient
+}
 from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-/* CONFIG */
+/* ============================
+   SUPABASE
+============================ */
 
 const SUPABASE_URL =
   "https://sctzockiurjsxzdkctmy.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G";
-
-
 
 const supabase =
   createClient(
@@ -931,36 +1196,23 @@ const supabase =
   );
 
 
-/* STATO */
+/* ============================
+   MAKE - SOLO ANALISI AI
+============================ */
 
-let currentUser = null;
-let currentProfile = null;
-
-let analisiEseguita = false;
-let statoAI = null;
-let analisiAI = null;
-
-let selectedClienteId = null;
-let selectedVettoreId = null;
-
-let anagrafiche = [];
-
-const params =
-  new URLSearchParams(
-    window.location.search
-  );
-
-const emailId =
-  params.get("email");
+const WEBHOOK_URL =
+  "https://hook.eu1.make.com/xjtdfh4rxi21154ru2hyx9s2wr9ktuit";
 
 
-/* ELEMENTI */
+/* ============================
+   ELEMENTI
+============================ */
 
-const messageBox =
-  document.getElementById("messageBox");
+const form =
+  document.getElementById("practiceForm");
 
-const analyzeButton =
-  document.getElementById("analyzeButton");
+const submitButton =
+  document.getElementById("submitButton");
 
 const confirmButton =
   document.getElementById("confirmButton");
@@ -968,195 +1220,48 @@ const confirmButton =
 const correctButton =
   document.getElementById("correctButton");
 
-const aiBadge =
-  document.getElementById("aiBadge");
+const confirmBox =
+  document.getElementById("confirmBox");
+
+const confirmNote =
+  document.getElementById("confirmNote");
+
+const messageBox =
+  document.getElementById("messageBox");
+
+const aiStateText =
+  document.getElementById("aiStateText");
 
 const aiResult =
   document.getElementById("aiResult");
 
-const clienteSelect =
-  document.getElementById("clienteSelect");
+const aiStatus =
+  document.getElementById("aiStatus");
 
-const vettoreSelect =
-  document.getElementById("vettoreSelect");
+const aiReason =
+  document.getElementById("aiReason");
 
-const clienteInput =
-  document.getElementById("cliente");
+const aiAction =
+  document.getElementById("aiAction");
 
-const vettoreInput =
-  document.getElementById("vettore");
+const logoutButton =
+  document.getElementById("logoutButton");
 
-const clienteInfo =
-  document.getElementById("clienteInfo");
-
-const vettoreInfo =
-  document.getElementById("vettoreInfo");
+const userInfo =
+  document.getElementById("userInfo");
 
 
-/* UTILITY */
+let ultimaAnalisi = "";
+let ultimoStato = "";
+let analisiValida = false;
 
-function emptyToNull(value){
-
-  const text =
-    String(value ?? "").trim();
-
-  return text === ""
-    ? null
-    : text;
-
-}
+let currentUser = null;
+let currentProfile = null;
 
 
-function normalizeText(value){
-
-  return String(value ?? "")
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"");
-
-}
-
-
-function showMessage(type,text){
-
-  messageBox.className =
-    "message " +
-    (
-      type === "success"
-        ? "message-success"
-        : "message-error"
-    );
-
-  messageBox.textContent =
-    text;
-
-  messageBox.style.display =
-    "block";
-
-}
-
-
-function hideMessage(){
-
-  messageBox.style.display =
-    "none";
-
-}
-
-
-function setToday(){
-
-  if(document.getElementById("data").value){
-    return;
-  }
-
-  const now =
-    new Date();
-
-  const year =
-    now.getFullYear();
-
-  const month =
-    String(
-      now.getMonth() + 1
-    ).padStart(2,"0");
-
-  const day =
-    String(
-      now.getDate()
-    ).padStart(2,"0");
-
-  document.getElementById("data").value =
-    `${year}-${month}-${day}`;
-
-}
-
-
-function getNumber(id){
-
-  const value =
-    document.getElementById(id).value;
-
-  if(value === ""){
-    return null;
-  }
-
-  const number =
-    Number(value);
-
-  return Number.isFinite(number)
-    ? number
-    : null;
-
-}
-
-
-/*
-  Estrae lo stato dalla risposta testuale AI.
-
-  Riconosce ad esempio:
-  STATO: REGOLARE
-  STATO: 🟢 REGOLARE
-  STATO: ATTENZIONE
-  STATO: 🟠 ATTENZIONE
-  STATO: PROBLEMA
-  STATO: 🔴 PROBLEMA
-*/
-
-function extractAIStatus(text){
-
-  const content =
-    String(text ?? "");
-
-  const match =
-    content.match(
-      /STATO\s*:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
-    );
-
-  if(match){
-    return match[1].toUpperCase();
-  }
-
-  return null;
-
-}
-
-
-/*
-  Normalizza un eventuale stato restituito
-  separatamente dall'analisi AI.
-*/
-
-function normalizeAIStatus(value){
-
-  if(!value){
-    return null;
-  }
-
-  const text =
-    String(value)
-      .toUpperCase()
-      .trim();
-
-  if(text.includes("REGOLARE")){
-    return "REGOLARE";
-  }
-
-  if(text.includes("ATTENZIONE")){
-    return "ATTENZIONE";
-  }
-
-  if(text.includes("PROBLEMA")){
-    return "PROBLEMA";
-  }
-
-  return null;
-
-}
-
-
-/* AUTH */
+/* ============================
+   AUTENTICAZIONE
+============================ */
 
 async function protectPage(){
 
@@ -1172,18 +1277,21 @@ async function protectPage(){
       throw error;
     }
 
-    if(!session?.user){
+    if(
+      !session ||
+      !session.user
+    ){
 
       window.location.replace(
         "login.html"
       );
 
       return false;
+
     }
 
     currentUser =
       session.user;
-
 
     const {
       data:profile,
@@ -1191,11 +1299,24 @@ async function protectPage(){
     } =
       await supabase
         .from("profiles")
-        .select("id,email,ruolo,azienda_id")
-        .eq("id",currentUser.id)
+        .select(
+          "id,email,ruolo,azienda_id"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
         .single();
 
-    if(profileError || !profile){
+    if(
+      profileError ||
+      !profile
+    ){
+
+      console.error(
+        "Profilo non autorizzato:",
+        profileError
+      );
 
       await supabase.auth.signOut();
 
@@ -1204,8 +1325,13 @@ async function protectPage(){
       );
 
       return false;
+
     }
 
+    /*
+     * Senza azienda_id non possiamo
+     * creare una pratica.
+     */
     if(!profile.azienda_id){
 
       throw new Error(
@@ -1216,6 +1342,20 @@ async function protectPage(){
 
     currentProfile =
       profile;
+
+    userInfo.innerHTML =
+      `Accesso: <strong>${
+        escapeHtml(
+          profile.email ||
+          currentUser.email ||
+          ""
+        )
+      }</strong> · ${
+        escapeHtml(
+          profile.ruolo ||
+          ""
+        )
+      }`;
 
     document.body.classList.add(
       "auth-ready"
@@ -1242,759 +1382,270 @@ async function protectPage(){
     );
 
     return false;
+
   }
 
 }
 
 
-/* LOGOUT */
+/* ============================
+   LOGOUT
+============================ */
 
-document
-  .getElementById("logoutButton")
-  .addEventListener(
-    "click",
-    async function(){
+logoutButton.addEventListener(
+  "click",
+  async function(){
+
+    logoutButton.disabled = true;
+    logoutButton.textContent = "Uscita...";
+
+    try{
 
       await supabase.auth.signOut();
+
+    }
+    finally{
 
       window.location.replace(
         "login.html"
       );
 
     }
-  );
-
-
-/* ANAGRAFICHE */
-
-async function loadAnagrafiche(){
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await supabase
-        .from("anagrafiche")
-        .select(`
-          id,
-          tipo,
-          ragione_sociale,
-          partita_iva,
-          email,
-          telefono,
-          citta,
-          provincia,
-          attiva
-        `)
-        .eq("attiva",true)
-        .order(
-          "ragione_sociale",
-          {ascending:true}
-        );
-
-    if(error){
-      throw error;
-    }
-
-    anagrafiche =
-      data || [];
-
-    renderClienteOptions();
-    renderVettoreOptions();
 
   }
-  catch(error){
+);
 
-    console.error(
-      "Errore caricamento anagrafiche:",
-      error
-    );
 
-    showMessage(
-      "error",
-      "Impossibile caricare le anagrafiche: " +
-      error.message
-    );
+/* ============================
+   UTILITY
+============================ */
 
-  }
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
+function showMessage(type,text){
 
-function renderClienteOptions(){
-
-  clienteSelect.innerHTML =
-    '<option value="">Seleziona dall\'anagrafica...</option>';
-
-  const clienti =
-    anagrafiche.filter(
-      item =>
-        item.tipo === "CLIENTE" ||
-        item.tipo === "CLIENTE_VETTORE"
-    );
-
-  clienti.forEach(item => {
-
-    const option =
-      document.createElement("option");
-
-    option.value =
-      item.id;
-
-    option.textContent =
-      item.ragione_sociale;
-
-    clienteSelect.appendChild(
-      option
-    );
-
-  });
-
-}
-
-
-function renderVettoreOptions(){
-
-  vettoreSelect.innerHTML =
-    '<option value="">Seleziona dall\'anagrafica...</option>';
-
-  const vettori =
-    anagrafiche.filter(
-      item =>
-        item.tipo === "VETTORE" ||
-        item.tipo === "CLIENTE_VETTORE"
-    );
-
-  vettori.forEach(item => {
-
-    const option =
-      document.createElement("option");
-
-    option.value =
-      item.id;
-
-    option.textContent =
-      item.ragione_sociale;
-
-    vettoreSelect.appendChild(
-      option
-    );
-
-  });
-
-}
-
-
-function findAnagrafica(id){
-
-  return anagrafiche.find(
-    item => item.id === id
-  ) || null;
-
-}
-
-
-function showAnagraficaInfo(
-  element,
-  item
-){
-
-  if(!item){
-
-    element.style.display =
-      "none";
-
-    element.textContent =
-      "";
-
-    return;
-  }
-
-  const parts = [];
-
-  if(item.partita_iva){
-    parts.push(
-      "P.IVA " +
-      item.partita_iva
-    );
-  }
-
-  if(item.citta){
-    parts.push(
-      item.citta +
-      (
-        item.provincia
-          ? " (" +
-            item.provincia +
-            ")"
-          : ""
-      )
-    );
-  }
-
-  if(item.email){
-    parts.push(
-      item.email
-    );
-  }
-
-  if(item.telefono){
-    parts.push(
-      item.telefono
-    );
-  }
-
-  element.textContent =
-    parts.length
-      ? parts.join(" · ")
-      : "Anagrafica collegata";
-
-  element.style.display =
+  messageBox.style.display =
     "block";
 
-}
-
-
-/* SELEZIONE CLIENTE */
-
-clienteSelect.addEventListener(
-  "change",
-  function(){
-
-    const id =
-      clienteSelect.value;
-
-    if(!id){
-
-      selectedClienteId =
-        null;
-
-      showAnagraficaInfo(
-        clienteInfo,
-        null
-      );
-
-      invalidateAnalysis();
-
-      return;
-    }
-
-    const item =
-      findAnagrafica(id);
-
-    if(!item){
-      return;
-    }
-
-    selectedClienteId =
-      item.id;
-
-    clienteInput.value =
-      item.ragione_sociale;
-
-    showAnagraficaInfo(
-      clienteInfo,
-      item
+  messageBox.className =
+    "message " +
+    (
+      type === "success"
+        ? "message-success"
+        : "message-error"
     );
 
-    invalidateAnalysis();
-
-  }
-);
-
-
-/* SELEZIONE VETTORE */
-
-vettoreSelect.addEventListener(
-  "change",
-  function(){
-
-    const id =
-      vettoreSelect.value;
-
-    if(!id){
-
-      selectedVettoreId =
-        null;
-
-      showAnagraficaInfo(
-        vettoreInfo,
-        null
-      );
-
-      invalidateAnalysis();
-
-      return;
-    }
-
-    const item =
-      findAnagrafica(id);
-
-    if(!item){
-      return;
-    }
-
-    selectedVettoreId =
-      item.id;
-
-    vettoreInput.value =
-      item.ragione_sociale;
-
-    showAnagraficaInfo(
-      vettoreInfo,
-      item
-    );
-
-    invalidateAnalysis();
-
-  }
-);
-
-
-/* SE MODIFICO MANUALMENTE IL NOME,
-   RIMUOVO IL COLLEGAMENTO SE NON CORRISPONDE */
-
-clienteInput.addEventListener(
-  "input",
-  function(){
-
-    if(!selectedClienteId){
-      return;
-    }
-
-    const item =
-      findAnagrafica(
-        selectedClienteId
-      );
-
-    if(
-      !item ||
-      normalizeText(
-        clienteInput.value
-      ) !==
-      normalizeText(
-        item.ragione_sociale
-      )
-    ){
-
-      selectedClienteId =
-        null;
-
-      clienteSelect.value =
-        "";
-
-      showAnagraficaInfo(
-        clienteInfo,
-        null
-      );
-
-    }
-
-  }
-);
-
-
-vettoreInput.addEventListener(
-  "input",
-  function(){
-
-    if(!selectedVettoreId){
-      return;
-    }
-
-    const item =
-      findAnagrafica(
-        selectedVettoreId
-      );
-
-    if(
-      !item ||
-      normalizeText(
-        vettoreInput.value
-      ) !==
-      normalizeText(
-        item.ragione_sociale
-      )
-    ){
-
-      selectedVettoreId =
-        null;
-
-      vettoreSelect.value =
-        "";
-
-      showAnagraficaInfo(
-        vettoreInfo,
-        null
-      );
-
-    }
-
-  }
-);
-
-
-/* PROVA AD ASSOCIARE AUTOMATICAMENTE
-   UN NOME ALL'ANAGRAFICA */
-
-function autoMatchCliente(){
-
-  const nome =
-    normalizeText(
-      clienteInput.value
-    );
-
-  if(!nome){
-    return;
-  }
-
-  const match =
-    anagrafiche.find(
-      item =>
-        (
-          item.tipo === "CLIENTE" ||
-          item.tipo === "CLIENTE_VETTORE"
-        ) &&
-        normalizeText(
-          item.ragione_sociale
-        ) === nome
-    );
-
-  if(match){
-
-    selectedClienteId =
-      match.id;
-
-    clienteSelect.value =
-      match.id;
-
-    showAnagraficaInfo(
-      clienteInfo,
-      match
-    );
-
-  }
+  messageBox.textContent =
+    text;
 
 }
 
+function emptyToNull(value){
 
-function autoMatchVettore(){
-
-  const nome =
-    normalizeText(
-      vettoreInput.value
-    );
-
-  if(!nome){
-    return;
+  if(
+    value === "" ||
+    value === undefined ||
+    value === null
+  ){
+    return null;
   }
 
-  const match =
-    anagrafiche.find(
-      item =>
-        (
-          item.tipo === "VETTORE" ||
-          item.tipo === "CLIENTE_VETTORE"
-        ) &&
-        normalizeText(
-          item.ragione_sociale
-        ) === nome
-    );
-
-  if(match){
-
-    selectedVettoreId =
-      match.id;
-
-    vettoreSelect.value =
-      match.id;
-
-    showAnagraficaInfo(
-      vettoreInfo,
-      match
-    );
-
-  }
+  return value;
 
 }
 
+function numberOrNull(value){
 
-/* NUOVA ANAGRAFICA */
-
-document
-  .getElementById(
-    "newClienteButton"
-  )
-  .addEventListener(
-    "click",
-    function(){
-
-      window.location.href =
-        "nuova-anagrafica.html";
-
-    }
-  );
-
-
-document
-  .getElementById(
-    "newVettoreButton"
-  )
-  .addEventListener(
-    "click",
-    function(){
-
-      window.location.href =
-        "nuova-anagrafica.html";
-
-    }
-  );
-
-
-/* EMAIL AI */
-
-async function loadEmailData(){
-
-  if(!emailId){
-    return;
+  if(
+    value === "" ||
+    value === undefined ||
+    value === null
+  ){
+    return null;
   }
 
-  try{
+  const number =
+    Number(value);
 
-    const {
-      data:email,
-      error
-    } =
-      await supabase
-        .from("email_ai")
-        .select("*")
-        .eq("id",emailId)
-        .single();
-
-    if(error){
-      throw error;
-    }
-
-    if(!email){
-      return;
-    }
-
-    if(email.data_email){
-      document.getElementById("data").value =
-        String(email.data_email).slice(0,10);
-    }
-    else if(email.data){
-      document.getElementById("data").value =
-        String(email.data).slice(0,10);
-    }
-
-    if(email.cliente){
-      clienteInput.value =
-        email.cliente;
-    }
-
-    if(email.ritiro){
-      document.getElementById("ritiro").value =
-        formatDateTimeLocal(
-          email.ritiro
-        );
-    }
-
-    if(email.consegna){
-      document.getElementById("consegna").value =
-        formatDateTimeLocal(
-          email.consegna
-        );
-    }
-
-    if(email.partenza){
-      document.getElementById("partenza").value =
-        email.partenza;
-    }
-
-    if(email.destinazione){
-      document.getElementById("destinazione").value =
-        email.destinazione;
-    }
-
-    if(email.indirizzo_ritiro){
-      document.getElementById("indirizzoRitiro").value =
-        email.indirizzo_ritiro;
-    }
-
-    if(email.cap_ritiro){
-      document.getElementById("capRitiro").value =
-        email.cap_ritiro;
-    }
-
-    if(email.indirizzo_consegna){
-      document.getElementById("indirizzoConsegna").value =
-        email.indirizzo_consegna;
-    }
-
-    if(email.cap_consegna){
-      document.getElementById("capConsegna").value =
-        email.cap_consegna;
-    }
-
-    if(email.vettore){
-      vettoreInput.value =
-        email.vettore;
-    }
-
-    if(email.tipo_merce){
-      document.getElementById("tipoMerce").value =
-        email.tipo_merce;
-    }
-
-    if(
-      email.colli !== null &&
-      email.colli !== undefined
-    ){
-      document.getElementById("colli").value =
-        email.colli;
-    }
-
-    if(
-      email.peso_kg !== null &&
-      email.peso_kg !== undefined
-    ){
-      document.getElementById("peso").value =
-        email.peso_kg;
-    }
-    else if(
-      email.peso !== null &&
-      email.peso !== undefined
-    ){
-      document.getElementById("peso").value =
-        email.peso;
-    }
-
-    if(
-      email.volume_m3 !== null &&
-      email.volume_m3 !== undefined
-    ){
-      document.getElementById("volume").value =
-        email.volume_m3;
-    }
-    else if(
-      email.volume !== null &&
-      email.volume !== undefined
-    ){
-      document.getElementById("volume").value =
-        email.volume;
-    }
-
-    if(email.note){
-      document.getElementById("note").value =
-        email.note;
-    }
-
-    autoMatchCliente();
-    autoMatchVettore();
-
-  }
-  catch(error){
-
-    console.error(
-      "Errore caricamento Email AI:",
-      error
-    );
-
-  }
+  return Number.isNaN(number)
+    ? null
+    : number;
 
 }
 
+function extractSection(
+  text,
+  startLabel,
+  endLabel
+){
 
-function formatDateTimeLocal(value){
+  const start =
+    text.indexOf(startLabel);
 
-  if(!value){
+  if(start === -1){
     return "";
   }
 
-  const text =
-    String(value);
+  const contentStart =
+    start + startLabel.length;
 
-  if(
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/
-      .test(text)
-  ){
-    return text.slice(0,16);
+  let end =
+    text.length;
+
+  if(endLabel){
+
+    const foundEnd =
+      text.indexOf(
+        endLabel,
+        contentStart
+      );
+
+    if(foundEnd !== -1){
+      end = foundEnd;
+    }
+
   }
 
-  return "";
+  return text
+    .slice(
+      contentStart,
+      end
+    )
+    .trim();
 
 }
 
 
-/* CALCOLO PERCORSO E ARRIVO PREVISTO */
-let practiceRouteTimer = null;
-let practiceRouteBusy = false;
+/* ============================
+   ANALISI AI
+============================ */
 
-function setArrivalFromMinutes(minutes){
-  const departure = document.getElementById("ritiro").value;
-  if(!departure || !Number.isFinite(Number(minutes)) || Number(minutes) <= 0) return;
-  const d = new Date(departure);
-  d.setMinutes(d.getMinutes() + Number(minutes));
-  const pad = n => String(n).padStart(2,"0");
-  document.getElementById("consegna").value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
+function parseAnalysis(text){
 
-async function calculatePracticeRoute(){
-  if(practiceRouteBusy) return;
-  const capR=document.getElementById("capRitiro").value.trim();
-  const capC=document.getElementById("capConsegna").value.trim();
-  const status=document.getElementById("routePracticeStatus");
-  if(!/^\d{5}$/.test(capR)||!/^\d{5}$/.test(capC)){
-    status.textContent="Inserisci i due CAP per calcolare automaticamente percorso e arrivo previsto.";
-    return;
-  }
-  practiceRouteBusy=true;
-  status.textContent="Calcolo percorso e arrivo previsto...";
-  try{
-    const {data,error}=await supabase.functions.invoke("calcola-percorso",{body:{
-      cap_ritiro:capR, cap_consegna:capC,
-      partenza:document.getElementById("partenza").value.trim(),
-      destinazione:document.getElementById("destinazione").value.trim(),
-      indirizzo_ritiro:document.getElementById("indirizzoRitiro").value.trim(),
-      indirizzo_consegna:document.getElementById("indirizzoConsegna").value.trim()
-    }});
-    if(error) throw error;
-    if(data?.error) throw new Error(data.error);
-    const km=Number(data?.km||0), min=Number(data?.durata_minuti||0);
-    if(min>0) setArrivalFromMinutes(min);
-    const h=Math.floor(min/60),m=Math.round(min%60);
-    status.textContent=`Percorso stimato: ${km.toLocaleString("it-IT")} km · ${h}h ${m}min. Arrivo previsto aggiornato automaticamente.`;
-  }catch(e){
-    status.textContent="Calcolo automatico non riuscito. Puoi inserire l’arrivo manualmente. "+(e?.message||"");
-  }finally{practiceRouteBusy=false}
-}
-function schedulePracticeRoute(){clearTimeout(practiceRouteTimer);practiceRouteTimer=setTimeout(calculatePracticeRoute,550)}
-["ritiro","partenza","destinazione","indirizzoRitiro","capRitiro","indirizzoConsegna","capConsegna"].forEach(id=>{
-  document.getElementById(id)?.addEventListener("change",schedulePracticeRoute);
-  if(id!=="ritiro") document.getElementById(id)?.addEventListener("input",schedulePracticeRoute);
-});
-
-/* DATI FORM */
-
-function getPracticeData(){
+  const statusMatch =
+    text.match(
+      /STATO:\s*(?:🟢|🟠|🔴)?\s*(REGOLARE|ATTENZIONE|PROBLEMA)/i
+    );
 
   return {
 
-    data:
-      emptyToNull(
-        document.getElementById("data").value
+    status:
+      statusMatch
+        ? statusMatch[1].toUpperCase()
+        : "",
+
+    reason:
+      extractSection(
+        text,
+        "MOTIVO:",
+        "AZIONE RICHIESTA:"
       ),
+
+    action:
+      extractSection(
+        text,
+        "AZIONE RICHIESTA:",
+        "DATI DELLA PRATICA:"
+      )
+
+  };
+
+}
+
+
+/* ============================
+   DATI PER MAKE
+============================ */
+
+function getAnalysisData(){
+
+  return {
+
+    azione:"analizza",
+
+    data:
+      document.getElementById("data").value,
 
     cliente:
-      emptyToNull(
-        clienteInput.value
-      ),
+      document.getElementById("cliente").value,
 
-    cliente_id:
-      selectedClienteId,
+    ritiro:
+      document.getElementById("ritiro").value,
+
+    consegna:
+      document.getElementById("consegna").value,
+
+    partenza:
+      document.getElementById("partenza").value,
+
+    indirizzoRitiro:
+      document.getElementById("indirizzoRitiro").value,
+
+    capRitiro:
+      document.getElementById("capRitiro").value,
+
+    destinazione:
+      document.getElementById("destinazione").value,
+
+    indirizzoConsegna:
+      document.getElementById("indirizzoConsegna").value,
+
+    capConsegna:
+      document.getElementById("capConsegna").value,
+
+    vettore:
+      document.getElementById("vettore").value,
+
+    tipoMerce:
+      document.getElementById("tipoMerce").value,
+
+    colli:
+      document.getElementById("colli").value,
+
+    peso:
+      document.getElementById("peso").value,
+
+    volume:
+      document.getElementById("volume").value,
+
+    note:
+      document.getElementById("note").value
+
+  };
+
+}
+
+
+/* ============================
+   DATI PER SUPABASE
+============================ */
+
+function getSupabaseData(){
+
+  return {
+
+    /*
+     * numero_pratica NON viene inviato.
+     * Lo genera il trigger di Supabase.
+     */
+
+    azienda_id:
+      currentProfile.azienda_id,
+
+    data:
+      document.getElementById("data").value,
+
+    cliente:
+      document.getElementById("cliente").value.trim(),
 
     ritiro:
       emptyToNull(
@@ -2007,759 +1658,534 @@ function getPracticeData(){
       ),
 
     partenza:
-      emptyToNull(
-        document.getElementById("partenza").value
-      ),
+      document.getElementById("partenza").value.trim(),
 
     indirizzo_ritiro:
       emptyToNull(
-        document.getElementById("indirizzoRitiro").value
+        document.getElementById("indirizzoRitiro").value.trim()
       ),
 
     cap_ritiro:
       emptyToNull(
-        document.getElementById("capRitiro").value
+        document.getElementById("capRitiro").value.trim()
       ),
-
-    nazione_ritiro:
-      emptyToNull(document.getElementById("nazioneRitiro").value) || "Italia",
 
     destinazione:
-      emptyToNull(
-        document.getElementById("destinazione").value
-      ),
+      document.getElementById("destinazione").value.trim(),
 
     indirizzo_consegna:
       emptyToNull(
-        document.getElementById("indirizzoConsegna").value
+        document.getElementById("indirizzoConsegna").value.trim()
       ),
 
     cap_consegna:
       emptyToNull(
-        document.getElementById("capConsegna").value
+        document.getElementById("capConsegna").value.trim()
       ),
-
-    nazione_consegna:
-      emptyToNull(document.getElementById("nazioneConsegna").value) || "Italia",
 
     vettore:
       emptyToNull(
-        vettoreInput.value
+        document.getElementById("vettore").value.trim()
       ),
-
-    vettore_id:
-      selectedVettoreId,
 
     tipo_merce:
-      emptyToNull(
-        document.getElementById("tipoMerce").value
-      ),
+      document.getElementById("tipoMerce").value.trim(),
 
     colli:
-      getNumber("colli"),
+      numberOrNull(
+        document.getElementById("colli").value
+      ),
 
     peso_kg:
-      getNumber("peso"),
+      numberOrNull(
+        document.getElementById("peso").value
+      ),
 
     volume_m3:
-      getNumber("volume"),
+      numberOrNull(
+        document.getElementById("volume").value
+      ),
 
     note:
       emptyToNull(
-        document.getElementById("note").value
-      )
+        document.getElementById("note").value.trim()
+      ),
+
+    stato_ai:
+      ultimoStato || null,
+
+    analisi_ai:
+      ultimaAnalisi || null,
+
+    created_by:
+      currentUser.id,
+
+    updated_by:
+      currentUser.id
 
   };
 
 }
 
 
-/* VALIDAZIONE */
-
-function validateForm(){
-
-  const data =
-    getPracticeData();
-
-  if(!data.data){
-
-    showMessage(
-      "error",
-      "Inserisci la data della pratica."
-    );
-
-    return false;
-  }
-
-  if(!data.cliente){
-
-    showMessage(
-      "error",
-      "Inserisci o seleziona il cliente."
-    );
-
-    return false;
-  }
-
-  if(!data.partenza){
-
-    showMessage(
-      "error",
-      "Inserisci la partenza."
-    );
-
-    return false;
-  }
-
-  if(!data.destinazione){
-
-    showMessage(
-      "error",
-      "Inserisci la destinazione."
-    );
-
-    return false;
-  }
-
-  if(!data.tipo_merce){
-
-    showMessage(
-      "error",
-      "Inserisci il tipo di merce."
-    );
-
-    return false;
-  }
-
-  if(
-    data.cap_ritiro &&
-    data.nazione_ritiro === "Italia" &&
-    !/^\d{5}$/.test(data.cap_ritiro)
-  ){
-
-    showMessage(
-      "error",
-      "Il CAP di ritiro deve contenere 5 cifre."
-    );
-
-    return false;
-  }
-
-  if(
-    data.cap_consegna &&
-    data.nazione_consegna === "Italia" &&
-    !/^\d{5}$/.test(data.cap_consegna)
-  ){
-
-    showMessage(
-      "error",
-      "Il CAP di consegna deve contenere 5 cifre."
-    );
-
-    return false;
-  }
-
-  hideMessage();
-
-  return true;
-
-}
-
-
-/* RESET ANALISI QUANDO CAMBIANO DATI */
+/* ============================
+   INVALIDA ANALISI
+============================ */
 
 function invalidateAnalysis(){
 
-  if(!analisiEseguita){
+  if(!analisiValida){
     return;
   }
 
-  analisiEseguita =
-    false;
+  analisiValida = false;
 
-  statoAI =
-    null;
-
-  analisiAI =
-    null;
-
-  aiBadge.textContent =
-    "DA RIANALIZZARE";
-
-  aiBadge.className =
-    "ai-badge";
-
-  aiResult.textContent =
-    "I dati sono stati modificati. Esegui nuovamente l'analisi AI.";
-
-  confirmButton.disabled =
-    true;
-
-  correctButton.style.display =
+  confirmBox.style.display =
     "none";
 
+  aiStateText.textContent =
+    "Analisi da aggiornare";
+
+  showMessage(
+    "error",
+    "Hai modificato i dati. Esegui nuovamente l'analisi prima di confermare."
+  );
+
 }
 
-
-document
+form
   .querySelectorAll(
-    "input, textarea, select"
+    "input, textarea"
   )
-  .forEach(element => {
+  .forEach(
+    field=>{
 
-    element.addEventListener(
-      "change",
-      function(event){
-
-        if(
-          event.target.id !== "clienteSelect" &&
-          event.target.id !== "vettoreSelect"
-        ){
-          invalidateAnalysis();
-        }
-
-      }
-    );
-
-  });
-
-
-/* ANALISI AI */
-
-analyzeButton.addEventListener(
-  "click",
-  analyzePractice
-);
-
-
-async function analyzePractice(){
-
-  if(!validateForm()){
-    return;
-  }
-
-  autoMatchCliente();
-  autoMatchVettore();
-
-  analyzeButton.disabled =
-    true;
-
-  confirmButton.disabled =
-    true;
-
-  analyzeButton.textContent =
-    "Analisi in corso...";
-
-  aiBadge.textContent =
-    "ANALISI...";
-
-  aiBadge.className =
-    "ai-badge";
-
-  aiResult.textContent =
-    "MatRi-mIA sta controllando i dati della pratica...";
-
-  hideMessage();
-
-  try{
-
-    const pratica =
-      getPracticeData();
-
-    const payload = {
-      azione:"analizza",
-      ...pratica
-    };
-
-    const { data: responseData, error: analysisError } =
-      await supabase.functions.invoke(
-        "analizza-pratica",
-        { body: payload }
+      field.addEventListener(
+        "input",
+        invalidateAnalysis
       );
 
-    if(analysisError){
-      throw analysisError;
     }
-
-    if(responseData?.ok === false){
-      throw new Error(
-        responseData.detail ||
-        responseData.error ||
-        "Errore durante l'analisi AI."
-      );
-    }
-
-    const responseText =
-      typeof responseData === "string"
-        ? responseData
-        : String(
-            responseData?.analysis ||
-            responseData?.analisi ||
-            responseData?.text ||
-            responseData?.message ||
-            ""
-          );
-
-    let result = null;
-
-    if(typeof responseData === "object" && responseData !== null){
-      result = responseData;
-    }
-    else{
-      try{
-        result =
-          responseText
-            ? JSON.parse(responseText)
-            : {};
-      }
-      catch{
-        result = {
-          analisi:responseText
-        };
-      }
-    }
+  );
 
 
-    /*
-      PRIMA ricaviamo il testo completo
-      dell'analisi.
-    */
+/* ============================
+   MOSTRA RISULTATO AI
+============================ */
 
-    analisiAI =
-      result.analisi_ai ||
-      result.analisi ||
-      result.messaggio ||
-      result.message ||
-      responseText ||
-      "Analisi completata.";
+function showAIResult(result){
 
+  aiResult.style.display =
+    "block";
 
-    /*
-      CORREZIONE IMPORTANTE:
+  aiStateText.textContent =
+    "Analisi completata";
 
-      1. Se il servizio AI restituisce uno stato separato,
-         utilizziamo quello.
+  aiStatus.textContent =
+    result.status ||
+    "ANALISI COMPLETATA";
 
-      2. Se il servizio AI NON restituisce stato_ai/stato/status,
-         leggiamo direttamente:
+  if(
+    result.status === "REGOLARE"
+  ){
 
-         STATO: REGOLARE
-         STATO: ATTENZIONE
-         STATO: PROBLEMA
+    aiStatus.className =
+      "ai-status ai-status-ok";
 
-         dal testo prodotto dall'AI.
-    */
+    confirmNote.textContent =
+      "La pratica risulta regolare. Puoi confermarla.";
 
-    const statoSeparato =
-      normalizeAIStatus(
-        result.stato_ai ||
-        result.stato ||
-        result.status
-      );
-
-    const statoDalTesto =
-      extractAIStatus(
-        analisiAI
-      );
-
-    statoAI =
-      statoSeparato ||
-      statoDalTesto ||
-      "ATTENZIONE";
-
-
-    console.log(
-      "Stato separato:",
-      statoSeparato
-    );
-
-    console.log(
-      "Stato estratto dal testo:",
-      statoDalTesto
-    );
-
-    console.log(
-      "Stato AI finale:",
-      statoAI
-    );
-
-
-    analisiEseguita =
-      true;
-
-    renderAIResult();
-
-    confirmButton.disabled =
-      false;
+    confirmButton.textContent =
+      "Conferma pratica";
 
     correctButton.style.display =
-      "inline-block";
+      "none";
 
   }
-  catch(error){
+  else if(
+    result.status === "ATTENZIONE"
+  ){
 
-    console.error(
-      "Errore analisi AI:",
-      error
-    );
+    aiStatus.className =
+      "ai-status ai-status-warning";
 
-    analisiEseguita =
-      false;
+    confirmNote.textContent =
+      "Sono presenti elementi da verificare. Puoi correggere i dati e analizzare di nuovo oppure confermare comunque.";
 
-    statoAI =
-      null;
+    confirmButton.textContent =
+      "Conferma comunque";
 
-    analisiAI =
-      null;
-
-    aiBadge.textContent =
-      "ERRORE";
-
-    aiBadge.className =
-      "ai-badge problema";
-
-    aiResult.textContent =
-      "Non è stato possibile completare l'analisi AI.";
-
-    showMessage(
-      "error",
-      "Errore durante l'analisi: " +
-      error.message
-    );
+    correctButton.style.display =
+      "block";
 
   }
-  finally{
+  else if(
+    result.status === "PROBLEMA"
+  ){
 
-    analyzeButton.disabled =
-      false;
+    aiStatus.className =
+      "ai-status ai-status-error";
 
-    analyzeButton.textContent =
-      "Analizza pratica";
+    confirmNote.textContent =
+      "L'AI ha rilevato un problema. È consigliato correggere i dati prima della conferma.";
+
+    confirmButton.textContent =
+      "Conferma comunque";
+
+    correctButton.style.display =
+      "block";
 
   }
+  else{
+
+    aiStatus.className =
+      "ai-status ai-status-default";
+
+    confirmNote.textContent =
+      "Controlla il risultato prima di confermare.";
+
+    confirmButton.textContent =
+      "Conferma pratica";
+
+    correctButton.style.display =
+      "block";
+
+  }
+
+  aiReason.textContent =
+    result.reason ||
+    "Nessun motivo disponibile.";
+
+  aiAction.textContent =
+    result.action ||
+    "Nessuna indicazione disponibile.";
+
+  confirmBox.style.display =
+    "block";
 
 }
 
 
-function renderAIResult(){
-
-  aiBadge.textContent =
-    statoAI;
-
-  aiBadge.className =
-    "ai-badge " +
-    statoAI.toLowerCase();
-
-  aiResult.textContent =
-    analisiAI ||
-    "Analisi completata.";
-
-}
-
-
-/* CORREGGI */
+/* ============================
+   CORREGGI
+============================ */
 
 correctButton.addEventListener(
   "click",
   function(){
 
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
+    document
+      .getElementById("data")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
 
-    showMessage(
-      "success",
-      "Puoi correggere i dati. Dopo le modifiche esegui nuovamente l'analisi."
-    );
+    document
+      .getElementById("data")
+      .focus();
 
   }
 );
 
 
-/* NUMERO PRATICA */
-
-async function generatePracticeNumber(){
-
-  const year =
-    new Date().getFullYear();
-
-  const {
-    data,
-    error
-  } =
-    await supabase
-      .from("pratiche")
-      .select("numero_pratica");
-
-  if(error){
-    throw error;
-  }
-
-  let maxNumber = 0;
-
-  (data || []).forEach(row => {
-
-    const value =
-      String(
-        row.numero_pratica || ""
-      ).trim();
-
-    const match =
-      value.match(
-        new RegExp(
-          `^#?${year}-(\\d+)$`
-        )
-      );
-
-    if(match){
-
-      const number =
-        Number(match[1]);
-
-      if(
-        Number.isFinite(number) &&
-        number > maxNumber
-      ){
-        maxNumber =
-          number;
-      }
-
-    }
-
-  });
-
-  return (
-    `${year}-` +
-    String(maxNumber + 1)
-      .padStart(4,"0")
-  );
-
-}
-
-
-
-/* CONFERMA PRATICA */
-
-confirmButton.addEventListener(
-  "click",
-  confirmPractice
-);
-
-
-async function confirmPractice(){
-
-  if(!validateForm()){
-    return;
-  }
-
-  if(!analisiEseguita){
-
-    showMessage(
-      "error",
-      "Prima devi eseguire l'analisi AI."
-    );
-
-    return;
-  }
-
-  autoMatchCliente();
-  autoMatchVettore();
-
-  confirmButton.disabled =
-    true;
-
-  analyzeButton.disabled =
-    true;
-
-  confirmButton.textContent =
-    "Conferma in corso...";
-
-  hideMessage();
-
-  try{
-
-    const numeroPratica =
-      await generatePracticeNumber();
-
-    const formData =
-      getPracticeData();
-
-    const pratica = {
-
-      azienda_id:
-        currentProfile.azienda_id,
-
-      numero_pratica:
-        numeroPratica,
-
-      data:
-        formData.data,
-
-      cliente:
-        formData.cliente,
-
-      cliente_id:
-        formData.cliente_id,
-
-      ritiro:
-        formData.ritiro,
-
-      consegna:
-        formData.consegna,
-
-      partenza:
-        formData.partenza,
-
-      indirizzo_ritiro:
-        formData.indirizzo_ritiro,
-
-      cap_ritiro:
-        formData.cap_ritiro,
-
-      nazione_ritiro:
-        formData.nazione_ritiro || "Italia",
-
-      destinazione:
-        formData.destinazione,
-
-      indirizzo_consegna:
-        formData.indirizzo_consegna,
-
-      cap_consegna:
-        formData.cap_consegna,
-
-      nazione_consegna:
-        formData.nazione_consegna || "Italia",
-
-      vettore:
-        formData.vettore,
-
-      vettore_id:
-        formData.vettore_id,
-
-      tipo_merce:
-        formData.tipo_merce,
-
-      colli:
-        formData.colli,
-
-      peso_kg:
-        formData.peso_kg,
-
-      volume_m3:
-        formData.volume_m3,
-
-      note:
-        formData.note,
-
-      stato_ai:
-        statoAI,
-
-      analisi_ai:
-        analisiAI
-
-    };
-
-
-    const {
-      data:createdPractice,
-      error
-    } =
-      await supabase
-        .from("pratiche")
-        .insert(pratica)
-        .select(
-          "id,numero_pratica"
-        )
-        .single();
-
-    if(error){
-      throw error;
-    }
-
-
-    /* COLLEGA EMAIL AI ALLA PRATICA */
+/* ============================
+   ANALIZZA CON MAKE
+============================ */
+
+form.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
 
     if(
-      emailId &&
-      createdPractice?.id
+      !currentUser ||
+      !currentProfile
     ){
 
-      const {
-        error:emailUpdateError
-      } =
-        await supabase
-          .from("email_ai")
-          .update({
-            pratica_id:
-              createdPractice.id
-          })
-          .eq(
-            "id",
-            emailId
-          );
+      showMessage(
+        "error",
+        "Sessione non valida."
+      );
 
-      if(emailUpdateError){
+      return;
 
-        console.error(
-          "Pratica creata ma collegamento Email AI non riuscito:",
-          emailUpdateError
+    }
+
+    if(!form.checkValidity()){
+
+      form.reportValidity();
+      return;
+
+    }
+
+    messageBox.style.display =
+      "none";
+
+    confirmBox.style.display =
+      "none";
+
+    submitButton.disabled =
+      true;
+
+    submitButton.textContent =
+      "Analisi in corso...";
+
+    aiStateText.textContent =
+      "Analisi in corso...";
+
+    try{
+
+      const response =
+        await fetch(
+          WEBHOOK_URL,
+          {
+            method:"POST",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify(
+                getAnalysisData()
+              )
+          }
+        );
+
+      if(!response.ok){
+
+        throw new Error(
+          "HTTP " +
+          response.status
         );
 
       }
 
+      const responseText =
+        await response.text();
+
+      ultimaAnalisi =
+        responseText;
+
+      const result =
+        parseAnalysis(
+          responseText
+        );
+
+      ultimoStato =
+        result.status;
+
+      analisiValida =
+        true;
+
+      showAIResult(
+        result
+      );
+
+      showMessage(
+        "success",
+        "Analisi completata. La pratica non è ancora stata registrata."
+      );
+
+    }
+    catch(error){
+
+      analisiValida =
+        false;
+
+      console.error(
+        "Errore analisi:",
+        error
+      );
+
+      showMessage(
+        "error",
+        "Errore durante l'analisi: " +
+        error.message
+      );
+
+      aiStateText.textContent =
+        "Errore nell'analisi";
+
+    }
+    finally{
+
+      submitButton.disabled =
+        false;
+
+      submitButton.textContent =
+        "Analizza pratica";
+
     }
 
-
-    showMessage(
-      "success",
-      `Pratica ${numeroPratica} creata correttamente.`
-    );
-
-
-    setTimeout(
-      function(){
-
-        window.location.href =
-          "dettaglio-pratica.html?id=" +
-          encodeURIComponent(
-            numeroPratica
-          );
-
-      },
-      800
-    );
-
   }
-  catch(error){
+);
 
-    console.error(
-      "Errore creazione pratica:",
-      error
-    );
 
-    showMessage(
-      "error",
-      "Errore durante la creazione della pratica: " +
-      error.message
-    );
+/* ============================
+   CONFERMA DIRETTAMENTE
+   SU SUPABASE
+============================ */
+
+confirmButton.addEventListener(
+  "click",
+  async function(){
+
+    if(
+      !currentUser ||
+      !currentProfile
+    ){
+
+      showMessage(
+        "error",
+        "Sessione non valida."
+      );
+
+      return;
+
+    }
+
+    if(!analisiValida){
+
+      showMessage(
+        "error",
+        "Esegui nuovamente l'analisi prima di confermare."
+      );
+
+      return;
+
+    }
+
+    if(!form.checkValidity()){
+
+      form.reportValidity();
+      return;
+
+    }
 
     confirmButton.disabled =
-      false;
+      true;
 
-    analyzeButton.disabled =
-      false;
+    const oldButtonText =
+      confirmButton.textContent;
 
     confirmButton.textContent =
-      "Conferma pratica";
+      "Registrazione in corso...";
+
+    try{
+
+      const praticaDaSalvare =
+        getSupabaseData();
+
+      console.log(
+        "Inserimento Supabase:",
+        praticaDaSalvare
+      );
+
+      const {
+        data:praticaCreata,
+        error
+      } =
+        await supabase
+          .from("pratiche")
+          .insert(
+            praticaDaSalvare
+          )
+          .select(
+            "id,numero_pratica"
+          )
+          .single();
+
+      if(error){
+
+        console.error(
+          "Errore INSERT Supabase:",
+          error
+        );
+
+        throw new Error(
+          error.message
+        );
+
+      }
+
+      if(
+        !praticaCreata ||
+        !praticaCreata.numero_pratica
+      ){
+
+        throw new Error(
+          "La pratica è stata inserita ma Supabase non ha restituito il numero pratica."
+        );
+
+      }
+
+      const numeroPratica =
+        praticaCreata.numero_pratica;
+
+      analisiValida =
+        false;
+
+      showMessage(
+        "success",
+        "Pratica " +
+        numeroPratica +
+        " registrata correttamente in Supabase."
+      );
+
+      aiStateText.textContent =
+        "Pratica registrata";
+
+      /*
+       * Apriamo il dettaglio usando
+       * numero_pratica, come già fa
+       * dettaglio-pratica.html.
+       */
+      setTimeout(
+        function(){
+
+          window.location.href =
+            "dettaglio-pratica.html?id=" +
+            encodeURIComponent(
+              numeroPratica
+            );
+
+        },
+        900
+      );
+
+    }
+    catch(error){
+
+      console.error(
+        "Errore conferma:",
+        error
+      );
+
+      showMessage(
+        "error",
+        "Errore durante la registrazione: " +
+        error.message
+      );
+
+      confirmButton.disabled =
+        false;
+
+      confirmButton.textContent =
+        oldButtonText;
+
+    }
 
   }
+);
 
-}
 
-
-/* AVVIO */
+/* ============================
+   AVVIO
+============================ */
 
 async function startPage(){
 
@@ -2770,37 +2196,11 @@ async function startPage(){
     return;
   }
 
-  setToday();
-
-  await loadAnagrafiche();
-
-  await loadEmailData();
-
 }
-
 
 startPage();
 
 </script>
 
-
-<!-- Sincronizzazione utente sidebar -->
-<script type="module">
-  import { createClient as createSidebarClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  const sidebarUserEmail = document.getElementById("userEmail");
-  if (sidebarUserEmail) {
-    try {
-      const sidebarSupabase = createSidebarClient(
-        "https://sctzockiurjsxzdkctmy.supabase.co",
-        "sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"
-      );
-      const { data: { session } } = await sidebarSupabase.auth.getSession();
-      if (session?.user?.email) sidebarUserEmail.textContent = session.user.email;
-    } catch (error) {
-      console.error("Errore visualizzazione utente sidebar:", error);
-    }
-  }
-</script>
 </body>
-
 </html>
