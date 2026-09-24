@@ -231,6 +231,44 @@ async function generate(){
 $("practice").addEventListener("change",renderPreview);
 $("type").addEventListener("change",changeType);
 $("generate").addEventListener("click",generate);
+
+// Apertura PDF stabile: scarica prima il file e lo apre come Blob locale.
+// Evita la schermata bianca occasionale del visualizzatore PDF del browser
+// quando una signed URL viene aperta direttamente.
+$("openPdf").addEventListener("click",async(event)=>{
+  event.preventDefault();
+  const pdfUrl=$("openPdf").href;
+  if(!pdfUrl)return;
+
+  // Apriamo subito la scheda per non essere bloccati dal popup blocker.
+  const pdfWindow=window.open("","_blank");
+  if(pdfWindow){
+    pdfWindow.document.write(`<!doctype html><html><head><title>Caricamento PDF...</title></head><body style="font-family:Arial,sans-serif;padding:32px">Caricamento PDF...</body></html>`);
+    pdfWindow.document.close();
+  }
+
+  try{
+    const response=await fetch(pdfUrl,{cache:"no-store"});
+    if(!response.ok)throw new Error(`PDF non disponibile (${response.status})`);
+    const blob=await response.blob();
+    const pdfBlob=blob.type==="application/pdf"?blob:new Blob([blob],{type:"application/pdf"});
+    const blobUrl=URL.createObjectURL(pdfBlob);
+
+    if(pdfWindow){
+      pdfWindow.location.replace(blobUrl);
+    }else{
+      window.location.href=blobUrl;
+    }
+
+    // Manteniamo il Blob abbastanza a lungo perché il viewer abbia finito di leggerlo.
+    setTimeout(()=>URL.revokeObjectURL(blobUrl),120000);
+  }catch(e){
+    console.error(e);
+    if(pdfWindow)pdfWindow.close();
+    // Fallback alla signed URL originale.
+    window.open(pdfUrl,"_blank","noopener");
+  }
+});
 $("returnPractice").addEventListener("click",(event)=>{
   event.preventDefault();
 
