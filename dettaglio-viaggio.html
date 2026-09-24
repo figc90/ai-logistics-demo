@@ -1331,6 +1331,40 @@ input:disabled{
 </section>
 
 <!-- =========================
+     CONSUNTIVO VIAGGIO
+========================= -->
+
+<section class="card" id="actualCostCard">
+<div class="card-header">
+  <h2>Consuntivo viaggio</h2>
+  <span class="field-hint">Compila i dati reali a viaggio concluso. I valori previsti restano invariati.</span>
+</div>
+<div class="card-body">
+  <div class="form-grid">
+    <div class="form-group"><label for="aKm">Km effettivi</label><input id="aKm" type="number" min="0" step="0.1"></div>
+    <div class="form-group"><label for="aLitri">Litri carburante effettivi</label><input id="aLitri" type="number" min="0" step="0.01"></div>
+    <div class="form-group"><label for="aOre">Ore autista effettive</label><input id="aOre" type="number" min="0" step="0.01"></div>
+    <div class="form-group"><label for="aExtra">Costi extra effettivi €</label><input id="aExtra" type="number" min="0" step="0.01" value="0"></div>
+    <div class="form-group full"><label for="aNote">Note consuntivo</label><textarea id="aNote" rows="3" placeholder="Pedaggi extra, attese, deviazioni, spese impreviste..."></textarea></div>
+  </div>
+
+  <div class="fields" style="margin-top:18px">
+    <div class="field"><div class="label">Costo mezzo effettivo</div><div id="aCostoMezzo" class="value">-</div></div>
+    <div class="field"><div class="label">Costo carburante effettivo</div><div id="aCostoCarburante" class="value">-</div></div>
+    <div class="field"><div class="label">Costo autista effettivo</div><div id="aCostoAutista" class="value">-</div></div>
+    <div class="field"><div class="label">Costo totale effettivo</div><div id="aCostoTotale" class="value">-</div></div>
+    <div class="field"><div class="label">Scostamento dal previsto</div><div id="aScostamento" class="value">-</div></div>
+    <div class="field"><div class="label">Margine reale €</div><div id="aMargine" class="value">-</div></div>
+    <div class="field"><div class="label">Margine reale %</div><div id="aMarginePct" class="value">-</div></div>
+  </div>
+
+  <div class="actions" style="margin-top:18px">
+    <button id="saveActualButton" class="btn btn-primary" type="button">Salva consuntivo</button>
+  </div>
+</div>
+</section>
+
+<!-- =========================
      DOCUMENTI
 ========================= -->
 
@@ -1508,6 +1542,7 @@ let autisti = [];
 
 let selectedVettoreId = null;
 let currentDocuments = [];
+let currentRevenue = null;
 
 const userEmail =
 document.getElementById("userEmail");
@@ -2170,6 +2205,7 @@ async function load(){
   render();
 
   await loadProfitability();
+  fillActualCost();
   await loadDocuments();
 }
 
@@ -2180,6 +2216,7 @@ async function load(){
 
 async function loadProfitability(){
   const eur = value => Number(value || 0).toLocaleString("it-IT", {style:"currency", currency:"EUR"});
+  currentRevenue = null;
   const link = document.getElementById("profitQuoteLink");
   link.style.display = "none";
   link.removeAttribute("href");
@@ -2231,6 +2268,7 @@ async function loadProfitability(){
   }
 
   const ricavo = Number(quote.prezzo_finale || 0);
+  currentRevenue = ricavo;
   const margineEuro = ricavo - costoTotale;
   const marginePercent = ricavo > 0 ? (margineEuro / ricavo) * 100 : null;
 
@@ -2241,6 +2279,88 @@ async function loadProfitability(){
 
   link.href = "dettaglio-preventivo.html?id=" + encodeURIComponent(quote.id);
   link.style.display = "inline-flex";
+}
+
+/* =========================
+   CONSUNTIVO VIAGGIO
+========================= */
+
+function actualNumbers(){
+  const km = Number(document.getElementById("aKm")?.value) || 0;
+  const litri = Number(document.getElementById("aLitri")?.value) || 0;
+  const ore = Number(document.getElementById("aOre")?.value) || 0;
+  const extra = Number(document.getElementById("aExtra")?.value) || 0;
+
+  const kmPrevisti = Number(viaggio?.km_totali_previsti ?? viaggio?.km_previsti) || 0;
+  const costoMezzoPrevisto = Number(viaggio?.costo_mezzo_previsto ?? viaggio?.costo_previsto) || 0;
+  const costoKm = kmPrevisti > 0 ? costoMezzoPrevisto / kmPrevisti : 0;
+  const prezzoCarburante = Number(viaggio?.prezzo_carburante_l) || 0;
+  const costoAutistaOra = Number(viaggio?.costo_autista_ora) || 0;
+
+  const mezzo = km * costoKm;
+  const carburante = litri * prezzoCarburante;
+  const autista = ore * costoAutistaOra;
+  const totale = mezzo + carburante + autista + extra;
+  return {km, litri, ore, extra, mezzo, carburante, autista, totale};
+}
+
+function renderActualCost(){
+  if(!viaggio) return;
+  const eur = value => Number(value || 0).toLocaleString("it-IT", {style:"currency", currency:"EUR"});
+  const n = actualNumbers();
+  const previsto = Number(viaggio.costo_totale_previsto) || 0;
+  const scostamento = n.totale - previsto;
+  const margine = currentRevenue == null ? null : currentRevenue - n.totale;
+  const marginePct = currentRevenue > 0 && margine != null ? (margine / currentRevenue) * 100 : null;
+
+  text("aCostoMezzo", eur(n.mezzo));
+  text("aCostoCarburante", eur(n.carburante));
+  text("aCostoAutista", eur(n.autista));
+  text("aCostoTotale", eur(n.totale));
+  text("aScostamento", (scostamento >= 0 ? "+" : "") + eur(scostamento));
+  text("aMargine", margine == null ? "-" : eur(margine));
+  text("aMarginePct", marginePct == null ? "-" : marginePct.toLocaleString("it-IT", {minimumFractionDigits:1,maximumFractionDigits:1}) + " %");
+}
+
+function fillActualCost(){
+  document.getElementById("aKm").value = viaggio.km_effettivi ?? "";
+  document.getElementById("aLitri").value = viaggio.litri_effettivi ?? "";
+  document.getElementById("aOre").value = viaggio.ore_autista_effettive ?? "";
+  document.getElementById("aExtra").value = viaggio.costi_extra_effettivi ?? 0;
+  document.getElementById("aNote").value = viaggio.note_consuntivo ?? "";
+  renderActualCost();
+}
+
+async function saveActualCost(){
+  const button = document.getElementById("saveActualButton");
+  const n = actualNumbers();
+  if(n.km <= 0){ showError("Inserisci i km effettivi del viaggio."); return; }
+
+  button.disabled = true;
+  button.textContent = "Salvataggio...";
+  try{
+    const payload = {
+      km_effettivi: Number(n.km.toFixed(2)),
+      litri_effettivi: n.litri > 0 ? Number(n.litri.toFixed(2)) : null,
+      ore_autista_effettive: n.ore > 0 ? Number(n.ore.toFixed(2)) : null,
+      costi_extra_effettivi: Number(n.extra.toFixed(2)),
+      costo_mezzo_effettivo: Number(n.mezzo.toFixed(2)),
+      costo_carburante_effettivo: Number(n.carburante.toFixed(2)),
+      costo_autista_effettivo: Number(n.autista.toFixed(2)),
+      costo_totale_effettivo: Number(n.totale.toFixed(2)),
+      note_consuntivo: document.getElementById("aNote").value.trim() || null
+    };
+    const {data, error} = await supabase.from("viaggi").update(payload).eq("id", viaggio.id).select().single();
+    if(error) throw error;
+    viaggio = {...viaggio, ...data};
+    showSuccess("Consuntivo viaggio salvato correttamente.");
+    fillActualCost();
+  }catch(error){
+    showError("Impossibile salvare il consuntivo: " + error.message);
+  }finally{
+    button.disabled = false;
+    button.textContent = "Salva consuntivo";
+  }
 }
 
 /* =========================
@@ -3733,7 +3853,12 @@ async function start(){
      * Poi il viaggio, così possiamo
      * riconoscere autista_id.
      */
-    await load();
+    await ["aKm","aLitri","aOre","aExtra"].forEach(id => {
+  document.getElementById(id)?.addEventListener("input", renderActualCost);
+});
+document.getElementById("saveActualButton")?.addEventListener("click", saveActualCost);
+
+load();
 
   }
   catch(error){
