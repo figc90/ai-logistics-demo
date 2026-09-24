@@ -931,6 +931,10 @@ type="number"
 min="0"
 step="1">
 
+<div class="field-helper" id="routeStatus">
+I km vengono calcolati automaticamente dai dati di ritiro e consegna della pratica. Restano modificabili manualmente.
+</div>
+
 </div>
 
 <div class="form-group">
@@ -1977,6 +1981,58 @@ function calculatePlannedDriverHours(){
   }
 }
 
+let routeBusy = false;
+
+async function calculateRouteFromPractice(pratica){
+  if(!pratica || routeBusy) return;
+
+  const capR = String(pratica.cap_ritiro || "").trim();
+  const capC = String(pratica.cap_consegna || "").trim();
+  const status = $("routeStatus");
+
+  if(!/^\d{5}$/.test(capR) || !/^\d{5}$/.test(capC)){
+    if(status) status.textContent = "CAP di ritiro/consegna mancanti nella pratica: inserisci i km manualmente.";
+    return;
+  }
+
+  routeBusy = true;
+  if(status) status.textContent = "Calcolo automatico del percorso in corso...";
+
+  try{
+    const {data,error} = await supabase.functions.invoke("calcola-percorso", {
+      body:{
+        cap_ritiro: capR,
+        cap_consegna: capC,
+        partenza: pratica.partenza || "",
+        destinazione: pratica.destinazione || "",
+        indirizzo_ritiro: pratica.indirizzo_ritiro || "",
+        indirizzo_consegna: pratica.indirizzo_consegna || ""
+      }
+    });
+
+    if(error) throw error;
+    if(data?.error) throw new Error(data.error);
+
+    const km = Number(data?.km || 0);
+    if(km > 0){
+      $("kmPrevisti").value = km.toFixed(1);
+      if(status){
+        const minuti = Number(data?.durata_minuti || 0);
+        const h = Math.floor(minuti / 60);
+        const m = Math.round(minuti % 60);
+        status.textContent = `Percorso calcolato: ${km.toLocaleString("it-IT")} km${minuti > 0 ? ` · circa ${h}h ${m}min` : ""}. I km restano modificabili manualmente.`;
+      }
+      calculateCosts();
+    }else{
+      throw new Error("distanza non disponibile");
+    }
+  }catch(error){
+    if(status) status.textContent = "Calcolo automatico dei km non riuscito. Puoi inserirli manualmente. " + (error?.message || "");
+  }finally{
+    routeBusy = false;
+  }
+}
+
 function calculateCosts(){
 
   const km =
@@ -2119,6 +2175,10 @@ async function loadPractices(){
     destinazione,
     ritiro,
     consegna,
+    indirizzo_ritiro,
+    cap_ritiro,
+    indirizzo_consegna,
+    cap_consegna,
     vettore,
     vettore_id
   `)
@@ -2292,6 +2352,12 @@ function updatePracticeCard(){
       pratica.consegna
     )
   : "";
+
+  // I valori arrivano dalla pratica via JavaScript: il browser non genera
+  // automaticamente gli eventi change, quindi avviamo esplicitamente i calcoli.
+  calculatePlannedDriverHours();
+  calculateCosts();
+  calculateRouteFromPractice(pratica);
 
 }
 
