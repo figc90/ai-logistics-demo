@@ -11,7 +11,18 @@ function csv(rows){if(!rows?.length)return "";const keys=[...new Set(rows.flatMa
 function safe(s){return String(s||"file").replace(/[\\/:*?"<>|]/g,"_").slice(0,140)}
 function makeWorkbook(rows,sheetName="Dati"){
   const data=Array.isArray(rows)?rows:[];
-  const normalized=data.map(row=>{const out={};for(const [k,v] of Object.entries(row||{})){let value=(v&&typeof v==="object")?JSON.stringify(v):v;if(typeof value==="string"&&value.length>32767)value=value.slice(0,32740)+"\n[CONTENUTO TRONCATO SOLO IN EXCEL — versione completa nel JSON di ripristino]";out[k]=value}return out});
+  const normalized=data.map(row=>{
+    const out={};
+    for(const [k,v] of Object.entries(row||{})){
+      let value=(v&&typeof v==="object")?JSON.stringify(v):v;
+      if(value!==null&&value!==undefined&&typeof value!=="string") value=String(value);
+      if(typeof value==="string"&&value.length>32000){
+        value=value.slice(0,31900)+"\n[CONTENUTO TRONCATO SOLO IN EXCEL - versione completa nel JSON di ripristino]";
+      }
+      out[k]=value;
+    }
+    return out;
+  });
   const ws=XLSX.utils.json_to_sheet(normalized.length?normalized:[{}],{skipHeader:false});
   const range=XLSX.utils.decode_range(ws["!ref"]||"A1:A1");
   ws["!autofilter"]={ref:XLSX.utils.encode_range({s:{r:0,c:0},e:{r:Math.max(0,range.e.r),c:range.e.c}})};
