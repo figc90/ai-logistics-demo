@@ -268,7 +268,7 @@ async function protect(){
  const {data,error:pe}=await supabase.from("profiles").select("id,email,ruolo,azienda_id").eq("id",currentUser.id).single();
  if(pe||!data?.azienda_id){await supabase.auth.signOut();location.replace("login.html");return false}
  const ruolo=String(data.ruolo||"").toLowerCase();
- if(ruolo==="autista"){location.replace("autista-pratiche.html");return false}
+ if(ruolo==="autista"){location.replace("autista.html");return false}
  currentProfile=data;$("userEmail").textContent=data.email||currentUser.email||"-";$("accountEmail").value=data.email||currentUser.email||"";$("roleBadge").textContent=String(data.ruolo||"-").toUpperCase();return true
 }
 
