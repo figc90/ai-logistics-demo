@@ -1,53 +1,597 @@
-<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flotta | MatRi-mIA Logistics</title><style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#172033;min-height:100vh;visibility:hidden}body.auth-ready{visibility:visible}a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}
-.app{min-height:100vh;display:flex}.std-sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;position:fixed;inset:0 auto 0 0;display:flex;flex-direction:column;z-index:100}.std-logo{height:116px;min-height:116px;padding:10px 12px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}.std-logo img{width:180px;max-width:180px;height:90px;max-height:90px;object-fit:contain;background:#fff;border-radius:11px;padding:6px 9px;box-shadow:0 5px 18px rgba(0,0,0,.14)}.std-nav{padding:18px 12px;flex:1;overflow:auto}.std-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.6px;margin:16px 5px 8px}.std-title:first-child{margin-top:0}.std-item{min-height:40px;display:flex;align-items:center;gap:11px;padding:0 13px;border-radius:10px;color:#c7d3e1;font-size:13px;font-weight:700;margin-bottom:4px}.std-item:hover{background:rgba(255,255,255,.07);color:#fff}.std-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}.std-icon{width:18px;text-align:center}.std-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08)}.std-user{background:rgba(255,255,255,.06);border-radius:10px;padding:10px 11px;margin-bottom:8px;font-size:11px;font-weight:700;overflow-wrap:anywhere}.std-logout{width:100%;height:38px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
-.main{margin-left:225px;width:calc(100% - 225px);min-height:100vh}.topbar{height:70px;background:#fff;border-bottom:1px solid #e2e7ee;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50}.topbar-brand{color:#8492a6;font-size:12px}.primary-btn{min-height:40px;padding:0 17px;border:0;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ec4f32,#ff7b1f);color:#fff;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer}.secondary-btn{min-height:40px;padding:0 15px;border:1px solid #dce3eb;background:#fff;color:#526177;border-radius:9px;font-weight:800;cursor:pointer}.content{max-width:1360px;margin:0 auto;padding:32px 30px 55px}.page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:25px;margin-bottom:24px}.eyebrow{color:#2ca9d2;font-size:11px;font-weight:900;letter-spacing:2px;margin-bottom:7px}h1{color:#10284a;font-size:38px;line-height:1;margin-bottom:9px}.subtitle{color:#7d8ba0;font-size:14px}.counter,.card,.toolbar,.table-card{background:#fff;border:1px solid #dfe6ee;border-radius:14px;box-shadow:0 9px 25px rgba(19,40,74,.05)}.counter{padding:14px 20px;min-width:150px}.counter span{display:block;color:#8795a8;font-size:9px;font-weight:900;letter-spacing:.8px;margin-bottom:5px}.counter strong{color:#10284a;font-size:27px}.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.kpi{background:#fff;border:1px solid #dfe6ee;border-radius:14px;padding:17px}.kpi-label{color:#8492a6;font-size:9px;font-weight:900;letter-spacing:.6px;margin-bottom:9px}.kpi-number{color:#10284a;font-size:25px;font-weight:900}.toolbar{padding:12px;margin-bottom:15px;display:flex;gap:12px;flex-wrap:wrap}.search-input,.filter-select,.field input,.field select,.field textarea{border:1px solid #dce3eb;border-radius:9px;background:#fff;color:#30465f;outline:none}.search-input{height:42px;padding:0 13px;flex:1;min-width:250px}.filter-select{height:42px;padding:0 12px}.search-input:focus,.filter-select:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:#2ca9d2;box-shadow:0 0 0 3px rgba(44,169,210,.08)}.table-card{overflow:hidden}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:900px}thead{background:#f6f8fb}th{padding:12px 15px;color:#8290a4;font-size:9px;text-align:left;text-transform:uppercase;letter-spacing:.5px}td{padding:14px 15px;border-top:1px solid #edf0f4;color:#526177;font-size:11px}tbody tr{cursor:pointer}tbody tr:hover{background:#fafcff}.strong{color:#173f69;font-weight:900}.money{font-weight:900;color:#23784f}.badge{display:inline-flex;padding:6px 9px;border-radius:999px;font-size:8px;font-weight:900}.badge-on{background:#e5f7ee;color:#23784f}.badge-off{background:#edf1f5;color:#687689}.status-box{margin-bottom:14px;padding:13px 15px;border-radius:10px;font-size:12px;font-weight:700}.status-loading{background:#edf8fd;border:1px solid #ccebf7;color:#176b9c}.status-error{background:#fff1f0;border:1px solid #ffd4d1;color:#b42318}.empty-state{display:none;padding:45px 20px;text-align:center;color:#8795a8}.empty-state strong{display:block;color:#30465f;font-size:17px;margin-bottom:7px}
-.card{margin-bottom:18px;overflow:hidden}.card-head{padding:18px 20px;border-bottom:1px solid #edf0f4}.card-head h2{font-size:17px;color:#173f69;margin-bottom:4px}.card-head p{font-size:12px;color:#8795a8}.card-body{padding:20px}.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.field{display:flex;flex-direction:column;gap:7px}.field.wide{grid-column:span 2}.field.full{grid-column:1/-1}.field label{font-size:10px;font-weight:900;color:#607086;text-transform:uppercase;letter-spacing:.4px}.field input,.field select{height:43px;padding:0 12px}.field textarea{min-height:90px;padding:12px;resize:vertical}.hint{font-size:10px;color:#98a4b4}.cost-preview{background:linear-gradient(135deg,#10284a,#173f69);color:#fff;border-radius:14px;padding:20px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:20px}.cost-preview span{font-size:11px;color:#b9d2e7;font-weight:800}.cost-preview strong{font-size:30px}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
-@media(max-width:900px){.kpi-grid,.form-grid{grid-template-columns:1fr 1fr}.field.wide{grid-column:span 1}}@media(max-width:760px){.std-sidebar{width:70px}.main{margin-left:70px;width:calc(100% - 70px)}.std-logo{height:70px;min-height:70px;padding:6px}.std-logo img{width:56px;max-width:56px;height:54px;max-height:54px;padding:4px}.std-title,.std-item span:not(.std-icon),.std-user{display:none}.std-item{justify-content:center;padding:0}.std-bottom{padding:8px}.std-logout{font-size:0}.std-logout:after{content:"↪";font-size:18px}.topbar{padding:0 15px}.content{padding:25px 14px 40px}.page-heading{flex-direction:column;align-items:stretch}.kpi-grid,.form-grid{grid-template-columns:1fr}.field.wide{grid-column:span 1}.cost-preview{align-items:flex-start;flex-direction:column}}
-</style></head><body><div class="app">
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flotta | MatRi-mIA Logistics</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#172033;min-height:100vh;visibility:hidden}
+body.auth-ready{visibility:visible}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+
+.app{min-height:100vh;display:flex}
+.std-sidebar{width:225px;min-height:100vh;background:linear-gradient(180deg,#071b35,#0d2d50);color:#fff;position:fixed;inset:0 auto 0 0;display:flex;flex-direction:column;z-index:100}
+.std-logo{height:116px;min-height:116px;padding:10px 12px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(255,255,255,.08)}
+.std-logo img{width:180px;max-width:180px;height:90px;max-height:90px;object-fit:contain;background:#fff;border-radius:11px;padding:6px 9px;box-shadow:0 5px 18px rgba(0,0,0,.14)}
+.std-nav{padding:18px 12px;flex:1;overflow:auto}
+.std-title{color:#7893af;font-size:10px;font-weight:900;letter-spacing:1.6px;margin:16px 5px 8px}
+.std-title:first-child{margin-top:0}
+.std-item{min-height:40px;display:flex;align-items:center;gap:11px;padding:0 13px;border-radius:10px;color:#c7d3e1;font-size:13px;font-weight:700;margin-bottom:4px}
+.std-item:hover{background:rgba(255,255,255,.07);color:#fff}
+.std-item.active{background:rgba(41,169,210,.18);border:1px solid rgba(41,169,210,.32);color:#fff}
+.std-icon{width:18px;text-align:center}
+.std-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08)}
+.std-user{background:rgba(255,255,255,.06);border-radius:10px;padding:10px 11px;margin-bottom:8px;font-size:11px;font-weight:700;overflow-wrap:anywhere}
+.std-logout{width:100%;height:38px;border:1px solid rgba(255,255,255,.13);border-radius:9px;background:rgba(255,255,255,.04);color:#dbe5ef;font-weight:800;cursor:pointer}
+
+.main{margin-left:225px;width:calc(100% - 225px);min-height:100vh}
+.topbar{height:70px;background:#fff;border-bottom:1px solid #e2e7ee;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50}
+.topbar-brand{color:#8492a6;font-size:12px}
+.primary-btn{min-height:40px;padding:0 17px;border:0;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ec4f32,#ff7b1f);color:#fff;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer}
+.secondary-btn{min-height:40px;padding:0 15px;border:1px solid #dce3eb;background:#fff;color:#526177;border-radius:9px;font-weight:800;cursor:pointer}
+.content{max-width:1360px;margin:0 auto;padding:32px 30px 55px}
+.page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:25px;margin-bottom:24px}
+.eyebrow{color:#2ca9d2;font-size:11px;font-weight:900;letter-spacing:2px;margin-bottom:7px}
+h1{color:#10284a;font-size:38px;line-height:1;margin-bottom:9px}
+.subtitle{color:#7d8ba0;font-size:14px}
+.counter,.card,.toolbar,.table-card{background:#fff;border:1px solid #dfe6ee;border-radius:14px;box-shadow:0 9px 25px rgba(19,40,74,.05)}
+.counter{padding:14px 20px;min-width:150px}
+.counter span{display:block;color:#8795a8;font-size:9px;font-weight:900;letter-spacing:.8px;margin-bottom:5px}
+.counter strong{color:#10284a;font-size:27px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.kpi{background:#fff;border:1px solid #dfe6ee;border-radius:14px;padding:17px}
+.kpi-label{color:#8492a6;font-size:9px;font-weight:900;letter-spacing:.6px;margin-bottom:9px}
+.kpi-number{color:#10284a;font-size:25px;font-weight:900}
+.toolbar{padding:12px;margin-bottom:15px;display:flex;gap:12px;flex-wrap:wrap}
+.search-input,.filter-select,.field input,.field select,.field textarea{border:1px solid #dce3eb;border-radius:9px;background:#fff;color:#30465f;outline:none}
+.search-input{height:42px;padding:0 13px;flex:1;min-width:250px}
+.filter-select{height:42px;padding:0 12px}
+.search-input:focus,.filter-select:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:#2ca9d2;box-shadow:0 0 0 3px rgba(44,169,210,.08)}
+.table-card{overflow:hidden}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead{background:#f6f8fb}
+th{padding:12px 15px;color:#8290a4;font-size:9px;text-align:left;text-transform:uppercase;letter-spacing:.5px}
+td{padding:14px 15px;border-top:1px solid #edf0f4;color:#526177;font-size:11px}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:#fafcff}
+.strong{color:#173f69;font-weight:900}
+.money{font-weight:900;color:#23784f}
+.badge{display:inline-flex;padding:6px 9px;border-radius:999px;font-size:8px;font-weight:900}
+.badge-on{background:#e5f7ee;color:#23784f}
+.badge-off{background:#edf1f5;color:#687689}
+.status-box{margin-bottom:14px;padding:13px 15px;border-radius:10px;font-size:12px;font-weight:700}
+.status-loading{background:#edf8fd;border:1px solid #ccebf7;color:#176b9c}
+.status-error{background:#fff1f0;border:1px solid #ffd4d1;color:#b42318}
+.empty-state{display:none;padding:45px 20px;text-align:center;color:#8795a8}
+.empty-state strong{display:block;color:#30465f;font-size:17px;margin-bottom:7px}
+
+.card{margin-bottom:18px;overflow:hidden}
+.card-head{padding:18px 20px;border-bottom:1px solid #edf0f4}
+.card-head h2{font-size:17px;color:#173f69;margin-bottom:4px}
+.card-head p{font-size:12px;color:#8795a8}
+.card-body{padding:20px}
+.form-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.wide{grid-column:span 2}
+.field.full{grid-column:1/-1}
+.field label{font-size:10px;font-weight:900;color:#607086;text-transform:uppercase;letter-spacing:.4px}
+.field input,.field select{height:43px;padding:0 12px}
+.field textarea{min-height:90px;padding:12px;resize:vertical}
+.hint{font-size:10px;color:#98a4b4}
+.cost-preview{background:linear-gradient(135deg,#10284a,#173f69);color:#fff;border-radius:14px;padding:20px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.cost-preview span{font-size:11px;color:#b9d2e7;font-weight:800}
+.cost-preview strong{font-size:30px}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+
+@media(max-width:900px){
+.kpi-grid,.form-grid{grid-template-columns:1fr 1fr}
+.field.wide{grid-column:span 1}
+}
+
+@media(max-width:760px){
+.std-sidebar{width:70px}
+.main{margin-left:70px;width:calc(100% - 70px)}
+.std-logo{height:70px;min-height:70px;padding:6px}
+.std-logo img{width:56px;max-width:56px;height:54px;max-height:54px;padding:4px}
+.std-title,.std-item span:not(.std-icon),.std-user{display:none}
+.std-item{justify-content:center;padding:0}
+.std-bottom{padding:8px}
+.std-logout{font-size:0}
+.std-logout:after{content:"↪";font-size:18px}
+.topbar{padding:0 15px}
+.content{padding:25px 14px 40px}
+.page-heading{flex-direction:column;align-items:stretch}
+.kpi-grid,.form-grid{grid-template-columns:1fr}
+.field.wide{grid-column:span 1}
+.cost-preview{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
 <aside class="std-sidebar">
-  <a class="std-logo" href="dashboard.html"><img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics"></a>
-  <nav class="std-nav">
-    <div class="std-title">OPERATIVITÀ</div>
-    <a href="dashboard.html" class="std-item"><span class="std-icon">▦</span><span>Dashboard</span></a>
-    <a href="pratiche.html" class="std-item"><span class="std-icon">▤</span><span>Pratiche</span></a>
-    <a href="nuova-pratica.html" class="std-item"><span class="std-icon">＋</span><span>Nuova pratica</span></a>
-    <div class="std-title">AUTOMAZIONI</div>
-    <a href="assistente-ai.html" class="std-item"><span class="std-icon">✦</span><span>Assistente AI</span></a>
-    <a href="email-ai.html" class="std-item"><span class="std-icon">✉</span><span>Email AI</span></a>
-    <a href="viaggi.html" class="std-item"><span class="std-icon">↗</span><span>Viaggi</span></a>
-    <div class="std-title">COMMERCIALE</div>
-    <a href="preventivi.html" class="std-item"><span class="std-icon">€</span><span>Preventivi</span></a>
-    <div class="std-title">GESTIONE</div>
-    <a href="anagrafiche.html" class="std-item"><span class="std-icon">▣</span><span>Anagrafiche</span></a>
-    <a href="autisti.html" class="std-item"><span class="std-icon">♟</span><span>Autisti</span></a>
-    <a href="flotta.html" class="std-item active"><span class="std-icon">▰</span><span>Flotta</span></a>
-    <a href="impostazioni.html" class="std-item"><span class="std-icon">⚙</span><span>Impostazioni</span></a>
-  </nav>
-  <div class="std-bottom"><div id="userEmail" class="std-user">-</div><button id="logoutButton" class="std-logout" type="button">Esci</button></div>
+
+<a class="std-logo" href="dashboard.html">
+<img src="matrimia-logo-web.png" alt="MatRi-mIA Logistics">
+</a>
+
+<nav class="std-nav">
+
+<div class="std-title">OPERATIVITÀ</div>
+
+<a href="dashboard.html" class="std-item">
+<span class="std-icon">▦</span><span>Dashboard</span>
+</a>
+
+<a href="pratiche.html" class="std-item">
+<span class="std-icon">▤</span><span>Pratiche</span>
+</a>
+
+<a href="nuova-pratica.html" class="std-item">
+<span class="std-icon">＋</span><span>Nuova pratica</span>
+</a>
+
+<div class="std-title">AUTOMAZIONI</div>
+
+<a href="assistente-ai.html" class="std-item">
+<span class="std-icon">✦</span><span>Assistente AI</span>
+</a>
+
+<a href="email-ai.html" class="std-item">
+<span class="std-icon">✉</span><span>Email AI</span>
+</a>
+
+<a href="viaggi.html" class="std-item">
+<span class="std-icon">↗</span><span>Viaggi</span>
+</a>
+
+<div class="std-title">COMMERCIALE</div>
+
+<a href="preventivi.html" class="std-item">
+<span class="std-icon">€</span><span>Preventivi</span>
+</a>
+
+<div class="std-title">GESTIONE</div>
+
+<a href="anagrafiche.html" class="std-item">
+<span class="std-icon">▣</span><span>Anagrafiche</span>
+</a>
+
+<a href="autisti.html" class="std-item">
+<span class="std-icon">♟</span><span>Autisti</span>
+</a>
+
+<a href="flotta.html" class="std-item active">
+<span class="std-icon">▰</span><span>Flotta</span>
+</a>
+
+<a href="impostazioni.html" class="std-item">
+<span class="std-icon">⚙</span><span>Impostazioni</span>
+</a>
+
+</nav>
+
+<div class="std-bottom">
+<div id="userEmail" class="std-user">-</div>
+<button id="logoutButton" class="std-logout" type="button">Esci</button>
+</div>
+
 </aside>
+
 <div class="main">
-<header class="topbar"><div class="topbar-brand">MatRi-mIA Logistics · Flotta</div><a href="nuovo-mezzo.html" class="primary-btn">+ Nuovo mezzo</a></header>
+
+<header class="topbar">
+<div class="topbar-brand">MatRi-mIA Logistics · Flotta</div>
+<a href="nuovo-mezzo.html" class="primary-btn">+ Nuovo mezzo</a>
+</header>
+
 <main class="content">
-<div class="page-heading"><div><div class="eyebrow">MATRI-MIA · GESTIONE</div><h1>Flotta</h1><div class="subtitle">Gestisci i mezzi aziendali e controlla il costo reale chilometrico.</div></div><div class="counter"><span>MEZZI TOTALI</span><strong id="totalCount">0</strong></div></div>
-<div class="kpi-grid"><div class="kpi"><div class="kpi-label">MEZZI ATTIVI</div><div class="kpi-number" id="activeCount">0</div></div><div class="kpi"><div class="kpi-label">PROPRIETÀ</div><div class="kpi-number" id="ownedCount">0</div></div><div class="kpi"><div class="kpi-label">LEASING / NOLEGGIO</div><div class="kpi-number" id="leasedCount">0</div></div><div class="kpi"><div class="kpi-label">COSTO MEDIO / KM</div><div class="kpi-number" id="avgCost">€ 0,000</div></div></div>
-<div class="toolbar"><input id="searchInput" class="search-input" type="search" placeholder="Cerca targa, marca, modello o tipologia..."><select id="statusFilter" class="filter-select"><option value="TUTTI">Tutti i mezzi</option><option value="ATTIVI">Attivi</option><option value="INATTIVI">Non attivi</option></select><select id="typeFilter" class="filter-select"><option value="TUTTI">Tutte le tipologie</option><option>TRATTORE</option><option>MOTRICE</option><option>FURGONE</option><option>RIMORCHIO</option><option>SEMIRIMORCHIO</option><option>ALTRO</option></select><button id="reloadBtn" class="secondary-btn">Aggiorna</button></div>
-<div id="statusBox" class="status-box status-loading">Caricamento flotta...</div>
-<div class="table-card"><div class="table-wrap"><table><thead><tr><th>Targa</th><th>Mezzo</th><th>Tipologia</th><th>Possesso</th><th>Km annui</th><th>Costo mezzo / km</th><th>Stato</th></tr></thead><tbody id="fleetBody"></tbody></table></div><div id="emptyState" class="empty-state"><strong>Nessun mezzo trovato</strong>Non risultano mezzi da visualizzare con i criteri attuali.</div></div>
-</main></div></div>
+
+<div class="page-heading">
+<div>
+<div class="eyebrow">MATRI-MIA · GESTIONE</div>
+<h1>Flotta</h1>
+<div class="subtitle">
+Gestisci i mezzi aziendali e controlla il costo reale chilometrico.
+</div>
+</div>
+
+<div class="counter">
+<span>MEZZI TOTALI</span>
+<strong id="totalCount">0</strong>
+</div>
+</div>
+
+<div class="kpi-grid">
+
+<div class="kpi">
+<div class="kpi-label">MEZZI ATTIVI</div>
+<div class="kpi-number" id="activeCount">0</div>
+</div>
+
+<div class="kpi">
+<div class="kpi-label">PROPRIETÀ</div>
+<div class="kpi-number" id="ownedCount">0</div>
+</div>
+
+<div class="kpi">
+<div class="kpi-label">LEASING / NOLEGGIO</div>
+<div class="kpi-number" id="leasedCount">0</div>
+</div>
+
+<div class="kpi">
+<div class="kpi-label">COSTO MEDIO / KM</div>
+<div class="kpi-number" id="avgCost">€ 0,000</div>
+</div>
+
+</div>
+
+<div class="toolbar">
+
+<input
+id="searchInput"
+class="search-input"
+type="search"
+placeholder="Cerca targa, marca, modello o tipologia..."
+>
+
+<select id="statusFilter" class="filter-select">
+<option value="TUTTI">Tutti i mezzi</option>
+<option value="ATTIVI">Attivi</option>
+<option value="INATTIVI">Non attivi</option>
+</select>
+
+<select id="typeFilter" class="filter-select">
+<option value="TUTTI">Tutte le tipologie</option>
+<option>TRATTORE</option>
+<option>MOTRICE</option>
+<option>FURGONE</option>
+<option>RIMORCHIO</option>
+<option>SEMIRIMORCHIO</option>
+<option>ALTRO</option>
+</select>
+
+<button id="reloadBtn" class="secondary-btn">
+Aggiorna
+</button>
+
+</div>
+
+<div id="statusBox" class="status-box status-loading">
+Caricamento flotta...
+</div>
+
+<div class="table-card">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Targa</th>
+<th>Mezzo</th>
+<th>Tipologia</th>
+<th>Possesso</th>
+<th>Km annui</th>
+<th>Costo mezzo / km</th>
+<th>Stato</th>
+</tr>
+</thead>
+
+<tbody id="fleetBody"></tbody>
+
+</table>
+
+</div>
+
+<div id="emptyState" class="empty-state">
+<strong>Nessun mezzo trovato</strong>
+Non risultano mezzi da visualizzare con i criteri attuali.
+</div>
+
+</div>
+
+</main>
+</div>
+</div>
+
 <script type="module">
+
 import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-const supabase=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G");
-const $=id=>document.getElementById(id); let all=[];
-function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function eur(v,d=3){if(v===null||v===undefined||v==="")return "-";return new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR",minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(v))}
-function num(v){return v==null?"-":new Intl.NumberFormat("it-IT").format(Number(v))}
-async function auth(){const {data:{session}}=await supabase.auth.getSession();if(!session?.user){location.replace("login.html");return false}const {data:p,error}=await supabase.from("profiles").select("id,email,azienda_id").eq("id",session.user.id).single();if(error||!p){await supabase.auth.signOut();location.replace("login.html");return false}$("userEmail").textContent=p.email||session.user.email||"-";document.body.classList.add("auth-ready");return true}
-$("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};
-async function load(){$("statusBox").style.display="block";$("statusBox").className="status-box status-loading";$("statusBox").textContent="Caricamento flotta...";const {data,error}=await supabase.from("mezzi").select("id,targa,marca,modello,anno_immatricolazione,tipo_mezzo,attivo,km_annui_previsti,tipo_possesso,costo_mezzo_km,created_at").order("targa");if(error){$("statusBox").className="status-box status-error";$("statusBox").textContent="Errore nel caricamento della flotta: "+error.message;return}all=data||[];$("statusBox").style.display="none";counters();filter()}
-function counters(){$("totalCount").textContent=all.length;$("activeCount").textContent=all.filter(x=>x.attivo).length;$("ownedCount").textContent=all.filter(x=>x.tipo_possesso==="PROPRIETA").length;$("leasedCount").textContent=all.filter(x=>["LEASING","NOLEGGIO"].includes(x.tipo_possesso)).length;const costs=all.filter(x=>x.attivo&&x.costo_mezzo_km!=null).map(x=>Number(x.costo_mezzo_km));$("avgCost").textContent=costs.length?eur(costs.reduce((a,b)=>a+b,0)/costs.length):"€ 0,000"}
-function filter(){let rows=[...all];const q=$("searchInput").value.trim().toLowerCase(),s=$("statusFilter").value,t=$("typeFilter").value;if(q)rows=rows.filter(x=>[x.targa,x.marca,x.modello,x.tipo_mezzo,x.tipo_possesso].join(" ").toLowerCase().includes(q));if(s==="ATTIVI")rows=rows.filter(x=>x.attivo);if(s==="INATTIVI")rows=rows.filter(x=>!x.attivo);if(t!=="TUTTI")rows=rows.filter(x=>x.tipo_mezzo===t);render(rows)}
-function render(rows){$("fleetBody").innerHTML="";$("emptyState").style.display=rows.length?"none":"block";for(const x of rows){const tr=document.createElement("tr");tr.innerHTML=`<td class="strong">${esc(x.targa)}</td><td>${esc([x.marca,x.modello].filter(Boolean).join(" ")||"-")}${x.anno_immatricolazione?`<br><small>${esc(x.anno_immatricolazione)}</small>`:""}</td><td>${esc(x.tipo_mezzo||"-")}</td><td>${esc((x.tipo_possesso||"-").replaceAll("_"," "))}</td><td>${num(x.km_annui_previsti)}</td><td class="money">${eur(x.costo_mezzo_km)} / km</td><td><span class="badge ${x.attivo?"badge-on":"badge-off"}">${x.attivo?"ATTIVO":"NON ATTIVO"}</span></td>`;tr.onclick=()=>location.href="dettaglio-mezzo.html?id="+encodeURIComponent(x.id);$("fleetBody").appendChild(tr)}}
-$("searchInput").oninput=filter;$("statusFilter").onchange=filter;$("typeFilter").onchange=filter;$("reloadBtn").onclick=load;
-if(await auth())await load();
-</script></body></html>
+
+const supabase=createClient(
+"https://sctzockiurjsxzdkctmy.supabase.co",
+"sb_publishable_hAZ4e_wz4f9R7wc4YdkbmQ_7HozQD9G"
+);
+
+const $=id=>document.getElementById(id);
+
+let all=[];
+
+function esc(v){
+return String(v??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+
+function eur(v,d=3){
+if(v===null||v===undefined||v==="")return "-";
+return new Intl.NumberFormat(
+"it-IT",
+{
+style:"currency",
+currency:"EUR",
+minimumFractionDigits:d,
+maximumFractionDigits:d
+}
+).format(Number(v));
+}
+
+function num(v){
+return v==null
+?"-"
+:new Intl.NumberFormat("it-IT").format(Number(v));
+}
+
+/* =========================================================
+   AUTENTICAZIONE + BLOCCO AUTISTA
+========================================================= */
+
+async function auth(){
+
+const {data:{session}}=
+await supabase.auth.getSession();
+
+if(!session?.user){
+location.replace("login.html");
+return false;
+}
+
+const {data:p,error}=
+await supabase
+.from("profiles")
+.select("id,email,azienda_id,ruolo")
+.eq("id",session.user.id)
+.single();
+
+if(error||!p){
+await supabase.auth.signOut();
+location.replace("login.html");
+return false;
+}
+
+const ruolo=
+String(p.ruolo||"")
+.toLowerCase();
+
+if(ruolo==="autista"){
+location.replace("autista-pratiche.html");
+return false;
+}
+
+$("userEmail").textContent=
+p.email||
+session.user.email||
+"-";
+
+document.body.classList.add("auth-ready");
+
+return true;
+}
+
+$("logoutButton").onclick=async()=>{
+await supabase.auth.signOut();
+location.replace("login.html");
+};
+
+async function load(){
+
+$("statusBox").style.display="block";
+$("statusBox").className="status-box status-loading";
+$("statusBox").textContent="Caricamento flotta...";
+
+const {data,error}=
+await supabase
+.from("mezzi")
+.select("id,targa,marca,modello,anno_immatricolazione,tipo_mezzo,attivo,km_annui_previsti,tipo_possesso,costo_mezzo_km,created_at")
+.order("targa");
+
+if(error){
+
+$("statusBox").className=
+"status-box status-error";
+
+$("statusBox").textContent=
+"Errore nel caricamento della flotta: "+
+error.message;
+
+return;
+}
+
+all=data||[];
+
+$("statusBox").style.display="none";
+
+counters();
+filter();
+}
+
+function counters(){
+
+$("totalCount").textContent=
+all.length;
+
+$("activeCount").textContent=
+all.filter(x=>x.attivo).length;
+
+$("ownedCount").textContent=
+all.filter(
+x=>x.tipo_possesso==="PROPRIETA"
+).length;
+
+$("leasedCount").textContent=
+all.filter(
+x=>["LEASING","NOLEGGIO"]
+.includes(x.tipo_possesso)
+).length;
+
+const costs=
+all
+.filter(
+x=>x.attivo&&
+x.costo_mezzo_km!=null
+)
+.map(
+x=>Number(x.costo_mezzo_km)
+);
+
+$("avgCost").textContent=
+costs.length
+?eur(
+costs.reduce((a,b)=>a+b,0)/
+costs.length
+)
+:"€ 0,000";
+}
+
+function filter(){
+
+let rows=[...all];
+
+const q=
+$("searchInput")
+.value
+.trim()
+.toLowerCase();
+
+const s=
+$("statusFilter").value;
+
+const t=
+$("typeFilter").value;
+
+if(q){
+
+rows=rows.filter(
+x=>
+[
+x.targa,
+x.marca,
+x.modello,
+x.tipo_mezzo,
+x.tipo_possesso
+]
+.join(" ")
+.toLowerCase()
+.includes(q)
+);
+
+}
+
+if(s==="ATTIVI"){
+rows=rows.filter(x=>x.attivo);
+}
+
+if(s==="INATTIVI"){
+rows=rows.filter(x=>!x.attivo);
+}
+
+if(t!=="TUTTI"){
+rows=rows.filter(
+x=>x.tipo_mezzo===t
+);
+}
+
+render(rows);
+}
+
+function render(rows){
+
+$("fleetBody").innerHTML="";
+
+$("emptyState").style.display=
+rows.length
+?"none"
+:"block";
+
+for(const x of rows){
+
+const tr=
+document.createElement("tr");
+
+tr.innerHTML=`
+<td class="strong">
+${esc(x.targa)}
+</td>
+
+<td>
+${esc(
+[x.marca,x.modello]
+.filter(Boolean)
+.join(" ")||"-"
+)}
+${x.anno_immatricolazione
+?`<br><small>${esc(x.anno_immatricolazione)}</small>`
+:""}
+</td>
+
+<td>
+${esc(x.tipo_mezzo||"-")}
+</td>
+
+<td>
+${esc(
+(x.tipo_possesso||"-")
+.replaceAll("_"," ")
+)}
+</td>
+
+<td>
+${num(x.km_annui_previsti)}
+</td>
+
+<td class="money">
+${eur(x.costo_mezzo_km)} / km
+</td>
+
+<td>
+<span class="badge ${x.attivo?"badge-on":"badge-off"}">
+${x.attivo?"ATTIVO":"NON ATTIVO"}
+</span>
+</td>
+`;
+
+tr.onclick=()=>{
+location.href=
+"dettaglio-mezzo.html?id="+
+encodeURIComponent(x.id);
+};
+
+$("fleetBody").appendChild(tr);
+}
+}
+
+$("searchInput").oninput=filter;
+$("statusFilter").onchange=filter;
+$("typeFilter").onchange=filter;
+$("reloadBtn").onclick=load;
+
+if(await auth()){
+await load();
+}
+
+</script>
+
+</body>
+</html>
