@@ -1307,6 +1307,66 @@ tbody tr:hover{
   .dashboard-customize-btn{width:100%}
 }
 
+
+/* ============================
+   GUIDA BETA / ONBOARDING
+============================ */
+.beta-guide-card{
+  display:flex;align-items:center;justify-content:space-between;gap:22px;
+  margin:0 0 24px;padding:20px 22px;border:1px solid #cfe5ef;border-radius:16px;
+  background:linear-gradient(135deg,#f8fcff,#eef8fc);
+  box-shadow:0 9px 25px rgba(19,40,74,.05)
+}
+.beta-guide-copy{display:flex;align-items:center;gap:16px;min-width:0}
+.beta-guide-icon{
+  width:52px;height:52px;flex:0 0 52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#173f69,#1596c2);color:#fff;font-size:22px
+}
+.beta-guide-card h2{font-size:17px;color:#173459;margin:0 0 5px}
+.beta-guide-card p{font-size:11px;line-height:1.55;color:#718096;margin:0}
+.beta-guide-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.beta-guide-btn,.beta-guide-link{
+  min-height:40px;padding:0 14px;border-radius:10px;font-size:11px;font-weight:900;cursor:pointer
+}
+.beta-guide-btn{border:0;background:linear-gradient(135deg,#ec4f32,#ff7b1f);color:#fff}
+.beta-guide-link{border:1px solid #d5e1ea;background:#fff;color:#53647a}
+.topbar-guide-btn{
+  border:1px solid #d7e0ea;background:#fff;color:#173459;border-radius:10px;
+  padding:8px 12px;font-size:11px;font-weight:900;cursor:pointer
+}
+.guide-modal-backdrop{
+  display:none;position:fixed;inset:0;z-index:10000;background:rgba(7,27,53,.72);
+  align-items:center;justify-content:center;padding:24px
+}
+.guide-modal-backdrop.open{display:flex}
+.guide-modal{
+  width:min(980px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:18px;
+  box-shadow:0 28px 80px rgba(0,0,0,.32)
+}
+.guide-modal-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
+  padding:18px 20px;border-bottom:1px solid #e7edf3
+}
+.guide-modal-head h2{font-size:18px;color:#173459;margin-bottom:4px}
+.guide-modal-head p{font-size:10px;color:#8a98aa}
+.guide-modal-close{
+  width:36px;height:36px;border:1px solid #dce3eb;border-radius:9px;background:#fff;
+  color:#53647a;font-size:19px;cursor:pointer
+}
+.guide-video-wrap{background:#071b35;padding:0;aspect-ratio:16/9}
+.guide-video-wrap video{display:block;width:100%;height:100%;object-fit:contain;background:#071b35}
+.guide-modal-foot{
+  display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 20px;
+  color:#7d8ba0;font-size:10px
+}
+@media(max-width:760px){
+  .beta-guide-card{align-items:flex-start;flex-direction:column}
+  .beta-guide-actions{width:100%;flex-wrap:wrap}
+  .beta-guide-btn,.beta-guide-link{flex:1}
+  .topbar-guide-btn{padding:7px 9px}
+}
+
 </style>
 
 <script type="module" src="js/admin-role-guard.js"></script>
@@ -1404,6 +1464,7 @@ tbody tr:hover{
   <div class="topbar-brand">
     MatRi-mIA Logistics
   </div>
+  <button id="openGuideTopbar" class="topbar-guide-btn" type="button">? Guida</button>
 </header>
 
 <main class="content">
@@ -1428,6 +1489,21 @@ tbody tr:hover{
   </div>
 
 </div>
+
+
+<section id="betaGuideCard" class="beta-guide-card">
+  <div class="beta-guide-copy">
+    <div class="beta-guide-icon">▶</div>
+    <div>
+      <h2>Benvenuto in MatRi-mIA Logistics</h2>
+      <p>Guarda la guida introduttiva della Beta: in pochi minuti scopri il flusso completo, dall'email cliente alla pratica, al viaggio e al controllo dei costi.</p>
+    </div>
+  </div>
+  <div class="beta-guide-actions">
+    <button id="openGuideCard" class="beta-guide-btn" type="button">▶ Guarda la guida</button>
+    <button id="dismissGuideCard" class="beta-guide-link" type="button">Non mostrare più</button>
+  </div>
+</section>
 
 <div id="dashboardWidgets" class="dashboard-widgets"></div>
 
@@ -3839,6 +3915,59 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </script>
 
+
+
+<div id="guideModal" class="guide-modal-backdrop" aria-hidden="true">
+  <div class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideModalTitle">
+    <div class="guide-modal-head">
+      <div>
+        <h2 id="guideModalTitle">Guida rapida · MatRi-mIA Logistics Beta</h2>
+        <p>Panoramica delle principali funzioni e del flusso operativo consigliato.</p>
+      </div>
+      <button id="closeGuideModal" class="guide-modal-close" type="button" aria-label="Chiudi">×</button>
+    </div>
+    <div class="guide-video-wrap">
+      <video id="matrimiaGuideVideo" controls preload="metadata">
+        <source src="guida-matrimia-beta-animata.mp4" type="video/mp4">
+        Il browser non supporta la riproduzione video.
+      </video>
+    </div>
+    <div class="guide-modal-foot">
+      <span>Puoi riaprire questa guida in qualsiasi momento dal pulsante “? Guida”.</span>
+      <span>Beta privata</span>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  const modal = document.getElementById("guideModal");
+  const video = document.getElementById("matrimiaGuideVideo");
+  const card = document.getElementById("betaGuideCard");
+  const open = () => {
+    modal?.classList.add("open");
+    modal?.setAttribute("aria-hidden","false");
+  };
+  const close = () => {
+    modal?.classList.remove("open");
+    modal?.setAttribute("aria-hidden","true");
+    if(video) video.pause();
+  };
+  document.getElementById("openGuideTopbar")?.addEventListener("click", open);
+  document.getElementById("openGuideCard")?.addEventListener("click", open);
+  document.getElementById("closeGuideModal")?.addEventListener("click", close);
+  modal?.addEventListener("click", (e) => { if(e.target === modal) close(); });
+  document.addEventListener("keydown", (e) => { if(e.key === "Escape") close(); });
+  document.getElementById("dismissGuideCard")?.addEventListener("click", () => {
+    localStorage.setItem("matrimia_beta_guide_hidden","1");
+    if(card) card.style.display = "none";
+  });
+  if(localStorage.getItem("matrimia_beta_guide_hidden") === "1" && card){
+    card.style.display = "none";
+  }
+})();
+</script>
 
 </body>
 </html>
