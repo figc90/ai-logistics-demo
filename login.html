@@ -530,6 +530,8 @@ const emailInput =
 
 function showMessage(type,text){
 
+  messageBox.style.removeProperty("display");
+
   messageBox.className =
     "message " +
     (
@@ -656,8 +658,8 @@ forgotPasswordButton.addEventListener(
   "click",
   async function(){
 
-    messageBox.style.display =
-      "none";
+    messageBox.className = "message";
+    messageBox.textContent = "";
 
     const email =
       emailInput.value
@@ -754,8 +756,8 @@ loginForm.addEventListener(
 
     event.preventDefault();
 
-    messageBox.style.display =
-      "none";
+    messageBox.className = "message";
+    messageBox.textContent = "";
 
 
     const email =
