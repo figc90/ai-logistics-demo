@@ -890,6 +890,10 @@ td{
     <button id="toggleCompanyButton" class="tenant-action-btn deactivate" type="button">
       Disattiva azienda
     </button>
+    <button id="directDeleteCompanyButton" class="tenant-action-btn" type="button"
+      style="background:#b91c1c;color:#fff;border-color:#b91c1c;margin-left:10px">
+      Elimina azienda
+    </button>
   </div>
 </section>
 
@@ -1349,6 +1353,30 @@ async function toggleCompanyStatus(){
 ========================================================= */
 
 
+
+async function directDeleteCompany(){
+  if(!company?.id) return;
+  const nome=company.nome||"Azienda";
+  if(!confirm("ATTENZIONE: questa operazione elimina definitivamente l'azienda e tutti i dati associati. Continuare?")) return;
+  const conferma=prompt('Per eliminare definitivamente "'+nome+'", scrivi esattamente:\n\nELIMINA DEFINITIVAMENTE');
+  if(conferma!=="ELIMINA DEFINITIVAMENTE"){
+    showStatusMessage("error","Conferma testuale non valida. Nessun dato eliminato.");
+    return;
+  }
+  const b=document.getElementById("directDeleteCompanyButton");
+  if(b){b.disabled=true;b.textContent="Eliminazione...";b.style.opacity=".65";}
+  try{
+    const {data,error}=await supabase.functions.invoke("superadmin-elimina-azienda",{body:{azienda_id:company.id,conferma}});
+    if(error||data?.error) throw error||new Error(data.error);
+    alert(`Azienda eliminata definitivamente.\n\nStorage: ${data?.storage_files??0} file\nAuth: ${data?.auth_users??0} utenti`);
+    location.href="aziende.html";
+  }catch(e){
+    console.error(e);
+    showStatusMessage("error",e?.message||"Cancellazione definitiva non completata.");
+    if(b){b.disabled=false;b.textContent="Elimina azienda";b.style.opacity="1";}
+  }
+}
+
 async function loadClosureRequests(){
  const box=document.getElementById("closureRequestsBox");if(!box||!company?.id)return;
  const {data,error}=await supabase.from("richieste_chiusura_azienda").select("id,tipo,stato,email_richiedente,created_at,note,backup_avviso_confermato").eq("azienda_id",company.id).in("stato",["RICHIESTA","IN_LAVORAZIONE"]).order("created_at",{ascending:false});
@@ -1724,6 +1752,8 @@ async ()=>{
 /* =========================================================
    START
 ========================================================= */
+
+document.getElementById("directDeleteCompanyButton")?.addEventListener("click",directDeleteCompany);
 
 async function start(){
 
