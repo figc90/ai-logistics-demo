@@ -62,4 +62,6 @@ restoreFolder.file("backup.json",JSON.stringify(manifest,null,2));zip.file("LEGG
 progress.textContent="Creazione file ZIP...";const blob=await zip.generateAsync({type:"blob",compression:"DEFLATE",compressionOptions:{level:6}});const url=URL.createObjectURL(blob),a=document.createElement("a"),date=new Date().toISOString().slice(0,10);a.href=url;a.download=`Backup_MatRi-mIA_${safe(manifest.azienda)}_${date}.zip`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);progress.textContent=`Backup completato: ${Object.values(manifest.tables).filter(v=>typeof v==="number").reduce((a,b)=>a+b,0)} record, ${manifest.documents.downloaded} documenti. ${manifest.documents.failed.length?manifest.documents.failed.length+" file non scaricati (vedi backup.json).":"Tutti i documenti accessibili sono stati inclusi."}`;log("BACKUP","completato")
 }catch(e){console.error(e);progress.textContent="Errore durante il backup: "+(e.message||e);progress.style.background="#fff0f0";progress.style.color="#a33131"}finally{btn.disabled=false}};
 init();
-</script></body></html>
+</script>
+<script type="module" src="js/admin-role-guard.js"></script>
+</body></html>

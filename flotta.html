@@ -50,4 +50,6 @@ function filter(){let rows=[...all];const q=$("searchInput").value.trim().toLowe
 function render(rows){$("fleetBody").innerHTML="";$("emptyState").style.display=rows.length?"none":"block";for(const x of rows){const tr=document.createElement("tr");tr.innerHTML=`<td class="strong">${esc(x.targa)}</td><td>${esc([x.marca,x.modello].filter(Boolean).join(" ")||"-")}${x.anno_immatricolazione?`<br><small>${esc(x.anno_immatricolazione)}</small>`:""}</td><td>${esc(x.tipo_mezzo||"-")}</td><td>${esc((x.tipo_possesso||"-").replaceAll("_"," "))}</td><td>${num(x.km_annui_previsti)}</td><td class="money">${eur(x.costo_mezzo_km)} / km</td><td><span class="badge ${x.attivo?"badge-on":"badge-off"}">${x.attivo?"ATTIVO":"NON ATTIVO"}</span></td>`;tr.onclick=()=>location.href="dettaglio-mezzo.html?id="+encodeURIComponent(x.id);$("fleetBody").appendChild(tr)}}
 $("searchInput").oninput=filter;$("statusFilter").onchange=filter;$("typeFilter").onchange=filter;$("reloadBtn").onclick=load;
 if(await auth())await load();
-</script></body></html>
+</script>
+<script type="module" src="js/admin-role-guard.js"></script>
+</body></html>

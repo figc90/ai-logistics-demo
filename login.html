@@ -545,6 +545,19 @@ function showMessage(type,text){
 }
 
 
+function showAccessReason(){
+  const reason = new URLSearchParams(window.location.search).get("reason");
+  if(reason === "azienda_disattivata") {
+    showMessage("error", "Azienda disattivata. Contatta l'amministratore di MatRi-mIA Logistics.");
+  } else if(reason === "account_non_associato") {
+    showMessage("error", "Account non associato a un'azienda. Contatta l'amministratore di MatRi-mIA Logistics.");
+  } else if(reason === "verifica_azienda") {
+    showMessage("error", "Impossibile verificare lo stato dell'azienda. Riprova o contatta l'amministratore.");
+  }
+}
+
+showAccessReason();
+
 /* =========================
    AZIENDA ATTIVA
 ========================= */

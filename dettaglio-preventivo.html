@@ -255,4 +255,6 @@ $("save").onclick=async()=>{if(!item)return;const b=$("save");b.disabled=true;b.
 $("delete").onclick=async()=>{if(!item||!confirm("Eliminare definitivamente il preventivo "+item.numero_preventivo+"?"))return;const {error}=await sb.from("preventivi").delete().eq("id",item.id);if(error)return message(error.message);location.href="preventivi.html"};
 $("pdf").onclick=()=>{if(!item)return;location.href="genera-documento.html?tipo=PREVENTIVO&preventivo_id="+encodeURIComponent(item.id)};
 $("logoutButton").onclick=async()=>{await sb.auth.signOut();location.replace("login.html")};boot();
-</script></body></html>
+</script>
+<script type="module" src="js/admin-role-guard.js"></script>
+</body></html>

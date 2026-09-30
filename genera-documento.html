@@ -243,7 +243,9 @@ $("openPdf").addEventListener("click",async(event)=>{
   // Apriamo subito la scheda per non essere bloccati dal popup blocker.
   const pdfWindow=window.open("","_blank");
   if(pdfWindow){
-    pdfWindow.document.write(`<!doctype html><html><head><title>Caricamento PDF...</title></head><body style="font-family:Arial,sans-serif;padding:32px">Caricamento PDF...</body></html>`);
+    pdfWindow.document.write(`<!doctype html><html><head><title>Caricamento PDF...</title></head><body style="font-family:Arial,sans-serif;padding:32px">Caricamento PDF...
+<script type="module" src="js/admin-role-guard.js"></script>
+</body></html>`);
     pdfWindow.document.close();
   }
 

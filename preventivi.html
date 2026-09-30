@@ -128,4 +128,6 @@ function render(){
  document.querySelectorAll("tr[data-id]").forEach(r=>r.onclick=()=>location.href="dettaglio-preventivo.html?id="+encodeURIComponent(r.dataset.id));
 }
 $("search").oninput=render;$("state").onchange=render;$("refresh").onclick=load;$("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};boot();
-</script></body></html>
+</script>
+<script type="module" src="js/admin-role-guard.js"></script>
+</body></html>
