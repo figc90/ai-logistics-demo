@@ -305,7 +305,28 @@ async function requestClosure(tipo){
  if(!confirm(msg))return;
  if(isDelete){const typed=prompt("Per confermare la richiesta scrivi ELIMINA");if(typed!=="ELIMINA")return}
  const b=isDelete?$("requestDeleteButton"):$("requestDeactivateButton"); b.disabled=true; clearMessage($("closureRequestMessage"));
- try{const {data,error}=await supabase.functions.invoke("richiesta-chiusura-azienda",{body:{tipo,backup_avviso_confermato:isDelete}});if(error||data?.error)throw error||new Error(data.error);showMessage($("closureRequestMessage"),"success",isDelete?"Richiesta di cancellazione inviata. Controlla la tua email.":"Richiesta di disattivazione inviata.");await loadClosureRequest()}catch(e){console.error(e);showMessage($("closureRequestMessage"),"error","Non è stato possibile inviare la richiesta. Riprova più tardi.");b.disabled=false}
+ try{
+  const {data,error}=await supabase.functions.invoke("richiesta-chiusura-azienda",{body:{tipo,backup_avviso_confermato:isDelete}});
+  if(error){
+    let serverDetail="";
+    try{
+      if(error.context && typeof error.context.clone==="function"){
+        const payload=await error.context.clone().json();
+        serverDetail=payload?.error||"";
+        if(payload?.stage) serverDetail+=(serverDetail?" — ":"")+"fase: "+payload.stage;
+      }
+    }catch(_){}
+    throw new Error(serverDetail||error.message||"Errore Edge Function");
+  }
+  if(data?.error) throw new Error(data.error+(data?.stage?" — fase: "+data.stage:""));
+  showMessage($("closureRequestMessage"),"success",isDelete?"Richiesta di cancellazione inviata. Controlla la tua email.":"Richiesta di disattivazione inviata.");
+  await loadClosureRequest()
+ }catch(e){
+  console.error(e);
+  const detail=e?.message||"Errore sconosciuto";
+  showMessage($("closureRequestMessage"),"error","Richiesta non inviata: "+detail);
+  b.disabled=false
+ }
 }
 
 async function loadCompany(){
