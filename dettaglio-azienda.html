@@ -304,6 +304,54 @@ h1{
   color:#b42318;
 }
 
+.success{
+  background:#ecfdf3;
+  border:1px solid #b7ebca;
+  color:#18794e;
+}
+
+.tenant-actions{
+  padding:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+}
+
+.tenant-actions-copy{
+  color:#65758a;
+  font-size:12px;
+  line-height:1.55;
+  max-width:760px;
+}
+
+.tenant-action-btn{
+  min-height:42px;
+  padding:0 18px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.tenant-action-btn.deactivate{
+  border:1px solid #f0b9b5;
+  background:#fff5f4;
+  color:#b42318;
+}
+
+.tenant-action-btn.activate{
+  border:1px solid #a9ddbf;
+  background:#effbf4;
+  color:#18794e;
+}
+
+.tenant-action-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
 /* =========================================================
    KPI
 ========================================================= */
@@ -518,6 +566,8 @@ td{
 ========================================================= */
 
 @media(max-width:1050px){
+  .tenant-actions{align-items:flex-start;flex-direction:column;}
+
 
   .kpi-grid{
     grid-template-columns:repeat(2,1fr);
@@ -821,6 +871,24 @@ td{
 
   </div>
 
+</section>
+
+<!-- GESTIONE ACCESSO TENANT -->
+<section class="card">
+  <div class="card-header">
+    <div>
+      <h2>Accesso azienda</h2>
+      <p>Gestione dello stato del tenant</p>
+    </div>
+  </div>
+  <div class="tenant-actions">
+    <div id="tenantActionCopy" class="tenant-actions-copy">
+      Disattivando l'azienda, i nuovi accessi degli utenti associati verranno bloccati. I dati restano conservati e l'azienda può essere riattivata dal Superadmin.
+    </div>
+    <button id="toggleCompanyButton" class="tenant-action-btn deactivate" type="button">
+      Disattiva azienda
+    </button>
+  </div>
 </section>
 
 <!-- UTENTI -->
@@ -1197,6 +1265,77 @@ function renderCompany(){
     "status-badge status-active";
 
   }
+
+  renderTenantAction();
+}
+
+/* =========================================================
+   GESTIONE STATO AZIENDA
+========================================================= */
+
+function showStatusMessage(type,text){
+  const box = document.getElementById("messageBox");
+  box.style.display = "block";
+  box.className = "message " + (type === "success" ? "success" : "error");
+  box.textContent = text;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function renderTenantAction(){
+  const button = document.getElementById("toggleCompanyButton");
+  const copy = document.getElementById("tenantActionCopy");
+  if(!button || !company) return;
+
+  const active = company.attiva !== false;
+  button.textContent = active ? "Disattiva azienda" : "Riattiva azienda";
+  button.className = "tenant-action-btn " + (active ? "deactivate" : "activate");
+  copy.textContent = active
+    ? "Disattivando l'azienda, i nuovi accessi degli utenti associati verranno bloccati. I dati restano conservati e l'azienda può essere riattivata dal Superadmin."
+    : "L'azienda è disattivata. Riattivandola, gli utenti associati potranno nuovamente accedere a MatRi-mIA.";
+}
+
+async function toggleCompanyStatus(){
+  if(!company) return;
+
+  const currentlyActive = company.attiva !== false;
+  const newState = !currentlyActive;
+  const action = currentlyActive ? "disattivare" : "riattivare";
+
+  const confirmed = window.confirm(
+    currentlyActive
+      ? "Vuoi davvero disattivare questa azienda? I nuovi accessi degli utenti associati verranno bloccati, ma nessun dato sarà cancellato."
+      : "Vuoi riattivare questa azienda? Gli utenti associati potranno nuovamente accedere."
+  );
+  if(!confirmed) return;
+
+  const button = document.getElementById("toggleCompanyButton");
+  button.disabled = true;
+  const oldText = button.textContent;
+  button.textContent = "Salvataggio...";
+
+  try{
+    const {data,error} = await supabase.rpc("superadmin_set_azienda_attiva",{
+      p_azienda_id: company.id,
+      p_attiva: newState
+    });
+    if(error) throw error;
+
+    company.attiva = newState;
+    renderCompany();
+    renderTenantAction();
+    showStatusMessage(
+      "success",
+      newState
+        ? "Azienda riattivata correttamente."
+        : "Azienda disattivata correttamente. I dati non sono stati cancellati."
+    );
+  }catch(error){
+    console.error(error);
+    showStatusMessage("error","Impossibile " + action + " l'azienda. Verifica di aver eseguito lo script SQL incluso nel pacchetto.");
+  }finally{
+    button.disabled = false;
+    if(button.textContent === "Salvataggio...") button.textContent = oldText;
+  }
 }
 
 /* =========================================================
@@ -1540,6 +1679,8 @@ document.getElementById(
   "aziende.html";
 
 };
+
+document.getElementById("toggleCompanyButton").onclick = toggleCompanyStatus;
 
 document.getElementById(
   "logoutButton"

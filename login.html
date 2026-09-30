@@ -546,6 +546,29 @@ function showMessage(type,text){
 
 
 /* =========================
+   AZIENDA ATTIVA
+========================= */
+
+async function ensureCompanyActive(profile){
+  const ruolo = String(profile?.ruolo || "").trim().toLowerCase();
+  if(ruolo === "superadmin") return true;
+  if(!profile?.azienda_id) throw new Error("Account non associato a un'azienda.");
+
+  const {data:azienda,error} = await supabase
+    .from("aziende")
+    .select("id,attiva")
+    .eq("id",profile.azienda_id)
+    .single();
+
+  if(error || !azienda) throw new Error("Impossibile verificare lo stato dell'azienda.");
+  if(azienda.attiva === false){
+    await supabase.auth.signOut();
+    throw new Error("Azienda disattivata. Contatta l'amministratore di MatRi-mIA Logistics.");
+  }
+  return true;
+}
+
+/* =========================
    DESTINAZIONE UTENTE
 ========================= */
 
@@ -578,6 +601,8 @@ async function redirectByRole(userId){
       .trim()
       .toLowerCase();
 
+
+  await ensureCompanyActive(profile);
 
   if(
     ruolo !== "superadmin" &&
