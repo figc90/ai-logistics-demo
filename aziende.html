@@ -766,6 +766,11 @@ Caselle configurate
 
 </div>
 
+<div class="kpi-card">
+<div class="kpi-label">RICHIESTE CHIUSURA</div>
+<div id="closureRequestCount" class="kpi-number">0</div>
+<div class="kpi-description">Da gestire</div>
+</div>
 </div>
 
 <div class="toolbar">
@@ -882,6 +887,7 @@ let currentProfile = null;
 let aziende = [];
 let profiles = [];
 let connections = [];
+let closureRequests = [];
 
 const userEmail =
 document.getElementById(
@@ -1066,7 +1072,8 @@ async function load(){
   const [
     companyResult,
     profileResult,
-    connectionResult
+    connectionResult,
+    closureResult
   ] =
   await Promise.all([
 
@@ -1090,7 +1097,13 @@ async function load(){
     .from("email_connections")
     .select(
       "id,azienda_id,email,provider,attiva"
-    )
+    ),
+
+    supabase
+    .from("richieste_chiusura_azienda")
+    .select("id,azienda_id,tipo,stato,created_at")
+    .in("stato",["RICHIESTA","IN_LAVORAZIONE"])
+    .order("created_at",{ascending:false})
 
   ]);
 
@@ -1132,6 +1145,9 @@ async function load(){
         []
       );
 
+  closureRequests = closureResult.error ? [] : (closureResult.data || []);
+  if(closureResult.error) console.error("Richieste chiusura:",closureResult.error);
+
   renderCounters();
 
   render();
@@ -1154,6 +1170,9 @@ function renderCounters(){
   connections.filter(
     item => item.attiva !== false
   ).length;
+
+  const closureCount=document.getElementById("closureRequestCount");
+  if(closureCount) closureCount.textContent=closureRequests.length;
 
 }
 
@@ -1299,6 +1318,9 @@ function render(){
               company
             )
           )}
+          ${closureRequests.some(r=>r.azienda_id===company.id)
+            ? `<div style="margin-top:7px"><span class="badge" style="background:#fff0f0;color:#b42318;border:1px solid #f3b4ae">⚠ RICHIESTA CHIUSURA</span></div>`
+            : ""}
         </td>
 
         <td class="company-id">
