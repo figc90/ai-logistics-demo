@@ -36,6 +36,8 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
 .full-card{margin-top:18px}.company-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.doc-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}.doc-tab{border:1px solid #dce3eb;background:#f8fafc;color:#526177;border-radius:10px;min-height:42px;font-size:10px;font-weight:900;cursor:pointer}.doc-tab.active{background:#eaf6fb;color:#1689b3;border-color:#9fd5e7}.doc-model-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.check-row{display:flex;gap:18px;align-items:center;margin:5px 0 17px}.check{display:flex;align-items:center;gap:7px;color:#526177;font-size:10px;font-weight:800}.check input{width:16px;height:16px}.color-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.color-input{display:flex;gap:8px}.color-input input[type=color]{width:48px;padding:4px}.logo-state{padding:12px;border:1px dashed #cfd9e4;border-radius:10px;background:#f9fbfd;color:#718096;font-size:10px;line-height:1.5}
 @media(max-width:900px){.settings-grid,.doc-model-grid{grid-template-columns:1fr}.doc-tabs{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){.sidebar{width:72px}.main{margin-left:72px;width:calc(100% - 72px)}.sidebar-logo{min-height:80px;padding:8px}.sidebar-logo-link{width:55px;min-height:55px}.sidebar-logo img{width:50px}.nav-title,.nav-item span:not(.nav-icon),{display:none}.nav-item{justify-content:center;padding:0}.content{padding:25px 14px 40px}h1{font-size:32px}.company-grid,.color-row{grid-template-columns:1fr}}
+
+.account-close-card{border:1px solid #fecaca;background:#fffafa}.account-close-card .card-icon{background:#fee2e2;color:#991b1b}.close-choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.close-option{border:1px solid #e2e8f0;border-radius:12px;padding:14px;background:#fff}.close-option h3{margin:0 0 6px;color:#0f2747;font-size:15px}.close-option p{margin:0 0 12px;color:#64748b;font-size:13px;line-height:1.5}.danger-btn{border:0;border-radius:9px;background:#b91c1c;color:#fff;font-weight:800;padding:10px 14px;cursor:pointer}.warning-btn{border:1px solid #d97706;border-radius:9px;background:#fff7ed;color:#9a3412;font-weight:800;padding:10px 14px;cursor:pointer}.danger-btn:disabled,.warning-btn:disabled{opacity:.55;cursor:not-allowed}.request-status{margin-top:12px;padding:11px 12px;border-radius:9px;background:#f8fafc;border:1px solid #e2e8f0;color:#475569;font-size:13px;line-height:1.45}@media(max-width:760px){.close-choice{grid-template-columns:1fr}}
 </style>
 
 <style id="matrimia-standard-sidebar-css">
@@ -212,7 +214,7 @@ input:focus,textarea:focus,select:focus{border-color:#36a8ce;box-shadow:0 0 0 3p
 <div class="settings-column">
 <section class="card"><div class="card-header"><div class="card-icon">✉</div><div><h2>Integrazioni</h2><p>Connessioni utilizzate dalle automazioni MatRi-mIA</p></div></div><div class="card-body"><div id="integrationsList"></div><div id="integrationMessage" class="message"></div></div></section>
 <section class="card"><div class="card-header"><div class="card-icon">✓</div><div><h2>Sicurezza</h2><p>Informazioni sull'accesso all'account</p></div></div><div class="card-body"><div class="security-note" style="margin-top:0"><strong>Separazione aziendale attiva</strong><br><br>Il tuo account è associato a una specifica azienda. Le informazioni operative vengono gestite in base ai permessi assegnati al tuo profilo.<br><br>Il ruolo e l'associazione dell'account all'azienda non sono modificabili da questa pagina.</div></div></section>
-<section class="card"><div class="card-header"><div class="card-icon">⇩</div><div><h2>Backup azienda</h2><p>Scarica una copia completa dei dati e dei documenti aziendali</p></div></div><div class="card-body"><div class="security-note" style="margin-top:0"><strong>I tuoi dati restano disponibili anche fuori da MatRi-mIA.</strong><br><br>Genera un archivio ZIP con dati gestionali in CSV/JSON e documenti presenti nell'archivio aziendale.</div><div class="actions"><a href="backup-azienda.html" class="primary-btn" style="text-decoration:none;display:inline-block">Apri Backup azienda</a></div></div></section>
+<section class="card"><div class="card-header"><div class="card-icon">⇩</div><div><h2>Backup azienda</h2><p>Scarica una copia completa dei dati e dei documenti aziendali</p></div></div><div class="card-body"><div class="security-note" style="margin-top:0"><strong>I tuoi dati restano disponibili anche fuori da MatRi-mIA.</strong><br><br>Genera un archivio ZIP con dati gestionali in CSV/JSON e documenti presenti nell'archivio aziendale.</div><div class="actions"><a href="backup-azienda.html" class="primary-btn" style="text-decoration:none;display:inline-block">Apri Backup azienda</a></div></div></section><section class="card account-close-card"><div class="card-header"><div class="card-icon">!</div><div><h2>Chiusura account aziendale</h2><p>Richiedi la sospensione o la cancellazione dell'account</p></div></div><div class="card-body"><div class="security-note" style="margin-top:0"><strong>Prima della cancellazione definitiva consigliamo di creare un backup.</strong><br><br>La richiesta viene inviata al Superadmin. La cancellazione non è immediata: prima viene verificata e confermata. Riceverai un'email all'indirizzo del tuo account quando invii una richiesta di cancellazione.</div><div class="close-choice"><div class="close-option"><h3>Disattiva azienda</h3><p>Richiedi la sospensione dell'accesso mantenendo tutti i dati conservati.</p><button id="requestDeactivateButton" class="warning-btn" type="button">Richiedi disattivazione</button></div><div class="close-option"><h3>Elimina account aziendale</h3><p>Richiedi la cancellazione definitiva dell'azienda e dei dati collegati. La richiesta sarà verificata dal Superadmin.</p><div class="security-note" style="margin:12px 0;background:#fff7ed;border-color:#fdba74"><strong>Backup prima della cancellazione</strong><br><br>Prima di procedere ti consigliamo di scaricare e conservare un backup dell'azienda. La cancellazione definitiva può comportare la perdita di pratiche, viaggi, preventivi, anagrafiche e documenti.</div><label style="display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:13px;line-height:1.45;cursor:pointer"><input id="backupDeletionConfirm" type="checkbox" style="width:auto;height:auto;margin-top:3px;flex:0 0 auto"><span><strong>Confermo di essere stato informato della possibilità di eseguire un backup.</strong><br>Ho eseguito il backup oppure scelgo di procedere senza backup, consapevole che i dati potranno essere eliminati definitivamente.</span></label><div class="actions" style="margin:8px 0 12px"><a href="backup-azienda.html" class="secondary-btn" style="text-decoration:none;display:inline-block">Vai al backup</a></div><button id="requestDeleteButton" class="danger-btn" type="button">Richiedi cancellazione</button></div></div><div id="closureRequestStatus" class="request-status">Nessuna richiesta in corso.</div><div id="closureRequestMessage" class="message"></div></div></section>
 </div>
 </div>
 
@@ -284,6 +286,28 @@ function numOrNull(id){
  return Number.isFinite(n)?n:null;
 }
 
+
+async function loadClosureRequest(){
+ const box=$("closureRequestStatus"); if(!box||!currentProfile?.azienda_id)return;
+ const {data}=await supabase.from("richieste_chiusura_azienda").select("id,tipo,stato,created_at,updated_at").eq("azienda_id",currentProfile.azienda_id).in("stato",["RICHIESTA","IN_LAVORAZIONE"]).order("created_at",{ascending:false}).limit(1).maybeSingle();
+ if(!data){box.textContent="Nessuna richiesta in corso.";return}
+ const tipo=data.tipo==="CANCELLAZIONE"?"cancellazione definitiva":"disattivazione";
+ box.textContent=`Richiesta di ${tipo} inviata il ${new Date(data.created_at).toLocaleString("it-IT")}. Stato: ${data.stato.replaceAll("_"," ")}.`;
+ $("requestDeactivateButton")?.setAttribute("disabled",""); $("requestDeleteButton")?.setAttribute("disabled","");
+}
+async function requestClosure(tipo){
+ const isDelete=tipo==="CANCELLAZIONE";
+ const msg=isDelete?"Vuoi inviare la richiesta di CANCELLAZIONE DEFINITIVA dell'account aziendale? Ti consigliamo di effettuare prima un backup. Riceverai una email di conferma.":"Vuoi richiedere la disattivazione dell'azienda? I dati verranno conservati.";
+ if(isDelete){
+  const backupConfirm=$("backupDeletionConfirm");
+  if(!backupConfirm?.checked){showMessage($("closureRequestMessage"),"error","Prima di richiedere la cancellazione devi confermare di essere stato informato della possibilità di eseguire il backup.");return}
+ }
+ if(!confirm(msg))return;
+ if(isDelete){const typed=prompt("Per confermare la richiesta scrivi ELIMINA");if(typed!=="ELIMINA")return}
+ const b=isDelete?$("requestDeleteButton"):$("requestDeactivateButton"); b.disabled=true; clearMessage($("closureRequestMessage"));
+ try{const {data,error}=await supabase.functions.invoke("richiesta-chiusura-azienda",{body:{tipo,backup_avviso_confermato:isDelete}});if(error||data?.error)throw error||new Error(data.error);showMessage($("closureRequestMessage"),"success",isDelete?"Richiesta di cancellazione inviata. Controlla la tua email.":"Richiesta di disattivazione inviata.");await loadClosureRequest()}catch(e){console.error(e);showMessage($("closureRequestMessage"),"error","Non è stato possibile inviare la richiesta. Riprova più tardi.");b.disabled=false}
+}
+
 async function loadCompany(){
  const {data,error}=await supabase.from("aziende").select("id,nome,ragione_sociale,partita_iva,codice_fiscale,indirizzo,cap,citta,provincia,nazione,email,telefono,pec,sito_web,logo_path,attiva,preventivi_consumo_l_100km,preventivi_prezzo_carburante_l,preventivi_costo_mezzo_km,preventivi_costo_autista,preventivi_pedaggi,preventivi_altri_costi,preventivi_margine_percentuale").eq("id",currentProfile.azienda_id).single();
  if(error||!data){showMessage($("companyMessage"),"error","Impossibile caricare i dati dell'azienda.");return}
@@ -330,6 +354,7 @@ $("companyForm").addEventListener("submit",async e=>{
   if(error)throw error;
   currentCompany=data;
   await loadCompany();
+ await loadClosureRequest();
   $("companyLogo").value="";
   showMessage($("companyMessage"),"success","Dati aziendali e branding aggiornati.");
  }catch(err){console.error(err);showMessage($("companyMessage"),"error",err.message||"Salvataggio non riuscito.")}finally{$("saveCompanyButton").disabled=false}
@@ -379,6 +404,8 @@ async function loadIntegrations(){
  $("connectGmailButton")?.addEventListener("click",function(){connectGmail(this)});$("reconnectGmailButton")?.addEventListener("click",function(){connectGmail(this)});$("disconnectGmailButton")?.addEventListener("click",function(){disconnectGmail(this)});
 }
 $("logoutButton").addEventListener("click",async()=>{await supabase.auth.signOut();location.replace("login.html")});
+$("requestDeactivateButton")?.addEventListener("click",()=>requestClosure("DISATTIVAZIONE"));
+$("requestDeleteButton")?.addEventListener("click",()=>requestClosure("CANCELLAZIONE"));
 (async()=>{if(!await protect())return;await Promise.all([loadCompany(),loadIntegrations(),loadModel("DDT")]);document.body.classList.add("auth-ready");readGmailCallbackStatus()})();
 </script>
 <script>
