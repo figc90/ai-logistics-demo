@@ -2313,8 +2313,12 @@ async function protectPage(){
       return false;
     }
 
-    isSuperadmin =
-      ruolo === "superadmin";
+    if(ruolo === "superadmin"){
+      window.location.replace("superadmin.html");
+      return false;
+    }
+
+    isSuperadmin = false;
 
     if(
       ruolo === "superadmin" &&

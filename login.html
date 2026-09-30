@@ -630,19 +630,16 @@ async function redirectByRole(userId){
 
 
   if(ruolo === "autista"){
-
-    window.location.replace(
-      "autista.html"
-    );
-
+    window.location.replace("autista.html");
     return;
-
   }
 
+  if(ruolo === "superadmin"){
+    window.location.replace("superadmin.html");
+    return;
+  }
 
-  window.location.replace(
-    "dashboard.html"
-  );
+  window.location.replace("dashboard.html");
 }
 
 
@@ -916,17 +913,13 @@ loginForm.addEventListener(
         function(){
 
           if(ruolo === "autista"){
-
-            window.location.replace(
-              "autista.html"
-            );
-
+            window.location.replace("autista.html");
+          }
+          else if(ruolo === "superadmin"){
+            window.location.replace("superadmin.html");
           }
           else{
-
-            window.location.replace(
-              "dashboard.html"
-            );
+            window.location.replace("dashboard.html");
 
           }
 
