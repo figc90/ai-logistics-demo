@@ -6,10 +6,29 @@ const supabase = createClient(
 );
 
 const page = (window.location.pathname.split("/").pop() || "").toLowerCase();
-const driverPages = new Set(["autista.html", "viaggio-autista.html"]);
+
+/*
+  Separazione netta dei tre ambienti:
+  - superadmin: gestione piattaforma
+  - admin: operatività della propria azienda
+  - autista: area autista
+*/
+const superadminPages = new Set([
+  "superadmin.html",
+  "aziende.html",
+  "dettaglio-azienda.html",
+  "nuova-azienda.html"
+]);
+
+const driverPages = new Set([
+  "autista.html",
+  "viaggio-autista.html"
+]);
 
 async function blockDisabledCompany(profile) {
   const role = String(profile?.ruolo || "").trim().toLowerCase();
+
+  // Il Superadmin è intenzionalmente indipendente da qualsiasi azienda.
   if (role === "superadmin") return;
 
   if (!profile?.azienda_id) {
@@ -37,6 +56,36 @@ async function blockDisabledCompany(profile) {
   }
 }
 
+function redirectByRole(role) {
+  if (role === "superadmin") {
+    if (!superadminPages.has(page)) {
+      window.location.replace("superadmin.html");
+      return true;
+    }
+    return false;
+  }
+
+  if (role === "autista") {
+    if (!driverPages.has(page)) {
+      window.location.replace("autista.html");
+      return true;
+    }
+    return false;
+  }
+
+  if (role === "admin") {
+    // Un amministratore aziendale non deve entrare né nella console
+    // piattaforma né nell'interfaccia riservata all'autista.
+    if (superadminPages.has(page) || driverPages.has(page)) {
+      window.location.replace("dashboard.html");
+      return true;
+    }
+    return false;
+  }
+
+  return false;
+}
+
 try {
   const { data: { session } } = await supabase.auth.getSession();
 
@@ -53,12 +102,17 @@ try {
       await supabase.auth.signOut();
       window.location.replace("login.html");
     } else {
-      await blockDisabledCompany(profile);
-
       const role = String(profile.ruolo || "").trim().toLowerCase();
-      if (role === "autista" && !driverPages.has(page)) {
-        window.location.replace("autista.html");
+
+      // Blocca ruoli sconosciuti/non previsti.
+      if (!["superadmin", "admin", "autista"].includes(role)) {
+        await supabase.auth.signOut();
+        window.location.replace("login.html?reason=ruolo_non_valido");
+        throw new Error("Ruolo non valido.");
       }
+
+      await blockDisabledCompany(profile);
+      redirectByRole(role);
     }
   }
 } catch (error) {
