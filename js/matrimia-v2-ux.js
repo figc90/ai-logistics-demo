@@ -159,4 +159,4 @@ async function todayDashboard(){
  const box=document.createElement('section');box.className='mia-v2-today';box.innerHTML=`<div class="mia-v2-today-head"><h2>Oggi · ${now.toLocaleDateString('it-IT',{day:'2-digit',month:'long'})}</h2><span class="mia-v2-today-note">Attività operative da controllare</span></div><div class="mia-v2-cards">${vals.map(x=>`<a href="${x[2]}" class="mia-v2-card ${x[1]>0?'has-value':''}" style="text-decoration:none"><b>${x[1]}</b><span>${x[0]}</span></a>`).join('')}</div>`;const guide=$('.beta-guide-card');if(guide)guide.insertAdjacentElement('afterend',box);else{const heading=$('.heading')||$('.page-header')||$('h1')?.parentElement;heading?.insertAdjacentElement('afterend',box);}
 }
 
-css();globalSearch();advancedFilters();rowActions();duplicateDetail();duplicatePrefill();timeline();todayDashboard();
+css();globalSearch();advancedFilters();rowActions();duplicateDetail();timeline();todayDashboard();
