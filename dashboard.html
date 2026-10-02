@@ -1642,7 +1642,7 @@ tbody tr:hover{
 
 <div class="economic-v2-grid">
   <section class="economic-panel">
-    <div class="economic-panel-head"><div><div class="economic-panel-title">Andamento economico</div><div class="economic-panel-sub">Margine previsto vs margine effettivo · ultimi 6 mesi</div></div></div>
+    <div class="economic-panel-head"><div><div class="economic-panel-title">Andamento economico</div><div class="economic-panel-sub">Margine previsto vs margine effettivo · periodo selezionato</div></div></div>
     <canvas id="economicTrendChart" class="economic-chart"></canvas>
     <div class="economic-legend"><span>Margine previsto</span><span class="cost">Margine effettivo</span></div>
   </section>
@@ -3359,10 +3359,10 @@ function setupEconomicDashboard(viaggi,preventivi){
     document.getElementById("economicMargin").textContent=euroDashboard(plannedMargin);
     document.getElementById("economicMarginPct").textContent=realRows.length?euroDashboard(actualMargin):"-";
     document.getElementById("economicNote").textContent=filtered.length?`Periodo: ${filtered.length} viaggi · ${filtered.filter(r=>r.quote).length} con ricavo · ${realRows.length} consuntivati.`:"Nessun viaggio nel periodo selezionato.";
-    renderEconomicRanking(filtered);requestAnimationFrame(()=>renderEconomicTrend(rows));
+    renderEconomicRanking(filtered);requestAnimationFrame(()=>renderEconomicTrend(filtered));
   };
   select.onchange=render;render();
-  window.addEventListener("resize",()=>requestAnimationFrame(()=>renderEconomicTrend(rows)));
+  window.addEventListener("resize",()=>render());
 }
 
 function renderRecent(pratiche){
