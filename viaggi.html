@@ -1647,6 +1647,8 @@ function renderViaggi(viaggi){
           "tr"
         );
 
+      row.dataset.id = viaggio.id;
+
       row.innerHTML = `
 
         <td class="trip-id">
@@ -1804,5 +1806,6 @@ startPage();
     }
   }
 </script>
+<script type="module" src="js/matrimia-v2-ux.js"></script>
 </body>
 </html>

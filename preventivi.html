@@ -130,4 +130,5 @@ function render(){
 $("search").oninput=render;$("state").onchange=render;$("refresh").onclick=load;$("logoutButton").onclick=async()=>{await supabase.auth.signOut();location.replace("login.html")};boot();
 </script>
 <script type="module" src="js/admin-role-guard.js"></script>
+<script type="module" src="js/matrimia-v2-ux.js"></script>
 </body></html>

@@ -50,4 +50,5 @@ $("saveCard").onclick=async()=>{const gestore=$("cardGestore").value.trim();if(!
 (async()=>{if(!mezzoId){location.replace("flotta.html");return}if(await auth()){try{await loadMezzo();await loadCards()}catch(err){$("message").className="message error";$("message").textContent="Errore nel caricamento: "+err.message}}})();
 </script>
 <script type="module" src="js/admin-role-guard.js"></script>
+<script type="module" src="js/matrimia-v2-ux.js"></script>
 </body></html>
