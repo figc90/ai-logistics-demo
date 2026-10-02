@@ -131,6 +131,7 @@ const supabase=createClient("https://sctzockiurjsxzdkctmy.supabase.co","sb_publi
 const $=id=>document.getElementById(id);let clienti=[];let selectedCliente=null;let lastSuggested=0;let prezzoTouched=false;let kmAndata=0,kmRitorno=0,minAndata=0,minRitorno=0;
 const queryParams=new URLSearchParams(location.search);
 const praticaId=queryParams.get("pratica")||queryParams.get("pratica_id")||null;
+const duplicatePreventivoId=queryParams.get("duplica_da")||null;
 let linkedPractice=null;
 const n=id=>Number($(id).value||0);const eur=x=>new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"}).format(Number(x||0));
 function show(t,type="error"){$("message").textContent=t;$("message").className="message "+type;window.scrollTo({top:0,behavior:"smooth"})}
@@ -239,6 +240,40 @@ async function loadLinkedPractice(){
  if($("ritornoVuoto").checked) await calcReturnRoute();
  await history();
 }
+
+async function loadDuplicatePreventivo(){
+ if(!duplicatePreventivoId)return;
+ const {data:source,error}=await supabase.from("preventivi").select("*").eq("id",duplicatePreventivoId).single();
+ if(error||!source){show("Impossibile caricare il preventivo da duplicare.");console.error(error);return;}
+ $("cliente").value=source.cliente||"";
+ $("partenza").value=source.partenza||"";
+ $("destinazione").value=source.destinazione||"";
+ $("indirizzoRitiro").value=source.indirizzo_ritiro||"";
+ $("capRitiro").value=source.cap_ritiro||"";
+ $("indirizzoConsegna").value=source.indirizzo_consegna||"";
+ $("capConsegna").value=source.cap_consegna||"";
+ $("tipoMerce").value=source.tipo_merce||"";
+ $("colli").value=source.colli??"";
+ $("peso").value=source.peso_kg??"";
+ $("volume").value=source.volume_m3??"";
+ $("kmTratta").value=source.km_tratta??source.km_previsti??"";
+ kmAndata=Number($("kmTratta").value||0);
+ $("ritornoVuoto").checked=Boolean(source.ritorno_vuoto);
+ $("minutiOperazioni").value=source.minuti_operazioni??0;
+ $("pedaggi").value=source.pedaggi??0;
+ $("altri").value=source.altri_costi??0;
+ $("margine").value=source.margine_percentuale??$("margine").value;
+ $("trattamentoIva").value=source.trattamento_iva||"IVA";
+ $("condizioni").value=source.condizioni||"";
+ $("note").value=source.note||"";
+ // Data e validità restano quelle nuove impostate dal boot. Il prezzo viene ricalcolato con i parametri aziendali correnti.
+ prezzoTouched=false;
+ findCliente();
+ recalcOperational();
+ await history();
+ show("Dati copiati da "+(source.numero_preventivo||"preventivo precedente")+". Controllali e crea il nuovo preventivo.","success");
+}
+
 async function boot(){
  const {data:{session}}=await supabase.auth.getSession();if(!session)return location.replace("login.html");
  const {data:p,error}=await supabase.from("profiles").select("azienda_id,ruolo,email").eq("id",session.user.id).single();if(error||!p?.azienda_id)return location.replace("login.html");if(String(p.ruolo||"").toLowerCase()==="autista")return location.replace("autista.html");
@@ -255,6 +290,7 @@ async function boot(){
  const {data,error:ce}=await supabase.from("anagrafiche").select("id,ragione_sociale,tipo,attiva").eq("attiva",true).in("tipo",["CLIENTE","CLIENTE_VETTORE"]).order("ragione_sociale");
  if(!ce){clienti=data||[];$("clientiList").innerHTML=clienti.map(x=>`<option value="${String(x.ragione_sociale||"").replaceAll('"',"&quot;")}"></option>`).join("")}
  try{await loadLinkedPractice()}catch(e){show("Impossibile caricare la pratica collegata: "+(e?.message||""));}
+ if(!praticaId){try{await loadDuplicatePreventivo()}catch(e){show("Impossibile duplicare il preventivo: "+(e?.message||""));}}
  calc();
 }
 document.querySelectorAll(".economic").forEach(x=>x.addEventListener("input",calc));

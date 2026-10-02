@@ -1155,6 +1155,9 @@ new URLSearchParams(window.location.search);
 const requestedPractice =
 params.get("pratica");
 
+const duplicateTripId =
+params.get("duplica_da");
+
 const $ =
 id => document.getElementById(id);
 
@@ -2659,6 +2662,74 @@ async event=>{
 
 });
 
+
+
+/* DUPLICAZIONE NATIVA VIAGGIO
+   La pratica del viaggio originale non può essere riutilizzata se ha già
+   un viaggio. Per questo viene lasciata da scegliere, mentre vengono
+   ripresi i dati operativi riutilizzabili. */
+async function loadDuplicateTrip(){
+
+  if(!duplicateTripId){
+    return;
+  }
+
+  const {data:source,error}=
+  await supabase
+    .from("viaggi")
+    .select("*")
+    .eq("id",duplicateTripId)
+    .single();
+
+  if(error || !source){
+    console.error("Errore duplicazione viaggio:",error);
+    showMessage("Impossibile caricare il viaggio da duplicare.");
+    return;
+  }
+
+  // La pratica resta volutamente vuota: quella originale ha già il suo viaggio.
+  $("practiceSelect").value="";
+  updatePracticeCard();
+
+  if(source.vettore_id){
+    applyVettoreById(source.vettore_id,source.vettore||"");
+  }else if(source.vettore){
+    $("vettore").value=source.vettore;
+    tryMatchVettoreByName();
+  }
+
+  if(source.mezzo_id && mezzi.some(x=>String(x.id)===String(source.mezzo_id))){
+    $("mezzoSelect").value=source.mezzo_id;
+    applyMezzo();
+  }
+
+  if(source.autista_id && autisti.some(x=>String(x.id)===String(source.autista_id))){
+    $("autistaSelect").value=source.autista_id;
+    syncAutistaFields();
+  }
+
+  $("targaRimorchio").value=source.targa_rimorchio||"";
+  $("kmPrevisti").value=source.km_previsti??"";
+  $("ritornoVuoto").checked=Boolean(source.ritorno_vuoto);
+  $("tempoOperazioni").value=source.tempo_operazioni_minuti!=null
+    ? Number(source.tempo_operazioni_minuti)/60
+    : (source.tempo_operazioni_ore??0);
+  $("consumoViaggio").value=source.consumo_km_l??$("consumoViaggio").value;
+  $("prezzoCarburante").value=source.prezzo_carburante_l??$("prezzoCarburante").value;
+  $("note").value=source.note||"";
+  $("stato").value="PROGRAMMATO";
+  $("dataPartenza").value="";
+  $("dataArrivo").value="";
+
+  calculateCosts();
+
+  showMessage(
+    "Dati operativi copiati da " + (source.numero_viaggio||"viaggio precedente") +
+    ". Seleziona la nuova pratica e controlla i dati prima di creare il viaggio.",
+    "info"
+  );
+}
+
 async function start(){
 
   try{
@@ -2674,6 +2745,7 @@ async function start(){
     await loadAutisti();
     await loadMezzi();
     await loadPractices();
+    await loadDuplicateTrip();
 
   }
   catch(error){

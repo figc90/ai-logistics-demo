@@ -2698,6 +2698,73 @@ data:
 }
 
 
+
+
+/* DUPLICAZIONE NATIVA PRATICA
+   Gestita qui, dopo il caricamento delle anagrafiche,
+   così i dati non dipendono dal timing di uno script esterno. */
+async function loadDuplicatePractice(){
+
+  const duplicateId =
+    new URLSearchParams(window.location.search).get("duplica_da");
+
+  if(!duplicateId){
+    return;
+  }
+
+  const {data:source,error} =
+    await supabase
+      .from("pratiche")
+      .select("*")
+      .eq("id",duplicateId)
+      .single();
+
+  if(error || !source){
+    console.error("Errore duplicazione pratica:",error);
+    showMessage("error","Impossibile caricare la pratica da duplicare.");
+    return;
+  }
+
+  // Manteniamo la data della nuova pratica impostata a oggi.
+  // Copiamo invece i dati operativi riutilizzabili.
+  clienteInput.value = source.cliente || "";
+  selectedClienteId = source.cliente_id || null;
+  clienteSelect.value = selectedClienteId || "";
+  showAnagraficaInfo(clienteInfo, selectedClienteId ? findAnagrafica(selectedClienteId) : null);
+  if(!selectedClienteId){ autoMatchCliente(); }
+
+  vettoreInput.value = source.vettore || "";
+  selectedVettoreId = source.vettore_id || null;
+  vettoreSelect.value = selectedVettoreId || "";
+  showAnagraficaInfo(vettoreInfo, selectedVettoreId ? findAnagrafica(selectedVettoreId) : null);
+  if(!selectedVettoreId){ autoMatchVettore(); }
+
+  document.getElementById("ritiro").value = source.ritiro ? formatDateTimeLocal(source.ritiro) : "";
+  document.getElementById("consegna").value = source.consegna ? formatDateTimeLocal(source.consegna) : "";
+  document.getElementById("partenza").value = source.partenza || "";
+  document.getElementById("destinazione").value = source.destinazione || "";
+  document.getElementById("indirizzoRitiro").value = source.indirizzo_ritiro || "";
+  document.getElementById("capRitiro").value = source.cap_ritiro || "";
+  document.getElementById("nazioneRitiro").value = source.nazione_ritiro || "Italia";
+  document.getElementById("indirizzoConsegna").value = source.indirizzo_consegna || "";
+  document.getElementById("capConsegna").value = source.cap_consegna || "";
+  document.getElementById("nazioneConsegna").value = source.nazione_consegna || "Italia";
+  document.getElementById("tipoMerce").value = source.tipo_merce || "";
+  document.getElementById("colli").value = source.colli ?? "";
+  document.getElementById("peso").value = source.peso_kg ?? "";
+  document.getElementById("volume").value = source.volume_m3 ?? "";
+  document.getElementById("note").value = source.note || "";
+
+  const box=document.getElementById("messageBox");
+  if(box){
+    box.style.display="block";
+    box.className="message success";
+    box.textContent="Dati copiati da " + (source.numero_pratica || "pratica precedente") + ". Controllali e salva per creare una nuova pratica.";
+  }
+
+  invalidateAnalysis();
+}
+
 /* AVVIO */
 
 async function startPage(){
@@ -2712,6 +2779,8 @@ async function startPage(){
   setToday();
 
   await loadAnagrafiche();
+
+  await loadDuplicatePractice();
 
   await loadEmailData();
 
