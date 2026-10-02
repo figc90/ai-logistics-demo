@@ -2712,12 +2712,21 @@ async function loadDuplicatePractice(){
     return;
   }
 
+  // Nella lista pratiche data-id contiene il numero pratica (es. P-2026-0001),
+  // non l'UUID Supabase. Accettiamo entrambi i formati così Duplica funziona
+  // sia dalla lista sia dalla pagina di dettaglio.
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(duplicateId);
+
+  let duplicateQuery = supabase
+    .from("pratiche")
+    .select("*");
+
+  duplicateQuery = isUuid
+    ? duplicateQuery.eq("id", duplicateId)
+    : duplicateQuery.eq("numero_pratica", duplicateId);
+
   const {data:source,error} =
-    await supabase
-      .from("pratiche")
-      .select("*")
-      .eq("id",duplicateId)
-      .single();
+    await duplicateQuery.single();
 
   if(error || !source){
     console.error("Errore duplicazione pratica:",error);
