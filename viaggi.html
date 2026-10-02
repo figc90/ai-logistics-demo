@@ -784,6 +784,54 @@ tbody tr:hover{
   .std-logo img{width:56px!important;max-width:56px!important;height:54px!important;max-height:54px!important;padding:4px!important}
 }
 </style>
+
+<style id="matrimia-topbar-uniform-20261002">
+/* Uniforma la posizione dell'azione principale al layout di Preventivi */
+.topbar, .app-topbar{
+  height:64px !important;
+  min-height:64px !important;
+  padding:0 28px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:16px !important;
+  background:#fff !important;
+  border-bottom:1px solid #e3e9ef !important;
+  position:sticky !important;
+  top:0 !important;
+  z-index:50 !important;
+}
+.topbar-brand, .app-topbar-brand{
+  font-size:12px !important;
+  font-weight:900 !important;
+  color:#173459 !important;
+  white-space:nowrap;
+}
+.new-trip-btn, .new-btn, .primary-btn, .refresh-btn, .app-topbar-primary{
+  min-height:40px !important;
+  height:40px !important;
+  padding:0 17px !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:10px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:linear-gradient(135deg,#ec4f32,#ff7b1f) !important;
+  color:#fff !important;
+  font-size:13px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  text-decoration:none !important;
+  white-space:nowrap !important;
+  cursor:pointer !important;
+  box-shadow:none !important;
+}
+@media(max-width:800px){
+  .topbar, .app-topbar{padding:0 14px !important;}
+  .topbar-brand, .app-topbar-brand{overflow:hidden;text-overflow:ellipsis;}
+}
+</style>
 </head>
 
 <body>
