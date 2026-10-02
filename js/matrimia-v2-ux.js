@@ -96,27 +96,54 @@ function setDuplicateField(id,value){
  el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));
 }
 async function duplicatePrefill(){
- const id=new URLSearchParams(location.search).get('duplica_da');if(!id)return;
- const defs={'nuova-pratica.html':['pratiche','Pratica'],'nuovo-preventivo.html':['preventivi','Preventivo'],'nuovo-viaggio.html':['viaggi','Viaggio']};const def=defs[page];if(!def)return;
+ const id=new URLSearchParams(location.search).get('duplica_da');
+ if(!id)return;
+ const defs={'nuova-pratica.html':['pratiche','Pratica'],'nuovo-preventivo.html':['preventivi','Preventivo'],'nuovo-viaggio.html':['viaggi','Viaggio']};
+ const def=defs[page]; if(!def)return;
  const {data,error}=await sb.from(def[0]).select('*').eq('id',id).single();
- if(error||!data){console.error('Duplicazione: elemento origine non trovato',error);return;}
- const banner=document.createElement('div');banner.className='mia-v2-banner';banner.textContent=`Nuovo ${def[1].toLowerCase()} da duplicazione di ${data.numero_pratica||data.numero_preventivo||data.numero_viaggio||'elemento esistente'}. Controlla i dati prima di salvare: numero, stato, documenti, consuntivo e collegamenti conclusivi non vengono copiati.`;
- const main=$('main')||$('.main')||$('.content')||document.body;main.insertBefore(banner,main.firstChild);
- await waitForDuplicateForm(data);
+ if(error||!data){console.error('MatRi-mIA Duplica: sorgente non caricata',error);return;}
+
+ const banner=document.createElement('div');
+ banner.className='mia-v2-banner';
+ banner.textContent=`Stai creando un nuovo elemento duplicando ${def[1].toLowerCase()} ${data.numero_pratica||data.numero_preventivo||data.numero_viaggio||''}. Controlla i dati prima di salvare.`;
+ const main=$('main')||$('.main')||$('.content')||document.body;
+ main.insertBefore(banner,main.firstChild);
+
+ const waitFor=async(test,timeout=8000)=>{const start=Date.now();while(Date.now()-start<timeout){try{if(test())return true}catch{}await sleep(100)}return false};
+ const setValue=(id,value)=>{const el=document.getElementById(id);if(!el||value==null)return false;if(el.type==='checkbox')el.checked=!!value;else el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));return true};
+ const setSelect=async(id,value)=>{if(!value)return false;const ok=await waitFor(()=>{const el=document.getElementById(id);return el&&[...el.options].some(o=>String(o.value)===String(value))});if(!ok)return false;return setValue(id,String(value))};
+
  if(page==='nuova-pratica.html'){
-   // Copia i dati riutilizzabili, ma non le date: una pratica duplicata è un nuovo trasporto.
-   const map={partenza:'partenza',destinazione:'destinazione',indirizzo_ritiro:'indirizzoRitiro',cap_ritiro:'capRitiro',nazione_ritiro:'nazioneRitiro',indirizzo_consegna:'indirizzoConsegna',cap_consegna:'capConsegna',nazione_consegna:'nazioneConsegna',tipo_merce:'tipoMerce',colli:'colli',peso_kg:'peso',volume_m3:'volume',note:'note'};
-   Object.entries(map).forEach(([col,dom])=>setDuplicateField(dom,data[col]));
-   if(data.cliente_id&&document.querySelector(`#clienteSelect option[value="${CSS.escape(String(data.cliente_id))}"]`)) setDuplicateField('clienteSelect',data.cliente_id); else setDuplicateField('cliente',data.cliente||'');
-   if(data.vettore_id&&document.querySelector(`#vettoreSelect option[value="${CSS.escape(String(data.vettore_id))}"]`)) setDuplicateField('vettoreSelect',data.vettore_id); else setDuplicateField('vettore',data.vettore||'');
-   return;
+   // Aspetta il caricamento reale delle anagrafiche e usa i SELECT: così vengono aggiornati anche selectedClienteId/selectedVettoreId della pagina.
+   await waitFor(()=>document.getElementById('clienteSelect')?.options?.length>1);
+   if(data.cliente_id) await setSelect('clienteSelect',data.cliente_id); else setValue('cliente',data.cliente);
+   if(data.vettore_id) await setSelect('vettoreSelect',data.vettore_id); else setValue('vettore',data.vettore);
+   const map={ritiro:'ritiro',consegna:'consegna',partenza:'partenza',destinazione:'destinazione',indirizzo_ritiro:'indirizzoRitiro',cap_ritiro:'capRitiro',nazione_ritiro:'nazioneRitiro',indirizzo_consegna:'indirizzoConsegna',cap_consegna:'capConsegna',nazione_consegna:'nazioneConsegna',tipo_merce:'tipoMerce',colli:'colli',peso_kg:'peso',volume_m3:'volume',note:'note'};
+   for(const [col,dom] of Object.entries(map))setValue(dom,data[col]);
  }
- const map=page==='nuovo-preventivo.html'?{cliente:'cliente',partenza:'partenza',destinazione:'destinazione',indirizzo_ritiro:'indirizzoRitiro',cap_ritiro:'capRitiro',indirizzo_consegna:'indirizzoConsegna',cap_consegna:'capConsegna',tipo_merce:'tipoMerce',colli:'colli',peso_kg:'peso',volume_m3:'volume',km_tratta:'kmTratta',ritorno_vuoto:'ritornoVuoto',minuti_operazioni:'minutiOperazioni',pedaggi:'pedaggi',altri_costi:'altri',margine_percentuale:'margine',trattamento_iva:'trattamentoIva',condizioni:'condizioni',note:'note'}:
- {pratica_id:'practiceSelect',vettore_id:'vettoreSelect',vettore:'vettore',mezzo_id:'mezzoSelect',targa_trattore:'targaTrattore',autista_id:'autistaSelect',targa_rimorchio:'targaRimorchio',km_previsti:'kmPrevisti',ritorno_vuoto:'ritornoVuoto',tempo_operazioni_ore:'tempoOperazioni',note:'note'};
- Object.entries(map).forEach(([col,dom])=>setDuplicateField(dom,data[col]));
- if(page==='nuovo-preventivo.html'){const pf=document.getElementById('prezzoFinale');if(pf)pf.value='';}
- if(page==='nuovo-viaggio.html'){for(const x of ['dataPartenza','dataArrivo']){const el=document.getElementById(x);if(el)el.value='';}setDuplicateField('stato','PROGRAMMATO');}
+
+ if(page==='nuovo-preventivo.html'){
+   await waitFor(()=>document.getElementById('clientiList'));
+   const map={cliente:'cliente',partenza:'partenza',destinazione:'destinazione',indirizzo_ritiro:'indirizzoRitiro',cap_ritiro:'capRitiro',indirizzo_consegna:'indirizzoConsegna',cap_consegna:'capConsegna',tipo_merce:'tipoMerce',colli:'colli',peso_kg:'peso',volume_m3:'volume',km_tratta:'kmTratta',ritorno_vuoto:'ritornoVuoto',minuti_operazioni:'minutiOperazioni',pedaggi:'pedaggi',altri_costi:'altri',margine_percentuale:'margine',trattamento_iva:'trattamentoIva',condizioni:'condizioni',note:'note'};
+   for(const [col,dom] of Object.entries(map))setValue(dom,data[col]);
+   setValue('prezzoFinale','');
+   document.getElementById('cliente')?.dispatchEvent(new Event('change',{bubbles:true}));
+ }
+
+ if(page==='nuovo-viaggio.html'){
+   // Aspetta che pratiche, vettori, mezzi e autisti siano stati caricati dalla pagina nativa.
+   await waitFor(()=>document.getElementById('practiceSelect')?.options?.length>1);
+   // La pratica originale può già avere un viaggio (vincolo 1 viaggio/pratica): la mostriamo solo se selezionabile, altrimenti l'operatore ne sceglie una nuova.
+   if(data.pratica_id) await setSelect('practiceSelect',data.pratica_id);
+   if(data.vettore_id) await setSelect('vettoreSelect',data.vettore_id); else setValue('vettore',data.vettore);
+   if(data.mezzo_id) await setSelect('mezzoSelect',data.mezzo_id);
+   if(data.autista_id) await setSelect('autistaSelect',data.autista_id);
+   const map={targa_trattore:'targaTrattore',targa_rimorchio:'targaRimorchio',km_previsti:'kmPrevisti',ritorno_vuoto:'ritornoVuoto',tempo_operazioni_ore:'tempoOperazioni',ore_autista_previste:'oreAutista',consumo_km_l:'consumoViaggio',prezzo_carburante_l:'prezzoCarburante',note:'note'};
+   for(const [col,dom] of Object.entries(map))setValue(dom,data[col]);
+   setValue('dataPartenza',''); setValue('dataArrivo',''); setValue('stato','PROGRAMMATO');
+ }
 }
+
 async function timeline(){
  if(page!=='dettaglio-pratica.html')return;const id=new URLSearchParams(location.search).get('id');if(!id)return;await sleep(1000);
  const [p,v,d,pr]=await Promise.all([sb.from('pratiche').select('id,numero_pratica,created_at,updated_at,stato_operativo').eq('id',id).single(),sb.from('viaggi').select('id,numero_viaggio,stato,created_at,updated_at,chiuso_at').eq('pratica_id',id).order('created_at'),sb.from('documenti').select('id,nome_file,tipo,created_at,origine').eq('pratica_id',id).order('created_at'),sb.from('preventivi').select('id,numero_preventivo,stato,created_at,updated_at').eq('pratica_id',id).order('created_at')]);
