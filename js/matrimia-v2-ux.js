@@ -14,8 +14,8 @@ function css(){
  .mia-v2-menu-btn{border:1px solid #d5dee8;background:#fff;border-radius:8px;padding:5px 9px;font-weight:900;cursor:pointer}.mia-v2-menu{position:fixed;z-index:4500;min-width:190px;background:#fff;border:1px solid #dce4ed;border-radius:12px;box-shadow:0 14px 40px #0d264c30;padding:6px}.mia-v2-menu button,.mia-v2-menu a{display:block;width:100%;box-sizing:border-box;text-align:left;border:0;background:#fff;color:#24364b;padding:10px;border-radius:8px;text-decoration:none;cursor:pointer;font-weight:700}.mia-v2-menu button:hover,.mia-v2-menu a:hover{background:#eef4fa}
  .mia-v2-duplicate{border:1px solid #cfd9e5;background:#fff;color:#183b66;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer;margin-left:8px}.mia-v2-banner{padding:11px 14px;border-radius:11px;background:#fff7e6;border:1px solid #f5c46b;color:#7b4b00;margin:0 0 14px;font-weight:700}
  .mia-v2-timeline{margin-top:18px}.mia-v2-event{display:grid;grid-template-columns:145px 18px 1fr;gap:10px;align-items:start;padding:7px 0}.mia-v2-dot{width:10px;height:10px;border-radius:50%;background:#1e4e79;margin-top:5px}.mia-v2-event time{font-size:12px;color:#667085}.mia-v2-event strong{color:#0d264c}
- .mia-v2-today{margin:14px 0 20px;padding:18px;border:1px solid #dce5ee;border-radius:16px;background:#fff;box-shadow:0 7px 22px #0d264c0c}.mia-v2-today h2{margin:0 0 12px;color:#0d264c}.mia-v2-cards{display:grid;grid-template-columns:repeat(5,minmax(110px,1fr));gap:10px}.mia-v2-card{padding:12px;border-radius:12px;background:#f7f9fc;border:1px solid #e3e9ef;text-align:center}.mia-v2-card b{display:block;font-size:25px;color:#183b66}.mia-v2-card span{font-size:12px;color:#667085;font-weight:700}
- @media(max-width:850px){.mia-v2-search{top:auto;bottom:18px;right:18px}.mia-v2-grid{grid-template-columns:1fr}.mia-v2-cards{grid-template-columns:repeat(2,1fr)}}`;
+ .mia-v2-today{margin:0 0 24px;padding:15px 18px;border:1px solid #dce5ee;border-radius:16px;background:#fff;box-shadow:0 7px 22px #0d264c0c}.mia-v2-today-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:11px}.mia-v2-today h2{margin:0;color:#0d264c;font-size:17px}.mia-v2-today-note{font-size:11px;color:#8a98aa}.mia-v2-cards{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.mia-v2-card{padding:10px 8px;border-radius:11px;background:#f7f9fc;border:1px solid #e3e9ef;text-align:center;transition:.15s ease}.mia-v2-card:hover{transform:translateY(-1px);border-color:#b9cadb;background:#fff}.mia-v2-card b{display:block;font-size:21px;color:#183b66;line-height:1.1}.mia-v2-card span{display:block;margin-top:5px;font-size:11px;color:#667085;font-weight:800;line-height:1.25}.mia-v2-card.has-value{background:#fff8ea;border-color:#f1cc84}.mia-v2-card.has-value b{color:#9a5d00}
+ @media(max-width:1100px){.mia-v2-cards{grid-template-columns:repeat(3,1fr)}}@media(max-width:850px){.mia-v2-search{top:auto;bottom:18px;right:18px}.mia-v2-grid{grid-template-columns:1fr}.mia-v2-cards{grid-template-columns:repeat(2,1fr)}}`;
  document.head.appendChild(st);
 }
 
@@ -74,19 +74,49 @@ function duplicateDetail(){
  const host=$('.actions')||$('.heading')||$('h1')?.parentElement;if(!host)return;const b=document.createElement('button');b.type='button';b.className='mia-v2-duplicate';b.textContent='⧉ Duplica';b.onclick=()=>location.href=`${target}?duplica_da=${encodeURIComponent(id)}`;host.appendChild(b);
 }
 
-async function duplicatePrefill(){
- const id=new URLSearchParams(location.search).get('duplica_da');if(!id)return;const defs={'nuova-pratica.html':['pratiche','Pratica'],'nuovo-preventivo.html':['preventivi','Preventivo'],'nuovo-viaggio.html':['viaggi','Viaggio']};const def=defs[page];if(!def)return;
- const {data,error}=await sb.from(def[0]).select('*').eq('id',id).single();if(error||!data)return;
- const banner=document.createElement('div');banner.className='mia-v2-banner';banner.textContent=`Stai creando un nuovo elemento duplicando ${def[1].toLowerCase()} ${data.numero_pratica||data.numero_preventivo||data.numero_viaggio||''}. Numero, stato finale, collegamenti, documenti e consuntivo non vengono copiati.`;const main=$('main')||$('.main')||$('.content')||document.body;main.insertBefore(banner,main.firstChild);
- await sleep(900);
- const map=page==='nuovo-preventivo.html'?{cliente:'cliente',partenza:'partenza',destinazione:'destinazione',indirizzo_ritiro:'indirizzoRitiro',cap_ritiro:'capRitiro',indirizzo_consegna:'indirizzoConsegna',cap_consegna:'capConsegna',tipo_merce:'tipoMerce',colli:'colli',peso_kg:'peso',volume_m3:'volume',km_tratta:'kmTratta',ritorno_vuoto:'ritornoVuoto',minuti_operazioni:'minutiOperazioni',pedaggi:'pedaggi',altri_costi:'altri',margine_percentuale:'margine',trattamento_iva:'trattamentoIva',condizioni:'condizioni',note:'note'}:
- page==='nuova-pratica.html'?{cliente:'cliente',ritiro:'ritiro',consegna:'consegna',partenza:'partenza',destinazione:'destinazione',indirizzo_ritiro:'indirizzoRitiro',cap_ritiro:'capRitiro',nazione_ritiro:'nazioneRitiro',indirizzo_consegna:'indirizzoConsegna',cap_consegna:'capConsegna',nazione_consegna:'nazioneConsegna',vettore:'vettore',tipo_merce:'tipoMerce',colli:'colli',peso_kg:'peso',volume_m3:'volume',note:'note'}:
- {pratica_id:'practiceSelect',vettore_id:'vettoreSelect',vettore:'vettore',mezzo_id:'mezzoSelect',targa_trattore:'targaTrattore',autista_id:'autistaSelect',targa_rimorchio:'targaRimorchio',km_previsti:'kmPrevisti',ritorno_vuoto:'ritornoVuoto',tempo_operazioni_ore:'tempoOperazioni',note:'note'};
- for(const [col,dom] of Object.entries(map)){const el=document.getElementById(dom);if(!el||data[col]==null)continue;if(el.type==='checkbox')el.checked=!!data[col];else if(el.type==='datetime-local'){const v=String(data[col]);el.value=v?new Date(v).toISOString().slice(0,16):''}else el.value=data[col];el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))}
- if(page==='nuovo-preventivo.html'){const pf=document.getElementById('prezzoFinale');if(pf)pf.value=''}
- if(page==='nuovo-viaggio.html'){for(const x of ['dataPartenza','dataArrivo']){const el=document.getElementById(x);if(el)el.value=''}const st=document.getElementById('stato');if(st){st.value='PROGRAMMATO';st.dispatchEvent(new Event('change',{bubbles:true}))}}
+async function waitForDuplicateForm(data){
+ const deadline=Date.now()+7000;
+ while(Date.now()<deadline){
+   const baseReady=page==='nuova-pratica.html'?document.getElementById('cliente')&&document.getElementById('partenza'):
+     page==='nuovo-preventivo.html'?document.getElementById('cliente')&&document.getElementById('partenza'):
+     document.getElementById('practiceSelect');
+   let selectsReady=true;
+   if(page==='nuova-pratica.html'){
+     if(data.cliente_id) selectsReady=!!document.querySelector(`#clienteSelect option[value="${CSS.escape(String(data.cliente_id))}"]`);
+     if(selectsReady&&data.vettore_id) selectsReady=!!document.querySelector(`#vettoreSelect option[value="${CSS.escape(String(data.vettore_id))}"]`);
+   }
+   if(baseReady&&selectsReady)return true;
+   await sleep(150);
+ }
+ return false;
 }
-
+function setDuplicateField(id,value){
+ const el=document.getElementById(id);if(!el||value===null||value===undefined)return;
+ if(el.type==='checkbox')el.checked=!!value;else el.value=value;
+ el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));
+}
+async function duplicatePrefill(){
+ const id=new URLSearchParams(location.search).get('duplica_da');if(!id)return;
+ const defs={'nuova-pratica.html':['pratiche','Pratica'],'nuovo-preventivo.html':['preventivi','Preventivo'],'nuovo-viaggio.html':['viaggi','Viaggio']};const def=defs[page];if(!def)return;
+ const {data,error}=await sb.from(def[0]).select('*').eq('id',id).single();
+ if(error||!data){console.error('Duplicazione: elemento origine non trovato',error);return;}
+ const banner=document.createElement('div');banner.className='mia-v2-banner';banner.textContent=`Nuovo ${def[1].toLowerCase()} da duplicazione di ${data.numero_pratica||data.numero_preventivo||data.numero_viaggio||'elemento esistente'}. Controlla i dati prima di salvare: numero, stato, documenti, consuntivo e collegamenti conclusivi non vengono copiati.`;
+ const main=$('main')||$('.main')||$('.content')||document.body;main.insertBefore(banner,main.firstChild);
+ await waitForDuplicateForm(data);
+ if(page==='nuova-pratica.html'){
+   // Copia i dati riutilizzabili, ma non le date: una pratica duplicata è un nuovo trasporto.
+   const map={partenza:'partenza',destinazione:'destinazione',indirizzo_ritiro:'indirizzoRitiro',cap_ritiro:'capRitiro',nazione_ritiro:'nazioneRitiro',indirizzo_consegna:'indirizzoConsegna',cap_consegna:'capConsegna',nazione_consegna:'nazioneConsegna',tipo_merce:'tipoMerce',colli:'colli',peso_kg:'peso',volume_m3:'volume',note:'note'};
+   Object.entries(map).forEach(([col,dom])=>setDuplicateField(dom,data[col]));
+   if(data.cliente_id&&document.querySelector(`#clienteSelect option[value="${CSS.escape(String(data.cliente_id))}"]`)) setDuplicateField('clienteSelect',data.cliente_id); else setDuplicateField('cliente',data.cliente||'');
+   if(data.vettore_id&&document.querySelector(`#vettoreSelect option[value="${CSS.escape(String(data.vettore_id))}"]`)) setDuplicateField('vettoreSelect',data.vettore_id); else setDuplicateField('vettore',data.vettore||'');
+   return;
+ }
+ const map=page==='nuovo-preventivo.html'?{cliente:'cliente',partenza:'partenza',destinazione:'destinazione',indirizzo_ritiro:'indirizzoRitiro',cap_ritiro:'capRitiro',indirizzo_consegna:'indirizzoConsegna',cap_consegna:'capConsegna',tipo_merce:'tipoMerce',colli:'colli',peso_kg:'peso',volume_m3:'volume',km_tratta:'kmTratta',ritorno_vuoto:'ritornoVuoto',minuti_operazioni:'minutiOperazioni',pedaggi:'pedaggi',altri_costi:'altri',margine_percentuale:'margine',trattamento_iva:'trattamentoIva',condizioni:'condizioni',note:'note'}:
+ {pratica_id:'practiceSelect',vettore_id:'vettoreSelect',vettore:'vettore',mezzo_id:'mezzoSelect',targa_trattore:'targaTrattore',autista_id:'autistaSelect',targa_rimorchio:'targaRimorchio',km_previsti:'kmPrevisti',ritorno_vuoto:'ritornoVuoto',tempo_operazioni_ore:'tempoOperazioni',note:'note'};
+ Object.entries(map).forEach(([col,dom])=>setDuplicateField(dom,data[col]));
+ if(page==='nuovo-preventivo.html'){const pf=document.getElementById('prezzoFinale');if(pf)pf.value='';}
+ if(page==='nuovo-viaggio.html'){for(const x of ['dataPartenza','dataArrivo']){const el=document.getElementById(x);if(el)el.value='';}setDuplicateField('stato','PROGRAMMATO');}
+}
 async function timeline(){
  if(page!=='dettaglio-pratica.html')return;const id=new URLSearchParams(location.search).get('id');if(!id)return;await sleep(1000);
  const [p,v,d,pr]=await Promise.all([sb.from('pratiche').select('id,numero_pratica,created_at,updated_at,stato_operativo').eq('id',id).single(),sb.from('viaggi').select('id,numero_viaggio,stato,created_at,updated_at,chiuso_at').eq('pratica_id',id).order('created_at'),sb.from('documenti').select('id,nome_file,tipo,created_at,origine').eq('pratica_id',id).order('created_at'),sb.from('preventivi').select('id,numero_preventivo,stato,created_at,updated_at').eq('pratica_id',id).order('created_at')]);
@@ -99,7 +129,7 @@ async function todayDashboard(){
  if(page!=='dashboard.html')return;await sleep(700);const now=new Date(),ymd=now.toISOString().slice(0,10);const [v,p,pr,docs]=await Promise.all([sb.from('viaggi').select('id,pratica_id,data_partenza,data_arrivo,stato'),sb.from('pratiche').select('id,stato_operativo'),sb.from('preventivi').select('id,stato'),sb.from('documenti').select('id,pratica_id,tipo')]);
  const same=x=>x&&String(x).slice(0,10)===ymd;const vi=v.data||[],pa=p.data||[],pv=pr.data||[],dd=docs.data||[];const docPractice=new Set(dd.filter(x=>['POD','DDT','CMR'].includes(String(x.tipo||'').toUpperCase())).map(x=>String(x.pratica_id||'')));const missing=vi.filter(x=>['CONSEGNATO','COMPLETATO'].includes(String(x.stato||'').toUpperCase())&&x.pratica_id&&!docPractice.has(String(x.pratica_id))).length;
  const vals=[['Partenze oggi',vi.filter(x=>same(x.data_partenza)).length,`viaggi.html?v2date=${ymd}`],['Arrivi oggi',vi.filter(x=>same(x.data_arrivo)).length,`viaggi.html?v2date=${ymd}`],['Da programmare',pa.filter(x=>['BOZZA','DA_PROGRAMMARE'].includes(String(x.stato_operativo||'').toUpperCase())).length,'pratiche.html?v2status=DA_PROGRAMMARE'],['Viaggi in corso',vi.filter(x=>String(x.stato||'').toUpperCase()==='IN CORSO').length,'viaggi.html?v2status=IN%20CORSO'],['Preventivi da seguire',pv.filter(x=>['DA_INVIARE','INVIATO'].includes(String(x.stato||'').toUpperCase())).length,'preventivi.html'],['Consegne senza POD/DDT/CMR',missing,'viaggi.html']];
- const box=document.createElement('section');box.className='mia-v2-today';box.innerHTML=`<h2>Oggi · ${now.toLocaleDateString('it-IT',{day:'2-digit',month:'long'})}</h2><div class="mia-v2-cards">${vals.map(x=>`<a href="${x[2]}" class="mia-v2-card" style="text-decoration:none"><b>${x[1]}</b><span>${x[0]}</span></a>`).join('')}</div>`;const heading=$('.heading')||$('.page-header')||$('h1')?.parentElement;heading?.insertAdjacentElement('afterend',box);
+ const box=document.createElement('section');box.className='mia-v2-today';box.innerHTML=`<div class="mia-v2-today-head"><h2>Oggi · ${now.toLocaleDateString('it-IT',{day:'2-digit',month:'long'})}</h2><span class="mia-v2-today-note">Attività operative da controllare</span></div><div class="mia-v2-cards">${vals.map(x=>`<a href="${x[2]}" class="mia-v2-card ${x[1]>0?'has-value':''}" style="text-decoration:none"><b>${x[1]}</b><span>${x[0]}</span></a>`).join('')}</div>`;const guide=$('.beta-guide-card');if(guide)guide.insertAdjacentElement('afterend',box);else{const heading=$('.heading')||$('.page-header')||$('h1')?.parentElement;heading?.insertAdjacentElement('afterend',box);}
 }
 
 css();globalSearch();advancedFilters();rowActions();duplicateDetail();duplicatePrefill();timeline();todayDashboard();
