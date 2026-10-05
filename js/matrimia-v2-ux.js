@@ -233,7 +233,7 @@ function organizeUtilityBar(){
  const nodes=['.mia-m-fav','.mia-m-center','.mia-v2-search'].map(x=>$(x)).filter(Boolean);if(!nodes.length)return;
  const dock=document.createElement('div');dock.className='mia-m-utility';
  const header=$('.app-topbar')||$('.topbar')||$('header');
- const actions=$('.app-topbar-actions',header)||$('.top-actions',header);
+ const actions=header?($('.app-topbar-actions',header)||$('.top-actions',header)):null;
  if(actions){actions.appendChild(dock)}
  else if(header){header.style.display='flex';header.style.alignItems='center';header.appendChild(dock)}
  else {const main=$('main')||$('.main-content')||$('.content')||document.body;main.insertBefore(dock,main.firstChild)}
