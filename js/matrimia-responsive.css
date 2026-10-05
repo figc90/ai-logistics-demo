@@ -1,0 +1,34 @@
+/* Shared mobile navigation. Desktop styles remain page-owned. */
+.mia-mobile-menu,.mia-menu-shade{display:none}
+@media screen and (max-width:900px){
+ body.mia-responsive-app{overflow-x:clip}
+ .mia-responsive-app .std-sidebar,.mia-responsive-app aside.sidebar{width:250px!important;max-width:85vw;height:100dvh;transform:translateX(-100%);transition:transform .18s ease;z-index:10001!important;visibility:hidden}
+ .mia-responsive-app.mia-menu-open .std-sidebar,.mia-responsive-app.mia-menu-open aside.sidebar{transform:translateX(0);visibility:visible}
+ .mia-responsive-app.mia-menu-open{overflow:hidden}
+ .mia-responsive-app .std-title,.mia-responsive-app .nav-title{display:block!important}
+ .mia-responsive-app .std-item span:not(.std-icon),.mia-responsive-app .nav-item span:not(.nav-icon){display:inline!important}
+ .mia-responsive-app .std-item,.mia-responsive-app .nav-item{justify-content:flex-start!important;gap:10px;padding:10px 12px!important;min-height:44px}
+ .mia-responsive-app .std-user,.mia-responsive-app .user-card{display:block!important}
+ .mia-responsive-app .std-logout,.mia-responsive-app .logout-btn{font-size:14px!important;min-height:44px}.mia-responsive-app .logout-btn::after{content:none!important}
+ .mia-responsive-app .std-logo{height:90px!important;min-height:90px!important}.mia-responsive-app .std-logo img{width:150px!important;height:75px!important;object-fit:contain}
+ .mia-responsive-app .main,.mia-responsive-app .app-main,.mia-responsive-app .main-content{margin-left:0!important;width:100%!important;min-width:0;max-width:100%}
+ .mia-responsive-app .content,.mia-responsive-app .page,.mia-responsive-app main{min-width:0;max-width:100%;box-sizing:border-box}
+ .mia-responsive-app .app-topbar,.mia-responsive-app .topbar{height:auto!important;min-height:64px;padding:12px 14px!important;flex-wrap:wrap;gap:10px}
+ .mia-responsive-app .app-topbar-actions,.mia-responsive-app .top-actions{min-width:0;flex-wrap:wrap;gap:7px}
+ .mia-responsive-app .mia-mobile-menu{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 13px;border:1px solid #ccd7e4;border-radius:9px;background:white;color:#173459;font:700 14px Arial,sans-serif;cursor:pointer;flex-shrink:0}
+ .mia-responsive-app .mia-mobile-menu.fallback{margin:12px 14px}
+ .mia-responsive-app .mia-menu-shade{position:fixed;inset:0;z-index:10000;background:#06112788;border:0;padding:0}
+ .mia-responsive-app.mia-menu-open .mia-menu-shade{display:block}
+ .mia-responsive-app .grid,.mia-responsive-app .layout,.mia-responsive-app .fields,.mia-responsive-app .form-grid,.mia-responsive-app .documents-upload-grid{grid-template-columns:minmax(0,1fr)!important;min-width:0}
+ .mia-responsive-app .grid>*,.mia-responsive-app .layout>*,.mia-responsive-app .fields>*,.mia-responsive-app .form-grid>*,.mia-responsive-app .card{min-width:0;max-width:100%}
+ .mia-responsive-app .field.full,.mia-responsive-app .field.wide,.mia-responsive-app .form-group.full{grid-column:auto!important}
+ .mia-responsive-app input,.mia-responsive-app select,.mia-responsive-app textarea{max-width:100%;min-width:0;box-sizing:border-box;font-size:16px}
+ .mia-responsive-app button,.mia-responsive-app .button{min-height:40px;max-width:100%;white-space:normal}
+ .mia-responsive-app .toolbar input{min-width:0!important;width:100%}
+ .mia-responsive-app .heading,.mia-responsive-app .actions,.mia-responsive-app .heading-actions{flex-wrap:wrap;min-width:0}
+ .mia-responsive-app .table-wrap,.mia-responsive-app .table-scroll,.mia-responsive-app .economic-table-wrap{max-width:100%;overflow-x:auto}
+ .mia-responsive-app .document-item,.mia-responsive-app .document-actions{flex-wrap:wrap;min-width:0}
+ .mia-responsive-app .std-nav,.mia-responsive-app .sidebar-nav{min-height:0;overflow-y:auto}
+}
+@media(prefers-reduced-motion:reduce){.mia-responsive-app .std-sidebar,.mia-responsive-app aside.sidebar{transition:none}}
+@media print{.mia-mobile-menu,.mia-menu-shade{display:none!important}}
